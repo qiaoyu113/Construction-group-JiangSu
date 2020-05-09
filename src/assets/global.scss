@@ -1,0 +1,245 @@
+.el-breadcrumb {
+  line-height: 50px !important;
+}
+
+.el-select {
+  width: 100%;
+}
+
+.el-row-search {
+  height: 40px;
+}
+
+.el-pagination {
+  margin-top: 5px;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100% !important;
+}
+
+.el-form-item .el-input__inner:focus,
+.el-form-item .el-textarea__inner:focus {
+  border-color: #dcdfe6 !important;
+}
+
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #dcdfe6 !important;
+}
+
+.el-form-item.is-required .el-form-item__label:before {
+  content: '' !important;
+  margin-right: 0 !important;
+}
+
+.el-input-number--small {
+  /* width: 130px; */
+  width: 100% !important;
+}
+
+.el-input-number {
+  /* width: 130px; */
+  width: 100% !important;
+}
+
+.el-autocomplete {
+  width: 100% !important;
+}
+
+.el-cascader {
+  width: 100% !important;
+}
+
+.el-row-hr {
+  height: 1px;
+  border: none;
+  border-top: 1px solid #ebeef5;
+  margin-bottom: 31px;
+}
+
+hr {
+  height: 1px;
+  border: none;
+  border-top: 1px solid #ebeef5;
+}
+
+.el-form-item__label {
+  text-align: left !important;
+}
+
+.el-form-item.is-required .el-form-item__label:before {
+  content: '';
+}
+
+.el-form-item.is-required .el-form-item__label:after {
+  content: '*';
+  color: #f56c6c;
+  // margin-right: 4px;
+  float: right;
+}
+
+.el-form-item-no-label .el-form-item__content {
+  margin-left: 0 !important;
+}
+
+.el-form-item-no-label .el-form-item__label {
+  display: none;
+}
+
+th.is-required .cell:after {
+  content: '*';
+  color: #f56c6c;
+  margin-left: 8px;
+  font-weight: bold;
+  //float: right;
+}
+input[disabled="disabled"] {
+  background-color: #ffffff !important;
+  color: #606266 !important;
+}
+.highlight {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+}
+
+
+textarea {
+
+  font-weight:700 !important;
+}
+textarea[disabled="disabled"] {
+  background-color: #ffffff !important;
+  color: #606266 !important;
+  font-weight:700 !important;
+}
+.fixed-header {
+  > .el-tabs__header {
+    > .el-tabs__nav-wrap {
+      position: fixed;
+      right: 15px;
+      top: 110px;
+      display: inline-block;
+      z-index: 1000;
+      display: inline-block;
+      height: auto !important;
+
+      > .el-tabs__nav-scroll {
+        display: inline-block;
+        height: auto !important;
+      }
+    }
+  }
+
+  > .el-tabs__content {
+    margin-right: 110px;
+  }
+}
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+
+.el-select .el-input {
+  min-width: 130px;
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+  background-color: #fff;
+}
+
+.el-checkbox-group-vertical div {
+  display: table;
+
+  > .el-checkbox {
+    display: table-row;
+  }
+}
+
+.el-radio-group-vertical div {
+  display: table;
+
+  > .el-radio {
+    display: table-row;
+  }
+}
+
+.t-form-seperater {}
+
+.subTitle {
+  font-weight: bold;
+}
+
+.el-submenu__icon-arrow {
+  color: #fff !important;
+}
+
+.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner,
+.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner a,
+.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner a:hover,
+.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner:hover {
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s cubic-bezier(.645,.045,.355,1);
+  color: #303133;
+  cursor: pointer;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner a,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s cubic-bezier(.645,.045,.355,1);
+  color: #303133;
+  cursor: pointer;
+}
+
+.el-table-column--selection .cell {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.t-readonly{
+  margin-left: 15px;
+}
+
+  .el-form--inline{
+    .el-form-item{
+      margin-bottom: 0px;
+    }
+  }
+  .el-tag{
+    height: 35px;
+    line-height: 35px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+
+//解决表格Fixed列后，横向滚动条无法拉动bug
+ .el-table__fixed {
+  pointer-events:none;
+  > .el-table__fixed-header-wrapper{
+    pointer-events:all;
+   }
+   > .el-table__fixed-body-wrapper{
+    pointer-events:all;
+   }
+  > .el-table__fixed-footer-wrapper{
+    pointer-events:none;
+   }
+ }
+*[readonly="readonly"] {
+  background-color: #f3f3f3;
+}
