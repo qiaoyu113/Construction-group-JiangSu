@@ -78,8 +78,8 @@ hr {
 .el-form-item.is-required .el-form-item__label:after {
   content: '*';
   color: #f56c6c;
-  // margin-right: 4px;
-  float: right;
+  margin-right: 4px;
+  float: left;
 }
 
 .el-form-item-no-label .el-form-item__content {
