@@ -98,7 +98,6 @@ th.is-required .cell:after {
   //float: right;
 }
 input[disabled="disabled"] {
-  background-color: #ffffff !important;
   color: #606266 !important;
 }
 .highlight {
@@ -113,7 +112,6 @@ textarea {
   font-weight:700 !important;
 }
 textarea[disabled="disabled"] {
-  background-color: #ffffff !important;
   color: #606266 !important;
   font-weight:700 !important;
 }
@@ -240,6 +238,21 @@ textarea[disabled="disabled"] {
     pointer-events:none;
    }
  }
-*[readonly="readonly"] {
+input[readonly="readonly"] {
   background-color: #f3f3f3;
+}
+
+.search-bottom-operate .el-form-item__content {
+  text-align: right;
+}
+.search-top-operate {
+  margin-bottom: 22px;
+  .el-form-item__content {
+    text-align: left;
+  }
+}
+.serach-date-picker {
+  .el-date-editor .el-range-separator {
+    width: 10%;
+  }
 }

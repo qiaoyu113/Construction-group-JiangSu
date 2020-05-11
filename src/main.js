@@ -137,6 +137,9 @@ import imageAssetManagement from './views/publicsubsystem/components/imageAssetM
 import exportTemplate from './views/publicsubsystem/components/exportTemplate.vue'
 import TQrCode from './components/TQrCode.vue'
 import TForm from './components/TForm.vue'
+import SJUpload from './components/SJupload.vue'
+import TTextInput from './components/text-input/index.vue'
+import TSubTitle from './components/sub-title/index.vue'
 Vue.component('t-grid', TGrid)
 Vue.component('t-edit-grid', TEditGrid)
 Vue.component('t-edit-grid-column', TEditGridColumn)
@@ -147,6 +150,9 @@ Vue.component('t-dic-radio-select', TDicRadioSelect)
 Vue.component('t-dic-checkbox-select', TDicCheckBoxSelect)
 Vue.component('t-dic-tree-select', TDicTreeSelect)
 Vue.component('t-dic-multi-tree-select', TDicMultiTreeSelect)
+Vue.component('sj-upload', SJUpload)
+Vue.component('t-text-input', TTextInput)
+Vue.component('t-sub-title', TSubTitle)
 
 Vue.component('t-cascader', TCascader)
 Vue.component('t-tree', TTree)

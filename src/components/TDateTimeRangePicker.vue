@@ -1,5 +1,5 @@
 <template>
-<el-date-picker v-model="currentValue" :value-format="valueFormat" type="daterange" :picker-options="pickerOptions" range-separator="至" align="right" :start-placeholder="startPlaceholder" :end-placeholder="endPlaceholder">
+<el-date-picker v-model="currentValue" :value-format="valueFormat" type="daterange" :picker-options="pickerOptions" range-separator="-" align="right" :start-placeholder="startPlaceholder" :end-placeholder="endPlaceholder">
 </el-date-picker>
 </template>
 <script>
