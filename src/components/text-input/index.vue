@@ -8,7 +8,7 @@
       <template slot="label">
         <slot name="label">{{label}}</slot>
       </template>
-      <el-input ref="input" :type="type || 'text'" :rows="parseInt(rows)" v-model="currentValue" @change="onChange" @focus="onFocus"  @blur="onBlur" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" :disabled="inputreadOnly">
+      <el-input ref="input" :type="type || 'text'" :rows="parseInt(rows)" :value="value" @change="onChange" @focus="onFocus"  @blur="onBlur" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" :disabled="inputreadOnly">
         <template slot="prepend" v-if="$slots.prepend">
           <slot name="prepend">
           </slot>
@@ -62,7 +62,11 @@ export default {
        default: '',
        required: false
      },
-     value: null,
+     value: {
+       type: String,
+       default: '',
+       required: false
+     },
      placeholder: {
        type: String,
        default: '',
@@ -87,30 +91,13 @@ export default {
      }
    },
    watch: {
-     value (value) {
-       this.currentValue = value
+     value (newValue) {
+       this.value = newValue
      }
-   },
-   created () {
-     this.currentValue = this.value
    },
    mounted () {},
    computed: {
-     currentValue: {
-      // 动态计算currentValue的值
-       get: function () {
-         return this.selectValue
-       },
-       set: function (val) {
-        // 如果原值，新值都为空，无需重新赋值，防止首次进入显示必输提示
-         if ((val == null || val == undefined) && (this.selectValue == null || this.selectValue == undefined)) {
-           return
-         }
-         this.selectValue = val
-         this.$emit('input', this.selectValue)
-         this.dispatch('ElFormItem', 'el.form.change', this.selectValue)
-       }
-     }
+     
    },
    mounted () {},
    methods: {
@@ -127,7 +114,7 @@ export default {
        this.$emit('change', this.selectValue)
      },
      isEmpty () {
-       return this.currentValue == null || this.currentValue.length == 0
+       return this.value == null || this.value.length == 0
      },
      search () {
        this.onSearch()
