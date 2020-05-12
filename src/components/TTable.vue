@@ -18,7 +18,7 @@
 
     <!--endregion-->
     <!--region 按钮操作组-->
-    <el-table-column v-if="operates.list!=null&&operates.list.length>0" ref="fixedColumn" label="操作" align="center" :width="operates.width" :fixed="operates.fixed">
+    <el-table-column v-if="operates.list!=null&&operates.list.length>0" ref="fixedColumn" label="操作" align="center" :min-width="operates.minWidth" :width="operates.width" :fixed="operates.fixed">
       <template slot-scope="scope">
         <template v-for="(btn, key) in operates.list">
          <el-button :type="btn.type" size="small" :icon="btn.icon" :disabled="btn.disabled" :style="btn.style"
