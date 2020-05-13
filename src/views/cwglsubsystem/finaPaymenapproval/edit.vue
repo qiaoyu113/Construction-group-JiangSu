@@ -9,63 +9,79 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'付款申请信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="pId" label="项目名称">
+            <el-input v-model="dataForm.pId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="proRunMode" label="经营方式">
+<!--            <el-input v-model="dataForm.proRunMode" readonly></el-input>-->
+            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proRunMode" label="项目合同额">
+            <el-input v-model="dataForm.proRunMode" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row gutter="20">
+      <el-col :span="8">
+          <el-form-item prop="fundPurpose" label="资金用途">
+<!--            <el-input v-model="dataForm.fundPurpose"></el-input>-->
+            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式（字典表）">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+          <el-form-item prop="paymentType" label="本次付款类型">
+            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row gutter="20">
         <el-col :span="8">
-          <el-form-item prop="unionCompany" label="联营单位标识">
-            <el-input v-model="dataForm.unionCompany"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="scId" label="子合同id">
+          <el-form-item prop="scId" label="子合同名称">
             <el-input v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="paymentType" label="本次付款类型（字典表）">
-            <el-input v-model="dataForm.paymentType"></el-input>
+          <el-form-item prop="scId" label="子合同编号">
+            <el-input v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="fundPurpose" label="资金用途（字典表）">
-            <el-input v-model="dataForm.fundPurpose"></el-input>
+          <el-form-item prop="scId" label="子合同金额">
+            <el-input v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row gutter="20">
+        <el-col :span="24">
           <el-form-item prop="processBranch" label="流程审批">
-            <el-input v-model="dataForm.processBranch"></el-input>
+            <t-dic-radio-select dicType="pl_loanenter_job" class="el-radio-group-vertical" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="paymentWay" label="付款方式（字典表）">
-            <el-input v-model="dataForm.paymentWay"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="rId" label="到账标识id">
-            <el-input v-model="dataForm.rId"></el-input>
-          </el-form-item>
-        </el-col>
+      </el-row>
+      <el-row gutter="20">
+<!--        <el-col :span="8">-->
+<!--          <el-form-item prop="unionCompany" label="联营单位标识">-->
+<!--            <el-input v-model="dataForm.unionCompany"></el-input>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
+<!--        <el-col :span="8">-->
+<!--          <el-form-item prop="paymentWay" label="付款方式">-->
+<!--&lt;!&ndash;            <el-input v-model="dataForm.paymentWay"></el-input>&ndash;&gt;-->
+<!--            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentWay" :readOnly="readOnly"></t-dic-dropdown-select>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
+<!--        <el-col :span="8">-->
+<!--          <el-form-item prop="rId" label="到账标识id">-->
+<!--            <el-input v-model="dataForm.rId"></el-input>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
         <el-col :span="8">
           <el-form-item prop="totalReceived" label="本项目累计已收款">
             <el-input v-model="dataForm.totalReceived"></el-input>
@@ -76,11 +92,15 @@
             <el-input v-model="dataForm.totalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalPayment" label="本项目累计已付款">
             <el-input v-model="dataForm.totalPayment"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="scTotalReceived" label="当前子合同累计已付款">
             <el-input v-model="dataForm.scTotalReceived"></el-input>
@@ -91,6 +111,8 @@
             <el-input v-model="dataForm.scTotalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="paymentAmount" label="本次付款金额">
             <el-input v-model="dataForm.paymentAmount"></el-input>
@@ -101,6 +123,8 @@
             <el-input v-model="dataForm.afterThisRatio"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="leftoverAmount" label="本项目余款">
             <el-input v-model="dataForm.leftoverAmount"></el-input>
@@ -111,6 +135,29 @@
             <el-input v-model="dataForm.leftoverAmountRatio"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="sign" label="执行人">
+            <el-input v-model="dataForm.sign"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="signTime" label="执行时间">
+            <el-input v-model="dataForm.signTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-row>
+      <t-sub-title :title="'收款单位信息'"></t-sub-title>
+      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="receiveCompany" label="收款单位">
             <el-input v-model="dataForm.receiveCompany"></el-input>
@@ -141,56 +188,6 @@
             <el-input v-model="dataForm.contacterTel"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
       </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
@@ -205,7 +202,12 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pId: '',                                                                                                                                                            proRunMode: '',                                                                                                                                                            unionCompany: '',                                                                                                                                                            scId: '',                                                                                                                                                            paymentType: '',                                                                                                                                                            fundPurpose: '',                                                                                                                                                            processBranch: '',                                                                                                                                                            paymentWay: '',                                                                                                                                                            rId: '',                                                                                                                                                            totalReceived: '',                                                                                                                                                            totalReceivedRatio: '',                                                                                                                                                            totalPayment: '',                                                                                                                                                            scTotalReceived: '',                                                                                                                                                            scTotalReceivedRatio: '',                                                                                                                                                            paymentAmount: '',                                                                                                                                                            afterThisRatio: '',                                                                                                                                                            leftoverAmount: '',                                                                                                                                                            leftoverAmountRatio: '',                                                                                                                                                            receiveCompany: '',                                                                                                                                                            bankName: '',                                                                                                                                                            bankAccountName: '',                                                                                                                                                            bankAccount: '',                                                                                                                                                            contacter: '',                                                                                                                                                            contacterTel: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',scId: '',paymentType: '',
+          fundPurpose: '',processBranch: '',paymentWay: '',rId: '',totalReceived: '',
+          totalReceivedRatio: '',totalPayment: '',scTotalReceived: '',scTotalReceivedRatio: '',
+          paymentAmount: '',afterThisRatio: '',leftoverAmount: '',leftoverAmountRatio: '',receiveCompany: '',
+          bankName: '',bankAccountName: '',bankAccount: '',contacter: '',contacterTel: '',approvalStatus: '',sign: '',
+          signTime: new Date(),propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }

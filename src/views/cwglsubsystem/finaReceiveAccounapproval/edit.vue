@@ -9,31 +9,21 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'资金到账信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
+          <el-form-item prop="pId" label="项目名称">
             <el-input v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式（字典表）">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+          <el-form-item prop="proRunMode" label="经营模式">
+            <el-input  v-model="dataForm.proRunMode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="unionCompany" label="联营单位标识">
-            <el-input v-model="dataForm.unionCompany"></el-input>
+          <el-form-item prop="unionCompany" label="所属单位">
+            <el-input readonly v-model="dataForm.unionCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -43,82 +33,52 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rDatetime" label="到帐时间">
-            <el-input v-model="dataForm.rDatetime"></el-input>
+            <el-date-picker type="date" v-model="dataForm.rDatetime"></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="rWay" label="到帐方式（字典表）">
+        <el-col :span="4">
+          <el-form-item prop="rWay" label="到帐方式">
             <el-input v-model="dataForm.rWay"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="lNum" label="票号">
             <el-input v-model="dataForm.lNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="rType" label="到帐类型（字典表）">
+          <el-form-item prop="rType" label="到帐类型">
             <el-input v-model="dataForm.rType"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="sAmount" label="自营">
             <el-input v-model="dataForm.sAmount"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="oAmount" label="联营">
             <el-input v-model="dataForm.oAmount"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
+          <el-form-item prop="sign" label="经办人">
             <el-input v-model="dataForm.sign"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="signTime" label="经办时间">
+            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -135,7 +95,9 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pId: '',                                                                                                                                                            proRunMode: '',                                                                                                                                                            unionCompany: '',                                                                                                                                                            rAmount: '',                                                                                                                                                            rDatetime: '',                                                                                                                                                            rWay: '',                                                                                                                                                            lNum: '',                                                                                                                                                            rType: '',                                                                                                                                                            sAmount: '',                                                                                                                                                            oAmount: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',rAmount: '',rDatetime: '',rWay: '',
+          lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }

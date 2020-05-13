@@ -9,81 +9,109 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'跨区域涉税事项报告信息'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item prop="licenceCode" label="外经证号">
+            <el-input v-model="dataForm.licenceCode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="startDate" label="使用期限-开始日期">
+            <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="pId" label="项目名称">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="pId" label="工程起止时间">
+            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item prop="cId" label="合同名称">
+            <el-input readonly v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="cId" label="合同金额">
+            <el-input readonly v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item prop="cId" label="合同对方企业名称">
+            <el-input readonly v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="cId" label="所属公司">
+            <el-input readonly v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item prop="taxMethod" label="计税方式">
+            <el-input readonly v-model="dataForm.taxMethod"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="applyAmount" label="申请金额">
+            <el-input readonly v-model="dataForm.applyAmount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <el-form-item prop="province" label="外出经营地">
+            <el-input readonly v-model="dataForm.province"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item prop="city" label="外出经营地-市">
+            <el-input readonly v-model="dataForm.city"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item prop="district" label="外出经营地-区">
+            <el-input readonly v-model="dataForm.district"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="address" label="外出经营地-详细地址">
+            <el-input readonly v-model="dataForm.address"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'延期申请'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="signTime" label="申请延期使用至">
+            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="lId" label="外经证号标识id">
-            <el-input v-model="dataForm.lId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="delayDate" label="申请延期使用至">
-            <el-input v-model="dataForm.delayDate"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
+          <el-form-item prop="sign" label="经办人">
             <el-input v-model="dataForm.sign"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="signTime" label="经办时间">
+            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="申请延期说明">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -100,7 +128,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pId: '',                                                                                                                                                            lId: '',                                                                                                                                                            delayDate: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',lId: '',delayDate: '',approvalStatus: '',sign: '',signTime: new Date(),
+          propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
