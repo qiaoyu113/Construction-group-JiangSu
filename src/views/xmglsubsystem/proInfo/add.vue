@@ -447,10 +447,10 @@
             {required: true, message: '工程工期不能为空', trigger: 'blur'}
           ],
           proBuildArea: [
-            {required: true, message: '建筑面积-平方米不能为空', trigger: 'blur'}
+            {required: true, message: '建筑面积不能为空', trigger: 'blur'}
           ],
           proSpan: [
-            {required: true, message: '高度/最大跨度-米不能为空', trigger: 'blur'}
+            {required: true, message: '高度/最大跨度不能为空', trigger: 'blur'}
           ],
           proLayer: [
             {required: true, message: '层数不能为空', trigger: 'blur'}
@@ -459,13 +459,13 @@
             {required: true, message: '栋数不能为空', trigger: 'blur'}
           ],
           proBasementArea: [
-            {required: true, message: '地下室-平方米、层不能为空', trigger: 'blur'}
+            {required: true, message: '地下室能为空', trigger: 'blur'}
           ],
           proIsFitout: [
             {required: true, message: '是否为装配式不能为空', trigger: 'blur'}
           ],
           proFitoutRate: [
-            {required: true, message: '装配率-%不能为空', trigger: 'blur'}
+            {required: true, message: '装配率不能为空', trigger: 'blur'}
           ],
           proIsBim: [
             {required: true, message: '是否应用BIM技术不能为空', trigger: 'blur'}
@@ -474,10 +474,10 @@
             {required: true, message: '经营方式不能为空', trigger: 'blur'}
           ],
           proProfitRate: [
-            {required: true, message: '项目净利润承诺超-%不能为空', trigger: 'blur'}
+            {required: true, message: '项目净利润承诺超不能为空', trigger: 'blur'}
           ],
           proUnionCompanyMerate: [
-            {required: true, message: '联营单位管理费-%不能为空', trigger: 'blur'}
+            {required: true, message: '联营单位管理费不能为空', trigger: 'blur'}
           ],
           proUnionCompany: [
             {required: true, message: '联营公司id不能为空', trigger: 'blur'}
