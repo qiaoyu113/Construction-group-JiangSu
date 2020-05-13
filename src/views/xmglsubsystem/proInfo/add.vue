@@ -25,33 +25,28 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proCode" label="项目编号">
+          <el-form-item prop="proCode" label="无投标流程">
             <el-input v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="proCode" label="项目编号">
+            <el-input v-model="dataForm.proCode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
           <el-form-item prop="proConstructCompany" label="建设单位">
             <el-input v-model="dataForm.proConstructCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proConstructCompanyAttr" label="单位性质（字典表）">
+          <el-form-item prop="proConstructCompanyAttr" label="单位性质">
             <el-input v-model="dataForm.proConstructCompanyAttr"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proAddressProvince" label="项目地址-省（字典表）">
-            <el-input v-model="dataForm.proAddressProvince"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proAddressCity" label="项目地址-市（字典表）">
-            <el-input v-model="dataForm.proAddressCity"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proAddressDetail" label="项目地址-详细">
-            <el-input v-model="dataForm.proAddressDetail"></el-input>
+        <el-col :span="16">
+          <el-form-item label="项目地址" prop="socialSecurityId" verify class="is-required">
+            <t-dic-tree-select dicType="base_region" v-model="dataForm.socialSecurityId" :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -70,32 +65,32 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proDriveSubject" label="实施主体（字典表）">
+          <el-form-item prop="proDriveSubject" label="实施主体">
             <el-input v-model="dataForm.proDriveSubject"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContractAttr" label="承包形式（字典表）">
+          <el-form-item prop="proContractAttr" label="承包形式">
             <el-input v-model="dataForm.proContractAttr"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proType" label="工程类别（字典表）">
+          <el-form-item prop="proType" label="工程类别">
             <el-input v-model="dataForm.proType"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubType" label="类别子项（字典表）">
+          <el-form-item prop="proSubType" label="类别子项">
             <el-input v-model="dataForm.proSubType"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proFundSource" label="资金来源（字典表）">
+          <el-form-item prop="proFundSource" label="资金来源">
             <el-input v-model="dataForm.proFundSource"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proStructure" label="结构形式（字典表）">
+          <el-form-item prop="proStructure" label="结构形式">
             <el-input v-model="dataForm.proStructure"></el-input>
           </el-form-item>
         </el-col>
@@ -110,7 +105,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proWinAmount" label="中标金额-元">
+          <el-form-item prop="proWinAmount" label="中标金额">
             <el-input v-model="dataForm.proWinAmount"></el-input>
           </el-form-item>
         </el-col>
@@ -130,6 +125,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="proLimitTime" label="工程工期">
+            <el-input v-model="dataForm.proLimitTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item prop="proRealStartDate" label="实际开工日期">
             <el-input v-model="dataForm.proRealStartDate"></el-input>
           </el-form-item>
@@ -140,68 +140,104 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proLimitTime" label="工程工期">
-            <el-input v-model="dataForm.proLimitTime"></el-input>
+          <el-form-item prop="proStatue" label="项目状态">
+            <el-input v-model="dataForm.proStatue"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proBuildArea" label="建筑面积-平方米">
-            <el-input v-model="dataForm.proBuildArea"></el-input>
+      </el-row>
+      <t-sub-title :title="'建筑情况'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="建筑面积" prop="proBuildArea" verify class="is-required">
+            <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+              <span slot="append">平方米</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSpan" label="高度/最大跨度-米">
-            <el-input v-model="dataForm.proSpan"></el-input>
+        <el-col :span="6">
+          <el-form-item label="高度/最大跨度" prop="proSpan" verify class="is-required">
+            <t-int-input v-model="dataForm.proSpan" :readOnly="readOnly">
+              <span slot="append">米</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proLayer" label="层数">
-            <el-input v-model="dataForm.proLayer"></el-input>
+        <el-col :span="6">
+          <el-form-item label="层数" prop="proLayer" verify class="is-required">
+            <t-int-input v-model="dataForm.proLayer" :readOnly="readOnly">
+              <span slot="append">层</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proBlock" label="栋数">
-            <el-input v-model="dataForm.proBlock"></el-input>
+        <el-col :span="6">
+          <el-form-item label="栋数" prop="proBlock" verify class="is-required">
+            <t-int-input v-model="dataForm.proBlock" :readOnly="readOnly">
+              <span slot="append">栋</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proBasementArea" label="地下室-平方米、层">
-            <el-input v-model="dataForm.proBasementArea"></el-input>
+        <el-col :span="6">
+          <el-form-item label="地下室" prop="proBasementArea" verify class="is-required">
+            <t-int-input v-model="dataForm.proBasementArea" :readOnly="readOnly">
+              <span slot="append">平方米、层</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proIsFitout" label="是否为装配式（字典表）">
+        <el-col :span="6">
+          <el-form-item prop="proIsFitout" label="是否为装配式">
             <el-input v-model="dataForm.proIsFitout"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proFitoutRate" label="装配率-%">
-            <el-input v-model="dataForm.proFitoutRate"></el-input>
+        <el-col :span="6">
+          <el-form-item label="装配率" prop="proFitoutRate" verify class="is-required">
+            <t-int-input v-model="dataForm.proFitoutRate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proIsBim" label="是否应用BIM技术（字典表）">
+        <el-col :span="6">
+          <el-form-item prop="proIsBim" label="是否应用BIM技术">
             <el-input v-model="dataForm.proIsBim"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <t-sub-title :title="'经营方式'"></t-sub-title>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式（字典表）">
+          <el-form-item prop="proRunMode" label="经营方式">
             <el-input v-model="dataForm.proRunMode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proProfitRate" label="项目净利润承诺超-%">
-            <el-input v-model="dataForm.proProfitRate"></el-input>
+          <el-form-item label="项目净利润承诺超" prop="proProfitRate" verify class="is-required">
+            <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proUnionCompanyMerate" label="联营单位管理费-%">
-            <el-input v-model="dataForm.proUnionCompanyMerate"></el-input>
+          <el-form-item label="公司负责人" prop="proCompanyHeader">
+            <el-input v-model="dataForm.proCompanyHeader" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proUnionCompany" label="联营公司id">
-            <el-input v-model="dataForm.proUnionCompany"></el-input>
+          <el-form-item prop="proRunMode" label="经营方式">
+            <el-input v-model="dataForm.proRunMode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="联营单位管理费" prop="proUnionCompanyMerate" verify class="is-required">
+            <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="联营公司名称" prop="proUnionCompany">
+            <el-input v-model="dataForm.proUnionCompany" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -210,8 +246,46 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proCompanyHeader" label="负责人">
-            <el-input v-model="dataForm.proCompanyHeader"></el-input>
+          <el-form-item prop="proContactway" label="联系方式">
+            <el-input v-model="dataForm.proContactway"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="proRunMode" label="经营方式">
+            <el-input v-model="dataForm.proRunMode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="联营单位管理费" prop="proUnionCompanyMerate" verify class="is-required">
+            <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="项目净利润承诺超" prop="proProfitRate" verify class="is-required">
+            <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="公司负责人" prop="proCompanyHeader">
+            <el-input v-model="dataForm.proCompanyHeader" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="联营公司名称" prop="proUnionCompany">
+            <el-input v-model="dataForm.proUnionCompany" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proContacter" label="联系人">
+            <el-input v-model="dataForm.proContacter"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -219,6 +293,9 @@
             <el-input v-model="dataForm.proContactway"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proRegister" label="登记人">
             <el-input v-model="dataForm.proRegister"></el-input>
@@ -227,36 +304,6 @@
         <el-col :span="8">
           <el-form-item prop="proRegisterTime" label="登记时间">
             <el-input v-model="dataForm.proRegisterTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proStatue" label="项目状态（字典表）">
-            <el-input v-model="dataForm.proStatue"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -269,6 +316,13 @@
 
 <script>
   export default {
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -322,7 +376,8 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          bidProcessList: null
         },
         dataRule: {
           pcId: [
@@ -338,16 +393,10 @@
             {required: true, message: '建设单位不能为空', trigger: 'blur'}
           ],
           proConstructCompanyAttr: [
-            {required: true, message: '单位性质（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '单位性质不能为空', trigger: 'blur'}
           ],
           proAddressProvince: [
-            {required: true, message: '项目地址-省（字典表）不能为空', trigger: 'blur'}
-          ],
-          proAddressCity: [
-            {required: true, message: '项目地址-市（字典表）不能为空', trigger: 'blur'}
-          ],
-          proAddressDetail: [
-            {required: true, message: '项目地址-详细不能为空', trigger: 'blur'}
+            {required: true, message: '项目地址-省不能为空', trigger: 'blur'}
           ],
           proTotalInvestment: [
             {required: true, message: '项目总投资不能为空', trigger: 'blur'}
@@ -355,32 +404,26 @@
           proSubCompany: [
             {required: true, message: '所属分公司不能为空', trigger: 'blur'}
           ],
-          proBusDept: [
-            {required: true, message: '所属事业部不能为空', trigger: 'blur'}
-          ],
           proDriveSubject: [
-            {required: true, message: '实施主体（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '实施主体不能为空', trigger: 'blur'}
           ],
           proContractAttr: [
-            {required: true, message: '承包形式（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '承包形式不能为空', trigger: 'blur'}
           ],
           proType: [
-            {required: true, message: '工程类别（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '工程类别不能为空', trigger: 'blur'}
           ],
           proSubType: [
-            {required: true, message: '类别子项（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '类别子项不能为空', trigger: 'blur'}
           ],
           proFundSource: [
-            {required: true, message: '资金来源（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '资金来源不能为空', trigger: 'blur'}
           ],
           proStructure: [
-            {required: true, message: '结构形式（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '结构形式不能为空', trigger: 'blur'}
           ],
           proContractScope: [
             {required: true, message: '承包范围不能为空', trigger: 'blur'}
-          ],
-          proManager: [
-            {required: true, message: '项目经理不能为空', trigger: 'blur'}
           ],
           proWinAmount: [
             {required: true, message: '中标金额-元不能为空', trigger: 'blur'}
@@ -419,16 +462,16 @@
             {required: true, message: '地下室-平方米、层不能为空', trigger: 'blur'}
           ],
           proIsFitout: [
-            {required: true, message: '是否为装配式（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否为装配式不能为空', trigger: 'blur'}
           ],
           proFitoutRate: [
             {required: true, message: '装配率-%不能为空', trigger: 'blur'}
           ],
           proIsBim: [
-            {required: true, message: '是否应用BIM技术（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否应用BIM技术不能为空', trigger: 'blur'}
           ],
           proRunMode: [
-            {required: true, message: '经营方式（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '经营方式不能为空', trigger: 'blur'}
           ],
           proProfitRate: [
             {required: true, message: '项目净利润承诺超-%不能为空', trigger: 'blur'}
@@ -448,29 +491,8 @@
           proContactway: [
             {required: true, message: '联系方式不能为空', trigger: 'blur'}
           ],
-          proRegister: [
-            {required: true, message: '登记人不能为空', trigger: 'blur'}
-          ],
-          proRegisterTime: [
-            {required: true, message: '登记时间不能为空', trigger: 'blur'}
-          ],
           proStatue: [
-            {required: true, message: '项目状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+            {required: true, message: '项目状态不能为空', trigger: 'blur'}
           ]
         }
       }

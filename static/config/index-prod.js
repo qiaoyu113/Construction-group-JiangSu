@@ -26,4 +26,4 @@
       window.SITE_CONFIG.cdnUrl + 'static/js/app.js'
     ]
   }
-})()
+})();
