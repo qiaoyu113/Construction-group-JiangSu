@@ -7,9 +7,8 @@
         </el-button>
       </el-row>
       <el-row :gutter="20">
-        <t-sub-title :title="'项目经理状态列表'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item label="姓名">
+          <el-form-item label="选择关键字">
             <el-select placeholder="请选择"
                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
               <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
@@ -18,14 +17,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="建造师登记">
+          <el-form-item label="创建时间">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="分公司">
+          <el-form-item label="关键字">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
                       clearable></el-input>
@@ -37,7 +36,7 @@
           <el-form-item>
             <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
             <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
+              <i class="el-icon-delete"></i>清空
             </el-button>
           </el-form-item>
         </el-col>
@@ -60,7 +59,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
+            serviceInstance: tapp.services.tBidQualApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
@@ -70,62 +69,82 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'pmId',
-                label: '姓名',
-                sortable: true
+                prop: 'bId',
+                label: '流程业务id',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: 'constructorLevel',
-                label: '所在公司',
-                sortable: true
+                prop: 'actTaskKey',
+                label: 'activiti执行任务key',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: '',
-                label: '联系方式',
-                sortable: true
+                prop: 'pcId',
+                label: '项目备案id',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: 'constructorLevel',
-                label: '建造师等级',
-                sortable: true
+                prop: 'amount',
+                label: '金额-元',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: 'constructorCode',
-                label: '建造师证书编号',
-                sortable: true
-              },
-              {
-                prop: 'safeB',
-                label: '安全B证',
-                sortable: true
-              },
-              {
-                prop: 'remark',
-                label: '是否在建',
-                sortable: true
+                prop: 'existElectMark',
+                label: '是否使用电子章（字典表）',
+                sortable: true,
+                minWidth: 120,
               },
               {
                 prop: 'remark',
-                label: '在建项目个数',
-                sortable: true
+                label: '备注',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: 'remark',
-                label: '累计竣工项目个数',
-                sortable: true
+                prop: 'sign',
+                label: '执行人',
+                sortable: true,
+                minWidth: 120,
               },
               {
-                prop: 'remark',
-                label: '证书附件',
-                sortable: true
+                prop: 'signTime',
+                label: '执行时间',
+                sortable: true,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                }
               },
-
+              {
+                prop: 'approvalStatus',
+                label: '审批状态（字典表）',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'propose',
+                label: '审核意见',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'result',
+                label: '审核结果',
+                sortable: true,
+                minWidth: 120,
+              },
               {
                 prop: 'createtime',
                 label: '创建时间',
                 sortable: true,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
                 }
@@ -134,6 +153,7 @@
                 prop: 'updatetime',
                 label: '更新时间',
                 sortable: true,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
                 }
@@ -141,17 +161,20 @@
               {
                 prop: 'createuser',
                 label: '创建人',
-                sortable: true
+                sortable: true,
+                minWidth: 120,
               },
               {
                 prop: 'updateuser',
                 label: '更新人',
-                sortable: true
+                sortable: true,
+                minWidth: 120,
               },
               {
                 prop: 'datastatus',
                 label: '数据有效性 1有效 0无效',
-                sortable: true
+                sortable: true,
+                minWidth: 120,
               },
             ], // 需要展示的列
             defaultSort: {
