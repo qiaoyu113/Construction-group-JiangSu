@@ -53,7 +53,7 @@
                 startDateRange: null,
                 gridOptions: {
                     dataSource: {
-                        serviceInstance: tapp.services.bidPletterApproval.getPagedList,
+                        serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
                         serviceInstanceInputParameters: {
                             searchKey: null,
                             processDefinationKey: null,
@@ -65,23 +65,23 @@
                         mutiSelect: false,
                         columns: [
                                                                                                                                                                                                     {
-                                            prop: 'bId',
-                                            label: '流程业务id',
+                                            prop: 'pmId',
+                                            label: '项目经理唯一标识id',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'actTaskKey',
-                                            label: 'activiti执行任务key',
+                                            prop: 'constructorLevel',
+                                            label: '建造师等级（字典表）',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'pcId',
-                                            label: '项目备案id',
+                                            prop: 'constructorCode',
+                                            label: '建造师证书编号',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'pId',
-                                            label: '投标保证金（保函）申请id',
+                                            prop: 'safeB',
+                                            label: '安全B证',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
@@ -90,33 +90,36 @@
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'sign',
-                                            label: '执行人',
-                                            sortable: true
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'signTime',
-                                            label: '执行时间',
+                                            prop: 'createtime',
+                                            label: '创建时间',
                                             sortable: true,
                                             formatter: (row, column, cellValue) => {
-                                                return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                                                return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
                                             }
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'approvalStatus',
-                                            label: '审批状态（字典表）',
+                                            prop: 'updatetime',
+                                            label: '更新时间',
+                                            sortable: true,
+                                            formatter: (row, column, cellValue) => {
+                                                return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
+                                            }
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'createuser',
+                                            label: '创建人',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'propose',
-                                            label: '审核意见',
+                                            prop: 'updateuser',
+                                            label: '更新人',
                                             sortable: true
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'result',
-                                            label: '审核结果',
+                                            prop: 'datastatus',
+                                            label: '数据有效性 1有效 0无效',
                                             sortable: true
-                                        }
+                                        },
                                                                                                                         ], // 需要展示的列
                         defaultSort: {
                             prop: 'id',
