@@ -59,37 +59,6 @@
             <el-input v-model="dataForm.proBuildArea" readonly></el-input>
           </el-form-item>
         </el-col>
-
-        <el-col :span="8">
-          <el-form-item prop="remark" label="说明">
-            <el-input v-model="dataForm.remark"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="litigationStatus" label="诉讼状态（字典表）">
-            <el-input v-model="dataForm.litigationStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="cancelTime" label="取消时间">
-            <el-input v-model="dataForm.cancelTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
       </el-row>
       <t-sub-title :title="'已有诉讼信息'"></t-sub-title>
       <t-sub-title :title="'新诉讼信息'"></t-sub-title>

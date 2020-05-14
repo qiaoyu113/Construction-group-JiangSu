@@ -13,83 +13,75 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item label="项目名称" prop="proName">
+            <el-input v-model="dataForm.proName" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item label="所属分公司" prop="proSubCompany">
+            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item label="所属事业部" prop="proBusDept">
+            <el-input v-model="dataForm.proBusDept" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="processBranch" label="流程选择（字典表）">
+          <el-form-item label="建设单位" prop="proConstructCompany">
+            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="合同模式" prop="proContractAttr">
+            <el-input v-model="dataForm.proContractAttr" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="投资金额" prop="proTotalInvestment">
+            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="工程类别" prop="proType">
+            <el-input v-model="dataForm.proType" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经营方式" prop="proRunMode">
+            <el-input v-model="dataForm.proRunMode" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="项目规模" prop="proBuildArea">
+            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="processBranch" label="流程选择">
             <el-input v-model="dataForm.processBranch"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="说明">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item label="经办人" prop="sign">
+            <el-input v-model="dataForm.sign" readOnly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item label="经办时间" prop="signTime">
+            <el-input v-model="dataForm.signTime" readOnly="true"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus2" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus2"></el-input>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="说明" prop="remark">
+            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
