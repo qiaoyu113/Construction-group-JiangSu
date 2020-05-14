@@ -1,6 +1,6 @@
 <template>
 <div class="table">
-  <el-table ref="mutipleTable" :max-height="maxHeight" v-bind="tableOptions" :empty-text="emptyText" :data="data" size="medium" @selection-change="handleSelectionChange" @sort-change="handleSortChange" @filter-change="handleFilterChange" header-cell-class-name="tableHeader">
+  <el-table ref="mutipleTable" :max-height="maxHeight" v-bind="tableOptions" :empty-text="emptyText" :data="data" size="medium" @selection-change="handleSelectionChange" @sort-change="handleSortChange" @filter-change="handleFilterChange" @cell-click="handleCellClick" header-cell-class-name="tableHeader">
     <!--region 选择框-->
     <el-table-column v-if="mutiSelect" type="selection" :selectable='mutiSelectSelectable' style="width: 55px;">
     </el-table-column>
@@ -231,6 +231,9 @@ export default {
     },
     handleSortChange(sort) {
       this.$emit('sort-change', sort);
+    },
+    handleCellClick(row, column, cell, event) {
+      this.$emit('cell-click', row, column, cell, event);
     },
     // 切换每页显示的数量
     handleSizeChange(size) {
