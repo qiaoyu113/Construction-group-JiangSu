@@ -12,42 +12,88 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
+          <el-form-item prop="pId" label="项目名称">
             <el-input v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="cId" label="合同id">
-            <el-input v-model="dataForm.cId"></el-input>
+          <el-form-item prop="pId" label="所属公司">
+            <el-input readonly="true" v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="taxMethod" label="计税方法（字典表）">
-            <el-input v-model="dataForm.taxMethod"></el-input>
+          <el-form-item prop="pId" label="项目地址">
+            <el-input v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="invoiceType" label="发票类别（字典表）">
+          <el-form-item prop="pId" label="对方单位名称">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="对方单位地址">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="纳税识别号">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="开户行">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="开户账号">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="对方联系电话">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="cId" label="合同名称">
+            <el-input readonly="true" v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="cId" label="合同期间">
+            <t-datetime-range-picker readonly="true" v-model="dataForm.cId"></t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="cId" label="合同金额">
+            <el-input readonly="true" v-model="dataForm.cId"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'开票信息'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="taxMethod" label="计税方法">
+<!--            <el-input v-model="dataForm.taxMethod"></el-input>-->
+            <t-dic-radio-select dicType="pl_loanenter_job" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="invoiceType" label="发票类别">
             <el-input v-model="dataForm.invoiceType"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="levyRate" label="适用税率或征收率">
             <el-input v-model="dataForm.levyRate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="isLevyTax" label="有无预征税款（字典表）">
+          <el-form-item prop="isLevyTax" label="有无预征税款">
             <el-input v-model="dataForm.isLevyTax"></el-input>
           </el-form-item>
         </el-col>
@@ -56,18 +102,32 @@
             <el-input v-model="dataForm.levyTaxNum"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="invoiceAmount" label="申请开票金额（元）">
             <el-input v-model="dataForm.invoiceAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="invoiceAmount" label="已开票金额（元）">
+            <el-input readonly="true" v-model="dataForm.invoiceAmount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
           <el-form-item prop="deductAmount" label="可抵扣分包金额（元）">
             <el-input v-model="dataForm.deductAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="isReceivables" label="有无应收款（字典表）">
+          <el-form-item prop="deductAmount" label="已抵扣分包金额（元）">
+            <el-input readonly="true" v-model="dataForm.deductAmount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="isReceivables" label="有无应收款">
             <el-input v-model="dataForm.isReceivables"></el-input>
           </el-form-item>
         </el-col>
@@ -101,6 +161,8 @@
             <el-input v-model="dataForm.cit"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="pit" label="个人所得税（元）">
             <el-input v-model="dataForm.pit"></el-input>
@@ -117,13 +179,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="taxStartTime" label="税款所属开始时间">
-            <el-input v-model="dataForm.taxStartTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="taxEndTime" label="税款所属结束时间">
-            <el-input v-model="dataForm.taxEndTime"></el-input>
+          <el-form-item prop="taxStartTime" label="税款所属期间">
+            <t-datetime-range-picker v-model="dataForm.taxStartTime"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -132,68 +189,38 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="lId" label="外经证号标识id">
+          <el-form-item prop="lId" label="外经证号">
             <el-input v-model="dataForm.lId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="invoiceDate" label="开票日期">
-            <el-input v-model="dataForm.invoiceDate"></el-input>
+            <el-input readonly="true" v-model="dataForm.invoiceDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="invoiceNum" label="发票号码">
-            <el-input v-model="dataForm.invoiceNum"></el-input>
+            <el-input readonly="true" v-model="dataForm.invoiceNum"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
+          <el-form-item prop="sign" label="经办人">
             <el-input v-model="dataForm.sign"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="signTime" label="经办时间">
+            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -210,7 +237,10 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pId: '',                                                                                                                                                            cId: '',                                                                                                                                                            taxMethod: '',                                                                                                                                                            invoiceType: '',                                                                                                                                                            levyRate: '',                                                                                                                                                            isLevyTax: '',                                                                                                                                                            levyTaxNum: '',                                                                                                                                                            invoiceAmount: '',                                                                                                                                                            deductAmount: '',                                                                                                                                                            isReceivables: '',                                                                                                                                                            vat: '',                                                                                                                                                            uct: '',                                                                                                                                                            est: '',                                                                                                                                                            lest: '',                                                                                                                                                            st: '',                                                                                                                                                            cit: '',                                                                                                                                                            pit: '',                                                                                                                                                            ot: '',                                                                                                                                                            taxBureau: '',                                                                                                                                                            taxStartTime: '',                                                                                                                                                            taxEndTime: '',                                                                                                                                                            paymentDate: '',                                                                                                                                                            lId: '',                                                                                                                                                            invoiceDate: '',                                                                                                                                                            invoiceNum: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',invoiceType: '',levyRate: '',isLevyTax: '',levyTaxNum: '',invoiceAmount: '',deductAmount: '',
+          isReceivables: '',vat: '',uct: '',est: '',lest: '',st: '',cit: '',pit: '',ot: '',taxBureau: '',taxStartTime: '',taxEndTime: '',
+          paymentDate: '',lId: '',invoiceDate: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }

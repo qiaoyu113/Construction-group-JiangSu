@@ -9,28 +9,56 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'项目放款信息'"></t-sub-title>
       <el-row :gutter="20">
+<!--        <el-col :span="8">-->
+<!--          <el-form-item prop="gId" label="放款申请id">-->
+<!--            <el-input v-model="dataForm.gId"></el-input>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
         <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="pId" label="借款合同编号">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <el-form-item prop="pId" label="项目名称">
+            <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="pId" label="项目编号">
+            <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="pId" label="所属单位">
+            <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="gId" label="放款申请id">
-            <el-input v-model="dataForm.gId"></el-input>
+          <el-form-item prop="realAmount" label="确认借款额度">
+            <el-input readonly v-model="dataForm.realAmount"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item prop="tiimeLimit" label="借款期限（月）">
+            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+        <el-form-item prop="getAmount" label="本次放款金额">
+          <el-input readonly v-model="dataForm.getAmount"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="timeLimit" label="本次放款期限（月）">
+            <el-input readonly v-model="dataForm.timeLimit"></el-input>
+          </el-form-item>
+        </el-col>
+        <t-sub-title :title="'项目还款信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次还款金额">
             <el-input v-model="dataForm.getAmount"></el-input>
@@ -38,64 +66,34 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次累计已还金额">
-            <el-input v-model="dataForm.tiimeLimit"></el-input>
+            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="getCode" label="本次累计未还金额">
-            <el-input v-model="dataForm.getCode"></el-input>
+            <el-input readonly v-model="dataForm.getCode"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <el-input v-model="dataForm.sign"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
@@ -110,7 +108,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pId: '',                                                                                                                                                            gId: '',                                                                                                                                                            getAmount: '',                                                                                                                                                            tiimeLimit: '',                                                                                                                                                            getCode: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',gId: '',getAmount: '',tiimeLimit: '',getCode: '',approvalStatus: '',
+          sign: '',signTime: new Date(),propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }

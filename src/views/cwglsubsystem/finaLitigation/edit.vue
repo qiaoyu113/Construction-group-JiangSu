@@ -9,28 +9,8 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="' 划款信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="bId" label="业务id用于和一个流程实例绑定">
-            <el-input v-model="dataForm.bId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <el-input v-model="dataForm.proRunMode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="unionCompany" label="联营单位">
-            <el-input v-model="dataForm.unionCompany"></el-input>
-          </el-form-item>
-        </el-col>
         <el-col :span="8">
           <el-form-item prop="amount" label="划款金额">
             <el-input v-model="dataForm.amount"></el-input>
@@ -46,47 +26,75 @@
             <el-input v-model="dataForm.accountNum"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item prop="sign" label="登记人">
+            <el-input readonly v-model="dataForm.sign"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="signTime" label="登记时间">
+            <el-date-picker readonly type="datetime" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="pId" label="项目名称">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="所属分公司">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="所属事业部">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="建设单位">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="合同模式">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="投资金额">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="工程类别">
+            <el-input readonly v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proRunMode" label="经营方式">
+            <el-input v-model="dataForm.proRunMode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="unionCompany" label="项目规模">
+            <el-input v-model="dataForm.unionCompany"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'诉讼信息'"></t-sub-title>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
     </el-form>
@@ -100,7 +108,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',                                                                                                                                                            pId: '',                                                                                                                                                            proRunMode: '',                                                                                                                                                            unionCompany: '',                                                                                                                                                            amount: '',                                                                                                                                                            bankName: '',                                                                                                                                                            accountNum: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            propose: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
+          bId: '',pId: '',proRunMode: '',unionCompany: '',amount: '',bankName: '',accountNum: '',sign: '',signTime: new Date(),
+          propose: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
