@@ -70,7 +70,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="合同模式">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+<!--            <el-input readonly v-model="dataForm.pId"></el-input>-->
+            <t-dic-dropdown-select dicType="1260862577664200706" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -80,12 +81,14 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="工程类别">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+<!--            <el-input readonly v-model="dataForm.pId"></el-input>-->
+            <t-dic-dropdown-select dicType="1260861756058767362" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营方式">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+<!--            <el-input v-model="dataForm.proRunMode"></el-input>-->
+            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

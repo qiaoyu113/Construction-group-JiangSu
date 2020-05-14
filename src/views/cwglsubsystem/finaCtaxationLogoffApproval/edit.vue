@@ -59,7 +59,8 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <el-input readonly v-model="dataForm.taxMethod"></el-input>
+<!--            <el-input readonly v-model="dataForm.taxMethod"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">

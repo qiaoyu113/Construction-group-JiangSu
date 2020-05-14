@@ -40,7 +40,8 @@
         </el-col>
         <el-col :span="4">
           <el-form-item prop="rWay" label="到帐方式">
-            <el-input readonly v-model="dataForm.rWay"></el-input>
+<!--            <el-input readonly v-model="dataForm.rWay"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -50,7 +51,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rType" label="到帐类型">
-            <el-input readonly v-model="dataForm.rType"></el-input>
+<!--            <el-input readonly v-model="dataForm.rType"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866912477384705" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

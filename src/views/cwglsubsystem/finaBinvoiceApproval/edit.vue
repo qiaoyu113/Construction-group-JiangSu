@@ -77,12 +77,13 @@
         <el-col :span="8">
           <el-form-item prop="taxMethod" label="计税方法">
 <!--            <el-input v-model="dataForm.taxMethod"></el-input>-->
-            <t-dic-radio-select dicType="pl_loanenter_job" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
+            <t-dic-radio-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="invoiceType" label="发票类别">
-            <el-input v-model="dataForm.invoiceType"></el-input>
+<!--            <el-input v-model="dataForm.invoiceType"></el-input>-->
+            <t-dic-radio-select dicType="1260866595392196609" v-model="dataForm.invoiceType" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,7 +95,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="isLevyTax" label="有无预征税款">
-            <el-input v-model="dataForm.isLevyTax"></el-input>
+<!--            <el-input v-model="dataForm.isLevyTax"></el-input>-->
+            <t-dic-radio-select dicType="1260866674677125121" v-model="dataForm.isLevyTax" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -128,7 +130,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="isReceivables" label="有无应收款">
-            <el-input v-model="dataForm.isReceivables"></el-input>
+<!--            <el-input v-model="dataForm.isReceivables"></el-input>-->
+            <t-dic-radio-select dicType="1260866674677125121" v-model="dataForm.isReceivables" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

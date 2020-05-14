@@ -19,7 +19,7 @@
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营方式">
 <!--            <el-input v-model="dataForm.proRunMode" readonly></el-input>-->
-            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -32,12 +32,12 @@
       <el-col :span="8">
           <el-form-item prop="fundPurpose" label="资金用途">
 <!--            <el-input v-model="dataForm.fundPurpose"></el-input>-->
-            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.fundPurpose" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="paymentType" label="本次付款类型">
-            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="1260907717166501889" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -49,39 +49,24 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="scId" label="子合同编号">
-            <el-input v-model="dataForm.scId"></el-input>
+            <el-input readonly v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="scId" label="子合同金额">
-            <el-input v-model="dataForm.scId"></el-input>
+            <el-input readonly v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row gutter="20">
         <el-col :span="24">
           <el-form-item prop="processBranch" label="流程审批">
-            <t-dic-radio-select dicType="pl_loanenter_job" class="el-radio-group-vertical" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-radio-select>
+            <t-dic-radio-select dicType="1260909446947803138" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
       </el-row>
+      <t-sub-title :title="'累计付款信息'"></t-sub-title>
       <el-row gutter="20">
-<!--        <el-col :span="8">-->
-<!--          <el-form-item prop="unionCompany" label="联营单位标识">-->
-<!--            <el-input v-model="dataForm.unionCompany"></el-input>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
-<!--        <el-col :span="8">-->
-<!--          <el-form-item prop="paymentWay" label="付款方式">-->
-<!--&lt;!&ndash;            <el-input v-model="dataForm.paymentWay"></el-input>&ndash;&gt;-->
-<!--            <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.paymentWay" :readOnly="readOnly"></t-dic-dropdown-select>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
-<!--        <el-col :span="8">-->
-<!--          <el-form-item prop="rId" label="到账标识id">-->
-<!--            <el-input v-model="dataForm.rId"></el-input>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
         <el-col :span="8">
           <el-form-item prop="totalReceived" label="本项目累计已收款">
             <el-input v-model="dataForm.totalReceived"></el-input>
@@ -92,8 +77,6 @@
             <el-input v-model="dataForm.totalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalPayment" label="本项目累计已付款">
             <el-input v-model="dataForm.totalPayment"></el-input>
@@ -111,13 +94,6 @@
             <el-input v-model="dataForm.scTotalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="paymentAmount" label="本次付款金额">
-            <el-input v-model="dataForm.paymentAmount"></el-input>
-          </el-form-item>
-        </el-col>
         <el-col :span="8">
           <el-form-item prop="afterThisRatio" label="累计付款比例">
             <el-input v-model="dataForm.afterThisRatio"></el-input>
@@ -125,6 +101,11 @@
         </el-col>
       </el-row>
       <el-row gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="paymentAmount" label="本次付款金额">
+            <el-input v-model="dataForm.paymentAmount"></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="8">
           <el-form-item prop="leftoverAmount" label="本项目余款">
             <el-input v-model="dataForm.leftoverAmount"></el-input>
@@ -145,16 +126,16 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+            <el-date-picker type="datetime" v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
-              <el-input type="textarea" v-model="dataForm.remark"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <t-sub-title :title="'收款单位信息'"></t-sub-title>
       <el-row gutter="20">
