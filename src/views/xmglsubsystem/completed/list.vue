@@ -8,26 +8,66 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="项目名称">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName" placeholder="项目名称"
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
+          <el-form-item label="工程类别">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" placeholder="工程类别"
                       clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="类别子项">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" placeholder="类别子项"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="建设单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany" placeholder="建设单位"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="分公司">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="所属分公司"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经营方式">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" placeholder="经营方式"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="审批状态">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" placeholder="审批状态"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办人">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" placeholder="经营方式"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="经办日期">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                     @change="onStartDateRangeChanged">
+            </t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -72,22 +112,53 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'bId',
-                label: '业务id用于和一个流程实例绑定',
-                sortable: true,
-                minWidth: 120,
+                prop: 'proName',
+                label: '项目名称',
+                sortable: true
               },
               {
-                prop: 'actTaskKey',
-                label: 'activiti执行任务key',
-                sortable: true,
-                minWidth: 120,
+                prop: 'proType',
+                label: '工程类别',
+                sortable: true
               },
               {
-                prop: 'pId',
-                label: '项目id',
+                prop: 'proSubType',
+                label: '类别子项',
+                sortable: true
+              },
+              {
+                prop: 'proConstructCompany',
+                label: '建设单位',
+                sortable: true
+              },
+              {
+                prop: 'proBuildArea',
+                label: '建筑面积',
+                sortable: true
+              },
+              {
+                prop: 'proTotalInvestment',
+                label: '合同金额',
+                sortable: true
+              },
+              {
+                prop: 'proTotalInvestment',
+                label: '所属分公司',
+                sortable: true
+              },
+              {
+                prop: 'proRunMode',
+                label: '经营方式',
+                sortable: true
+              },
+              {
+                prop: 'proRealStartDate',
+                label: '实际开工日期',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.proRealStartDate, 'YYYY-MM-DD')
+                }
               },
               {
                 prop: 'completedTime',
@@ -99,80 +170,26 @@
                 }
               },
               {
-                prop: 'remark',
-                label: '说明',
+                prop: 'approvalStatus',
+                label: '审批状态',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '经办人',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
+                label: '经办日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
-              },
-              {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'createtime',
-                label: '创建时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD')
-                }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD')
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true,
-                minWidth: 120,
-              },
+              }
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',

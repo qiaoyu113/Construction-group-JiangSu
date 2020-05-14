@@ -10,33 +10,36 @@
       <t-sub-title :title="'公告信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="noticeType" label="公告类型（字典表）">
-            <el-input v-model="dataForm.noticeType"></el-input>
+          <el-form-item prop="noticeType" label="公告类型">
+            <t-dic-dropdown-select dicType="1260861375056580609" v-model="dataForm.noticeType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
+
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="15">
           <el-form-item prop="fromDept" label="发布部门">
             <el-input v-model="dataForm.fromDept"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="20">
           <el-form-item prop="noticeTitle" label="公告标题">
-            <el-input v-model="dataForm.noticeTitle"></el-input>
+            <el-input v-model="dataForm.noticeTitle" ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="20">
           <el-form-item prop="noticeContent" label="公告内容">
             <el-input v-model="dataForm.noticeContent"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="timeLimit" label="有效期">
-            <el-input v-model="dataForm.timeLimit"></el-input>
+          <el-form-item prop="remark" label="是否置顶">
+            <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.remark"
+                                :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="是否置顶">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item prop="timeLimit" label="有效期">
+            <t-dic-dropdown-select dicType="1260861490588684289" v-model="dataForm.timeLimit" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -69,7 +72,7 @@
         },
         dataRule: {
           noticeType: [
-            {required: true, message: '公告类型（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '公告类型不能为空', trigger: 'blur'}
           ],
           fromDept: [
             {required: true, message: '发布部门不能为空', trigger: 'blur'}
@@ -81,10 +84,10 @@
             {required: true, message: '公告内容不能为空', trigger: 'blur'}
           ],
           timeLimit: [
-            {required: true, message: '有效期（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '有效期不能为空', trigger: 'blur'}
           ],
           remark: [
-            {required: true, message: '是否置顶（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否置顶不能为空', trigger: 'blur'}
           ],
           createuser: [
             {required: true, message: '创建人不能为空', trigger: 'blur'}

@@ -77,12 +77,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经办人" prop="sign">
-            <el-input v-model="dataForm.sign" readOnly="true"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经办时间" prop="signTime">
-            <el-input v-model="dataForm.signTime" readOnly="true"></el-input>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -101,6 +101,11 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import {
+    mapMutations,
+    mapState,
+  } from 'vuex'
   export default {
     data () {
       return {
@@ -140,6 +145,18 @@
     created () {
       // this.init()
     },
+    computed: {
+      navbarClasses() {
+        let type = this.$store.state.ui.navbarLayoutType
+        return [!/\S/.test(type) || type === 'default' ? '' : `site-navbar--${type}`]
+      },
+      ...mapState({
+        path: state => state.route.path,
+        user: state => state.app.user,
+        notificationNum: state => state.ui.notificationNum,
+        isLoading: state => state.ui.isLoading,
+      }),
+    },
     methods: {
       // 初始化 编辑和新增 2种情况
       init (id) {
@@ -172,6 +189,8 @@
         } else {
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.user.userDisplayName;
+            this.dataForm.signTime = self.$util.datetimeFormat(moment())
           })
         }
       },

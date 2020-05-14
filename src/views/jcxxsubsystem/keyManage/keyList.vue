@@ -5,10 +5,11 @@
         <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
           <i class="fa fa-lg fa-level-down"></i>导出
         </el-button>
+        <t-sub-title :title="'密钥列表'"></t-sub-title>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
+          <el-form-item label="所属地区">
             <el-select placeholder="请选择"
                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
               <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
@@ -16,8 +17,24 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col>
+        </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
+          <el-form-item label="申请时间">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                     @change="onStartDateRangeChanged">
+            </t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="有效期起截止日">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                     @change="onStartDateRangeChanged">
+            </t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="经办日期">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
@@ -26,7 +43,7 @@
         <el-col :span="8">
           <el-form-item label="关键字">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
                       clearable></el-input>
           </el-form-item>
         </el-col>
@@ -71,165 +88,64 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'bId',
-                label: '流程业务id',
-                sortable: true
-              },
-              {
-                prop: 'actTaskKey',
-                label: 'activiti执行任务key',
-                sortable: false
-              },
-              {
                 prop: 'province',
-                label: '所属地区-省（字典表）',
+                label: '所属地区',
                 sortable: false
-              },
-              {
-                prop: 'city',
-                label: '所属地区-市（字典表）',
-                sortable: true
               },
               {
                 prop: 'keyType',
-                label: '类别名称',
-                sortable: true,
+                label: '密钥类别',
+                sortable: false,
                 width: '100px'
               },
               {
                 prop: 'authCompany',
                 label: '批准单位',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'loginUsername',
                 label: '登陆网名',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'loginUrl',
                 label: '登陆网址',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'expirationDate',
                 label: '有效期至',
-                sortable: true,
+                sortable: false,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.expirationDate, 'YYYY-MM-DD');
                 }
               },
               {
-                prop: 'account',
-                label: '用户名',
-                sortable: true
-              },
-              {
-                prop: 'principalId',
-                label: '主要负责人唯一标识',
-                sortable: true
-              },
-              {
                 prop: 'useScenes',
                 label: '用途',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'applyforDate',
                 label: '申请时间',
-                sortable: true,
+                sortable: false,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.applyforDate, 'YYYY-MM-DD');
                 }
               },
               {
-                prop: 'keyColor',
-                label: '密匙颜色',
-                sortable: true
-              },
-              {
-                prop: 'existElectMark',
-                label: '是否有电子签章功能（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'remark',
-                label: '备注',
-                sortable: true
-              },
-              {
-                prop: 'password',
-                label: '密码',
-                sortable: true
-              },
-              {
-                prop: 'isInput',
-                label: '是否直接登记（字典表）',
-                sortable: true
-              },
-              {
                 prop: 'sign',
-                label: '执行人',
-                sortable: true
+                label: '登记人',
+                sortable: false
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
-                sortable: true,
+                label: '登记时间',
+                sortable: false,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
-              },
-              {
-                prop: 'keyStatus',
-                label: '密钥状态（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true
-              },
-              {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'createtime',
-                label: '创建时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true
               },
             ], // 需要展示的列
             defaultSort: {
