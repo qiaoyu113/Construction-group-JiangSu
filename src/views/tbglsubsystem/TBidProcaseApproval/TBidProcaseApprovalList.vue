@@ -66,17 +66,6 @@
                         fit: true, // 列的宽度是否自撑开
                         columns: [
                                                                                                                                                                                                     {
-                                            prop: 'bId',
-                                            label: '流程业务id',
-                                            sortable: true,
-                                            minWidth: 120,
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'actTaskKey',
-                                            label: 'activiti执行任务key',
-                                            sortable: true,
-                                            minWidth: 120,
-                                        },
                                                                                                                                                                                                             {
                                             prop: 'proCode',
                                             label: '项目备案编号',

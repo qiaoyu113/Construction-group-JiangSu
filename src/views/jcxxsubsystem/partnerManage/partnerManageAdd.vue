@@ -13,14 +13,12 @@
       <t-sub-title :title="'合作方基本信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="合作方名称:">
+          <el-form-item prop="bId" label="合作方名称:" >
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="统一社会
-
-   信用代码：">
+          <el-form-item prop="actTaskKey" label="统一社会信用代码：" label-width="180px">
             <el-input v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>

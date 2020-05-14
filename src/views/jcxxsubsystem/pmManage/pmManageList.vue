@@ -10,24 +10,22 @@
         <t-sub-title :title="'项目经理状态列表'"></t-sub-title>
         <el-col :span="8">
           <el-form-item label="姓名">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
+                      clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="建造师登记">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+        <el-col :span="8">
+          <el-form-item label="建造师等级">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="分公司">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
                       clearable></el-input>
           </el-form-item>
         </el-col>
@@ -74,84 +72,52 @@
               {
                 prop: 'pmId',
                 label: '姓名',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'constructorLevel',
                 label: '所在公司',
-                sortable: true
+                sortable: false
               },
               {
                 prop: '',
                 label: '联系方式',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'constructorLevel',
                 label: '建造师等级',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'constructorCode',
                 label: '建造师证书编号',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'safeB',
                 label: '安全B证',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'remark',
                 label: '是否在建',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'remark',
                 label: '在建项目个数',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'remark',
                 label: '累计竣工项目个数',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'remark',
                 label: '证书附件',
-                sortable: true
-              },
-
-              {
-                prop: 'createtime',
-                label: '创建时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true
+                sortable: false
               },
             ], // 需要展示的列
             defaultSort: {
