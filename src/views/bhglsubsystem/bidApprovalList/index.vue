@@ -116,38 +116,7 @@
                                             prop: 'result',
                                             label: '审核结果',
                                             sortable: true
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'createtime',
-                                            label: '创建时间',
-                                            sortable: true,
-                                            formatter: (row, column, cellValue) => {
-                                                return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                                            }
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'updatetime',
-                                            label: '更新时间',
-                                            sortable: true,
-                                            formatter: (row, column, cellValue) => {
-                                                return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                                            }
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'createuser',
-                                            label: '创建人',
-                                            sortable: true
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'updateuser',
-                                            label: '更新人',
-                                            sortable: true
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'datastatus',
-                                            label: '数据有效性 1有效 0无效',
-                                            sortable: true
-                                        },
+                                        }
                                                                                                                         ], // 需要展示的列
                         defaultSort: {
                             prop: 'id',
