@@ -5,8 +5,7 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix" v-if="disabled==false">
           <div style="float: left; padding: 3px 0">
-            <div class="btns " style="float:left;width:88px;height:56px;">
-              <div id="picker">选择文件</div>
+            <div class="btns" style="float:left;width:108px;height:56px;">
             </div>
             <div style="float:left;width:88px;height:56px;">
               <el-button  type="primary" @click="handleGlobalPreview()" style="
@@ -282,31 +281,23 @@ export default {
       }
     },
     getFileId () {
-      if (this.fileIdList.length == 0) {
-        this.$notify.info({
-          title: '系统提示',
-          message: '您超出最大文件上传个数！'
-        })
-
-        return null
-      }
-      return this.fileIdList.shift()
-    },
-    handleCategoryNodeClick (dataItem, node, el) {
-      if (dataItem.hasChildren) {
-        this.showAttachmentGrid = false
-      } else {
         this.uploadFileList = []
         this.showAttachmentGrid = true
-        this.selectedCategoryItem = dataItem
 
         let self = this
         tapp.services.base_Common.getSUIds(200).then(function (result) {
           self.fileIdList = result
           self.loadViewFileList()
-          console.log('getSUIDS')
+          if (self.fileIdList.length == 0) {
+            self.$notify.info({
+              title: '系统提示',
+              message: '您超出最大文件上传个数！'
+            })
+
+            return null
+          }
+          return self.fileIdList.shift()
         })
-      }
     },
     handleItemSelectionChange (val) {
       this.selectedItemRows = val
@@ -376,13 +367,13 @@ export default {
       this.uploadFileList.push(file)
     },
     onUploadBeforeSend (object, data, header) {
-      if (this.selectedAssetCategoryId == null) {
-        this.$notify.info({
-          title: '系统提示',
-          message: '未选择附件类别！'
-        })
-        return
-      }
+      // if (this.selectedAssetCategoryId == null) {
+      //   this.$notify.info({
+      //     title: '系统提示',
+      //     message: '未选择附件类别！'
+      //   })
+      //   return
+      // }
       data.fid = object.file.fid
       data.businessDocId = object.file.businessDocId
       data.attachmentCategoryId = object.file.attachmentCategoryId
