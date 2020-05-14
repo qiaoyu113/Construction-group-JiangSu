@@ -1,7 +1,22 @@
 <template>
 <div class="mod-role">
   <t-form  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px">
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button  icon="el-icon-download" type="success" @click="doExportExcel()">
+        <i class="fa fa-lg fa-level-down"></i>导出
+      </el-button>
+    </el-row>
     <el-row :gutter="20">
+      <el-col :span="8">
+        <el-form-item label="流程名称">
+          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="项目名称">
+          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+        </el-form-item>
+      </el-col>
       <el-col :span="8">
         <el-form-item label="流程类别">
           <el-select placeholder="请选择流程类别" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
@@ -9,24 +24,13 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="14">
-        <el-form-item label="流程发起时间">
-          <t-datetime-range-picker v-model="startDateRange" @change="onStartDateRangeChanged">
-          </t-datetime-range-picker>
-        </el-form-item>
-      </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-form-item label="关键字">
-          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
-        </el-form-item>
-      </el-col>
+    <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
       <el-col :span="14">
         <el-form-item>
           <el-button  @click="doRefresh()" icon="el-icon-search">查询</el-button>
-          <el-button  icon="el-icon-download" @click="doExportExcel()">
-            <i class="fa fa-lg fa-level-down"></i>导出
+          <el-button  icon="el-icon-download" @click="doReset()">
+            <i class="el-icon-delete"></i>清空
           </el-button>
         </el-form-item>
       </el-col>
@@ -53,7 +57,8 @@ export default {
             searchKey: null,
           }
         },
-        grid: {     offsetHeight: 125, //125:查询部分高度
+        grid: {     
+          offsetHeight: 125, //125:查询部分高度
           mutiSelect: false,
           operates: {
             width: 60,
@@ -66,8 +71,15 @@ export default {
               method: this.doTask,
             }, ]
           }, // 列操作按钮
-          columns: [{
-            fixed: 'left',
+          columns: [
+            {
+              fixed: 'left',
+              prop: 'processDefinationName',
+              label: '流程编号',
+              sortable: true,
+              width: 200,
+            },
+            {
               prop: 'processDefinationName',
               label: '流程名称',
               sortable: true,
@@ -75,45 +87,51 @@ export default {
             },
             {
               prop: 'origiatorName',
-              label: '提单人',
+              label: '项目名称',
               sortable: true,
               width: 100,
             },
             {
               prop: 'startDate',
-              label: '提单日期',
+              label: '发起部门',
               sortable: true,
               width: 110,
-              formatter: (row, column, cellValue) => {
-                return this.$util.dateFormat(row.startDate, 'YYYY-MM-DD');
-              }
             },
             {
               prop: 'folio',
-              label: '单据描述',
+              label: '发起人',
               sortable: true,
               minWidth: 120,
             },
             {
-              prop: 'taskActName',
-              label: '审批结点',
+              prop: 'startDate',
+              label: '发起时间',
               sortable: true,
-              width: 100,
+              width: 120,
+              formatter: (row, column, cellValue) => {
+                return this.$util.dateFormat(row.startDate, 'YYYY-MM-DD HH:mm:ss');
+              }
             },
             {
               prop: 'taskAssigneeName',
-              label: '审批人',
+              label: '当前节点',
               sortable: true,
               width: 100,
             },
             {
               prop: 'taskCreateDate',
-              label: '任务创建时间',
+              label: '超期时间',
               sortable: true,
               width: 150,
               formatter: (row, column, cellValue) => {
-                return this.$util.datetimeFormat(row.taskCreateDate);
+                return this.$util.datetimeFormat(row.taskCreateDate, 'YYYY-MM-DD');
               }
+            },
+            {
+              prop: 'taskAssigneeName',
+              label: '流程状态',
+              sortable: true,
+              width: 100,
             },
           ], // 需要展示的列
           defaultSort: {
@@ -177,7 +195,9 @@ export default {
     handleSelectionChange(val) {
       this.checkededRows = val;
     },
-
+    doReset() {
+      this.$refs.search.resetFields();
+    },
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('流程实例列表');
     },
