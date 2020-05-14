@@ -22,6 +22,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="pId" label="项目地址">
+            <el-input v-model="dataForm.pId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item prop="pId" label="对方单位名称">
             <el-input v-model="dataForm.pId"></el-input>
           </el-form-item>
@@ -71,7 +76,8 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="taxMethod" label="计税方法">
-            <el-input v-model="dataForm.taxMethod"></el-input>
+<!--            <el-input v-model="dataForm.taxMethod"></el-input>-->
+            <t-dic-radio-select dicType="pl_loanenter_job" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
