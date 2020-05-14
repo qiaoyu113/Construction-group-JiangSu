@@ -71,39 +71,28 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-              {
-                prop: 'bId',
-                label: '流程业务id',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'actTaskKey',
-                label: 'activiti执行任务key',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proCode',
-                label: '项目备案编号',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proSubCompany',
-                label: '所属分公司',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proBusDept',
-                label: '所属事业部',
-                sortable: true,
-                minWidth: 120,
-              },
+
               {
                 prop: 'proName',
-                label: '拟建项目名称',
+                label: '项目名称',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proType',
+                label: '工程类别',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proContractAttr',
+                label: '计划合同模式',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proConstructCompany',
+                label: '建设单位',
                 sortable: true,
                 minWidth: 120,
               },
@@ -115,13 +104,13 @@
               },
               {
                 prop: 'proAddressProvince',
-                label: '项目地址-省（字典表）',
+                label: '项目地址-省',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'proAddressCity',
-                label: '项目地址-市（字典表）',
+                label: '项目地址-市',
                 sortable: true,
                 minWidth: 120,
               },
@@ -131,15 +120,10 @@
                 sortable: true,
                 minWidth: 120,
               },
-              {
-                prop: 'proConstructCompany',
-                label: '建设单位',
-                sortable: true,
-                minWidth: 120,
-              },
+
               {
                 prop: 'proConstructCompanyAttr',
-                label: '单位性质（字典表）',
+                label: '单位性质',
                 sortable: true,
                 minWidth: 120,
               },
@@ -149,18 +133,8 @@
                 sortable: true,
                 minWidth: 120,
               },
-              {
-                prop: 'proType',
-                label: '工程类别（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proContractAttr',
-                label: '计划合同模式（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
+
+
               {
                 prop: 'proRunMode',
                 label: '计划经营方式（字典表）',
