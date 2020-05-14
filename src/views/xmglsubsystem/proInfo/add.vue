@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目名称" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
+            <el-input v-model="dataForm.proName">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
@@ -114,14 +114,22 @@
             <el-input v-model="dataForm.proWinAmountC"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proPlanStartDate" label="计划开工日期">
-            <el-input v-model="dataForm.proPlanStartDate"></el-input>
+        <el-col :span="12">
+          <el-form-item label="日期输入" prop="loanApplyDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.loanApplyDate" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proPlanEndDate" label="计划完工日期">
-            <el-input v-model="dataForm.proPlanEndDate"></el-input>
+          <el-form-item label="计划开工日期" prop="proPlanStartDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="计划完工日期" prop="proPlanEndDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -130,13 +138,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRealStartDate" label="实际开工日期">
-            <el-input v-model="dataForm.proRealStartDate"></el-input>
+          <el-form-item label="实际开工日期" prop="proRealStartDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.proRealStartDate" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRealEndDate" label="实际完工日期">
-            <el-input v-model="dataForm.proRealEndDate"></el-input>
+          <el-form-item label="实际完工日期" prop="proRealEndDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.proRealEndDate" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -216,7 +226,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="公司负责人" prop="proCompanyHeader">
-            <el-input v-model="dataForm.proCompanyHeader" readonly>
+            <el-input v-model="dataForm.proCompanyHeader">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
@@ -235,7 +245,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="联营公司名称" prop="proUnionCompany">
-            <el-input v-model="dataForm.proUnionCompany" readonly>
+            <el-input v-model="dataForm.proUnionCompany">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
@@ -302,8 +312,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRegisterTime" label="登记时间">
-            <el-input v-model="dataForm.proRegisterTime"></el-input>
+          <el-form-item label="登记时间" prop="proRegisterTime" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.proRegisterTime" type="date" :readOnly="readOnly">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -380,9 +391,6 @@
           bidProcessList: null
         },
         dataRule: {
-          pcId: [
-            {required: true, message: '备案项目id不能为空', trigger: 'blur'}
-          ],
           proCode: [
             {required: true, message: '项目编号不能为空', trigger: 'blur'}
           ],
