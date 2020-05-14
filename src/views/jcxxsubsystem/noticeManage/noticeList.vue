@@ -16,27 +16,21 @@
                          :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="公告标题">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="公告内容">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="发布人">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
+          <el-col :span="20">
+            <el-form-item prop="noticeTitle" label="公告标题">
+              <el-input v-model="gridOptions.dataSource.noticeTitle" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="20">
+            <el-form-item prop="noticeContent" label="公告内容">
+              <el-input v-model="gridOptions.dataSource.noticeContent"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="20">
+            <el-form-item prop="updateuser" label="发布人">
+              <el-input v-model="gridOptions.dataSource.updateuser"></el-input>
+            </el-form-item>
+          </el-col>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="有效期">
@@ -74,6 +68,9 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
+            noticeTitle: '',
+            noticeContent: '',
+            updateuser: '',
             serviceInstance: tapp.services.tBaseinfoNotice.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
@@ -88,43 +85,43 @@
               {
                 prop: 'noticeTitle',
                 label: '公告标题',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'noticeContent',
                 label: '公告内容',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'noticeType',
                 label: '公告类型',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'fromDept',
                 label: '发布部门',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'remark',
                 label: '是否置顶',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'timeLimit',
                 label: '有效期',
-                sortable: true
+                sortable: false
               },
 
               {
                 prop: 'updateuser',
                 label: '发布人',
-                sortable: true
+                sortable: false
               },
               {
                 prop: 'createtime',
                 label: '发布时间',
-                sortable: true,
+                sortable: false,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
                 }
