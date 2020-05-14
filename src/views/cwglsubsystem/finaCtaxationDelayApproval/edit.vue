@@ -147,36 +147,14 @@
           delayDate: [
             { required: true, message: '申请延期使用至不能为空', trigger: 'blur' }
           ],
-          approvalStatus: [
-            { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-          ],
+
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-          propose: [
-            { required: true, message: '审核意见不能为空', trigger: 'blur' }
-          ],
-          result: [
-            { required: true, message: '审核结果不能为空', trigger: 'blur' }
-          ],
-          createtime: [
-            { required: true, message: '创建时间不能为空', trigger: 'blur' }
-          ],
-          updatetime: [
-            { required: true, message: '更新时间不能为空', trigger: 'blur' }
-          ],
-          createuser: [
-            { required: true, message: '创建人不能为空', trigger: 'blur' }
-          ],
-          updateuser: [
-            { required: true, message: '更新人不能为空', trigger: 'blur' }
-          ],
-          datastatus: [
-            { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
-          ]
+
         }
       }
     },
