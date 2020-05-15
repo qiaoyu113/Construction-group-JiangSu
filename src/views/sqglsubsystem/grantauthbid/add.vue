@@ -10,7 +10,7 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'备案信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="bId" label="项目名称：">
@@ -18,101 +18,79 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="所属分公司：">
+          <el-form-item prop="actTaskKey" label="所属分公司">
             <el-input v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="所属事业部：">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="pcId" label="所属事业部：">
+            <el-input v-model="dataForm.pcId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="cId" label="建设单位：">
-            <el-input v-model="dataForm.cId"></el-input>
+          <el-form-item prop="useScenes" label="建设单位：">
+            <el-input v-model="dataForm.useScenes"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantStarttime" label="合同模式：">
-            <el-input v-model="dataForm.grantStarttime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="grantEndtime" label="投资金额：">
-            <el-input v-model="dataForm.grantEndtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="grantUser" label="工程类别：">
+          <el-form-item prop="grantUser" label="合同模式：">
             <el-input v-model="dataForm.grantUser"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="经营方式：">
+          <el-form-item prop="grantContent" label="投资金额：">
             <el-input v-model="dataForm.grantContent"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="项目规模：">
+          <el-form-item prop="remark" label="工程类别：">
             <el-input v-model="dataForm.remark"></el-input>
           </el-form-item>
-          </el-col>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="sign" label="经营方式：">
+            <el-input v-model="dataForm.sign"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="signTime" label="计划项目规模：">
+            <el-input v-model="dataForm.signTime"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
-        <t-sub-title :title="'合同信息'"></t-sub-title>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="bId" label="合同名称：">
-              <el-input v-model="dataForm.bId"></el-input>
+            <el-form-item prop="propose" label="授权用途：：">
+              <el-input v-model="dataForm.propose"></el-input>
             </el-form-item>
           </el-col>
-
           <el-col :span="8">
-            <el-form-item prop="bId" label="合同期间：">
-              <el-input v-model="dataForm.bId"></el-input>
+            <el-form-item prop="result" label="授权人：">
+              <el-input v-model="dataForm.result"></el-input>
             </el-form-item>
           </el-col>
-
           <el-col :span="8">
-            <el-form-item prop="bId" label="合同金额：">
-              <el-input v-model="dataForm.bId"></el-input>
+            <el-form-item prop="approvalStatus" label="授权内容：">
+              <el-input v-model="dataForm.approvalStatus"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="approvalStatus" label="经办人：">
+              <el-input v-model="dataForm.approvalStatus"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="approvalStatus" label="经办时间：">
+              <el-input v-model="dataForm.approvalStatus"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="approvalStatus" label="备注：">
+              <el-input v-model="dataForm.approvalStatus"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-          <t-sub-title :title="'办理信息'"></t-sub-title>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item prop="bId" label="授权内容：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="8">
-              <el-form-item prop="bId" label="授权期限：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="8">
-              <el-form-item prop="bId" label="授权人：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="bId" label="经办人：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="bId" label="经办时间：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="bId" label="备注：">
-                <el-input v-model="dataForm.bId"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -129,10 +107,8 @@
         dataForm: {
           bId: '',
           actTaskKey: '',
-          pId: '',
-          cId: '',
-          grantStarttime: '',
-          grantEndtime: '',
+          pcId: '',
+          useScenes: '',
           grantUser: '',
           grantContent: '',
           remark: '',
@@ -154,17 +130,11 @@
           actTaskKey: [
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
-          pId: [
-            {required: true, message: '项目ID不能为空', trigger: 'blur'}
+          pcId: [
+            {required: true, message: '备案项目ID不能为空', trigger: 'blur'}
           ],
-          cId: [
-            {required: true, message: '合同id不能为空', trigger: 'blur'}
-          ],
-          grantStarttime: [
-            {required: true, message: '授权期限-开始时间不能为空', trigger: 'blur'}
-          ],
-          grantEndtime: [
-            {required: true, message: '授权期限-结束时间不能为空', trigger: 'blur'}
+          useScenes: [
+            {required: true, message: '授权用途（字典表）不能为空', trigger: 'blur'}
           ],
           grantUser: [
             {required: true, message: '授权人不能为空', trigger: 'blur'}
@@ -219,27 +189,25 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
-              tapp.services.tGrantContractApproval.get(id).then(function (result) {
+              tapp.services.tGrantAuthbidApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tGrantContractApproval.bId
-                this.dataForm.actTaskKey = result.tGrantContractApproval.actTaskKey
-                this.dataForm.pId = result.tGrantContractApproval.pId
-                this.dataForm.cId = result.tGrantContractApproval.cId
-                this.dataForm.grantStarttime = result.tGrantContractApproval.grantStarttime
-                this.dataForm.grantEndtime = result.tGrantContractApproval.grantEndtime
-                this.dataForm.grantUser = result.tGrantContractApproval.grantUser
-                this.dataForm.grantContent = result.tGrantContractApproval.grantContent
-                this.dataForm.remark = result.tGrantContractApproval.remark
-                this.dataForm.sign = result.tGrantContractApproval.sign
-                this.dataForm.signTime = result.tGrantContractApproval.signTime
-                this.dataForm.propose = result.tGrantContractApproval.propose
-                this.dataForm.result = result.tGrantContractApproval.result
-                this.dataForm.approvalStatus = result.tGrantContractApproval.approvalStatus
-                this.dataForm.createtime = result.tGrantContractApproval.createtime
-                this.dataForm.updatetime = result.tGrantContractApproval.updatetime
-                this.dataForm.createuser = result.tGrantContractApproval.createuser
-                this.dataForm.updateuser = result.tGrantContractApproval.updateuser
-                this.dataForm.datastatus = result.tGrantContractApproval.datastatus
+                this.dataForm.bId = result.tGrantAuthbidApproval.bId
+                this.dataForm.actTaskKey = result.tGrantAuthbidApproval.actTaskKey
+                this.dataForm.pcId = result.tGrantAuthbidApproval.pcId
+                this.dataForm.useScenes = result.tGrantAuthbidApproval.useScenes
+                this.dataForm.grantUser = result.tGrantAuthbidApproval.grantUser
+                this.dataForm.grantContent = result.tGrantAuthbidApproval.grantContent
+                this.dataForm.remark = result.tGrantAuthbidApproval.remark
+                this.dataForm.sign = result.tGrantAuthbidApproval.sign
+                this.dataForm.signTime = result.tGrantAuthbidApproval.signTime
+                this.dataForm.propose = result.tGrantAuthbidApproval.propose
+                this.dataForm.result = result.tGrantAuthbidApproval.result
+                this.dataForm.approvalStatus = result.tGrantAuthbidApproval.approvalStatus
+                this.dataForm.createtime = result.tGrantAuthbidApproval.createtime
+                this.dataForm.updatetime = result.tGrantAuthbidApproval.updatetime
+                this.dataForm.createuser = result.tGrantAuthbidApproval.createuser
+                this.dataForm.updateuser = result.tGrantAuthbidApproval.updateuser
+                this.dataForm.datastatus = result.tGrantAuthbidApproval.datastatus
               })
             }
           })
@@ -255,7 +223,7 @@
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
-          tapp.services.tGrantContractApproval.save(model).then(function (result) {
+          tapp.services.tGrantAuthbidApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: "操作成功！",
