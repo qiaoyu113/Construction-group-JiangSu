@@ -143,7 +143,7 @@
       }
     },
     created () {
-      // this.init()
+      this.init()
     },
     computed: {
       navbarClasses() {
@@ -190,7 +190,7 @@
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate()
             this.dataForm.sign = this.user.userDisplayName;
-            this.dataForm.signTime = self.$util.datetimeFormat(moment())
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

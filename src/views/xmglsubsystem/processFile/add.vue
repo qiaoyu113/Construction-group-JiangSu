@@ -36,7 +36,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式" prop="proContractAttr">
-            <el-input v-model="dataForm.proContractAttr" readonly></el-input>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -46,12 +46,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别" prop="proType">
-            <el-input v-model="dataForm.proType" readonly></el-input>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式" prop="proRunMode">
-            <el-input v-model="dataForm.proRunMode" readonly></el-input>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -64,7 +64,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="processFileType" label="文件类型">
-            <el-input v-model="dataForm.processFileType"></el-input>
+            <t-dic-dropdown-select dicType="file_type" v-model="dataForm.processFileType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -76,12 +76,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经办人" prop="sign">
-            <el-input v-model="dataForm.sign" readOnly="true"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经办时间" prop="signTime">
-            <el-input v-model="dataForm.signTime" readOnly="true"></el-input>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -100,7 +100,16 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -137,7 +146,11 @@
       }
     },
     created () {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -171,6 +184,8 @@
         } else {
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

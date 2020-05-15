@@ -44,37 +44,27 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" placeholder="经营方式"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" placeholder="工程类别"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="类别子项">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" placeholder="类别子项"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="category_child" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="有无诉讼">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" placeholder="有无诉讼"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="have_or_not" v-model="gridOptions.dataSource.serviceInstanceInputParameters.isLitigation" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="有无借款">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" placeholder="有无借款"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="have_or_not" v-model="gridOptions.dataSource.serviceInstanceInputParameters.isBorrowing" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
@@ -86,9 +76,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目状态">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proStatue" placeholder="项目状态"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="pro_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proStatue" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -113,6 +101,13 @@
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         checkededRows: [],
