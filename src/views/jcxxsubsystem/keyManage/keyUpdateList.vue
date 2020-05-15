@@ -2,8 +2,10 @@
   <div class="mod-role">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
-
-        <t-sub-title :title="'密钥信息更新列表'"></t-sub-title>
+        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
+          <i class="fa fa-lg fa-level-down"></i>导出
+        </el-button>
+        <t-sub-title :title="'密钥列表'"></t-sub-title>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -15,8 +17,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col>
-        </el-col>
+
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="申请时间">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
@@ -25,7 +26,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="有效期起截止日">
+          <el-form-item label="有效期截止日" label-width="160px">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>

@@ -1,141 +1,150 @@
 <template>
-  <div>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+  <div class="mod-role">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <t-sub-title :title="'公告更新列表'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="noticeType" label="公告类型">
-            <el-input v-model="dataForm.noticeType"></el-input>
+          <el-form-item label="公告类型">
+            <el-select placeholder="请选择"
+                       v-model="gridOptions.dataSource.noticeType" clearable>
+              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
+                         :value="item.key"></el-option>
+            </el-select>
           </el-form-item>
+          <el-col :span="20">
+            <el-form-item prop="noticeTitle" label="公告标题">
+              <el-input v-model="gridOptions.dataSource.noticeTitle" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="20">
+            <el-form-item prop="noticeContent" label="公告内容">
+              <el-input v-model="gridOptions.dataSource.noticeContent"></el-input>
+            </el-form-item>
+          </el-col>
         </el-col>
+      </el-row>
+      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="8">
-          <el-form-item prop="noticeTitle" label="公告标题">
-            <el-input v-model="dataForm.noticeTitle"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="noticeContent" label="公告内容">
-            <el-input v-model="dataForm.noticeContent"></el-input>
+          <el-form-item>
+            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+            <el-button icon="el-icon-download" @click="doReset()">
+              <i class="fa fa-lg fa-level-down"></i>清空
+            </el-button>
           </el-form-item>
         </el-col>
       </el-row>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
-    </el-form>
+    </t-form>
+    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+    </t-grid>
   </div>
 </template>
-
 <script>
+  import baseView from '@/base/baseView'
+
   export default {
+    name: 'myTask',
+    extends: baseView,
     data() {
       return {
-        assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
-        docId: '',
-        dataForm: {
-          noticeType: '',
-          fromDept: '',
-          noticeTitle: '',
-          noticeContent: '',
-          timeLimit: '',
-          remark: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: '',
-          createtime: '',
-          updatetime: ''
-        },
-        dataRule: {
-          noticeType: [
-            {required: true, message: '公告类型（字典表）不能为空', trigger: 'blur'}
-          ],
-          fromDept: [
-            {required: true, message: '发布部门不能为空', trigger: 'blur'}
-          ],
-          noticeTitle: [
-            {required: true, message: '公告标题不能为空', trigger: 'blur'}
-          ],
-          noticeContent: [
-            {required: true, message: '公告内容不能为空', trigger: 'blur'}
-          ],
-          timeLimit: [
-            {required: true, message: '有效期（字典表）不能为空', trigger: 'blur'}
-          ],
-          remark: [
-            {required: true, message: '是否置顶（字典表）不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ]
+        checkededRows: [],
+        processDefinationlist: [],
+        startDateRange: null,
+        gridOptions: {
+          dataSource: {
+            noticeType: '',
+            noticeTitle: '',
+            noticeContent: '',
+            updateuser: '',
+            serviceInstance: tapp.services.tBaseinfoNotice.getPagedList,
+            serviceInstanceInputParameters: {
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
+            }
+          },
+          grid: {
+            offsetHeight: 125, //125:查询部分高度
+            mutiSelect: false,
+            columns: [
+              {
+                prop: 'noticeTitle',
+                label: '公告标题',
+                sortable: false
+              },
+              {
+                prop: 'noticeContent',
+                label: '公告内容',
+                sortable: false
+              },
+              {
+                prop: 'noticeType',
+                label: '公告类型',
+                sortable: false
+              },
+              {
+                prop: 'fromDept',
+                label: '发布部门',
+                sortable: false
+              },
+              {
+                prop: 'remark',
+                label: '是否置顶',
+                sortable: false
+              },
+              {
+                prop: 'timeLimit',
+                label: '有效期',
+                sortable: false
+              },
+
+              {
+                prop: 'updateuser',
+                label: '发布人',
+                sortable: false
+              },
+              {
+                prop: 'createtime',
+                label: '发布时间',
+                sortable: false,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
+                }
+              },
+            ], // 需要展示的列
+            defaultSort: {
+              prop: 'id',
+              order: 'descending'
+            },
+          }
         }
       }
     },
+    components: {},
     created() {
-      // this.init()
+      this.loadCodeTableList();
     },
     methods: {
-      // 初始化 编辑和新增 2种情况
-      init(id) {
-        if (id) {
-          this.dataForm.id = id || 0
-          this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
-              tapp.services.tBaseinfoNotice.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.noticeType = result.tBaseinfoNotice.noticeType
-                this.dataForm.fromDept = result.tBaseinfoNotice.fromDept
-                this.dataForm.noticeTitle = result.tBaseinfoNotice.noticeTitle
-                this.dataForm.noticeContent = result.tBaseinfoNotice.noticeContent
-                this.dataForm.timeLimit = result.tBaseinfoNotice.timeLimit
-                this.dataForm.remark = result.tBaseinfoNotice.remark
-                this.dataForm.createuser = result.tBaseinfoNotice.createuser
-                this.dataForm.updateuser = result.tBaseinfoNotice.updateuser
-                this.dataForm.datastatus = result.tBaseinfoNotice.datastatus
-                this.dataForm.createtime = result.tBaseinfoNotice.createtime
-                this.dataForm.updatetime = result.tBaseinfoNotice.updatetime
-              })
-            }
-          })
-        } else {
-          this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
-          })
-        }
+      // 获取码表值
+      loadCodeTableList() {
+        // 以下为示例
       },
-      // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
-        Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
-          tapp.services.tBaseinfoNotice.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-            self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
-        }).catch(function (e) {
-          self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+      onStartDateRangeChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      },
+      handleSelectionChange(val) {
+        this.checkededRows = val;
+      },
+      doReset() {
+        this.$refs.search.resetFields();
+      },
+      doExportExcel() {
+        this.$refs.searchReulstList.exportCSV('${comments}表');
+      },
+      doRefresh() {
+        this.$refs.searchReulstList.refresh();
       }
     }
   }
 </script>
+

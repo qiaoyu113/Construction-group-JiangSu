@@ -44,6 +44,16 @@
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-col :span="8">
+        <el-form-item prop="createuser" label="登记人">
+          <el-input v-model="dataForm.createuser"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="createtime" label="登记时间">
+          <el-input v-model="dataForm.createtime"></el-input>
+        </el-form-item>
+      </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -52,6 +62,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -108,7 +120,11 @@
       }
     },
     created() {
-      // this.init()
+       this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -136,6 +152,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.createuser = this.currentUser.userDisplayName
+            this.dataForm.createtime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

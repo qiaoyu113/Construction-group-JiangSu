@@ -112,6 +112,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -232,8 +234,11 @@
       }
     },
     created() {
-      // this.init()
+       this.init()
     },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })},
     methods: {
       // 初始化 编辑和新增 2种情况
       init(id) {
@@ -276,6 +281,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

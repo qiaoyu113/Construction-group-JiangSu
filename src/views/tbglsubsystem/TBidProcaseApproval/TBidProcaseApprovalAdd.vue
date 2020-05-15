@@ -118,6 +118,17 @@
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-col :span="8">
+        <el-form-item prop="sign" label="登记人">
+          <el-input v-model="dataForm.sign"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="sign" label="登记时间">
+          <el-input v-model="dataForm.signTime"></el-input>
+        </el-form-item>
+      </el-col>
+
 
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
@@ -127,6 +138,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -221,7 +234,7 @@
             {required: false, message: '计划投标日期不能为空', trigger: 'blur'}
           ],
           proTracker: [
-            {required: true, message: '项目跟踪人标识不能为空', trigger: 'blur'}
+            {required: true, message: '项目跟踪人不能为空', trigger: 'blur'}
           ],
           contactNum: [
             {required: false, message: '联系方式不能为空', trigger: 'blur'}
@@ -233,7 +246,11 @@
       }
     },
     created() {
-      // this.init()
+       this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -286,6 +303,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

@@ -8,26 +8,58 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="项目名称" >
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                      placeholder="匹配项目名称、简介、备注查询">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
+          <el-form-item label="项目地址">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"
                       clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="建设单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="工程类别">
+            <t-dic-dropdown-select dicType="1260861756058767362"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经营方式">
+            <t-dic-dropdown-select dicType="1260863139436695554"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="审批状态">
+            <t-dic-radio-select dicType="1260861082604539905"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                                   :readOnly="readOnly"></t-dic-radio-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="备案人">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="备案单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -61,188 +93,100 @@
           dataSource: {
             serviceInstance: tapp.services.tBidProcaseApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              proName: null,
+              proAddressProvince: null,
+              proConstructCompany: null,
+              proType: null,
+              proRunMode: null,
+              approvalStatus: null,
+              sign: null,
+              signTime: null,
+
             }
           },
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
-            fit: true, // 列的宽度是否自撑开
+            fit: false, // 列的宽度是否自撑开
             columns: [
+
               {
-                prop: 'bId',
-                label: '流程业务id',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'actTaskKey',
-                label: 'activiti执行任务key',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proCode',
-                label: '项目备案编号',
-                sortable: true,
+                prop: 'proName',
+                label: '项目名称',
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'proSubCompany',
-                label: '所属分公司',
-                sortable: true,
+                label: '备案单位',
+                sortable: false,
                 minWidth: 120,
               },
+
               {
-                prop: 'proBusDept',
-                label: '所属事业部',
-                sortable: true,
+                prop: 'proType',
+                label: '工程类别',
+                sortable: false,
                 minWidth: 120,
               },
+
               {
-                prop: 'proName',
-                label: '拟建项目名称',
-                sortable: true,
+                prop: 'proTotalInvestment',
+                label: '投资金额',
+                sortable: false,
+                minWidth: 120,
+              },
+
+              {
+                prop: 'proConstructCompany',
+                label: '建设单位',
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'proIntroduce',
                 label: '项目简介',
-                sortable: true,
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'proAddressProvince',
-                label: '项目地址-省（字典表）',
-                sortable: true,
+                label: '项目地址',
+                sortable: false,
                 minWidth: 120,
               },
-              {
-                prop: 'proAddressCity',
-                label: '项目地址-市（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proAddressDetail',
-                label: '项目地址-详细',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proConstructCompany',
-                label: '建设单位',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proConstructCompanyAttr',
-                label: '单位性质（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proTotalInvestment',
-                label: '项目总投资-元',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proType',
-                label: '工程类别（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proContractAttr',
-                label: '计划合同模式（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
+
+
               {
                 prop: 'proRunMode',
-                label: '计划经营方式（字典表）',
-                sortable: true,
+                label: '经营方式',
+                sortable: false,
                 minWidth: 120,
               },
-              {
-                prop: 'proUnionCompany',
-                label: '联营公司',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proBuildArea',
-                label: '计划项目规模-建筑面积-平方米',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'planBidDate',
-                label: '计划投标日期',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.planBidDate, 'YYYY-MM-DD');
-                }
-              },
+
               {
                 prop: 'proTracker',
-                label: '项目跟踪人标识',
-                sortable: true,
+                label: '项目跟踪人',
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'contactNum',
                 label: '联系方式',
-                sortable: true,
+                sortable: false,
                 minWidth: 120,
               },
-              {
-                prop: 'bidResult',
-                label: '最后一次投标结果（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'bidCount',
-                label: '投标次数',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'brUser',
-                label: '投标结果登记人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'brTime',
-                label: '投标结果登记时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.brTime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'brRemark',
-                label: '投标结果备注',
-                sortable: true,
-                minWidth: 120,
-              },
+
               {
                 prop: 'sign',
-                label: '执行人、备案人',
-                sortable: true,
+                label: '备案人',
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间、备案时间',
-                sortable: true,
+                label: '备案时间',
+                sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
@@ -250,57 +194,19 @@
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true,
+                label: '审批状态',
+                sortable: false,
                 minWidth: 120,
               },
-              {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true,
-                minWidth: 120,
-              },
+
               {
                 prop: 'createtime',
                 label: '创建时间',
-                sortable: true,
+                sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
                 }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true,
-                minWidth: 120,
               },
             ], // 需要展示的列
             defaultSort: {

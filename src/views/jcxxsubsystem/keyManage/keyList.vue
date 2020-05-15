@@ -17,8 +17,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col>
-        </el-col>
+
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="申请时间">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
@@ -27,7 +26,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="有效期起截止日">
+          <el-form-item label="有效期截止日" label-width="160px">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>

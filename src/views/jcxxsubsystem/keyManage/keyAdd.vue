@@ -67,7 +67,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -99,6 +99,11 @@
           <el-input v-model="dataForm.sign"></el-input>
         </el-form-item>
       </el-col>
+      <el-col :span="8">
+        <el-form-item prop="sign" label="登记时间">
+          <el-input v-model="dataForm.signTime"></el-input>
+        </el-form-item>
+      </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -107,6 +112,10 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import {
+    mapState
+  } from 'vuex'
   export default {
     props: {
       readOnly: {
@@ -158,13 +167,13 @@
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           province: [
-            {required: true, message: '所属地区-省（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '所属地区-省', trigger: 'blur'}
           ],
           city: [
-            {required: true, message: '所属地区-市（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '所属地区-市', trigger: 'blur'}
           ],
           keyType: [
-            {required: true, message: '类别名称（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '类别名称', trigger: 'blur'}
           ],
           authCompany: [
             {required: true, message: '批准单位不能为空', trigger: 'blur'}
@@ -182,7 +191,7 @@
             {required: true, message: '用户名不能为空', trigger: 'blur'}
           ],
           principalId: [
-            {required: true, message: '主要负责人唯一标识不能为空', trigger: 'blur'}
+            {required: true, message: '主要负责人不能为空', trigger: 'blur'}
           ],
           useScenes: [
             {required: true, message: '用途不能为空', trigger: 'blur'}
@@ -194,7 +203,7 @@
             {required: true, message: '密匙颜色不能为空', trigger: 'blur'}
           ],
           existElectMark: [
-            {required: true, message: '是否有电子签章功能（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否有电子签章功能', trigger: 'blur'}
           ],
           remark: [
             {required: false, message: '备注不能为空', trigger: 'blur'}
@@ -203,16 +212,16 @@
             {required: true, message: '密码不能为空', trigger: 'blur'}
           ],
           isInput: [
-            {required: true, message: '是否直接登记（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否直接登记', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: true, message: '登记人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: true, message: '登记时间不能为空', trigger: 'blur'}
           ],
           keyStatus: [
-            {required: true, message: '密钥状态（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '密钥状态不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: true, message: '审核意见不能为空', trigger: 'blur'}
@@ -239,7 +248,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -285,6 +298,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }
