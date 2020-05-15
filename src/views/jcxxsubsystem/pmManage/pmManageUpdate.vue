@@ -5,18 +5,14 @@
       <t-sub-title :title="'项目经理资质更新列表'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pmId" label="项目经理唯一标识id">
-            <el-input v-model="dataForm.pmId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
           <el-form-item prop="constructorLevel" label="姓名">
             <el-input v-model="dataForm.constructorLevel"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="constructorLevel" label="建造师等级">
-            <el-input v-model="dataForm.constructorLevel"></el-input>
+            <t-dic-dropdown-select dicType="constructorLevel" v-model="dataForm.constructorLevel"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -53,34 +49,34 @@
         },
         dataRule: {
           pmId: [
-            {required: true, message: '项目经理唯一标识id不能为空', trigger: 'blur'}
+            {required: false, message: '项目经理唯一标识id不能为空', trigger: 'blur'}
           ],
           constructorLevel: [
-            {required: true, message: '建造师等级（字典表）不能为空', trigger: 'blur'}
+            {required: false, message: '建造师等级（字典表）不能为空', trigger: 'blur'}
           ],
           constructorCode: [
-            {required: true, message: '建造师证书编号不能为空', trigger: 'blur'}
+            {required: false, message: '建造师证书编号不能为空', trigger: 'blur'}
           ],
           safeB: [
-            {required: true, message: '安全B证不能为空', trigger: 'blur'}
+            {required: false, message: '安全B证不能为空', trigger: 'blur'}
           ],
           remark: [
-            {required: true, message: '备注不能为空', trigger: 'blur'}
+            {required: false, message: '备注不能为空', trigger: 'blur'}
           ],
           createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
+            {required: false, message: '创建时间不能为空', trigger: 'blur'}
           ],
           updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
+            {required: false, message: '更新时间不能为空', trigger: 'blur'}
           ],
           createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
+            {required: false, message: '创建人不能为空', trigger: 'blur'}
           ],
           updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
+            {required: false, message: '更新人不能为空', trigger: 'blur'}
           ],
           datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }

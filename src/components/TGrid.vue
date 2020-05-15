@@ -1,6 +1,6 @@
 <template>
 <div>
-  <t-table ref="mutipleTable" :options="gridOptions" :maxHeight="tableMaxHeight" :empty-text="emptyText" :data="data" :total="total" :current-page-index="currentPageIndex" @size-change="handleSizeChange" @current-change="handleIndexChange" @selection-change="handleSelectionChange"
+  <t-table ref="mutipleTable" :options="gridOptions" :maxHeight="tableMaxHeight" :empty-text="emptyText" :data="data" :total="total" :current-page-index="currentPageIndex" @size-change="handleSizeChange" @current-change="handleIndexChange" @cell-click="handleCellClick" @selection-change="handleSelectionChange"
     @sort-change="handleSortChange" @filter-change="handleFilterChange" :disabled="disabled">
     <template slot="columnDataHeader" v-if="gridOptions.customColumnDataHeader">
     <slot name="columnDataHeader">
@@ -319,6 +319,9 @@ export default {
     handleSelectionChange (val) {
       this.selectedRows = val
       this.$emit('selection-change', val)
+    },
+    handleCellClick(row, column, cell, event) {
+      this.$emit('cell-click', row, column, cell, event);
     },
     // 切换每页显示的数量
     handleSizeChange (size) {

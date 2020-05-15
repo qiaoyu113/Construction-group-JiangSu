@@ -12,13 +12,13 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <el-input v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目编号">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proCode" label="项目编号">
+            <el-input v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -33,7 +33,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+<!--            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>-->
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -64,7 +65,6 @@
             <el-date-picker type="datetime" readonly="true" v-model="dataForm.openTime"></el-date-picker>
           </el-form-item>
         </el-col>
-
       </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
@@ -73,12 +73,16 @@
 </template>
 
 <script>
+  import moment from "moment";
+
   export default {
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
+          proName: '',
+          proCode: '',
           bId: '',
           actTaskKey: '',
           pId: '',
@@ -92,19 +96,14 @@
           signTime: new Date(),
           propose: '',
           result: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: '',
           remark: ''
         },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
+          proCode: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
           pId: [
             { required: true, message: '项目id不能为空', trigger: 'blur' }
@@ -124,35 +123,11 @@
           openTime: [
             { required: true, message: '开户时间不能为空', trigger: 'blur' }
           ],
-          approvalStatus: [
-            { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-          ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
-          ],
-          propose: [
-            { required: true, message: '审核意见不能为空', trigger: 'blur' }
-          ],
-          result: [
-            { required: true, message: '审核结果不能为空', trigger: 'blur' }
-          ],
-          createtime: [
-            { required: true, message: '创建时间不能为空', trigger: 'blur' }
-          ],
-          updatetime: [
-            { required: true, message: '更新时间不能为空', trigger: 'blur' }
-          ],
-          createuser: [
-            { required: true, message: '创建人不能为空', trigger: 'blur' }
-          ],
-          updateuser: [
-            { required: true, message: '更新人不能为空', trigger: 'blur' }
-          ],
-          datastatus: [
-            { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
           ]
         }
       }

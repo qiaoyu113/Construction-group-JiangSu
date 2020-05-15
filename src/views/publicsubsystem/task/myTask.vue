@@ -1,38 +1,54 @@
 <template>
 <div class="mod-role">
-  <t-form  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px">
+  <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button  icon="el-icon-download" type="success" @click="doExportExcel()">
+        <i class="fa fa-lg fa-level-down"></i>导出
+      </el-button>
+    </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="流程类别">
+        <el-form-item label="流程名称" prop="searchKey">
+          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="项目名称" prop="searchKey">
+          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="流程类别" prop="processDefinationKey">
           <el-select placeholder="请选择流程类别" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
             <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="14">
-        <el-form-item label="流程发起时间">
-          <t-datetime-range-picker v-model="startDateRange" @change="onStartDateRangeChanged">
-          </t-datetime-range-picker>
-        </el-form-item>
-      </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="关键字">
-          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+        <el-form-item label="流程开始时间" prop="startDateBegin">
+          <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin" type="datetime">
+          </t-datetime-picker>
         </el-form-item>
       </el-col>
+      <el-col :span="8">
+        <el-form-item label="流程结束时间" prop="endDateBegin">
+          <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.endDateBegin" type="datetime">
+          </t-datetime-picker>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
       <el-col :span="14">
         <el-form-item>
           <el-button  @click="doRefresh()" icon="el-icon-search">查询</el-button>
-          <el-button  icon="el-icon-download" @click="doExportExcel()">
-            <i class="fa fa-lg fa-level-down"></i>导出
-          </el-button>
+          <el-button  icon="el-icon-delete" @click="doReset()">清空</el-button>
         </el-form-item>
       </el-col>
     </el-row>
   </t-form>
-  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-click="handleCellClick">
   </t-grid>
 </div>
 </template>
@@ -53,67 +69,70 @@ export default {
             searchKey: null,
           }
         },
-        grid: {     offsetHeight: 125, //125:查询部分高度
+        grid: {     
+          offsetHeight: 125, //125:查询部分高度
           mutiSelect: false,
-          operates: {
-            width: 60,
-            fixed: 'left',
-            list: [{
-              type: 'text',
-              show: true,
-              label: '办理',
-              render: this.renderTaskBtnLabel,
-              method: this.doTask,
-            }, ]
-          }, // 列操作按钮
-          columns: [{
-            fixed: 'left',
+          columns: [
+            {
+              fixed: 'left',
+              prop: 'processInstId',
+              label: '流程编号',
+              sortable: true,
+              width: 200,
+            },
+            {
               prop: 'processDefinationName',
               label: '流程名称',
               sortable: true,
               width: 200,
             },
             {
-              prop: 'origiatorName',
-              label: '提单人',
+              prop: 'origiator',
+              label: '项目名称',
               sortable: true,
-              width: 100,
+              minWidth: 100,
+            },
+            {
+              prop: 'origiator',
+              label: '发起部门',
+              sortable: true,
+              width: 110,
+            },
+            {
+              prop: 'origiatorName',
+              label: '发起人',
+              sortable: true,
+              width: 120,
             },
             {
               prop: 'startDate',
-              label: '提单日期',
+              label: '发起时间',
               sortable: true,
-              width: 110,
+              width: 120,
               formatter: (row, column, cellValue) => {
-                return this.$util.dateFormat(row.startDate, 'YYYY-MM-DD');
+                return this.$util.dateFormat(row.startDate, 'YYYY-MM-DD HH:mm:ss');
               }
-            },
-            {
-              prop: 'folio',
-              label: '单据描述',
-              sortable: true,
-              minWidth: 120,
             },
             {
               prop: 'taskActName',
-              label: '审批结点',
+              label: '当前节点',
               sortable: true,
-              width: 100,
+              width: 120,
             },
             {
-              prop: 'taskAssigneeName',
-              label: '审批人',
+              prop: 'endDate',
+              label: '超期时间',
               sortable: true,
-              width: 100,
-            },
-            {
-              prop: 'taskCreateDate',
-              label: '任务创建时间',
-              sortable: true,
-              width: 150,
+              width: 160,
               formatter: (row, column, cellValue) => {
-                return this.$util.datetimeFormat(row.taskCreateDate);
+                return this.$util.datetimeFormat(row.taskCreateDate, 'YYYY-MM-DD');
               }
+            },
+            {
+              prop: 'status',
+              label: '流程状态',
+              sortable: true,
+              width: 100,
             },
           ], // 需要展示的列
           defaultSort: {
@@ -139,51 +158,30 @@ export default {
       this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
       this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
     },
-    renderTaskBtnLabel(key, row) {
-      if (row.taskAssignee != null && row.taskAssignee.length > 0) {
-        return "办理";
-      } else if (row.taskCandidate != null && row.taskCandidate.length > 0) {
-        return "签收";
-      }
-      return "未知";
-    },
-    doTask(key, row) {
-      if (row.taskAssignee != null && row.taskAssignee.length > 0) {
-        //办理
-        this.$router.push({
-          path: row.taskFormUrl,
-        });
-        return;
-      } else if (row.taskCandidate != null && row.taskCandidate.length > 0) {
-		let self = this;
-        // "签收";
-        tapp.services.wF_Workflow.handleTask({
-          taskId: row.taskId,
-          claim: true,
-          action: 'claim',
-          taskRemark: '签收',
-          docId: row.businessId
-        }).then(function(result) {
-          self.doRefresh();
-          self.$notify.success({
-            title: '操作成功！',
-            message: '签收任务成功！',
-          });
-        });
-      } else {
-        alert('do what?')
-      }
-    },
     handleSelectionChange(val) {
       this.checkededRows = val;
     },
-
+    doReset() {
+      this.$refs.search.resetFields();
+    },
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('流程实例列表');
     },
     doRefresh() {
       this.$refs.searchReulstList.refresh();
-    }
+    },
+    handleCellClick(row, column, cell, event) {
+      if(column.property == 'processDefinationName') {
+        let tpath = '/publicsubsystem/task/taskDetail?taskId='+row.taskId+'&businessId='+row.businessId+'&processInstId='+row.processInstId
+        console.log('row', row)
+        this.$router.push({
+          path: tpath,
+          params: {
+            data: row
+          }
+        })
+      }
+    },
   }
 }
 </script>

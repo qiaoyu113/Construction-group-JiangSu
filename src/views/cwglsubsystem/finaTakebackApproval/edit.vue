@@ -40,7 +40,8 @@
         </el-col>
         <el-col :span="4">
           <el-form-item prop="rWay" label="到帐方式">
-            <el-input readonly v-model="dataForm.rWay"></el-input>
+<!--            <el-input readonly v-model="dataForm.rWay"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -50,7 +51,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rType" label="到帐类型">
-            <el-input readonly v-model="dataForm.rType"></el-input>
+<!--            <el-input readonly v-model="dataForm.rType"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866912477384705" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -175,36 +177,14 @@
           paidOAmount: [
             { required: true, message: '已支付预付款金额-联营不能为空', trigger: 'blur' }
           ],
-          approvalStatus: [
-            { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-          ],
+
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-          propose: [
-            { required: true, message: '审核意见不能为空', trigger: 'blur' }
-          ],
-          result: [
-            { required: true, message: '审核结果不能为空', trigger: 'blur' }
-          ],
-          createtime: [
-            { required: true, message: '创建时间不能为空', trigger: 'blur' }
-          ],
-          updatetime: [
-            { required: true, message: '更新时间不能为空', trigger: 'blur' }
-          ],
-          createuser: [
-            { required: true, message: '创建人不能为空', trigger: 'blur' }
-          ],
-          updateuser: [
-            { required: true, message: '更新人不能为空', trigger: 'blur' }
-          ],
-          datastatus: [
-            { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
-          ]
+
         }
       }
     },

@@ -59,7 +59,8 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <el-input readonly v-model="dataForm.taxMethod"></el-input>
+<!--            <el-input readonly v-model="dataForm.taxMethod"></el-input>-->
+            <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -145,36 +146,14 @@
           logoffDate: [
             { required: true, message: '注销日期不能为空', trigger: 'blur' }
           ],
-          approvalStatus: [
-            { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-          ],
+
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-          propose: [
-            { required: true, message: '审核意见不能为空', trigger: 'blur' }
-          ],
-          result: [
-            { required: true, message: '审核结果不能为空', trigger: 'blur' }
-          ],
-          createtime: [
-            { required: true, message: '创建时间不能为空', trigger: 'blur' }
-          ],
-          updatetime: [
-            { required: true, message: '更新时间不能为空', trigger: 'blur' }
-          ],
-          createuser: [
-            { required: true, message: '创建人不能为空', trigger: 'blur' }
-          ],
-          updateuser: [
-            { required: true, message: '更新人不能为空', trigger: 'blur' }
-          ],
-          datastatus: [
-            { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
-          ]
+
         }
       }
     },

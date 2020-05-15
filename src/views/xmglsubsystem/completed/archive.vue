@@ -13,48 +13,216 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目id">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item label="项目名称" prop="proName">
+            <el-input v-model="dataForm.proName" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="说明">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item prop="actTaskKey" label="项目详细信息">
+            <el-input v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item prop="proCode" label="项目编号">
+            <el-input v-model="dataForm.proCode" readOnly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
+          <el-form-item label="建设单位" prop="proConstructCompany">
+            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="proTotalInvestment" label="项目总投资">
+            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
+          <el-form-item label="项目地址" prop="socialSecurityId" verify class="is-required">
+            <t-dic-tree-select dicType="base_region" v-model="dataForm.socialSecurityId" :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
+          <el-form-item prop="proContractAttr" label="承包形式">
+            <el-input v-model="dataForm.proContractAttr" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
+          <el-form-item label="所属分公司" prop="proSubCompany">
+            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
+          <el-form-item label="所属事业部" prop="proBusDept">
+            <el-input v-model="dataForm.proBusDept" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
+          <el-form-item prop="proManager" label="项目经理">
+            <el-input v-model="dataForm.proManager" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="proFundSource" label="资金来源">
+            <el-input v-model="dataForm.proFundSource" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="工程类别" prop="proType">
+            <el-input v-model="dataForm.proType" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proSubType" label="类别子项">
+            <el-input v-model="dataForm.proSubType" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="合同总金额(含补充协议)" prop="proTotalInvestment">
+            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proPlanEndDate" label="合同起止日">
+            <el-input v-model="dataForm.proPlanEndDate" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proRealStartDate" label="实际开工日期">
+            <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'经营方式'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item prop="proRunMode" label="经营方式">
+            <el-input v-model="dataForm.proRunMode"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="联营单位管理费" prop="proUnionCompanyMerate" verify class="is-required">
+            <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="项目净利润承诺超" prop="proProfitRate" verify class="is-required">
+            <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="proContacter" label="联系人">
+            <el-input v-model="dataForm.proContacter"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="联营公司名称" prop="proUnionCompany">
+            <el-input v-model="dataForm.proUnionCompany" readonly>
+              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proContacter" label="联系人">
+            <el-input v-model="dataForm.proContacter"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proContactway" label="联系方式">
+            <el-input v-model="dataForm.proContactway"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'建筑情况'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="建筑面积" prop="proBuildArea" verify class="is-required">
+            <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+              <span slot="append">平方米</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="高度/最大跨度" prop="proSpan" verify class="is-required">
+            <t-int-input v-model="dataForm.proSpan" :readOnly="readOnly">
+              <span slot="append">米</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="层数" prop="proLayer" verify class="is-required">
+            <t-int-input v-model="dataForm.proLayer" :readOnly="readOnly">
+              <span slot="append">层</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="栋数" prop="proBlock" verify class="is-required">
+            <t-int-input v-model="dataForm.proBlock" :readOnly="readOnly">
+              <span slot="append">栋</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="地下室" prop="proBasementArea" verify class="is-required">
+            <t-int-input v-model="dataForm.proBasementArea" :readOnly="readOnly">
+              <span slot="append">平方米、层</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="proIsFitout" label="是否为装配式">
+            <el-input v-model="dataForm.proIsFitout"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="装配率" prop="proFitoutRate" verify class="is-required">
+            <t-int-input v-model="dataForm.proFitoutRate" :readOnly="readOnly">
+              <span slot="append">%</span>
+            </t-int-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="proIsBim" label="是否应用BIM技术">
+            <el-input v-model="dataForm.proIsBim"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'办理信息'"></t-sub-title>
+      <el-row>
+        <el-col :span="20">
+          <el-form-item prop="proIsBim" label="项目文件归档">
+            <el-input v-model="dataForm.proIsBim">确认归档（确认以下双方盖章后文件：中标文件、主合同文件、项目竣工验收证明上传后勾上确认归档）查看文件一览</el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="processBranch" label="申请竣工日期">
+            <el-input v-model="dataForm.completedTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办人" prop="sign">
+            <el-input v-model="dataForm.sign" readOnly="true"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办时间" prop="signTime">
+            <el-input v-model="dataForm.signTime" readOnly="true"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="说明" prop="remark">
+            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -72,10 +240,16 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
+          bId: '',
+          actTaskKey: '',
           pId: '',
+          completedTime: '',
           remark: '',
           sign: '',
           signTime: '',
+          approvalStatus: '',
+          propose: '',
+          result: '',
           createtime: '',
           updatetime: '',
           createuser: '',
@@ -83,32 +257,11 @@
           datastatus: ''
         },
         dataRule: {
-          pId: [
-            {required: true, message: '项目id不能为空', trigger: 'blur'}
+          completedTime: [
+            {required: true, message: '申请竣工日期不能为空', trigger: 'blur'}
           ],
           remark: [
             {required: true, message: '说明不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
@@ -124,17 +277,23 @@
           this.$nextTick(() => {
             this.$refs['dataForm'].resetFields()
             if (this.dataForm.id) {
-              tapp.services.proCompletedFile.get(id).then(function (result) {
+              tapp.services.proCompletedApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.pId = result.proCompletedFile.pId
-                this.dataForm.remark = result.proCompletedFile.remark
-                this.dataForm.sign = result.proCompletedFile.sign
-                this.dataForm.signTime = result.proCompletedFile.signTime
-                this.dataForm.createtime = result.proCompletedFile.createtime
-                this.dataForm.updatetime = result.proCompletedFile.updatetime
-                this.dataForm.createuser = result.proCompletedFile.createuser
-                this.dataForm.updateuser = result.proCompletedFile.updateuser
-                this.dataForm.datastatus = result.proCompletedFile.datastatus
+                this.dataForm.bId = result.proCompletedApproval.bId
+                this.dataForm.actTaskKey = result.proCompletedApproval.actTaskKey
+                this.dataForm.pId = result.proCompletedApproval.pId
+                this.dataForm.completedTime = result.proCompletedApproval.completedTime
+                this.dataForm.remark = result.proCompletedApproval.remark
+                this.dataForm.sign = result.proCompletedApproval.sign
+                this.dataForm.signTime = result.proCompletedApproval.signTime
+                this.dataForm.approvalStatus = result.proCompletedApproval.approvalStatus
+                this.dataForm.propose = result.proCompletedApproval.propose
+                this.dataForm.result = result.proCompletedApproval.result
+                this.dataForm.createtime = result.proCompletedApproval.createtime
+                this.dataForm.updatetime = result.proCompletedApproval.updatetime
+                this.dataForm.createuser = result.proCompletedApproval.createuser
+                this.dataForm.updateuser = result.proCompletedApproval.updateuser
+                this.dataForm.datastatus = result.proCompletedApproval.datastatus
               })
             }
           })
@@ -150,7 +309,7 @@
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm}
-          tapp.services.proCompletedFile.save(model).then(function (result) {
+          tapp.services.proCompletedApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: '操作成功！',
