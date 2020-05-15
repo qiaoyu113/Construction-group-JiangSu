@@ -23,6 +23,11 @@ export default {
       default: null,
       required: false
     },
+    dataisgood: {
+      type: Array,
+      default: null,
+      required: false
+    },
     multiple: {
       type: Boolean,
       required: false
@@ -78,6 +83,14 @@ export default {
               name: p.label || p.value,
             };
           });
+        }
+      },
+      immediate: true,
+    },
+    dataisgood: {　　　　
+      handler(newValue, oldValue) {　
+        if (newValue) {
+          this.innerData = newValue
         }
       },
       immediate: true,

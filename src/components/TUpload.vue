@@ -71,7 +71,7 @@ export default {
         pick: {
           id: this.uploadButton, // 选择文件的按钮
           multiple: this.multiple, // 是否多文件上传 默认false
-          label: ''
+          label: '选择文件',
         },
         accept: this.getAccept(), // 允许选择文件格式。
         threads: 3,
@@ -180,6 +180,7 @@ export default {
     text-align: center;
     border-radius: 3px;
     overflow: hidden;
+    line-height: 1.15;
 }
 .webuploader-pick-hover {
     background: #00a2d4;

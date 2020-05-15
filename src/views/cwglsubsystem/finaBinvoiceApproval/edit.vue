@@ -77,12 +77,13 @@
         <el-col :span="8">
           <el-form-item prop="taxMethod" label="计税方法">
 <!--            <el-input v-model="dataForm.taxMethod"></el-input>-->
-            <t-dic-radio-select dicType="pl_loanenter_job" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
+            <t-dic-radio-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="invoiceType" label="发票类别">
-            <el-input v-model="dataForm.invoiceType"></el-input>
+<!--            <el-input v-model="dataForm.invoiceType"></el-input>-->
+            <t-dic-radio-select dicType="1260866595392196609" v-model="dataForm.invoiceType" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,7 +95,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="isLevyTax" label="有无预征税款">
-            <el-input v-model="dataForm.isLevyTax"></el-input>
+<!--            <el-input v-model="dataForm.isLevyTax"></el-input>-->
+            <t-dic-radio-select dicType="1260866674677125121" v-model="dataForm.isLevyTax" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -128,7 +130,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="isReceivables" label="有无应收款">
-            <el-input v-model="dataForm.isReceivables"></el-input>
+<!--            <el-input v-model="dataForm.isReceivables"></el-input>-->
+            <t-dic-radio-select dicType="1260866674677125121" v-model="dataForm.isReceivables" :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -323,36 +326,14 @@
           invoiceNum: [
             { required: true, message: '发票号码不能为空', trigger: 'blur' }
           ],
-          approvalStatus: [
-            { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-          ],
+
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-          propose: [
-            { required: true, message: '审核意见不能为空', trigger: 'blur' }
-          ],
-          result: [
-            { required: true, message: '审核结果不能为空', trigger: 'blur' }
-          ],
-          createtime: [
-            { required: true, message: '创建时间不能为空', trigger: 'blur' }
-          ],
-          updatetime: [
-            { required: true, message: '更新时间不能为空', trigger: 'blur' }
-          ],
-          createuser: [
-            { required: true, message: '创建人不能为空', trigger: 'blur' }
-          ],
-          updateuser: [
-            { required: true, message: '更新人不能为空', trigger: 'blur' }
-          ],
-          datastatus: [
-            { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
-          ]
+
         }
       }
     },
