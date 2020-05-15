@@ -45,24 +45,9 @@
             <el-input v-model="dataForm.safeB" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="16">
           <el-form-item prop="safeB" label="累计项目合同额">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="在建项目名称">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="累计项目合同额">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="安全B证">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
+            <el-input v-model="dataForm.safeB" readonly ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -110,22 +95,21 @@
             <el-input v-model="dataForm.safeB" readonly></el-input>
           </el-form-item>
         </el-col>
-
-        <el-col :span="8">
+        <el-col :span="24" >
           <el-form-item prop="remark" label="备注" >
-            <el-input v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-col :span="8">
         <el-form-item prop="remark" label="登记人" >
-          <el-input v-model="dataForm.pmId"></el-input>
+          <el-input v-model="dataForm.createuser"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item prop="remark" label="登记时间" >
-          <el-input v-model="dataForm.remark"></el-input>
+          <el-input v-model="dataForm.createtime"></el-input>
         </el-form-item>
       </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -136,6 +120,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -188,8 +174,11 @@
       }
     },
     created() {
-      // this.init()
+   this.init()
     },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })},
     methods: {
       // 初始化 编辑和新增 2种情况
       init(id) {
@@ -215,6 +204,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.createuser = this.currentUser.userDisplayName
+            this.dataForm.createtime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

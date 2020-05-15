@@ -67,7 +67,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -99,6 +99,11 @@
           <el-input v-model="dataForm.sign"></el-input>
         </el-form-item>
       </el-col>
+      <el-col :span="8">
+        <el-form-item prop="sign" label="登记时间">
+          <el-input v-model="dataForm.signTime"></el-input>
+        </el-form-item>
+      </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -107,6 +112,10 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import {
+    mapState
+  } from 'vuex'
   export default {
     props: {
       readOnly: {
@@ -206,10 +215,10 @@
             {required: true, message: '是否直接登记', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: true, message: '登记人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: true, message: '登记时间不能为空', trigger: 'blur'}
           ],
           keyStatus: [
             {required: true, message: '密钥状态不能为空', trigger: 'blur'}
@@ -239,7 +248,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -285,6 +298,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

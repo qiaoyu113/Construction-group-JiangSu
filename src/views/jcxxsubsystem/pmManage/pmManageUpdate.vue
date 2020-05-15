@@ -1,138 +1,152 @@
 <template>
-  <div>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
-      <t-sub-title :title="'项目经理资质更新列表'"></t-sub-title>
+  <div class="mod-role">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="20">
+        <t-sub-title :title="'项目经理更新列表'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="constructorLevel" label="姓名">
-            <el-input v-model="dataForm.constructorLevel"></el-input>
+          <el-form-item label="姓名">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="constructorLevel" label="建造师等级">
-            <t-dic-dropdown-select dicType="constructorLevel" v-model="dataForm.constructorLevel"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          <el-form-item label="建造师等级">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="constructorCode" label="分公司">
-            <el-input v-model="dataForm.constructorCode"></el-input>
+          <el-form-item label="分公司">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
+                      clearable></el-input>
           </el-form-item>
         </el-col>
-
       </el-row>
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
-    </el-form>
+      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+        <el-col :span="12">
+          <el-form-item>
+            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+            <el-button icon="el-icon-download" @click="doReset()">
+              <i class="fa fa-lg fa-level-down"></i>清空
+            </el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </t-form>
+    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+    </t-grid>
   </div>
 </template>
-
 <script>
+  import baseView from '@/base/baseView'
+
   export default {
+    name: 'myTask',
+    extends: baseView,
     data() {
       return {
-        assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
-        docId: '',
-        dataForm: {
-          pmId: '',
-          constructorLevel: '',
-          constructorCode: '',
-          safeB: '',
-          remark: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
-        },
-        dataRule: {
-          pmId: [
-            {required: false, message: '项目经理唯一标识id不能为空', trigger: 'blur'}
-          ],
-          constructorLevel: [
-            {required: false, message: '建造师等级（字典表）不能为空', trigger: 'blur'}
-          ],
-          constructorCode: [
-            {required: false, message: '建造师证书编号不能为空', trigger: 'blur'}
-          ],
-          safeB: [
-            {required: false, message: '安全B证不能为空', trigger: 'blur'}
-          ],
-          remark: [
-            {required: false, message: '备注不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: false, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: false, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: false, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: false, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ]
+        checkededRows: [],
+        processDefinationlist: [],
+        startDateRange: null,
+        gridOptions: {
+          dataSource: {
+            serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
+            serviceInstanceInputParameters: {
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
+            }
+          },
+          grid: {
+            offsetHeight: 125, //125:查询部分高度
+            mutiSelect: false,
+            columns: [
+              {
+                prop: 'pmId',
+                label: '姓名',
+                sortable: false
+              },
+              {
+                prop: 'constructorLevel',
+                label: '所在公司',
+                sortable: false
+              },
+              {
+                prop: '',
+                label: '联系方式',
+                sortable: false
+              },
+              {
+                prop: 'constructorLevel',
+                label: '建造师等级',
+                sortable: false
+              },
+              {
+                prop: 'constructorCode',
+                label: '建造师证书编号',
+                sortable: false
+              },
+              {
+                prop: 'safeB',
+                label: '安全B证',
+                sortable: false
+              },
+              {
+                prop: 'remark',
+                label: '是否在建',
+                sortable: false
+              },
+              {
+                prop: 'remark',
+                label: '在建项目个数',
+                sortable: false
+              },
+              {
+                prop: 'remark',
+                label: '累计竣工项目个数',
+                sortable: false
+              },
+              {
+                prop: 'remark',
+                label: '证书附件',
+                sortable: false
+              },
+            ], // 需要展示的列
+            defaultSort: {
+              prop: 'id',
+              order: 'descending'
+            },
+          }
         }
       }
     },
+    components: {},
     created() {
-      // this.init()
+      this.loadCodeTableList();
     },
     methods: {
-      // 初始化 编辑和新增 2种情况
-      init(id) {
-        if (id) {
-          this.dataForm.id = id || 0
-          this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
-              tapp.services.tBaseinfoPmQualification.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.pmId = result.tBaseinfoPmQualification.pmId
-                this.dataForm.constructorLevel = result.tBaseinfoPmQualification.constructorLevel
-                this.dataForm.constructorCode = result.tBaseinfoPmQualification.constructorCode
-                this.dataForm.safeB = result.tBaseinfoPmQualification.safeB
-                this.dataForm.remark = result.tBaseinfoPmQualification.remark
-                this.dataForm.createtime = result.tBaseinfoPmQualification.createtime
-                this.dataForm.updatetime = result.tBaseinfoPmQualification.updatetime
-                this.dataForm.createuser = result.tBaseinfoPmQualification.createuser
-                this.dataForm.updateuser = result.tBaseinfoPmQualification.updateuser
-                this.dataForm.datastatus = result.tBaseinfoPmQualification.datastatus
-              })
-            }
-          })
-        } else {
-          this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
-          })
-        }
+      // 获取码表值
+      loadCodeTableList() {
+        // 以下为示例
       },
-      // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
-        Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
-          tapp.services.tBaseinfoPmQualification.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-            self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
-        }).catch(function (e) {
-          self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+      onStartDateRangeChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      },
+      handleSelectionChange(val) {
+        this.checkededRows = val;
+      },
+      doReset() {
+        this.$refs.search.resetFields();
+      },
+      doExportExcel() {
+        this.$refs.searchReulstList.exportCSV('${comments}表');
+      },
+      doRefresh() {
+        this.$refs.searchReulstList.refresh();
       }
     }
   }
