@@ -9,17 +9,14 @@
              label-width="120px" label-position="right">
       <t-sub-title :title="'密钥信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="16">
           <el-form-item prop="province" label="所属地区">
-            <el-row :gutter="0">
+            <el-row type="flex" justify="space-between">
               <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province"
-
-                                       :readOnly="readOnly"></t-dic-dropdown-select>
+                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province" :readOnly="readOnly"></t-dic-dropdown-select>
               </el-col>
               <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.city"
-                                       :readOnly="readOnly"></t-dic-dropdown-select>
+                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city" :readOnly="readOnly"></t-dic-dropdown-select>
               </el-col>
             </el-row>
           </el-form-item>
@@ -69,7 +66,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -96,11 +93,13 @@
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-col :span="8">
-        <el-form-item prop="sign" label="登记人">
-          <el-input v-model="dataForm.sign"></el-input>
-        </el-form-item>
-      </el-col>
+      <el-row :gutter="10">
+        <el-col :span="8">
+          <el-form-item prop="sign" label="登记人">
+            <el-input v-model="dataForm.sign"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -109,6 +108,7 @@
 </template>
 
 <script>
+  import find from 'lodash/find'
   export default {
     props: {
       readOnly: {
@@ -122,8 +122,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',
-          actTaskKey: '',
+          // bId: '',
+          // actTaskKey: '',
           province: '',
           city: '',
           keyType: '',
@@ -139,18 +139,18 @@
           existElectMark: '',
           remark: '',
           password: '',
-          isInput: '',
+          // isInput: '',
           sign: '',
-          signTime: '',
-          keyStatus: '',
-          propose: '',
-          result: '',
-          approvalStatus: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
+          // signTime: '',
+          // keyStatus: '',
+          // propose: '',
+          // result: '',
+          // approvalStatus: '',
+          // createtime: '',
+          // updatetime: '',
+          // createuser: '',
+          // updateuser: '',
+          // datastatus: ''
         },
         dataRule: {
           bId: [
@@ -240,6 +240,18 @@
         }
       }
     },
+    computed: {
+      currentProvince: {
+        get: function() {
+          let a = find(tapp.data.base_datadictionary['base_region'], {id: this.dataForm.province})
+          if(a) {
+            return a.items
+          }else {
+            return []
+          }
+        }
+      }
+    },
     created() {
       // this.init()
     },
@@ -293,7 +305,6 @@
       },
       // 表单提交
       doSave() {
-        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
@@ -316,3 +327,9 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+.el-select .el-input {
+
+}
+</style>
+
