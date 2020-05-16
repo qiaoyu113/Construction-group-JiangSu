@@ -181,13 +181,12 @@ export default {
       self.reduces = result.reduces
       self.total = result.totalCount
 
-      if (result.data == null || result.data.length == 0) {
+      if (!result.data || (result.data && (result.data == null || result.data.length == 0))) {
         this.emptyText = '暂无数据'
       }
-
       this.$emit('data-change', {
         data: self.data,
-        totalCount: result.totalCount || result.data.length,
+        totalCount: result.totalCount || (result.data ? result.data.length : result.data),
         reduces: result.reduces
       })
     },
