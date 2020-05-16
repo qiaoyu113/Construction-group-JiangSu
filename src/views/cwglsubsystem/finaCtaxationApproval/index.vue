@@ -8,21 +8,21 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="项目名称">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="计税方式">
+            <t-dic-dropdown-select dicType="1260866411727818753"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="所属公司">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="所属公司" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -42,7 +42,9 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -66,50 +68,67 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'taxMethod',
-                label: '计税方式（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'applyAmount',
-                label: '申请金额',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'province',
-                label: '外出经营地-省（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'city',
-                label: '外出经营地-市（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'district',
-                label: '外出经营地-区（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'address',
-                label: '外出经营地-详细地址',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
                 prop: 'licenceCode',
                 label: '外经证号',
                 sortable: true,
                 minWidth: 120,
               },
               {
+                prop: 'proName',
+                label: '项目名称',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proName',
+                label: '工程起止时间',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proName',
+                label: '合同名称',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proName',
+                label: '合同金额（万元）',
+                sortable: true,
+                minWidth: 150,
+              },
+              {
+                prop: 'applyAmount',
+                label: '申请金额（万元）',
+                sortable: true,
+                minWidth: 150,
+              },
+              // {
+              //   prop: 'taxMethod',
+              //   label: '计税方式（字典表）',
+              //   sortable: true,
+              //   minWidth: 120,
+              // },
+              {
+                prop: 'province',
+                label: '外出经营地',
+                sortable: true,
+                minWidth: 130,
+              },
+              {
+                prop: 'taxMethod',
+                columnKey: 'taxMethod',
+                filters: util.getListDataDicFilters('1260866411727818753'),
+                label: '计税方式',
+                sortable: true,
+                width: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('1260866411727818753', row.taxMethod)
+                }
+              },
+              {
                 prop: 'startDate',
-                label: '使用期限-开始日期',
+                label: '使用期限',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
@@ -117,29 +136,20 @@
                 }
               },
               {
-                prop: 'endDate',
-                label: '使用期限-结束日期',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.endDate, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
+                prop: 'sign',
+                label: '申请人',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '状态',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
+                label: '延期日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
@@ -147,16 +157,13 @@
                 }
               },
               {
-                prop: 'propose',
-                label: '审核意见',
+                prop: 'signTime',
+                label: '注销日期',
                 sortable: true,
                 minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true,
-                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                }
               }
             ], // 需要展示的列
             defaultSort: {
