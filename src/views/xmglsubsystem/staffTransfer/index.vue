@@ -8,49 +8,43 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称">
+          <el-form-item label="项目名称：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName" placeholder="项目名称"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" placeholder="工程类别"
-                      clearable></el-input>
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经营方式">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" placeholder="经营方式"
-                      clearable></el-input>
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="分公司">
+          <el-form-item label="分公司：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="分公司"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="审批状态">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" placeholder="审批状态"
-                      clearable></el-input>
+          <el-form-item label="审批状态：">
+            <t-dic-dropdown-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办人">
+          <el-form-item label="经办人：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" placeholder="经营方式"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" placeholder="经办人"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
+          <el-form-item label="经办日期：">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
@@ -78,6 +72,13 @@
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         checkededRows: [],
