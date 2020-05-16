@@ -10,86 +10,80 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'备案信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="流程业务id">
-            <el-input v-model="dataForm.bId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="项目备案id">
+          <el-form-item prop="pcId" label="项目名称">
             <el-input v-model="dataForm.pcId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="amount" label="金额-元">
-            <el-input v-model="dataForm.amount"></el-input>
+          <el-form-item prop="pcId" label="所属分公司">
+            <el-input reanonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="existElectMark" label="是否使用电子章（字典表）">
-            <el-input v-model="dataForm.existElectMark"></el-input>
+          <el-form-item prop="pcId" label="所属事业部">
+            <el-input reanonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="备注">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item prop="pcId" label="建设单位">
+            <el-input reanonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
+          <el-form-item prop="pcId" label="合同模式">
+            <el-input reanonly></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item prop="amount" label="投资金额">
+            <el-input readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pcId" label="工程类别">
+            <el-input reanonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pcId" label="经营方式">
+            <el-input reanonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pcId" label="计划项目规模">
+            <el-input reanonly></el-input>
+          </el-form-item>
+        </el-col>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-col :span="8">
+          <el-form-item prop="amount" label="金额">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item prop="existElectMark" label="是否使用电子章">
+            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
+                                :readOnly="readOnly"></t-dic-radio-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="sign" label="经办人">
             <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="signTime" label="经办时间">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -101,6 +95,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -177,7 +173,11 @@
       }
     },
     created() {
-      // this.init()
+       this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -210,6 +210,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }

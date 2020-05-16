@@ -11,16 +11,8 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="province" label="所属地区">
-            <el-row :gutter="0">
-              <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province"
-                                       :readOnly="readOnly"></t-dic-dropdown-select>
-              </el-col>
-              <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.city"
-                                       :readOnly="readOnly"></t-dic-dropdown-select>
-              </el-col>
-            </el-row>
+                <t-dic-tree-select dicType="base_region" v-model="dataForm.province"
+                                   :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -28,8 +20,7 @@
             <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
                                    :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
-        </el-col>
-        <el-col :span="8">
+        </el-col>        <el-col :span="8">
           <el-form-item prop="authCompany" label="批准单位">
             <el-input v-model="dataForm.authCompany"></el-input>
           </el-form-item>
@@ -83,7 +74,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-            <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.existElectMark"
+            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
                                 :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
@@ -96,12 +87,12 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-col :span="8">
         <el-form-item prop="sign" label="登记人">
-          <el-input v-model="dataForm.sign"></el-input>
+          <span>{{dataForm.sign}}</span>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item prop="sign" label="登记时间">
-          <el-input v-model="dataForm.signTime"></el-input>
+          <span>{{dataForm.signTime}}</span>
         </el-form-item>
       </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>

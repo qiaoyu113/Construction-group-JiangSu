@@ -17,141 +17,132 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="biId" label="蓝字发票金额">
+          <el-form-item label="发票金额">
             <el-input readonly v-model="dataForm.biId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pId" label="对方单位名称">
+          <el-form-item label="对方单位名称">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="对方单位地址">
+          <el-form-item label="对方单位地址">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="对方联系电话">
+          <el-form-item label="对方联系电话">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="纳税识别号">
+          <el-form-item label="纳税识别号">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="开户行">
+          <el-form-item label="开户行">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="开户账号">
+          <el-form-item label="开户账号">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="发票类别">
+          <el-form-item label="发票类别">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="invoiceDate" label="发票日期">
+          <el-form-item label="发票日期">
             <el-input readonly v-model="dataForm.invoiceDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="invoiceDate" label="外经证号">
+          <el-form-item label="外经证号">
             <el-input readonly v-model="dataForm.invoiceDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目名称">
+          <el-form-item label="项目名称">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目地址">
+          <el-form-item label="项目地址">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="所属公司">
-            <el-input readonly="true" v-model="dataForm.pId"></el-input>
+          <el-form-item label="所属分公司">
+            <el-input  v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="合同名称">
-            <el-input readonly="true" v-model="dataForm.pId"></el-input>
+          <el-form-item label="合同名称">
+            <el-input  v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="合同期间">
-            <t-datetime-range-picker readonly="true" v-model="dataForm.pId"></t-datetime-range-picker>
+          <el-form-item label="合同期间">
+            <t-datetime-range-picker  v-model="dataForm.pId"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="合同金额">
-            <el-input readonly="true" v-model="dataForm.pId"></el-input>
+          <el-form-item label="合同金额">
+            <el-input  v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'红字开票信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="invoiceAmount" label="申请开票金额">
+          <el-form-item label="申请开票金额">
             <el-input v-model="dataForm.invoiceAmount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="开票日期">
+            <el-date-picker readonly type="date" placeholder="开票后由专人填入" v-model="dataForm.invoiceDate"></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="发票号码">
+            <el-input readonly placeholder="开票后由专人填入" v-model="dataForm.invoiceNum"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item prop="remark" label="红字申请理由">
+          <el-form-item label="红字申请理由">
             <el-input type="textarea" v-model="dataForm.reason"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="invoiceDate" label="开票日期">
-            <el-date-picker readonly type="date" v-model="dataForm.invoiceDate"></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="invoiceNum" label="发票号码">
-            <el-input readonly v-model="dataForm.invoiceNum"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="invoiceCode" label="发票代码">
-            <el-input readonly v-model="dataForm.invoiceCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item prop="sign" label="经办人">
-              <el-input v-model="dataForm.sign"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="signTime" label="经办时间">
-              <el-date-picker type="date" readonly="true" v-model="dataForm.signTime"></el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
-              <el-input type="textarea" v-model="dataForm.remark"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-col :span="8">
+          <el-form-item prop="sign" label="经办人">
+            <span>{{dataForm.sign}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="经办时间">
+            <span>{{dataForm.signTime}}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item prop="remark" label="备注">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
@@ -160,6 +151,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -167,49 +160,24 @@
         docId: '',
         dataForm: {
           bId: '',actTaskKey: '',pId: '',biId: '',invoiceAmount: '',reason: '',invoiceDate: '',
-          invoiceCode: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',
+          invoiceCode: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: '',propose: '',
           result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
-          ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
-          ],
           biId: [
             { required: true, message: '蓝字发票标识id不能为空', trigger: 'blur' }
           ],
-          invoiceAmount: [
-            { required: true, message: '申请开票金额不能为空', trigger: 'blur' }
-          ],
-          reason: [
-            { required: true, message: '红字申请理由不能为空', trigger: 'blur' }
-          ],
-          invoiceDate: [
-            { required: true, message: '开票日期不能为空', trigger: 'blur' }
-          ],
-          invoiceCode: [
-            { required: true, message: '发票代码不能为空', trigger: 'blur' }
-          ],
-          invoiceNum: [
-            { required: true, message: '发票号码不能为空', trigger: 'blur' }
-          ],
-
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
-          ],
-          signTime: [
-            { required: true, message: '执行时间不能为空', trigger: 'blur' }
-          ],
-
+          ]
         }
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -245,7 +213,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

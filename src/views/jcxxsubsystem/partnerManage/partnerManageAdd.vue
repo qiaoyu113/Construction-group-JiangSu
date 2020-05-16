@@ -8,99 +8,98 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <t-sub-title :title="'合作方基本信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="合作方名称:" >
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="bId" label="合作方名称">
+            <t-input v-model="dataForm.bId"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="统一社会信用代码：" label-width="180px">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="actTaskKey" label="统一社会信用代码" label-width="170px">
+            <t-input v-model="dataForm.actTaskKey"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyName" label="合作方地址">
-            <el-input v-model="dataForm.companyName"></el-input>
+            <t-input v-model="dataForm.companyName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="creditCode" label="法人">
-            <el-input v-model="dataForm.creditCode"></el-input>
+            <t-input v-model="dataForm.creditCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="principal" label="负责人">
-            <el-input v-model="dataForm.principal"></el-input>
+            <t-input v-model="dataForm.principal"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="contactNum" label="联系电话">
-            <el-input v-model="dataForm.contactNum"></el-input>
+            <t-input v-model="dataForm.contactNum"></t-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'合作方主要工程业绩'"></t-sub-title>
         <t-sub-title :title="'合作方资产情况'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="fixedAssets" label="固定资产">
-            <el-input v-model="dataForm.fixedAssets"></el-input>
+            <t-input v-model="dataForm.fixedAssets"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="fluidCapital" label="流动资金">
-            <el-input v-model="dataForm.fluidCapital"></el-input>
+            <t-input v-model="dataForm.fluidCapital"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="chargeAccount" label="应收账款">
-            <el-input v-model="dataForm.chargeAccount"></el-input>
+            <t-input v-model="dataForm.chargeAccount"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="liabilities" label="负债">
-            <el-input v-model="dataForm.liabilities"></el-input>
+            <t-input v-model="dataForm.liabilities"></t-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="marketSituation" label="市场情况">
-            <el-input v-model="dataForm.marketSituation"></el-input>
+            <t-input v-model="dataForm.marketSituation"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="projectSituation" label="合作项目情况">
-            <el-input v-model="dataForm.projectSituation"></el-input>
+            <t-input v-model="dataForm.projectSituation"></t-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'合作方主要管理人员情况'"></t-sub-title>
         <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="bankName" label="开户行名称">
-            <el-input v-model="dataForm.bankName"></el-input>
+            <t-input v-model="dataForm.bankName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="bankAccountName" label="银行帐户名称">
-            <el-input v-model="dataForm.bankAccountName"></el-input>
+            <t-input v-model="dataForm.bankAccountName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="bankAccount" label="银行帐号">
-            <el-input v-model="dataForm.bankAccount"></el-input>
+            <t-input v-model="dataForm.bankAccount"></t-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="' 登记信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="sign" label="登记人">
-            <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="登记时间">
-            <el-input v-model="dataForm.signTime"></el-input>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -234,7 +233,8 @@
       }
     },
     created() {
-       this.init()
+      //  this.init()
+      this.$forceUpdate()
     },
     computed: {
       ...mapState({

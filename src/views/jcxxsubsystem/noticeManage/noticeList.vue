@@ -16,21 +16,21 @@
                          :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-col :span="20">
-            <el-form-item prop="noticeTitle" label="公告标题">
-              <el-input v-model="gridOptions.dataSource.noticeTitle" ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="20">
-            <el-form-item prop="noticeContent" label="公告内容">
-              <el-input v-model="gridOptions.dataSource.noticeContent"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="20">
-            <el-form-item prop="updateuser" label="发布人">
-              <el-input v-model="gridOptions.dataSource.updateuser"></el-input>
-            </el-form-item>
-          </el-col>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="noticeTitle" label="公告标题">
+            <el-input v-model="gridOptions.dataSource.noticeTitle" ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="noticeContent" label="公告内容">
+            <el-input v-model="gridOptions.dataSource.noticeContent"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="updateuser" label="发布人">
+            <el-input v-model="gridOptions.dataSource.updateuser"></el-input>
+          </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="有效期">

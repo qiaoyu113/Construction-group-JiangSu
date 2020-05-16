@@ -87,12 +87,14 @@
               {
                 prop: 'constructorLevel',
                 label: '建造师等级',
-                sortable: false
+                sortable: false,
+                width: 100,
               },
               {
                 prop: 'constructorCode',
                 label: '建造师证书编号',
-                sortable: false
+                sortable: false,
+                width: 140
               },
               {
                 prop: 'safeB',
@@ -107,12 +109,14 @@
               {
                 prop: 'remark',
                 label: '在建项目个数',
-                sortable: false
+                sortable: false,
+                width: 120,
               },
               {
                 prop: 'remark',
                 label: '累计竣工项目个数',
-                sortable: false
+                sortable: false,
+                width: 150,
               },
               {
                 prop: 'remark',
