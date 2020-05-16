@@ -13,49 +13,49 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称" prop="proName">
+          <el-form-item label="项目名称：" prop="proName">
             <el-input v-model="dataForm.proName" readonly>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属分公司" prop="proSubCompany">
+          <el-form-item label="所属分公司：" prop="proSubCompany">
             <el-input v-model="dataForm.proSubCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属事业部" prop="proBusDept">
+          <el-form-item label="所属事业部：" prop="proBusDept">
             <el-input v-model="dataForm.proBusDept" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="建设单位" prop="proConstructCompany">
+          <el-form-item label="建设单位：" prop="proConstructCompany">
             <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同模式" prop="proContractAttr">
-            <el-input v-model="dataForm.proContractAttr" readonly></el-input>
+          <el-form-item label="合同模式：" prop="proContractAttr">
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="投资金额" prop="proTotalInvestment">
+          <el-form-item label="投资金额：" prop="proTotalInvestment">
             <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别" prop="proType">
-            <el-input v-model="dataForm.proType" readonly></el-input>
+          <el-form-item label="工程类别：" prop="proType">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经营方式" prop="proRunMode">
-            <el-input v-model="dataForm.proRunMode" readonly></el-input>
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目规模" prop="proBuildArea">
+          <el-form-item label="项目规模：" prop="proBuildArea">
             <el-input v-model="dataForm.proBuildArea" readonly></el-input>
           </el-form-item>
         </el-col>
@@ -63,24 +63,24 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="processBranch" label="流程选择">
-            <el-input v-model="dataForm.processBranch"></el-input>
+          <el-form-item prop="processBranch" label="流程选择：">
+            <t-dic-dropdown-select dicType="process_type" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办人" prop="sign">
-            <el-input v-model="dataForm.sign" readOnly="true"></el-input>
+          <el-form-item label="经办人：" prop="sign">
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办时间" prop="signTime">
-            <el-input v-model="dataForm.signTime" readOnly="true"></el-input>
+          <el-form-item label="经办时间：" prop="signTime">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="说明" prop="remark">
+          <el-form-item label="说明：" prop="remark">
             <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
@@ -93,7 +93,16 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -117,59 +126,21 @@
           approvalStatus2: ''
         },
         dataRule: {
-          bId: [
-            {required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
           pId: [
             {required: true, message: '项目id不能为空', trigger: 'blur'}
           ],
           processBranch: [
             {required: true, message: '流程选择（字典表）不能为空', trigger: 'blur'}
-          ],
-          remark: [
-            {required: true, message: '说明不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ],
-          approvalStatus2: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
           ]
         }
       }
     },
     created () {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -203,6 +174,8 @@
         } else {
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },
