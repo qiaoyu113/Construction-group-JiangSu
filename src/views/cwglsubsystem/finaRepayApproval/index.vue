@@ -8,21 +8,22 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="所属分公司：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="项目名称：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="放款日期：">
+            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                               type="date" :readOnly="false">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -67,37 +68,37 @@
             columns: [
               {
                 prop: 'getAmount',
-                label: '本次还款金额',
+                label: '借款合同编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'tiimeLimit',
-                label: '本次累计已还金额',
+                label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'getCode',
-                label: '本次累计未还金额',
+                label: '所属单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态（字典表）',
+                label: '放款金额（万元）',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '放款期限',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
+                label: '放款日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
@@ -106,13 +107,34 @@
               },
               {
                 prop: 'propose',
-                label: '审核意见',
+                label: '还款金额（万元）',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'signTime',
+                label: '还款日期',
+                sortable: true,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                }
+              },
+              {
+                prop: 'result',
+                label: '累计未还款金额（万元）',
+                sortable: true,
+                minWidth: 150,
+              },
+              {
+                prop: 'result',
+                label: '延期次数',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'result',
-                label: '审核结果',
+                label: '最后延期还款日期',
                 sortable: true,
                 minWidth: 120,
               }
