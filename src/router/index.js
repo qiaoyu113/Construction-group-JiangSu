@@ -92,7 +92,7 @@ let sRouters =  menus.map((node, _index) => {
     show: node.show,
     isTab: node.layoutType == 0,
   };
-  if(node.name == 'task_detail') {
+  if(node.name == 'lcgl_detail') {
     index = _index;
   }
   if (node.component) {
@@ -104,7 +104,7 @@ let sRouters =  menus.map((node, _index) => {
 sRouters[index].children = []
 // console.log('sRouters[index]', sRouters[index])
 sRouters.map((node) => {
-  if(node.name !== 'task_detail') {
+  if(node.name !== 'lcgl_detail') {
     sRouters[index].children.push({path: '_'+node.componentName, component: () => import ('@/views/'+node.componentName)})
   }
 })
