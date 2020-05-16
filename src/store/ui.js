@@ -23,7 +23,7 @@ export default {
   },
   getters: {
     isLoading: state => state.isLoading,
-    documentMainBodyHeight: state => state.documentClientHeight - 50-30
+    documentMainBodyHeight: state => state.documentClientHeight - 50 - 30 - 40 - 44
   },
   mutations: {
     startLoading(state) {
