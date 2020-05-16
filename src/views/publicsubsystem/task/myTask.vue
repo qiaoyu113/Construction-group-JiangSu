@@ -176,7 +176,7 @@ export default {
       if(row.taskFormKey) {
         const taskFormKey = row.taskFormKey.substr(1)
         if(column.property == 'processDefinationName') {
-          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey
+          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey+'&taskActId='+row.taskActId
           this.$router.push({
             path: tpath,
           })
