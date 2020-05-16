@@ -11,7 +11,7 @@
         <el-col :span="8">
           <el-form-item label="所属地区">
             <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
+                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" clearable>
               <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
                          :value="item.key"></el-option>
             </el-select>
@@ -77,8 +77,8 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoKeyApproval.getPagedList,
             serviceInstanceInputParameters: {
+              province: null,
               searchKey: null,
-              processDefinationKey: null,
               dateRange: ''
             }
           },

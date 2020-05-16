@@ -112,7 +112,7 @@
               {
                 prop: 'remark',
                 label: '累计竣工项目个数',
-                sortable: false
+                width:"250px"
               },
               {
                 prop: 'remark',

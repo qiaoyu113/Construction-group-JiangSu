@@ -12,97 +12,92 @@
              label-width="120px" label-position="right">
       <t-sub-title :title="'密钥信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="16">
+        <el-col :span="8">
           <el-form-item prop="province" label="所属地区">
-            <el-row type="flex" justify="space-between">
-              <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province" :readOnly="readOnly"></t-dic-dropdown-select>
-              </el-col>
-              <el-col :span="12">
-                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city" :readOnly="readOnly"></t-dic-dropdown-select>
-              </el-col>
-            </el-row>
+            <t-dic-tree-select dicType="base_region" v-model="dataForm.province"
+                               :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="keyType" label="类别名称">
-            <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="authCompany" label="批准单位">
-            <el-input v-model="dataForm.authCompany"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="loginUsername" label="登陆网名">
-            <el-input v-model="dataForm.loginUsername"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="loginUrl" label="登陆网址">
-            <el-input v-model="dataForm.loginUrl"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly">
-            </t-datetime-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="account" label="用户名">
-            <el-input v-model="dataForm.account" placeholder="如无用户名，请填无"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="password" label="密码">
-            <el-input v-model="dataForm.password" placeholder="如无密码，请填无"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="principalId" label="主要负责人">
-            <el-input v-model="dataForm.principalId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly">
-            </t-datetime-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="keyColor" label="密匙颜色">
-            <el-input v-model="dataForm.keyColor"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-            <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.existElectMark"
-                                :readOnly="readOnly"></t-dic-radio-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="remark" label="备注">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
+      <el-col :span="8">
+        <el-form-item prop="keyType" label="类别名称">
+          <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
+                                 :readOnly="readOnly"></t-dic-dropdown-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="authCompany" label="批准单位">
+          <el-input v-model="dataForm.authCompany"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="loginUsername" label="登陆网名">
+          <el-input v-model="dataForm.loginUsername"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="loginUrl" label="登陆网址">
+          <el-input v-model="dataForm.loginUrl"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
+          <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly">
+          </t-datetime-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="account" label="用户名">
+          <el-input v-model="dataForm.account" placeholder="如无用户名，请填无"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="password" label="密码">
+          <el-input v-model="dataForm.password" placeholder="如无密码，请填无"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="principalId" label="主要负责人">
+          <el-input v-model="dataForm.principalId"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item prop="useScenes" label="用途">
+          <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
+          <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly">
+          </t-datetime-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="keyColor" label="密匙颜色">
+          <el-input v-model="dataForm.keyColor"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
+          <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.existElectMark"
+                              :readOnly="readOnly"></t-dic-radio-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item prop="remark" label="备注">
+          <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+        </el-form-item>
+      </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-col :span="8">
         <el-form-item prop="sign" label="登记人">
-          <el-input v-model="dataForm.sign"></el-input>
+          <span>{{dataForm.sign}}</span>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item prop="sign" label="登记时间">
           <el-input v-model="dataForm.signTime"></el-input>
+          <span>{{dataForm.signTime}}</span>
         </el-form-item>
       </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -118,6 +113,7 @@
     mapState
   } from 'vuex'
   import find from 'lodash/find'
+
   export default {
     props: {
       readOnly: {
@@ -251,11 +247,11 @@
     },
     computed: {
       currentProvince: {
-        get: function() {
+        get: function () {
           let a = find(tapp.data.base_datadictionary['base_region'], {id: this.dataForm.province})
-          if(a) {
+          if (a) {
             return a.items
-          }else {
+          } else {
             return []
           }
         }
@@ -266,7 +262,8 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -343,8 +340,8 @@
   }
 </script>
 <style lang="scss" scoped>
-.el-select .el-input {
+  .el-select .el-input {
 
-}
+  }
 </style>
 
