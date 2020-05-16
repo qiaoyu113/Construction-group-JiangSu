@@ -17,18 +17,20 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="startDate" label="使用期限-开始日期">
+          <el-form-item prop="startDate" label="使用期限">
             <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <el-input readonly v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="工程起止时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <el-date-picker type="datetime"  v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -59,7 +61,6 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-<!--            <el-input readonly v-model="dataForm.taxMethod"></el-input>-->
             <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -76,17 +77,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="city" label="外出经营地-市">
+          <el-form-item prop="city" label="">
             <el-input readonly v-model="dataForm.city"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="district" label="外出经营地-区">
+          <el-form-item prop="district" label="">
             <el-input readonly v-model="dataForm.district"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="address" label="外出经营地-详细地址">
+          <el-form-item prop="address" label="">
             <el-input readonly v-model="dataForm.address"></el-input>
           </el-form-item>
         </el-col>
@@ -94,24 +95,24 @@
       <t-sub-title :title="'注销申请'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="signTime" label="申请延期使用至">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+          <el-form-item prop="logoffDate" label="注销时间">
+            <el-date-picker type="datetime" readonly placeholder="申请通过后填写" v-model="dataForm.logoffDate"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item prop="remark" label="申请延期说明">
+          <el-form-item prop="remark" label="注销说明">
             <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
@@ -123,22 +124,28 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',actTaskKey: '',pId: '',lId: '',logoffDate: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',
+          lId: '',logoffDate: '',
+          approvalStatus: '',sign: '',
+          signTime: '',propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',
+          updateuser: '',datastatus: '',proName: ''
+        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
+          licenceCode: [
+            { required: true, message: '外经证号不能为空', trigger: 'blur' }
           ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
           lId: [
             { required: true, message: '外经证号标识id不能为空', trigger: 'blur' }
@@ -153,12 +160,19 @@
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
+          remark: [
+            { required: true, message: '注销原因不能为空', trigger: 'blur' }
+          ],
 
         }
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -190,7 +204,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

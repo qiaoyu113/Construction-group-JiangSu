@@ -41,12 +41,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proConstructCompanyAttr" label="单位性质">
-            <el-input v-model="dataForm.proConstructCompanyAttr"></el-input>
+            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.proConstructCompanyAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="16">
-          <el-form-item label="项目地址" prop="socialSecurityId" verify class="is-required">
-            <t-dic-tree-select dicType="base_region" v-model="dataForm.socialSecurityId" :readOnly="readOnly"></t-dic-tree-select>
+        <el-col :span="8">
+          <el-form-item label="项目地址" prop="pro_address" verify class="is-required">
+            <t-dic-tree-select dicType="base_region" v-model="dataForm.pro_address" :readOnly="readOnly"></t-dic-tree-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="详细地址" prop="pro_address_detail" verify class="is-required">
+            <el-input v-model="dataForm.pro_address_detail"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -66,32 +71,32 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proDriveSubject" label="实施主体">
-            <el-input v-model="dataForm.proDriveSubject"></el-input>
+            <t-dic-dropdown-select dicType="ss_zt" v-model="dataForm.proDriveSubject" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proContractAttr" label="承包形式">
-            <el-input v-model="dataForm.proContractAttr"></el-input>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proType" label="工程类别">
-            <el-input v-model="dataForm.proType"></el-input>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proSubType" label="类别子项">
-            <el-input v-model="dataForm.proSubType"></el-input>
+            <t-dic-dropdown-select dicType="category_child" v-model="dataForm.proSubType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proFundSource" label="资金来源">
-            <el-input v-model="dataForm.proFundSource"></el-input>
+            <t-dic-dropdown-select dicType="money_source" v-model="dataForm.proFundSource" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proStructure" label="结构形式">
-            <el-input v-model="dataForm.proStructure"></el-input>
+            <t-dic-dropdown-select dicType="structure_type" v-model="dataForm.proStructure" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -112,12 +117,6 @@
         <el-col :span="8">
           <el-form-item prop="proWinAmountC" label="金额大写">
             <el-input v-model="dataForm.proWinAmountC"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="日期输入" prop="loanApplyDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.loanApplyDate" type="date" :readOnly="readOnly">
-            </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -147,11 +146,6 @@
           <el-form-item label="实际完工日期" prop="proRealEndDate" verify class="is-required">
             <t-datetime-picker v-model="dataForm.proRealEndDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proStatue" label="项目状态">
-            <el-input v-model="dataForm.proStatue"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -194,7 +188,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item prop="proIsFitout" label="是否为装配式">
-            <el-input v-model="dataForm.proIsFitout"></el-input>
+            <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.proIsFitout" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -206,7 +200,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item prop="proIsBim" label="是否应用BIM技术">
-            <el-input v-model="dataForm.proIsBim"></el-input>
+            <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.proIsBim" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,13 +302,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proRegister" label="登记人">
-            <el-input v-model="dataForm.proRegister"></el-input>
+            <span>{{dataForm.proRegister}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="登记时间" prop="proRegisterTime" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.proRegisterTime" type="date" :readOnly="readOnly">
-            </t-datetime-picker>
+            <span>{{dataForm.proRegisterTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -326,6 +319,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     props: {
       readOnly: {
@@ -506,7 +501,11 @@
       }
     },
     created () {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -573,6 +572,8 @@
         } else {
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate()
+            this.dataForm.proRegister = this.currentUser.userDisplayName
+            this.dataForm.proRegisterTime = this.$util.datetimeFormat(moment())
           })
         }
       },

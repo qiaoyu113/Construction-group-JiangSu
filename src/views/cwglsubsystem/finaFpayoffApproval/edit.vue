@@ -13,47 +13,51 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="fwaId" label="银行账号">
-            <el-input readonly="true" v-model="dataForm.fwaId"></el-input>
+            <el-input readonly v-model="dataForm.fwaId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="fwaId" label="开户行名称">
-            <el-input readonly="true" v-model="dataForm.fwaId"></el-input>
+            <el-input readonly v-model="dataForm.fwaId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="fwaId" label="开户网点">
-            <el-input readonly="true" v-model="dataForm.fwaId"></el-input>
+            <el-input readonly v-model="dataForm.fwaId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="fwaId" label="银行账户名称">
-            <el-input readonly="true" v-model="dataForm.fwaId"></el-input>
+            <el-input readonly v-model="dataForm.fwaId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="项目名称">
-            <el-input readonly="true" v-model="dataForm.pId"></el-input>
+            <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="项目编号">
-            <el-input readonly="true" v-model="dataForm.pId"></el-input>
+            <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
           <el-form-item prop="payoffMoney" label="发放金额">
             <el-input-number v-model="dataForm.payoffMoney" :precision="2" ></el-input-number>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -64,6 +68,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -114,7 +120,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -146,7 +156,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

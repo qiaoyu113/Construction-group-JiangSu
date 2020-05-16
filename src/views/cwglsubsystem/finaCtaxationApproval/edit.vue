@@ -12,13 +12,13 @@
       <t-sub-title :title="'申请信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <el-input readonly v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="工程起止时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <el-date-picker type="datetime" readonly  v-model="dataForm.signTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -49,7 +49,6 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-<!--            <el-input v-model="dataForm.taxMethod"></el-input>-->
             <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -66,38 +65,40 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="city" label="外出经营地-市">
+          <el-form-item prop="city" label="">
             <el-input v-model="dataForm.city"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="district" label="外出经营地-区">
+          <el-form-item prop="district" label="">
             <el-input v-model="dataForm.district"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="address" label="外出经营地-详细地址">
+          <el-form-item prop="address" label="详细地址">
             <el-input v-model="dataForm.address"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="licenceCode" label="外经证号">
-            <el-input v-model="dataForm.licenceCode"></el-input>
+              <el-input placeholder="申请通过后填写" v-model="dataForm.licenceCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="startDate" label="使用期限-开始日期">
+          <el-form-item label="使用期限">
             <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -108,6 +109,9 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
+
   export default {
     data () {
       return {
@@ -115,47 +119,32 @@
         docId: '',
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',applyAmount: '',province: '',city: '',district: '',
-          address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: new Date(),
-          propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: '',
+          propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',proName: ''                                                                                       },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
-          ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
           pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
           cId: [
-            { required: true, message: '合同ID不能为空', trigger: 'blur' }
+            { required: true, message: '合同名称不能为空', trigger: 'blur' }
           ],
           taxMethod: [
-            { required: true, message: '计税方式（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '计税方式不能为空', trigger: 'blur' }
           ],
           applyAmount: [
             { required: true, message: '申请金额不能为空', trigger: 'blur' }
           ],
           province: [
-            { required: true, message: '外出经营地-省（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '省不能为空', trigger: 'blur' }
           ],
           city: [
-            { required: true, message: '外出经营地-市（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '市不能为空', trigger: 'blur' }
           ],
           district: [
-            { required: true, message: '外出经营地-区（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '区不能为空', trigger: 'blur' }
           ],
           address: [
-            { required: true, message: '外出经营地-详细地址不能为空', trigger: 'blur' }
-          ],
-          licenceCode: [
-            { required: true, message: '外经证号不能为空', trigger: 'blur' }
-          ],
-          startDate: [
-            { required: true, message: '使用期限-开始日期不能为空', trigger: 'blur' }
-          ],
-          endDate: [
-            { required: true, message: '使用期限-结束日期不能为空', trigger: 'blur' }
+            { required: true, message: '详细地址不能为空', trigger: 'blur' }
           ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
@@ -168,7 +157,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -208,7 +201,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

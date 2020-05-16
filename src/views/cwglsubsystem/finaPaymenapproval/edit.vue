@@ -13,120 +13,118 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId" readonly></el-input>
+            <el-input v-model="dataForm.pId" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-<!--            <el-input v-model="dataForm.proRunMode" readonly></el-input>-->
-            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
+          <el-form-item prop="proRunMode" label="经营模式">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="项目合同额">
-            <el-input v-model="dataForm.proRunMode" readonly></el-input>
+            <el-input v-model="dataForm.proRunMode" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="20">
+      <el-row :gutter="20">
       <el-col :span="8">
           <el-form-item prop="fundPurpose" label="资金用途">
-<!--            <el-input v-model="dataForm.fundPurpose"></el-input>-->
-            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.fundPurpose" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="money_source" v-model="dataForm.fundPurpose"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="paymentType" label="本次付款类型">
-            <t-dic-dropdown-select dicType="1260907717166501889" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="1260907717166501889" v-model="dataForm.paymentType"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="20">
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="scId" label="子合同名称">
-            <el-input v-model="dataForm.scId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="scId" label="子合同编号">
-            <el-input readonly v-model="dataForm.scId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="scId" label="子合同金额">
-            <el-input readonly v-model="dataForm.scId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="20">
-        <el-col :span="24">
-          <el-form-item prop="processBranch" label="流程审批">
-            <t-dic-radio-select dicType="1260909446947803138" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-radio-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <t-sub-title :title="'累计付款信息'"></t-sub-title>
-      <el-row gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="totalReceived" label="本项目累计已收款">
-            <el-input v-model="dataForm.totalReceived"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="totalReceivedRatio" label="已收款比例">
-            <el-input v-model="dataForm.totalReceivedRatio"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="totalPayment" label="本项目累计已付款">
-            <el-input v-model="dataForm.totalPayment"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="scTotalReceived" label="当前子合同累计已付款">
-            <el-input v-model="dataForm.scTotalReceived"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="scTotalReceivedRatio" label="当前子合同累计已付款比例">
-            <el-input v-model="dataForm.scTotalReceivedRatio"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="afterThisRatio" label="累计付款比例">
-            <el-input v-model="dataForm.afterThisRatio"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row gutter="20">
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="paymentAmount" label="本次付款金额">
             <el-input v-model="dataForm.paymentAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="processBranch" label="流程审批">
+            <t-dic-radio-select dicType="1260909446947803138" v-model="dataForm.processBranch"></t-dic-radio-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <t-sub-title :title="'累计付款信息'"></t-sub-title>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="totalReceived" label="本项目累计已收款">
+            <el-input :readonly="true" v-model="dataForm.totalReceived"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="totalReceivedRatio" label="已收款比例">
+            <el-input :readonly="true" v-model="dataForm.totalReceivedRatio"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="totalPayment" label="本项目累计已付款">
+            <el-input :readonly="true" v-model="dataForm.totalPayment"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="scTotalReceived" label="当前子合同累计已付款">
+            <el-input :readonly="true" v-model="dataForm.scTotalReceived"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="scTotalReceivedRatio" label="当前子合同累计已付款比例">
+            <el-input :readonly="true" v-model="dataForm.scTotalReceivedRatio"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="afterThisRatio" label="累计付款比例">
+            <el-input :readonly="true" v-model="dataForm.afterThisRatio"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
           <el-form-item prop="leftoverAmount" label="本项目余款">
-            <el-input v-model="dataForm.leftoverAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.leftoverAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftoverAmountRatio" label="项目余款比例">
-            <el-input v-model="dataForm.leftoverAmountRatio"></el-input>
+            <el-input :readonly="true" v-model="dataForm.leftoverAmountRatio"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row gutter="20">
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
+          <el-form-item prop="sign" label="经办人">
             <el-input v-model="dataForm.sign"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-date-picker type="datetime" v-model="dataForm.signTime"></el-date-picker>
+          <el-form-item prop="signTime" label="经办时间">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -138,33 +136,33 @@
         </el-col>
       </el-row>
       <t-sub-title :title="'收款单位信息'"></t-sub-title>
-      <el-row gutter="20">
-        <el-col :span="8">
+      <el-row :gutter="20">
+        <el-col :span="12">
           <el-form-item prop="receiveCompany" label="收款单位">
             <el-input v-model="dataForm.receiveCompany"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="bankName" label="开户行名称">
             <el-input v-model="dataForm.bankName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="bankAccountName" label="银行帐户名称">
             <el-input v-model="dataForm.bankAccountName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="bankAccount" label="银行帐号">
             <el-input v-model="dataForm.bankAccount"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="contacter" label="联系人">
             <el-input v-model="dataForm.contacter"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="contacterTel" label="联系电话">
             <el-input v-model="dataForm.contacterTel"></el-input>
           </el-form-item>
@@ -177,6 +175,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -280,7 +281,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -333,7 +338,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },
@@ -355,7 +362,7 @@
             title: "错误",
             message: "保存失败！"
           });
-          return false;
+          return true;
         });
       }
     }

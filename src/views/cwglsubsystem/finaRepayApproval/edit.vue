@@ -11,25 +11,20 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <t-sub-title :title="'项目放款信息'"></t-sub-title>
       <el-row :gutter="20">
-<!--        <el-col :span="8">-->
-<!--          <el-form-item prop="gId" label="放款申请id">-->
-<!--            <el-input v-model="dataForm.gId"></el-input>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
         <el-col :span="8">
-          <el-form-item prop="pId" label="借款合同编号">
+          <el-form-item prop="baId" label="借款合同编号">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form-item prop="pId" label="项目名称">
+          <el-form-item prop="proName" label="项目名称">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目编号">
+          <el-form-item prop="proCode" label="项目编号">
             <el-input readonly v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
@@ -83,7 +78,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="signTime" label="经办时间">
-              <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+              <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -102,6 +97,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -111,17 +109,17 @@
           bId: '',actTaskKey: '',pId: '',gId: '',getAmount: '',tiimeLimit: '',getCode: '',approvalStatus: '',
           sign: '',signTime: new Date(),propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
+          proCode: [
+            { required: true, message: '项目编号不能为空', trigger: 'blur' }
           ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+          baId: [
+            { required: true, message: '借款合同编号不能为空', trigger: 'blur' }
           ],
           gId: [
-            { required: true, message: '放款申请id不能为空', trigger: 'blur' }
+            { required: true, message: '放款申请信息不能为空', trigger: 'blur' }
           ],
           getAmount: [
             { required: true, message: '本次还款金额不能为空', trigger: 'blur' }
@@ -144,7 +142,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -178,7 +180,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

@@ -12,8 +12,8 @@
       <t-sub-title :title="'资金到账信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <el-input v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -38,8 +38,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item prop="rWay" label="到帐方式">
-<!--            <el-input v-model="dataForm.rWay"></el-input>-->
-            <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -49,7 +48,6 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rType" label="到帐类型">
-<!--            <el-input v-model="dataForm.rType"></el-input>-->
             <t-dic-dropdown-select dicType="1260866912477384705" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -68,12 +66,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,6 +89,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -101,17 +102,11 @@
           lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
           createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
-          ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
           proRunMode: [
-            { required: true, message: '经营方式（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '经营模式不能为空', trigger: 'blur' }
           ],
           unionCompany: [
             { required: true, message: '联营单位标识不能为空', trigger: 'blur' }
@@ -123,13 +118,13 @@
             { required: true, message: '到帐时间不能为空', trigger: 'blur' }
           ],
           rWay: [
-            { required: true, message: '到帐方式（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '到帐方式不能为空', trigger: 'blur' }
           ],
           lNum: [
             { required: true, message: '票号不能为空', trigger: 'blur' }
           ],
           rType: [
-            { required: true, message: '到帐类型（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '到帐类型不能为空', trigger: 'blur' }
           ],
           sAmount: [
             { required: true, message: '自营不能为空', trigger: 'blur' }
@@ -137,7 +132,6 @@
           oAmount: [
             { required: true, message: '联营不能为空', trigger: 'blur' }
           ],
-
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -149,7 +143,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -188,7 +186,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },
