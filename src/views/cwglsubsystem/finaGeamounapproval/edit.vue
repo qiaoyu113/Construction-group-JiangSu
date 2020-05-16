@@ -12,31 +12,40 @@
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId"></el-input>
+          <el-form-item  prop="baId" label="借款额度信息">
+            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <el-form-item  prop="proName" label="项目名称">
+            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proCode" label="项目编号">
+            <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="所属单位">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input readonly v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.realAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次借款期限（月）">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
+            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
           </el-form-item>
         </el-col>
-        <t-sub-title :title="'项目借款信息'"></t-sub-title>
+      </el-row>
+      <t-sub-title :title="'项目借款信息'"></t-sub-title>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款金额">
             <el-input v-model="dataForm.getAmount"></el-input>
@@ -49,17 +58,19 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="getCode" label="借款合同编号">
-            <el-input readonly v-model="dataForm.getCode"></el-input>
+            <el-input :readonly="true" v-model="dataForm.getCode"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计放款金额">
-            <el-input readonly v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftAmount" label="剩余可用额度">
-            <el-input readonly v-model="dataForm.leftAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.leftAmount"></el-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'办理信息'"></t-sub-title>
@@ -71,7 +82,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="signTime" label="经办时间">
-              <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+              <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -90,6 +101,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -97,20 +111,17 @@
         docId: '',
         dataForm: {
           bId: '',actTaskKey: '',pId: '',baId: '',getAmount: '',timeLimit: '',getCode: '',totalBorrowAmount: '',
-          leftAmount: '',fromType: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',
+          leftAmount: '',fromType: '',approvalStatus: '',sign: '',signTime: '',propose: '',
           result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
-          ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
-          ],
           baId: [
-            { required: true, message: '申请额度id不能为空', trigger: 'blur' }
+            { required: true, message: '借款额度信息不能为空', trigger: 'blur' }
+          ],
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
+          ],
+          proCode: [
+            { required: true, message: '项目编号不能为空', trigger: 'blur' }
           ],
           getAmount: [
             { required: true, message: '本次放款金额不能为空', trigger: 'blur' }
@@ -127,10 +138,6 @@
           leftAmount: [
             { required: true, message: '剩余可用额度不能为空', trigger: 'blur' }
           ],
-          fromType: [
-            { required: true, message: '是否集团公司直接付款（字典表）不能为空', trigger: 'blur' }
-          ],
-
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -142,7 +149,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -179,7 +190,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },
