@@ -10,18 +10,8 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'备案信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="bId" label="流程业务id">
-            <el-input v-model="dataForm.bId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="activiti执行任务key">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
         <el-col :span="8">
           <el-form-item prop="pcId" label="项目备案id">
             <el-input v-model="dataForm.pcId"></el-input>

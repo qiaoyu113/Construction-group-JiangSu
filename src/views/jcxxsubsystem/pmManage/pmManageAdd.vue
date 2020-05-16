@@ -103,13 +103,13 @@
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-col :span="8">
-        <el-form-item prop="remark" label="登记人" >
-          <el-input v-model="dataForm.createuser"></el-input>
+        <el-form-item prop="createuser" label="登记人" >
+          <span>{{dataForm.createuser}}</span>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item prop="remark" label="登记时间" >
-          <el-input v-model="dataForm.createtime"></el-input>
+        <el-form-item prop="createtime" label="登记时间" >
+          <span>{{dataForm.createtime}}</span>
         </el-form-item>
       </el-col>
       <t-sub-title :title="'附件上传'"></t-sub-title>

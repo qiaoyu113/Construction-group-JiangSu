@@ -64,8 +64,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="密钥类别">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+          <el-form-item prop="keyId" label="密钥类别">
+            <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -90,7 +91,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item prop="useScenes" label="用途">
-            <el-input v-model="dataForm.useScenes"></el-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" readonly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -114,8 +115,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="是否有电子签章功能">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+          <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
+            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.proSubCompany"
+                                :readOnly="readOnly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -124,75 +126,40 @@
           </el-form-item>
         </el-col>
         <t-sub-title :title="'办理信息'"></t-sub-title>
-
         <el-col :span="8">
-          <el-form-item prop="limitStarttime" label="领用期限-开始时间">
-            <el-input v-model="dataForm.limitStarttime"></el-input>
+          <el-form-item prop="proSubCompany" label="领用单位:">
+            <span>该项目所属分公司</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="limitEnditme" label="领用期限-结束时间">
-            <el-input v-model="dataForm.limitEnditme"></el-input>
+          <el-form-item prop="useScenes" label="用途:">
+            <t-input  v-model="dataForm.useScenes" ></t-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="领用期限:">
+            <t-datetime-range-picker v-model="dataForm.limitStarttime">
+            </t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item prop="getTime" label="领用时间:">
+            <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item prop="returnTime" label="归还时间:">
+            <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="getTime" label="领用时间">
-            <el-input v-model="dataForm.getTime"></el-input>
+          <el-form-item prop="sign" label="经办人:">
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="returnTime" label="归还时间">
-            <el-input v-model="dataForm.returnTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="执行人">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="执行时间">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="propose" label="审核意见">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="审核结果">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createtime" label="创建时间">
-            <el-input v-model="dataForm.createtime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updatetime" label="更新时间">
-            <el-input v-model="dataForm.updatetime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="createuser" label="创建人">
-            <el-input v-model="dataForm.createuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="更新人">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="signTime" label="经办时间:">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -204,6 +171,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
@@ -233,71 +202,76 @@
         },
         dataRule: {
           bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
+            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
+            {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           pcId: [
-            {required: true, message: '项目备案id不能为空', trigger: 'blur'}
+            {required: false, message: '项目备案id不能为空', trigger: 'blur'}
           ],
           keyId: [
-            {required: true, message: '密钥id不能为空', trigger: 'blur'}
+            {required: false, message: '密钥id不能为空', trigger: 'blur'}
           ],
           proSubCompany: [
-            {required: true, message: '该项目所属分公司不能为空', trigger: 'blur'}
+            {required: false, message: '该项目所属分公司不能为空', trigger: 'blur'}
           ],
           useScenes: [
-            {required: true, message: '用途不能为空', trigger: 'blur'}
+            {required: false, message: '用途不能为空', trigger: 'blur'}
           ],
           limitStarttime: [
-            {required: true, message: '领用期限-开始时间不能为空', trigger: 'blur'}
+            {required: false, message: '领用期限-开始时间不能为空', trigger: 'blur'}
           ],
           limitEnditme: [
-            {required: true, message: '领用期限-结束时间不能为空', trigger: 'blur'}
+            {required: false, message: '领用期限-结束时间不能为空', trigger: 'blur'}
           ],
           getTime: [
-            {required: true, message: '领用时间不能为空', trigger: 'blur'}
+            {required: false, message: '领用时间不能为空', trigger: 'blur'}
           ],
           returnTime: [
-            {required: true, message: '归还时间不能为空', trigger: 'blur'}
+            {required: false, message: '归还时间不能为空', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: false, message: '执行人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: false, message: '审批状态（字典表）不能为空', trigger: 'blur'}
           ],
           propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
+            {required: false, message: '审核意见不能为空', trigger: 'blur'}
           ],
           result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
+            {required: false, message: '审核结果不能为空', trigger: 'blur'}
           ],
           createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
+            {required: false, message: '创建时间不能为空', trigger: 'blur'}
           ],
           updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
+            {required: false, message: '更新时间不能为空', trigger: 'blur'}
           ],
           createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
+            {required: false, message: '创建人不能为空', trigger: 'blur'}
           ],
           updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
+            {required: false, message: '更新人不能为空', trigger: 'blur'}
           ],
           datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
     },
     created() {
-      // this.init()
+ this.init()
     },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
+    },
+
     methods: {
       // 初始化 编辑和新增 2种情况
       init(id) {
@@ -333,6 +307,8 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
           })
         }
