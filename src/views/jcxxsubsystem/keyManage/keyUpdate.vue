@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button type="success" @click="doSave()">
         提交审批
       </el-button>
@@ -12,99 +12,100 @@
              label-width="120px" label-position="right">
       <t-sub-title :title="'密钥信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item prop="province" label="所属地区">
+        <el-col :span="8">
+          <el-form-item prop="province" label="所属地区:">
             <el-row type="flex" justify="space-between">
               <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province" :readOnly="readOnly"></t-dic-dropdown-select>
+                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province" :readOnly="currentReadonly"></t-dic-dropdown-select>
               </el-col>
               <el-col :span="12">
-                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city" :readOnly="readOnly"></t-dic-dropdown-select>
+                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city" :readOnly="currentReadonly"></t-dic-dropdown-select>
               </el-col>
             </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="keyType" label="类别名称">
+          <el-form-item prop="keyType" label="类别名称:">
             <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+                                   :readOnly="currentReadonly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="authCompany" label="批准单位">
-            <el-input v-model="dataForm.authCompany"></el-input>
+          <el-form-item prop="authCompany" label="批准单位:">
+            <t-input v-model="dataForm.authCompany"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="loginUsername" label="登陆网名">
-            <el-input v-model="dataForm.loginUsername"></el-input>
+          <el-form-item prop="loginUsername" label="登陆网名:">
+            <t-input v-model="dataForm.loginUsername"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="loginUrl" label="登陆网址">
-            <el-input v-model="dataForm.loginUrl"></el-input>
+          <el-form-item prop="loginUrl" label="登陆网址:">
+            <t-input v-model="dataForm.loginUrl"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly">
+          <el-form-item label="有效期至:" prop="expirationDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="currentReadonly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="account" label="用户名">
-            <el-input v-model="dataForm.account" placeholder="如无用户名，请填无"></el-input>
+          <el-form-item prop="account" label="用户名:">
+            <t-input v-model="dataForm.account" placeholder="如无用户名，请填无"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="password" label="密码">
-            <el-input v-model="dataForm.password" placeholder="如无密码，请填无"></el-input>
+          <el-form-item prop="password" label="密码:">
+            <t-input v-model="dataForm.password" placeholder="如无密码，请填无"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="principalId" label="主要负责人">
-            <el-input v-model="dataForm.principalId"></el-input>
+          <el-form-item prop="principalId" label="主要负责人:">
+            <t-input v-model="dataForm.principalId"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
+          <el-form-item prop="useScenes" label="用途:">
+            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly">
+          <el-form-item label="申请时间:" prop="applyforDate" verify class="is-required">
+            <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="currentReadonly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="keyColor" label="密匙颜色">
-            <el-input v-model="dataForm.keyColor"></el-input>
+          <el-form-item prop="keyColor" label="密匙颜色:">
+            <t-input v-model="dataForm.keyColor"  :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-            <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.existElectMark"
-                                :readOnly="readOnly"></t-dic-radio-select>
+          <el-form-item prop="existElectMark" label="是否有电子签章功能:" label-width="180px">
+            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark" :readOnly="currentReadonly"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="remark" label="备注">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+          <el-form-item prop="remark" label="备注:">
+            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="currentReadonly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-col :span="8">
-        <el-form-item prop="sign" label="登记人">
-          <el-input v-model="dataForm.sign"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="sign" label="登记时间">
-          <el-input v-model="dataForm.signTime"></el-input>
-        </el-form-item>
-      </el-col>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="sign" label="登记人:">
+            <t-input v-model="dataForm.sign"  :readOnly="currentReadonly"></t-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="sign" label="登记时间:">
+            <t-input v-model="dataForm.signTime"  :readOnly="currentReadonly"></t-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
@@ -130,6 +131,8 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        currentReadonly: false,
+        showButton: true,
         dataForm: {
           // bId: '',
           // actTaskKey: '',
@@ -249,6 +252,17 @@
         }
       }
     },
+    created() {
+      const currentQuery = this.$route.query
+      console.log('currentQuery1', this.$route)
+      this.currentReadonly = (currentQuery.readonly == 'true') || this.readOnly
+      this.init(currentQuery.id)
+    },
+    activated() {
+      console.log('currentQuery2', this.$route)
+      const currentQuery = this.$route.query
+      this.init(currentQuery.id)
+    },
     computed: {
       currentProvince: {
         get: function() {
@@ -259,12 +273,7 @@
             return []
           }
         }
-      }
-    },
-    created() {
-      this.init()
-    },
-    computed: {
+      },
       ...mapState({
         currentUser: state => state.app.user,  })
     },
@@ -274,39 +283,29 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBaseinfoKeyApproval.bId
-                this.dataForm.actTaskKey = result.tBaseinfoKeyApproval.actTaskKey
-                this.dataForm.province = result.tBaseinfoKeyApproval.province
-                this.dataForm.city = result.tBaseinfoKeyApproval.city
-                this.dataForm.keyType = result.tBaseinfoKeyApproval.keyType
-                this.dataForm.authCompany = result.tBaseinfoKeyApproval.authCompany
-                this.dataForm.loginUsername = result.tBaseinfoKeyApproval.loginUsername
-                this.dataForm.loginUrl = result.tBaseinfoKeyApproval.loginUrl
-                this.dataForm.expirationDate = result.tBaseinfoKeyApproval.expirationDate
-                this.dataForm.account = result.tBaseinfoKeyApproval.account
-                this.dataForm.principalId = result.tBaseinfoKeyApproval.principalId
-                this.dataForm.useScenes = result.tBaseinfoKeyApproval.useScenes
-                this.dataForm.applyforDate = result.tBaseinfoKeyApproval.applyforDate
-                this.dataForm.keyColor = result.tBaseinfoKeyApproval.keyColor
-                this.dataForm.existElectMark = result.tBaseinfoKeyApproval.existElectMark
-                this.dataForm.remark = result.tBaseinfoKeyApproval.remark
-                this.dataForm.password = result.tBaseinfoKeyApproval.password
-                this.dataForm.isInput = result.tBaseinfoKeyApproval.isInput
-                this.dataForm.sign = result.tBaseinfoKeyApproval.sign
-                this.dataForm.signTime = result.tBaseinfoKeyApproval.signTime
-                this.dataForm.keyStatus = result.tBaseinfoKeyApproval.keyStatus
-                this.dataForm.propose = result.tBaseinfoKeyApproval.propose
-                this.dataForm.result = result.tBaseinfoKeyApproval.result
-                this.dataForm.approvalStatus = result.tBaseinfoKeyApproval.approvalStatus
-                this.dataForm.createtime = result.tBaseinfoKeyApproval.createtime
-                this.dataForm.updatetime = result.tBaseinfoKeyApproval.updatetime
-                this.dataForm.createuser = result.tBaseinfoKeyApproval.createuser
-                this.dataForm.updateuser = result.tBaseinfoKeyApproval.updateuser
-                this.dataForm.datastatus = result.tBaseinfoKeyApproval.datastatus
+                self.dataForm.id = result.id
+                self.dataForm.province = result.province
+                self.dataForm.city = result.city
+                self.dataForm.keyType = result.keyType
+                self.dataForm.authCompany = result.authCompany
+                self.dataForm.loginUsername = result.loginUsername
+                self.dataForm.loginUrl = result.loginUrl
+                self.dataForm.expirationDate = result.expirationDate
+                self.dataForm.account = result.account
+                self.dataForm.principalId = result.principalId
+                self.dataForm.useScenes = result.useScenes
+                self.dataForm.applyforDate = result.applyforDate
+                self.dataForm.keyColor = result.keyColor
+                self.dataForm.existElectMark = result.existElectMark
+                self.dataForm.remark = result.remark
+                self.dataForm.password = result.password
+                self.dataForm.isInput = result.isInput
+                self.dataForm.sign = result.sign
               })
             }
           })
