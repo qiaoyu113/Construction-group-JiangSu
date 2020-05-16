@@ -9,25 +9,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="补充协议编号：">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="补充协议名称：">
-            <!-- <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-             </t-datetime-range-picker>-->
             <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="补充协议形式：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
-                      clearable></el-input>
+          <el-form-item label="补充协议名称：">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="createtime" label="补充协议形式：">
+            <t-dic-dropdown-select dicType="1260865980897300482"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -35,17 +27,11 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
+            <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：">
-            <!--  <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-              </t-datetime-range-picker>-->
             <el-input></el-input>
           </el-form-item>
         </el-col>

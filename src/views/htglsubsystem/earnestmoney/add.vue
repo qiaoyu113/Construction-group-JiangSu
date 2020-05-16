@@ -19,72 +19,85 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="actTaskKey" label="项目编号:">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+            <el-input v-model="dataForm.actTaskKey" readonly></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="pId" label="主合同名称：">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.pId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="cId" label="主合同编号：">
-            <el-input v-model="dataForm.cId"></el-input>
+            <el-input v-model="dataForm.cId" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="createtime" label="合同形式：">
+            <t-dic-dropdown-select dicType="1260865980897300482" v-model="dataForm.unionCompany"
+                                   readonly></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="unionCompany" label="合同形式：">
-            <el-input v-model="dataForm.unionCompany"></el-input>
+          <el-form-item label="合同开始日期：" prop="sign" verify class="is-required" :verify="validateEndTime">
+            <t-datetime-picker v-model="dataForm.amountMoney" type="date" :readOnly="readOnly"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="amountMoney" label="合同开始日期：">
-            <el-input v-model="dataForm.amountMoney"></el-input>
+          <el-form-item label="合同结束日期：" prop="sign" verify class="is-required" :verify="validateEndTime">
+            <t-datetime-picker v-model="dataForm.sign" type="date" :readOnly="readOnly"></t-datetime-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="合同结束日期：">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="signTime" label="付款方式：">
-            <el-input v-model="dataForm.signTime"></el-input>
+            <t-dic-dropdown-select dicType="1260865577187151874" v-model="dataForm.signTime"
+                                   readonly></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="propose" label="合同总额：">
-            <el-input v-model="dataForm.propose"></el-input>元
+            <el-input v-model="dataForm.propose" readonly></el-input>
+            元
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="result" label="联营公司名称：">
-            <el-input v-model="dataForm.result"></el-input>
+            <el-input v-model="dataForm.result" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="approvalStatus" label="合同保证金额：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+            <el-input v-model="dataForm.approvalStatus" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">
           <el-form-item prop="fromType" label="现金：">
-            <el-input v-model="dataForm.fromType"></el-input>
+            <el-input v-model="dataForm.fromType" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="5">
           <el-form-item prop="createtime" label="房产：">
-            <el-input v-model="dataForm.createtime"></el-input>
+            <el-input v-model="dataForm.createtime" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="5">
           <el-form-item prop="updatetime" label="其他合作协议的履行担保：">
-            <el-input v-model="dataForm.updatetime"></el-input>
+            <el-input v-model="dataForm.updatetime" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="5">
           <el-form-item prop="createuser" label="其他合同转：">
-            <el-input v-model="dataForm.createuser"></el-input>
+            <el-input v-model="dataForm.createuser" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -95,31 +108,35 @@
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="4">
           <el-form-item prop="bId" label="本次申请退还明细：">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="bId" label="现金:">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="bId" label="房产(他项权)：">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="bId" label="其他合作协议的履约担保：">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="bId" label="其他合同转：">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+        <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="bId" label="经办人：">
             <el-input v-model="dataForm.bId"></el-input>
@@ -130,9 +147,14 @@
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
+        </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="备注：">
+         <!-- <el-form-item prop="bId" label="备注：">
             <el-input v-model="dataForm.bId"></el-input>
+          </el-form-item>-->
+          <el-form-item prop="bId" verify can-be-empty :maxLength="200" label="备注：">
+            <el-input type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

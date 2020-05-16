@@ -7,24 +7,29 @@
                 </el-button>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="8">
-                    <el-form-item label="选择关键字">
-                        <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-                            <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
                 <el-col :span="8" class="search-date-picker">
-                    <el-form-item label="创建时间">
-                        <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-                        </t-datetime-range-picker>
+                    <el-form-item label="合同编号：">
+                      <el-input></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
-                    <el-form-item label="关键字">
-                        <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
-                    </el-form-item>
-                </el-col>
+              <el-col :span="8" class="search-date-picker">
+                <el-form-item label="合同名称：">
+                  <t-dic-dropdown-select dicType="1260865980897300482"
+                                         :readOnly="readOnly"></t-dic-dropdown-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" class="search-date-picker">
+                <el-form-item label="合同形式：">
+                  <el-input></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          <el-row :gutter="20">
+              <el-col :span="8" class="search-date-picker">
+                <el-form-item label="项目名称：">
+                  <el-input></el-input>
+                </el-form-item>
+              </el-col>
             </el-row>
             <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
                 <el-col :span="12">
@@ -67,34 +72,31 @@
                         columns: [
                                                                                                                                                                                                     {
                                             prop: 'cId',
-                                            label: '合同id',
+                                            label: '项目名称',
                                             sortable: true,
                                             minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'opType',
-                                            label: '操作类型（字典表）',
+                                            label: '主合同名称',
                                             sortable: true,
                                             minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'cType',
-                                            label: '合同类型（字典表）',
+                                            label: '主合同编号',
                                             sortable: true,
                                             minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'createtime',
-                                            label: '创建时间',
+                                            label: '子合同名称',
                                             sortable: true,
                                             minWidth: 120,
-                                            formatter: (row, column, cellValue) => {
-                                                return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                                            }
                                         },
                                                                                                                                                                                                             {
                                             prop: 'createuser',
-                                            label: '创建人',
+                                            label: '子合同编号',
                                             sortable: true,
                                             minWidth: 120,
                                         },
