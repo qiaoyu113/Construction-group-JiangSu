@@ -59,7 +59,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBidQualApproval.getPagedList,
+            serviceInstance: tapp.services.tGrantAuthbidApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
@@ -85,19 +85,25 @@
               },
               {
                 prop: 'pcId',
-                label: '项目备案id',
+                label: '备案项目ID',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'amount',
-                label: '金额-元',
+                prop: 'useScenes',
+                label: '授权用途（字典表）',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'existElectMark',
-                label: '是否使用电子章（字典表）',
+                prop: 'grantUser',
+                label: '授权人',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'grantContent',
+                label: '授权内容',
                 sortable: true,
                 minWidth: 120,
               },
@@ -123,12 +129,6 @@
                 }
               },
               {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
                 prop: 'propose',
                 label: '审核意见',
                 sortable: true,
@@ -137,6 +137,12 @@
               {
                 prop: 'result',
                 label: '审核结果',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'approvalStatus',
+                label: '审核状态（字典表）',
                 sortable: true,
                 minWidth: 120,
               },

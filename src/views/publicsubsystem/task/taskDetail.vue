@@ -189,15 +189,14 @@
     },
     mounted() {
       console.log('this.$route111', this.$route)
-      this.$route.query.processDefinationKey
-      this.init('', this.$route.query.processDefinationKey);
+      this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId);
     },
     activated() {
       console.log('this.$route111', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id, key) {
+      init(id, key, actId) {
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -219,6 +218,13 @@
               console.log('result', result)
             })
           })
+        }
+        if(actId) {
+          // this.$nextTick(() => {
+          //   tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
+          //     console.log('result', result)
+          //   })
+          // })
         }
         this.loadProcessDefList();
       },

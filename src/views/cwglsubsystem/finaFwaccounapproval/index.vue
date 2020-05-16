@@ -8,21 +8,15 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="项目名称">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="请选择" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="开户行名称">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="请选择" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -65,6 +59,16 @@
             mutiSelect: false,
             columns: [
               {
+                prop: 'proName',
+                label: '项目名称',
+                sortable: true
+              },
+              {
+                prop: 'proCode',
+                label: '项目编码',
+                sortable: true
+              },
+              {
                 prop: 'bankName',
                 label: '开户行名称',
                 sortable: true
@@ -93,31 +97,16 @@
                 }
               },
               {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'sign',
-                label: '执行人',
-                sortable: true
-              },
-              {
-                prop: 'signTime',
-                label: '执行时间',
+                prop: 'openTime',
+                label: '注销时间',
                 sortable: true,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.openTime, 'YYYY-MM-DD');
                 }
               },
               {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
+                prop: 'bankAccount',
+                label: '累计发放金额（万元）',
                 sortable: true
               }
             ], // 需要展示的列

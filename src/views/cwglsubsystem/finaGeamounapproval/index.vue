@@ -8,21 +8,15 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="所属分公司：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="项目名称：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -66,71 +60,56 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'getAmount',
-                label: '本次放款金额',
+                prop: 'proName',
+                label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'timeLimit',
-                label: '本次放款期限（月）',
+                label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'getCode',
-                label: '借款合同编号',
+                label: '确认借款额度（万元）',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'totalBorrowAmount',
-                label: '累计放款金额',
+                label: '借款期限',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'leftAmount',
-                label: '剩余可用额度',
+                label: '借款日期',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'fromType',
-                label: '是否集团公司直接付款（字典表）',
+                label: '放款',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态（字典表）',
+                label: '付款',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '累计已还款金额（万元）',
                 sortable: true,
                 minWidth: 120,
-              },
-              {
-                prop: 'signTime',
-                label: '执行时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
-                }
               },
               {
                 prop: 'propose',
-                label: '审核意见',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
+                label: '累计未还款金额（万元）',
                 sortable: true,
                 minWidth: 120,
               }

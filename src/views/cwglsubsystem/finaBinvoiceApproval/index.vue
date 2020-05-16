@@ -8,26 +8,54 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="项目名称">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="所属分公司">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="所属分公司" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="发票类型">
+            <t-dic-dropdown-select dicType="1260866595392196609"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="发票税率">
+            <t-dic-dropdown-select dicType="Invoice_tax_rate"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="外经证号">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="外经证号" clearable></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="经办人">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
+          <el-form-item label="经办日期">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
+        <el-col :span="8" class="search-bottom-operate">
           <el-form-item>
             <el-button  @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
             <el-button  icon="el-icon-download" @click="doReset()">
@@ -43,6 +71,7 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -65,121 +94,39 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'taxMethod',
-                label: '计税方法（字典表）',
+                prop: 'proName',
+                label: '项目名称',
                 sortable: true
               },
               {
-                prop: 'invoiceType',
-                label: '发票类别（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'levyRate',
-                label: '适用税率或征收率',
-                sortable: true
-              },
-              {
-                prop: 'isLevyTax',
-                label: '有无预征税款（字典表）',
-                sortable: true
-              },
-              {
-                prop: 'levyTaxNum',
-                label: '预征税款完税凭证号码',
+                prop: 'orgname',
+                label: '分公司',
                 sortable: true
               },
               {
                 prop: 'invoiceAmount',
-                label: '申请开票金额（元）',
+                label: '开票金额（元）',
                 sortable: true
               },
               {
-                prop: 'deductAmount',
-                label: '可抵扣分包金额（元）',
+                prop: 'levyRate',
+                label: '开票税率',
                 sortable: true
               },
               {
-                prop: 'isReceivables',
-                label: '有无应收款（字典表）',
+                prop: 'levyRate',
+                label: '开票税率',
                 sortable: true
               },
               {
-                prop: 'vat',
-                label: '增值税（元）',
+                prop: 'isLevyTax',
+                label: '已扣除的分包款(元)',
                 sortable: true
               },
               {
-                prop: 'uct',
-                label: '城建税（元）',
+                prop: 'levyTaxNum',
+                label: '发票类别',
                 sortable: true
-              },
-              {
-                prop: 'est',
-                label: '教育费附加（元）',
-                sortable: true
-              },
-              {
-                prop: 'lest',
-                label: '地方教育费附加（元）',
-                sortable: true
-              },
-              {
-                prop: 'st',
-                label: '印花税（元）',
-                sortable: true
-              },
-              {
-                prop: 'cit',
-                label: '企业所得税（元）',
-                sortable: true
-              },
-              {
-                prop: 'pit',
-                label: '个人所得税（元）',
-                sortable: true
-              },
-              {
-                prop: 'ot',
-                label: '其他（元）',
-                sortable: true
-              },
-              {
-                prop: 'taxBureau',
-                label: '预缴税务局',
-                sortable: true
-              },
-              {
-                prop: 'taxStartTime',
-                label: '税款所属开始时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.taxStartTime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'taxEndTime',
-                label: '税款所属结束时间',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.taxEndTime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'paymentDate',
-                label: '交税日期',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.paymentDate, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'invoiceDate',
-                label: '开票日期',
-                sortable: true,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.invoiceDate, 'YYYY-MM-DD');
-                }
               },
               {
                 prop: 'invoiceNum',
@@ -187,32 +134,27 @@
                 sortable: true
               },
               {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
+                prop: 'deductAmount',
+                label: '外经证号',
+                sortable: true
+              },
+              {
+                prop: 'taxBureau',
+                label: '审查状态',
                 sortable: true
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '经办人',
                 sortable: true
               },
               {
-                prop: 'signTime',
-                label: '执行时间',
+                prop: 'taxStartTime',
+                label: '经办日期',
                 sortable: true,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
-              },
-              {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true
               }
             ], // 需要展示的列
             defaultSort: {

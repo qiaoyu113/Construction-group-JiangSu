@@ -1,13 +1,13 @@
 <template>
 	<nav class="site-navbar" :class="navbarClasses">
-		<div class="bacolo" style="width: 100%;height: 70px;background: -webkit-gradient(linear, 0 0, 100% 100%, from(#7BB3F3), to(#20335D));position: absolute;margin-bottom: 20px;">
+		<div class="bacolo" style="width: 100%;height: 114px;background: -webkit-gradient(linear, 0 0, 100% 100%, from(#7BB3F3), to(#20335D));position: absolute;margin-bottom: 20px;">
 			<div class="jianzhu" style=""></div>
-	
 			<div class="site-navbar__header">
-				<h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
+				<div class="site-navbar__brand" @click="$router.push({ name: 'home' })">
+					<div class="logo"><img src="../../assets/img/project_logo.png" alt="logo"></div>
 					<a class="site-navbar__brand-lg" href="javascript:;">{{appName}}</a>
 					<a class="site-navbar__brand-mini" href="javascript:;">{{appShortName}}</a>
-				</h1>
+				</div>
 			</div>
 			<el-menu class="site-navbar__menu site-navbar__menu--right" style="display: flex; margin:  10px; font-size: 16px;">
 				<el-menu-item index="2" id="base_notification">
@@ -142,7 +142,23 @@
 		},
 	}
 </script>
-<style>
+<style lang="scss" scoped>
+	.site-navbar__brand-lg {
+		font-size: 25px;
+		margin: 20px 0 0 15px;
+	}
+	.site-navbar__brand {
+		line-height: 114px;
+		height: 114px;
+		width: 450px;
+		display: flex;
+		align-items: center;
+	}
+	.site-navbar__header {
+		width: 500px;
+		height: 114px;
+		z-index: 10;
+	}
 	.div-loading {
 		width: 200px;
 		height: 50px;
@@ -163,16 +179,22 @@
 			width: 1200px;
 			height: 70px;
 			content: "";
-			background-image: url("~@/assets/img/login_bg.jpg");
 			background-size: cover;
 		}
 
 	}
-
+	.logo {
+		width: 114px;
+		height: 114px;
+		margin-left: 15px;
+		img {
+			width: 70px;
+		}
+	}
 	.jianzhu {
 		width: 70%;
-		height: 70px;
-
+		height: 114px;
+		z-index: 1;
 		position: absolute;
 		left: 17%;
 		background-image: url("~@/assets/img/back.png");

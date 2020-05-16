@@ -185,44 +185,38 @@
         docId: '',
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',scId: '',paymentType: '',
-          fundPurpose: '',processBranch: '',paymentWay: '',rId: '',totalReceived: '',
+          fundPurpose: '',processBranch: '',paymentWay: '',totalReceived: '',
           totalReceivedRatio: '',totalPayment: '',scTotalReceived: '',scTotalReceivedRatio: '',
           paymentAmount: '',afterThisRatio: '',leftoverAmount: '',leftoverAmountRatio: '',receiveCompany: '',
           bankName: '',bankAccountName: '',bankAccount: '',contacter: '',contacterTel: '',approvalStatus: '',sign: '',
-          signTime: new Date(),propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
-          ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-          ],
           pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+            { required: true, message: '项目不能为空', trigger: 'blur' }
           ],
           proRunMode: [
-            { required: true, message: '经营方式（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '经营方式不能为空', trigger: 'blur' }
           ],
           unionCompany: [
             { required: true, message: '联营单位标识不能为空', trigger: 'blur' }
           ],
           scId: [
-            { required: true, message: '子合同id不能为空', trigger: 'blur' }
+            { required: true, message: '子合同不能为空', trigger: 'blur' }
           ],
           paymentType: [
-            { required: true, message: '本次付款类型（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '本次付款类型不能为空', trigger: 'blur' }
           ],
           fundPurpose: [
-            { required: true, message: '资金用途（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '资金用途不能为空', trigger: 'blur' }
           ],
           processBranch: [
             { required: true, message: '流程审批不能为空', trigger: 'blur' }
           ],
           paymentWay: [
-            { required: true, message: '付款方式（字典表）不能为空', trigger: 'blur' }
+            { required: true, message: '付款方式不能为空', trigger: 'blur' }
           ],
           rId: [
-            { required: true, message: '到账标识id不能为空', trigger: 'blur' }
+            { required: true, message: '到账标识不能为空', trigger: 'blur' }
           ],
           totalReceived: [
             { required: true, message: '本项目累计已收款不能为空', trigger: 'blur' }
