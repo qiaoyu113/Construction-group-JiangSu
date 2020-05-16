@@ -1,11 +1,24 @@
 <template>
 <div>
   <el-row :gutter="20">
-    <el-col :span="24">
+    <el-col :span="showCategoryTree?9:0" v-if="showCategoryTree">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>附件类别</span>
+          <el-button  size="small" icon="el-icon-download" @click="doBatchDownload()">一键下载</el-button>
+        </div>
+        <div class="text item">
+          <t-tree ref="categoryTree" :options="categoryTreeOptons" @node-click="handleCategoryNodeClick">
+          </t-tree>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="showCategoryTree?15:24">
       <el-card class="box-card">
         <div slot="header" class="clearfix" v-if="disabled==false">
-          <div style="float: left; padding: 3px 0">
-            <div class="btns " style="float:left;width:88px;height:56px;">
+          <span>{{selectedCategoryItemName}}</span>
+          <div style="float: right; padding: 3px 0">
+            <div class="btns " style="float:left; width:88px;height:56px;">
               <div id="picker">选择文件</div>
             </div>
             <div style="float:left;width:88px;height:56px;">
@@ -13,7 +26,7 @@
                   padding: 10px;
                   border-radius:2px;
                   width:86px;
-                  line-height: 1;
+                  line-height: 1px;
               ">文件预览</el-button>
             </div>
             <div style="float:left;width:88px;height:56px;">
@@ -21,7 +34,7 @@
                   padding: 10px;
                   border-radius:2px;
                   width:86px;
-                  line-height: 1;
+                  line-height: 1px;
               ">{{switchItemViewModelButtonText}}</el-button>
             </div>
             <div style="float:left;width:88px;height:56px;">
@@ -29,9 +42,10 @@
                   padding: 10px;
                   border-radius:2px;
                   width:86px;
-                  line-height: 1;
+                  line-height: 1px;
               ">批量删除</el-button>
             </div>
+
           </div>
         </div>
         <div class="text item" v-if="viewMode=='item'">
@@ -84,7 +98,6 @@ import {
 
 // ES6引入
 export default {
-  name: 'sj-upload',
   props: {
     businessDocId: {
       type: String,
@@ -121,6 +134,21 @@ export default {
       fileIdList: [],
       uploadFileList: [],
       selectedItemRows: [],
+      categoryTreeOptons: {
+        dataSource: {
+          autoLoadData: false,
+          serviceInstance: tapp.services.base_Attachment.getCategoriesTreeWithClassificationId,
+          serviceInstanceInputParameters: {
+            'cagegoryClassificationIds': this.assetCategoryClassifications,
+            'businessDocId': this.businessDocId
+          }
+        },
+        tree: {
+          checkStrictly: true,
+          showCheckbox: false,
+          renderContent: this.renderCategoryTreeContent
+        }
+      },
       itemGridOptions: {
         dataSource: [],
         grid: {
@@ -186,6 +214,7 @@ export default {
       this.$nextTick(() => {
         this.showCategoryTree = true
         this.showAttachmentGrid = false
+        this.$refs.categoryTree.refresh()
       })
     } else if (this.assetCategory) {
       let self = this
@@ -227,6 +256,23 @@ export default {
     })
   },
   methods: {
+    renderCategoryTreeContent (h, {
+      node,
+      data,
+      store
+    }) {
+      return (<span class = {
+            [data.self.required ? 'is-required' : '', 'tree-node-label-container']
+          } > {
+            node.isLeaf
+            ? <span class = "tree-node-lable" > {
+              node.label + '(' + (data.self.attachmentCount || 0) + ')'
+            } </span>
+              : <span class = "tree-node-lable" > {
+              node.label
+            } </span>
+          } </span>)
+    },
     switchItemViewModel () {
       if (this.viewMode == 'item') {
         this.viewMode = 'card'
@@ -295,6 +341,7 @@ export default {
     handleCategoryNodeClick (dataItem, node, el) {
       if (dataItem.hasChildren) {
         this.showAttachmentGrid = false
+        this.$refs.categoryTree.expandOrNot(dataItem)
       } else {
         this.uploadFileList = []
         this.showAttachmentGrid = true
@@ -327,8 +374,10 @@ export default {
         })
         self.itemGridOptions.dataSource = result
         if (self.selectedCategoryItem) {
-          let newCategoryItem = { ...self.selectedCategoryItem }
+          let newCategoryItem = { ...self.selectedCategoryItem
+          }
           newCategoryItem.self.attachmentCount = result.length
+          self.$refs.categoryTree.refreshNode(self.selectedAssetCategoryId, newCategoryItem)
         }
       })
     },
@@ -362,13 +411,13 @@ export default {
       this.loadViewFileList()
     },
     fileChange (file) {
-      // if (this.selectedAssetCategoryId == null) {
-      //   this.$notify.info({
-      //     title: '系统提示',
-      //     message: '未选择附件类别！'
-      //   })
-      //   return
-      // }
+      if (this.selectedAssetCategoryId == null) {
+        this.$notify.info({
+          title: '系统提示',
+          message: '未选择附件类别！'
+        })
+        return
+      }
       if (!file.size) return
       file.fid = this.getFileId()
       file.businessDocId = this.businessDocId
@@ -447,18 +496,7 @@ export default {
     doBatchDownload () {
       let customername = this.customername || ''
       window.open(window.SITE_CONFIG['serverUrl'] + '/authapi/base_AssetManagement/batchDownload?assetCategoryClassifications=' + this.assetCategoryClassifications + '&businessDocId=' + this.businessDocId + '&customername=' + customername)
-    },
-    renderCategoryTreeContent (h, {
-      node,
-      data,
-      store
-    }) {
-      return (<span class = { [data.self.required ? 'is-required' : '', 'tree-node-label-container']} > 
-                { node.isLeaf ? <span class = "tree-node-lable" > { node.label + '(' + (data.self.attachmentCount || 0) + ')' } </span>
-                : <span class = "tree-node-lable" > { node.label} </span>
-              } </span>
-            )
-    },
+    }
   }
 
 }
