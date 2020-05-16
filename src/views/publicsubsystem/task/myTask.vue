@@ -54,6 +54,7 @@
 </template>
 <script>
 import baseView from '@/base/baseView'
+// import lo
 export default {
   name: 'myTask',
   extends: baseView,
@@ -171,15 +172,15 @@ export default {
       this.$refs.searchReulstList.refresh();
     },
     handleCellClick(row, column, cell, event) {
-      if(column.property == 'processDefinationName') {
-        let tpath = '/publicsubsystem/task/taskDetail?taskId='+row.taskId+'&businessId='+row.businessId+'&processInstId='+row.processInstId
-        console.log('row', row)
-        this.$router.push({
-          path: tpath,
-          params: {
-            data: row
-          }
-        })
+      console.log('row', row)
+      if(row.taskFormKey) {
+        const taskFormKey = row.taskFormKey.substr(1)
+        if(column.property == 'processDefinationName') {
+          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey
+          this.$router.push({
+            path: tpath,
+          })
+        }
       }
     },
   }

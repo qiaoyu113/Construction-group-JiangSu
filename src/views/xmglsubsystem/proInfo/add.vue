@@ -13,137 +13,137 @@
       <t-sub-title :title="'基本信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8" style="display: none">
-          <el-form-item prop="pcId" label="备案项目id">
+          <el-form-item prop="pcId" label="备案项目id：">
             <el-input v-model="dataForm.pcId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目名称" prop="proName">
+          <el-form-item label="项目名称：" prop="proName">
             <el-input v-model="dataForm.proName">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proCode" label="无投标流程">
+          <el-form-item prop="proCode" label="无投标流程：">
             <el-input v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proCode" label="项目编号">
+          <el-form-item prop="proCode" label="项目编号：">
             <el-input v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="16">
-          <el-form-item prop="proConstructCompany" label="建设单位">
+          <el-form-item prop="proConstructCompany" label="建设单位：">
             <el-input v-model="dataForm.proConstructCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proConstructCompanyAttr" label="单位性质">
+          <el-form-item prop="proConstructCompanyAttr" label="单位性质：">
             <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.proConstructCompanyAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目地址" prop="pro_address" verify class="is-required">
+          <el-form-item label="项目地址：" prop="pro_address" verify class="is-required">
             <t-dic-tree-select dicType="base_region" v-model="dataForm.pro_address" :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="详细地址" prop="pro_address_detail" verify class="is-required">
+          <el-form-item label="详细地址：" prop="pro_address_detail" verify class="is-required">
             <el-input v-model="dataForm.pro_address_detail"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proTotalInvestment" label="项目总投资">
+          <el-form-item prop="proTotalInvestment" label="项目总投资：">
             <el-input v-model="dataForm.proTotalInvestment"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
+          <el-form-item prop="proSubCompany" label="所属分公司：">
             <el-input v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proBusDept" label="所属事业部">
+          <el-form-item prop="proBusDept" label="所属事业部：">
             <el-input v-model="dataForm.proBusDept"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proDriveSubject" label="实施主体">
+          <el-form-item prop="proDriveSubject" label="实施主体：">
             <t-dic-dropdown-select dicType="ss_zt" v-model="dataForm.proDriveSubject" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContractAttr" label="承包形式">
+          <el-form-item prop="proContractAttr" label="承包形式：">
             <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proType" label="工程类别">
+          <el-form-item prop="proType" label="工程类别：">
             <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubType" label="类别子项">
+          <el-form-item prop="proSubType" label="类别子项：">
             <t-dic-dropdown-select dicType="category_child" v-model="dataForm.proSubType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proFundSource" label="资金来源">
+          <el-form-item prop="proFundSource" label="资金来源：">
             <t-dic-dropdown-select dicType="money_source" v-model="dataForm.proFundSource" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proStructure" label="结构形式">
+          <el-form-item prop="proStructure" label="结构形式：">
             <t-dic-dropdown-select dicType="structure_type" v-model="dataForm.proStructure" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContractScope" label="承包范围">
+          <el-form-item prop="proContractScope" label="承包范围：">
             <el-input v-model="dataForm.proContractScope"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proManager" label="项目经理">
+          <el-form-item prop="proManager" label="项目经理：">
             <el-input v-model="dataForm.proManager"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proWinAmount" label="中标金额">
+          <el-form-item prop="proWinAmount" label="中标金额：">
             <el-input v-model="dataForm.proWinAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proWinAmountC" label="金额大写">
+          <el-form-item prop="proWinAmountC" label="金额大写：">
             <el-input v-model="dataForm.proWinAmountC"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="计划开工日期" prop="proPlanStartDate" verify class="is-required">
+          <el-form-item label="计划开工日期：" prop="proPlanStartDate" verify class="is-required">
             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="计划完工日期" prop="proPlanEndDate" verify class="is-required">
+          <el-form-item label="计划完工日期：" prop="proPlanEndDate" verify class="is-required">
             <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proLimitTime" label="工程工期">
+          <el-form-item prop="proLimitTime" label="工程工期：">
             <el-input v-model="dataForm.proLimitTime"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="实际开工日期" prop="proRealStartDate" verify class="is-required">
+          <el-form-item label="实际开工日期：" prop="proRealStartDate" verify class="is-required">
             <t-datetime-picker v-model="dataForm.proRealStartDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="实际完工日期" prop="proRealEndDate" verify class="is-required">
+          <el-form-item label="实际完工日期：" prop="proRealEndDate" verify class="is-required">
             <t-datetime-picker v-model="dataForm.proRealEndDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>
@@ -152,54 +152,54 @@
       <t-sub-title :title="'建筑情况'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="建筑面积" prop="proBuildArea" verify class="is-required">
+          <el-form-item label="建筑面积：" prop="proBuildArea" verify class="is-required">
             <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
               <span slot="append">平方米</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="高度/最大跨度" prop="proSpan" verify class="is-required">
+          <el-form-item label="高度/最大跨度：" prop="proSpan" verify class="is-required">
             <t-int-input v-model="dataForm.proSpan" :readOnly="readOnly">
               <span slot="append">米</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="层数" prop="proLayer" verify class="is-required">
+          <el-form-item label="层数：" prop="proLayer" verify class="is-required">
             <t-int-input v-model="dataForm.proLayer" :readOnly="readOnly">
               <span slot="append">层</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="栋数" prop="proBlock" verify class="is-required">
+          <el-form-item label="栋数：" prop="proBlock" verify class="is-required">
             <t-int-input v-model="dataForm.proBlock" :readOnly="readOnly">
               <span slot="append">栋</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="地下室" prop="proBasementArea" verify class="is-required">
+          <el-form-item label="地下室：" prop="proBasementArea" verify class="is-required">
             <t-int-input v-model="dataForm.proBasementArea" :readOnly="readOnly">
               <span slot="append">平方米、层</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item prop="proIsFitout" label="是否为装配式">
+          <el-form-item prop="proIsFitout" label="是否为装配式：">
             <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.proIsFitout" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="装配率" prop="proFitoutRate" verify class="is-required">
+          <el-form-item label="装配率：" prop="proFitoutRate" verify class="is-required">
             <t-int-input v-model="dataForm.proFitoutRate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item prop="proIsBim" label="是否应用BIM技术">
+          <el-form-item prop="proIsBim" label="是否应用BIM技术：">
             <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.proIsBim" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -207,93 +207,93 @@
       <t-sub-title :title="'经营方式'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目净利润承诺超" prop="proProfitRate" verify class="is-required">
+          <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
             <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="公司负责人" prop="proCompanyHeader">
+          <el-form-item label="公司负责人：" prop="proCompanyHeader">
             <el-input v-model="dataForm.proCompanyHeader">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="联营单位管理费" prop="proUnionCompanyMerate" verify class="is-required">
+          <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="联营公司名称" prop="proUnionCompany">
+          <el-form-item label="联营公司名称：" prop="proUnionCompany">
             <el-input v-model="dataForm.proUnionCompany">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContacter" label="联系人">
+          <el-form-item prop="proContacter" label="联系人：">
             <el-input v-model="dataForm.proContacter"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContactway" label="联系方式">
+          <el-form-item prop="proContactway" label="联系方式：">
             <el-input v-model="dataForm.proContactway"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <el-input v-model="dataForm.proRunMode"></el-input>
+        <el-col :span="8">
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="联营单位管理费" prop="proUnionCompanyMerate" verify class="is-required">
+          <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="项目净利润承诺超" prop="proProfitRate" verify class="is-required">
+          <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
             <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="公司负责人" prop="proCompanyHeader">
+          <el-form-item label="公司负责人：" prop="proCompanyHeader">
             <el-input v-model="dataForm.proCompanyHeader" readonly>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="联营公司名称" prop="proUnionCompany">
+          <el-form-item label="联营公司名称：" prop="proUnionCompany">
             <el-input v-model="dataForm.proUnionCompany" readonly>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContacter" label="联系人">
+          <el-form-item prop="proContacter" label="联系人：">
             <el-input v-model="dataForm.proContacter"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContactway" label="联系方式">
+          <el-form-item prop="proContactway" label="联系方式：">
             <el-input v-model="dataForm.proContactway"></el-input>
           </el-form-item>
         </el-col>
@@ -301,12 +301,12 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proRegister" label="登记人">
+          <el-form-item prop="proRegister" label="登记人：">
             <span>{{dataForm.proRegister}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="登记时间" prop="proRegisterTime" verify class="is-required">
+          <el-form-item label="登记时间：" prop="proRegisterTime" verify class="is-required">
             <span>{{dataForm.proRegisterTime}}</span>
           </el-form-item>
         </el-col>

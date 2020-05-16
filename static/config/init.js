@@ -1,5 +1,5 @@
 
-(function () {
+;(function () {
   var resList = window.SITE_CONFIG.resList;
   // 图标
   (function () {

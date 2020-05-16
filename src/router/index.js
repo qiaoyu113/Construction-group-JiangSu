@@ -80,7 +80,8 @@ const appRouters = [{
 ]
 
 let menus = tapp.data.base_navigation;
-let sRouters =  menus.map((node) => {
+let index = '';
+let sRouters =  menus.map((node, _index) => {
   node.menupath = node.path;
   node.path = node.menupath == null || node.menupath.length == 0 ? null : node.menupath.split('?')[0];
   node.meta = {
@@ -91,14 +92,23 @@ let sRouters =  menus.map((node) => {
     show: node.show,
     isTab: node.layoutType == 0,
   };
-
+  if(node.name == 'lcgl_detail') {
+    index = _index;
+  }
   if (node.component) {
     node.componentName = node.component;
     node.component = lazyLoading(node.componentName);
   }
   return node;
 });
-
+sRouters[index].children = []
+// console.log('sRouters[index]', sRouters[index])
+sRouters.map((node) => {
+  if(node.name !== 'lcgl_detail') {
+    sRouters[index].children.push({path: '_'+node.componentName, component: () => import ('@/views/'+node.componentName)})
+  }
+})
+// console.log('sRouters', sRouters)
 appRouters.push(...sRouters);
 
 export default new Router({

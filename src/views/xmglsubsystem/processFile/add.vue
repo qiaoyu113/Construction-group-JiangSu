@@ -13,49 +13,49 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称" prop="proName">
+          <el-form-item label="项目名称：" prop="proName">
             <el-input v-model="dataForm.proName" readonly>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属分公司" prop="proSubCompany">
+          <el-form-item label="所属分公司：" prop="proSubCompany">
             <el-input v-model="dataForm.proSubCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属事业部" prop="proBusDept">
+          <el-form-item label="所属事业部：" prop="proBusDept">
             <el-input v-model="dataForm.proBusDept" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="建设单位" prop="proConstructCompany">
+          <el-form-item label="建设单位：" prop="proConstructCompany">
             <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同模式" prop="proContractAttr">
+          <el-form-item label="合同模式：" prop="proContractAttr">
             <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="投资金额" prop="proTotalInvestment">
+          <el-form-item label="投资金额：" prop="proTotalInvestment">
             <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别" prop="proType">
+          <el-form-item label="工程类别：" prop="proType">
             <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经营方式" prop="proRunMode">
+          <el-form-item label="经营方式：" prop="proRunMode">
             <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目规模" prop="proBuildArea">
+          <el-form-item label="项目规模：" prop="proBuildArea">
             <el-input v-model="dataForm.proBuildArea" readonly></el-input>
           </el-form-item>
         </el-col>
@@ -63,31 +63,31 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="processFileType" label="文件类型">
+          <el-form-item prop="processFileType" label="文件类型：">
             <t-dic-dropdown-select dicType="file_type" v-model="dataForm.processFileType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="processBranch" label="流程选择">
-            <el-input v-model="dataForm.processBranch"></el-input>
+          <el-form-item prop="processBranch" label="流程选择：">
+            <t-dic-dropdown-select dicType="process_type" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="经办人" prop="sign">
+          <el-form-item label="经办人：" prop="sign">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办时间" prop="signTime">
+          <el-form-item label="经办时间：" prop="signTime">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="备注" prop="remark">
+          <el-form-item label="备注：" prop="remark">
             <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>

@@ -79,8 +79,10 @@ img {
   }
 
   .site-navbar__brand {
+	 
     &-lg {
       display: none;
+	   font-size: 26px;
     }
 
     &-mini {
@@ -96,6 +98,7 @@ img {
   .site-sidebar__menu-icon {
     margin-right: 0;
     font-size: 20px;
+	height: 2em;
   }
 
   .site-content--tabs > .el-tabs > .el-tabs__header {
@@ -129,7 +132,7 @@ img {
   right: 0;
   left: 0;
   z-index: 1030;
-  height: 50px;
+  height: 70px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
   background-color: $navbar--background-color;
 
@@ -168,7 +171,7 @@ img {
   &__header {
     position: relative;
     float: left;
-    width: 230px;
+    width: 260px;
     height: 50px;
     overflow: hidden;
   }
@@ -188,9 +191,9 @@ img {
 
     &-lg,
     &-mini {
-      margin: 0 5px;
+      margin: 15px 20px;
       color: #fff;
-
+		font-size: 25px;
       &:focus,
       &:hover {
         color: #fff;
@@ -226,6 +229,9 @@ img {
         vertical-align: middle;
       }
     }
+	.site-sidebar__menu-icon {
+		height: 2em;
+	}
   }
 
   &__body {
@@ -239,7 +245,7 @@ img {
     float: left;
     background-color: transparent;
     border-bottom: 0;
-
+	color: #000000;
     &--right {
       float: right;
     }
@@ -253,6 +259,7 @@ img {
     .el-submenu .el-submenu__title {
       height: 50px;
       line-height: 50px;
+	  
     }
 
     .el-submenu > .el-menu {
@@ -262,7 +269,7 @@ img {
     .el-badge {
       display: inline;
       z-index: 2;
-
+			color: #FFFFFF;
       &__content {
         line-height: 16px;
       }
@@ -273,7 +280,7 @@ img {
 ------------------------------ */
 .site-sidebar {
   position: fixed;
-  top: 50px;
+  top: 70px;
   left: 0;
   bottom: 0;
   z-index: 1020;
@@ -290,7 +297,7 @@ img {
       .el-menu-item,
       .el-submenu .el-submenu__title {
         color: $sidebar--color-text-dark;
-
+				border-top: 0.5px solid #555555;
         &:focus,
         &:hover {
           color: mix(#fff, $sidebar--color-text-dark, 50%);
@@ -348,7 +355,7 @@ img {
   padding: 15px;
 
   .t-form-footer {
-z-index: 1000;
+	z-index: 1000;
     text-align: center;
     margin: 0 auto;
     position: fixed;
@@ -367,7 +374,7 @@ z-index: 1000;
 
   &__wrapper {
     position: relative;
-    padding-top: 50px;
+    padding-top: 70px;
     margin-left: 230px;
     min-height: 100%;
     background: $content--background-color;
@@ -380,7 +387,7 @@ z-index: 1000;
   > .el-tabs {
     > .el-tabs__header {
       position: fixed;
-      top: 50px;
+      top: 70px;
       left: 230px;
       right: 0;
       z-index: 930;
@@ -402,7 +409,7 @@ z-index: 1000;
 
       > .site-tabs__tools {
         position: fixed;
-        top: 50px;
+        top: 70px;
         right: 0;
         z-index: 931;
         height: 40px;

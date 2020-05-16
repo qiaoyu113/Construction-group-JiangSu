@@ -8,63 +8,55 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称">
+          <el-form-item label="项目名称：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName" placeholder="项目名称"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" placeholder="工程类别"
-                      clearable></el-input>
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="类别子项">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" placeholder="类别子项"
-                      clearable></el-input>
+          <el-form-item label="类别子项：">
+            <t-dic-dropdown-select dicType="category_child" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="建设单位">
+          <el-form-item label="建设单位：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany" placeholder="建设单位"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="分公司">
+          <el-form-item label="分公司：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="所属分公司"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经营方式">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" placeholder="经营方式"
-                      clearable></el-input>
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="审批状态">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" placeholder="审批状态"
-                      clearable></el-input>
+          <el-form-item label="审批状态：">
+            <t-dic-dropdown-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办人">
+          <el-form-item label="经办人：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" placeholder="经营方式"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
+          <el-form-item label="经办日期：">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
@@ -92,6 +84,13 @@
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         checkededRows: [],
@@ -114,42 +113,50 @@
               {
                 prop: 'proName',
                 label: '项目名称',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proType',
                 label: '工程类别',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proSubType',
                 label: '类别子项',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proConstructCompany',
                 label: '建设单位',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proBuildArea',
                 label: '建筑面积',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '合同金额',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '所属分公司',
-                sortable: true
+                sortable: true,
+                minWidth: 110
               },
               {
                 prop: 'proRunMode',
                 label: '经营方式',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proRealStartDate',
