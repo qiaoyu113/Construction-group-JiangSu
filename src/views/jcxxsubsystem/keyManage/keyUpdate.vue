@@ -163,7 +163,6 @@
       </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
-<<<<<<< HEAD
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="sign" label="登记人:">
@@ -176,19 +175,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-=======
-      <el-col :span="8">
-        <el-form-item prop="sign" label="登记人">
-          <span>{{dataForm.sign}}</span>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="sign" label="登记时间">
-          <el-input v-model="dataForm.signTime"></el-input>
-          <span>{{dataForm.signTime}}</span>
-        </el-form-item>
-      </el-col>
->>>>>>> 3cfa551c4843a32ae00f987599eae6347a83bc35
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
