@@ -30,12 +30,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="sign" label="登记人">
-            <el-input readonly v-model="dataForm.sign"></el-input>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="登记时间">
-            <el-date-picker readonly type="datetime" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,8 +70,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="合同模式">
-<!--            <el-input readonly v-model="dataForm.pId"></el-input>-->
-            <t-dic-dropdown-select dicType="1260862577664200706" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -81,14 +80,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="工程类别">
-<!--            <el-input readonly v-model="dataForm.pId"></el-input>-->
-            <t-dic-dropdown-select dicType="1260861756058767362" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营方式">
-<!--            <el-input v-model="dataForm.proRunMode"></el-input>-->
-            <t-dic-dropdown-select dicType="1260863139436695554" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -105,6 +102,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -163,7 +163,11 @@
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -195,7 +199,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },

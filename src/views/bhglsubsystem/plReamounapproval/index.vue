@@ -31,7 +31,7 @@
                     <el-form-item>
                         <el-button  @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
                         <el-button  icon="el-icon-download" @click="doReset()">
-                            <i class="fa fa-lg fa-level-down"></i>清空
+                            <i class="el-icon-delete"></i>清空
                         </el-button>
                     </el-form-item>
                 </el-col>
@@ -53,7 +53,7 @@
                 startDateRange: null,
                 gridOptions: {
                     dataSource: {
-                        serviceInstance: tapp.services.bidPletterApproval.getPagedList,
+                        serviceInstance: tapp.services.plReamounapproval.getPagedList,
                         serviceInstanceInputParameters: {
                             searchKey: null,
                             processDefinationKey: null,
@@ -63,60 +63,107 @@
                     grid: {
                         offsetHeight: 125, //125:查询部分高度
                         mutiSelect: false,
+                        fit: true, // 列的宽度是否自撑开
                         columns: [
                                                                                                                                                                                                     {
                                             prop: 'bId',
                                             label: '流程业务id',
-                                            sortable: true
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'actTaskKey',
                                             label: 'activiti执行任务key',
-                                            sortable: true
-                                        },
-                                                                                                                                                                                                            {
-                                            prop: 'pcId',
-                                            label: '项目备案id',
-                                            sortable: true
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'pId',
-                                            label: '投标保证金（保函）申请id',
-                                            sortable: true
+                                            label: '项目id',
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'plId',
+                                            label: '保函id',
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'remark',
                                             label: '备注',
-                                            sortable: true
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'sign',
                                             label: '执行人',
-                                            sortable: true
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'signTime',
                                             label: '执行时间',
                                             sortable: true,
+                                            minWidth: 120,
                                             formatter: (row, column, cellValue) => {
                                                 return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                                             }
                                         },
                                                                                                                                                                                                             {
-                                            prop: 'approvalStatus',
-                                            label: '审批状态（字典表）',
-                                            sortable: true
-                                        },
-                                                                                                                                                                                                            {
                                             prop: 'propose',
                                             label: '审核意见',
-                                            sortable: true
+                                            sortable: true,
+                                            minWidth: 120,
                                         },
                                                                                                                                                                                                             {
                                             prop: 'result',
                                             label: '审核结果',
-                                            sortable: true
-                                        }
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'approvalStatus',
+                                            label: '审批状态（字典表）',
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'createtime',
+                                            label: '创建时间',
+                                            sortable: true,
+                                            minWidth: 120,
+                                            formatter: (row, column, cellValue) => {
+                                                return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
+                                            }
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'updatetime',
+                                            label: '更新时间',
+                                            sortable: true,
+                                            minWidth: 120,
+                                            formatter: (row, column, cellValue) => {
+                                                return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
+                                            }
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'createuser',
+                                            label: '创建人',
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'updateuser',
+                                            label: '更新人',
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
+                                                                                                                                                                                                            {
+                                            prop: 'datastatus',
+                                            label: '数据有效性 1有效 0无效',
+                                            sortable: true,
+                                            minWidth: 120,
+                                        },
                                                                                                                         ], // 需要展示的列
                         defaultSort: {
                             prop: 'id',

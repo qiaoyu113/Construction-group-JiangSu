@@ -18,22 +18,22 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="项目编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="所属单位">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="totalBorrowCount" label="累计借款次数">
-            <el-input readonly v-model="dataForm.totalBorrowCount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowCount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-            <el-input readonly v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -44,20 +44,20 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次借款期限（月）">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
+          <el-form-item prop="tiimeLimit" label="本次借款额度期限">
+            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input readonly v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="borrowDate" label="借款日期">
-            <el-input readonly v-model="dataForm.borrowDate"></el-input>
+            <el-input :readonly="true" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,7 +70,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="signTime" label="经办时间">
-            <el-date-picker type="datetime" readonly="true" v-model="dataForm.signTime"></el-date-picker>
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -88,6 +88,9 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import {mapState} from "vuex";
+
   export default {
     data () {
       return {
@@ -95,7 +98,7 @@
         docId: '',
         dataForm: {
           bId: '',actTaskKey: '',pId: '',applyAmount: '',tiimeLimit: '',totalBorrowCount: '',totalBorrowAmount: '',
-          realAmount: '',borrowDate: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
+          realAmount: '',borrowDate: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
           createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
         dataRule: {
           bId: [
@@ -132,12 +135,19 @@
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
+          remark: [
+            { required: true, message: '借款原因不能为空', trigger: 'blur' }
+          ],
 
         }
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,  })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -173,7 +183,9 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
       },
