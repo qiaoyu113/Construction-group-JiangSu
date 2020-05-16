@@ -1,204 +1,184 @@
 <template>
-    <div>
-        <el-row :gutter="10" class="search-top-operate">
-            <el-button type="success" @click="doSave()">
-                提交审批
+  <div class="mod-role">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+      <el-row :gutter="10" class="search-top-operate">
+        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
+          <i class="fa fa-lg fa-level-down"></i>导出
+        </el-button>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="选择关键字">
+            <el-select placeholder="请选择"
+                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
+              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
+                         :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="创建时间">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                     @change="onStartDateRangeChanged">
+            </t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="关键字">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+        <el-col :span="12">
+          <el-form-item>
+            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+            <el-button icon="el-icon-download" @click="doReset()">
+              <i class="el-icon-delete"></i>清空
             </el-button>
-            <el-button type="primary" @click="">
-                审批流程图
-            </el-button>
-        </el-row>
-        <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-            <t-sub-title :title="'项目信息'"></t-sub-title>
-            <el-row :gutter="20">
-                                                                                                <el-col :span="8">
-                            <el-form-item prop="bId" label="流程业务id">
-                                <el-input v-model="dataForm.bId"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="actTaskKey" label="activiti执行任务key">
-                                <el-input v-model="dataForm.actTaskKey"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="pcId" label="项目备案id">
-                                <el-input v-model="dataForm.pcId"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="bidFileType" label="文件类型（字典表）">
-                                <el-input v-model="dataForm.bidFileType"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="sign" label="执行人">
-                                <el-input v-model="dataForm.sign"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="signTime" label="执行时间">
-                                <el-input v-model="dataForm.signTime"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="approvalStatus" label="审批状态（字典表）">
-                                <el-input v-model="dataForm.approvalStatus"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="propose" label="审核意见">
-                                <el-input v-model="dataForm.propose"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="result" label="审核结果">
-                                <el-input v-model="dataForm.result"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="createtime" label="创建时间">
-                                <el-input v-model="dataForm.createtime"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="updatetime" label="更新时间">
-                                <el-input v-model="dataForm.updatetime"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="createuser" label="创建人">
-                                <el-input v-model="dataForm.createuser"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="updateuser" label="更新人">
-                                <el-input v-model="dataForm.updateuser"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                                                <el-col :span="8">
-                            <el-form-item prop="datastatus" label="数据有效性 1有效 0无效">
-                                <el-input v-model="dataForm.datastatus"></el-input>
-                            </el-form-item>
-                        </el-col>
-                                                </el-row>
-            <t-sub-title :title="'附件上传'"></t-sub-title>
-            <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
-        </el-form>
-    </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </t-form>
+    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+    </t-grid>
+  </div>
 </template>
-
 <script>
-    export default {
-        data () {
-            return {
-                assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
-                docId: '',
-                dataForm: {
-                                                                                                                                                    bId: '',                                                                                                                                                            actTaskKey: '',                                                                                                                                                            pcId: '',                                                                                                                                                            bidFileType: '',                                                                                                                                                            sign: '',                                                                                                                                                            signTime: '',                                                                                                                                                            approvalStatus: '',                                                                                                                                                            propose: '',                                                                                                                                                            result: '',                                                                                                                                                            createtime: '',                                                                                                                                                            updatetime: '',                                                                                                                                                            createuser: '',                                                                                                                                                            updateuser: '',                                                                                                                                                            datastatus: ''                                                                                        },
-                dataRule: {
-                                                                                                                                                    bId: [
-                                { required: true, message: '流程业务id不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            actTaskKey: [
-                                { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            pcId: [
-                                { required: true, message: '项目备案id不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            bidFileType: [
-                                { required: true, message: '文件类型（字典表）不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            sign: [
-                                { required: true, message: '执行人不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            signTime: [
-                                { required: true, message: '执行时间不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            approvalStatus: [
-                                { required: true, message: '审批状态（字典表）不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            propose: [
-                                { required: true, message: '审核意见不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            result: [
-                                { required: true, message: '审核结果不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            createtime: [
-                                { required: true, message: '创建时间不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            updatetime: [
-                                { required: true, message: '更新时间不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            createuser: [
-                                { required: true, message: '创建人不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            updateuser: [
-                                { required: true, message: '更新人不能为空', trigger: 'blur' }
-                            ],
-                                                                                                                                                            datastatus: [
-                                { required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur' }
-                            ]
-                                                                                        }
+  import baseView from '@/base/baseView'
+
+  export default {
+    name: 'myTask',
+    extends: baseView,
+    data() {
+      return {
+        checkededRows: [],
+        processDefinationlist: [],
+        startDateRange: null,
+        gridOptions: {
+          dataSource: {
+            serviceInstance: tapp.services.tBidPletterApproval.getPagedList,
+            serviceInstanceInputParameters: {
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
             }
-        },
-        created() {
-            // this.init()
-        },
-        methods: {
-            // 初始化 编辑和新增 2种情况
-            init (id) {
-                if(id) {
-                    this.dataForm.id = id || 0
-                    this.$nextTick(() => {
-                        this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
-                            tapp.services.tBidFileApproval.get(id).then(function(result) {
-                                self.$util.deepObjectAssign({}, self.dataForm, result)
-                                                                                                                                                                                this.dataForm.bId = result.tBidFileApproval.bId
-                                                                                                                                                this.dataForm.actTaskKey = result.tBidFileApproval.actTaskKey
-                                                                                                                                                this.dataForm.pcId = result.tBidFileApproval.pcId
-                                                                                                                                                this.dataForm.bidFileType = result.tBidFileApproval.bidFileType
-                                                                                                                                                this.dataForm.sign = result.tBidFileApproval.sign
-                                                                                                                                                this.dataForm.signTime = result.tBidFileApproval.signTime
-                                                                                                                                                this.dataForm.approvalStatus = result.tBidFileApproval.approvalStatus
-                                                                                                                                                this.dataForm.propose = result.tBidFileApproval.propose
-                                                                                                                                                this.dataForm.result = result.tBidFileApproval.result
-                                                                                                                                                this.dataForm.createtime = result.tBidFileApproval.createtime
-                                                                                                                                                this.dataForm.updatetime = result.tBidFileApproval.updatetime
-                                                                                                                                                this.dataForm.createuser = result.tBidFileApproval.createuser
-                                                                                                                                                this.dataForm.updateuser = result.tBidFileApproval.updateuser
-                                                                                                                                                this.dataForm.datastatus = result.tBidFileApproval.datastatus
-                                                                                                })
-                        }
-                    })
-                } else {
-                    this.$nextTick(() => {
-                        this.$refs.ruleForm.clearValidate();
-                    })
-                }
+          },
+          grid: {
+            offsetHeight: 125, //125:查询部分高度
+            mutiSelect: false,
+            fit: true, // 列的宽度是否自撑开
+            columns: [
+              /*              {
+                              prop: 'bId',
+                              label: '流程业务id',
+                              sortable: true,
+                              minWidth: 120,
+                            },
+                            {
+                              prop: 'actTaskKey',
+                              label: 'activiti执行任务key',
+                              sortable: true,
+                              minWidth: 120,
+                            },*/
+              {
+                prop: 'pcId',
+                label: '项目名称',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '工程类别',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '合同模式',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '建设单位',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '分公司',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '经营方式',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '投标金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '项目审批阶段',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pId',
+                label: '投标结果',
+                sortable: false,
+                minWidth: 120,
+              },
+
+              {
+                prop: 'sign',
+                label: '经办人',
+                sortable: false,
+                minWidth: 120,
+              },
+            ], // 需要展示的列
+            defaultSort: {
+              prop: 'id',
+              order: 'descending'
             },
-            // 表单提交
-            doSave () {
-                let self = this;
-                let validPromises = [self.$refs['ruleForm'].validate()];
-                Promise.all(validPromises).then(resultList => {
-                    let model = { ...self.dataForm };
-                    tapp.services.tBidFileApproval.save(model).then(function(result) {
-                        self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                        self.$notify.success({
-                            title: "操作成功！",
-                            message: "保存成功！",
-                        });
-                    });
-                }).catch(function(e) {
-                    self.$notify.error({
-                        title: "错误",
-                        message: "保存失败！"
-                    });
-                    return false;
-                });
-            }
+          }
         }
+      }
+    },
+    components: {},
+    created() {
+      this.loadCodeTableList();
+    },
+    methods: {
+      // 获取码表值
+      loadCodeTableList() {
+        // 以下为示例
+      },
+      onStartDateRangeChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      },
+      handleSelectionChange(val) {
+        this.checkededRows = val;
+      },
+      doReset() {
+        this.$refs.search.resetFields();
+      },
+      doExportExcel() {
+        this.$refs.searchReulstList.exportCSV('${comments}表');
+      },
+      doRefresh() {
+        this.$refs.searchReulstList.refresh();
+      }
     }
+  }
 </script>
+
