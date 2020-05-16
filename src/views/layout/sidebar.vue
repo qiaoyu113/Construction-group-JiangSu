@@ -95,7 +95,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 #driver-highlighted-element-stage {
   opacity: 0.1;
 }

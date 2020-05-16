@@ -23,7 +23,7 @@ export default {
   },
   getters: {
     isLoading: state => state.isLoading,
-    documentMainBodyHeight: state => state.documentClientHeight - 50-30-40
+    documentMainBodyHeight: state => state.documentClientHeight - 50 - 30 - 40 - 44
   },
   mutations: {
     startLoading(state) {
@@ -54,6 +54,7 @@ export default {
     [types.UPDATE_DOCUMENT_CLIENT_HEIGHT](state, {
       height
     }) {
+      console.log('height', height)
       state.documentClientHeight = height
     },
 

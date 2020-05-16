@@ -4,41 +4,6 @@
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
         <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="200px">
-          <t-sub-title :title="'办理后回填信息'"></t-sub-title>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item prop="time" label="开户时间">
-                <t-input v-model="dataForm.time"></t-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="time" label="开户名称">
-                <t-input v-model="dataForm.time"></t-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="time" label="开户网点">
-                <t-input v-model="dataForm.time"></t-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="time" label="银行账号">
-                <t-input v-model="dataForm.time"></t-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="time" label="银行账号名称">
-                <t-input v-model="dataForm.time"></t-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="10">
-            <el-col :span="24">
-              <el-form-item prop="time" label="附件信息" class="upload-container">
-                <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
-              </el-form-item>
-            </el-col>
-          </el-row>
           <t-sub-title :title="'办理意见'"></t-sub-title>
           <el-row :gutter="10">
             <el-col :span="24">
@@ -88,6 +53,7 @@
         assetCategoryClassifications: ['pl_loanapplyInput'], // 附件的分类标识 此处为示例
         docId: '',
         component: '',
+        processDefinationlist: [],
         dataForm: {
           time: '',
           suggestion: '',
@@ -98,7 +64,7 @@
         },
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.pL_LoanEnter.getPagedList,
+            serviceInstance: tapp.services.wF_ProcessInst.getTrackingList,
             serviceInstanceInputParameters: {
               searchKey: null
             }
@@ -118,7 +84,10 @@
                 prop: 'customerCode',
                 label: '业务类型',
                 sortable: true,
-                width: 120
+                width: 120,
+                formatter: (row, column, cellValue) => {
+                  return "<a target='_blank' href='" + window.SITE_CONFIG['serverUrl'] + '/pmtapi/base_AssetManagement/view?id=' + row.id + "'>" + row.name + '</a>'
+                }
               },
               {
                 prop: 'customerCode',
@@ -185,13 +154,14 @@
     },
     mounted() {
       console.log('this.$route111', this.$route)
+      this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId);
     },
     activated() {
       console.log('this.$route111', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init (id) {
+      init(id, key, actId) {
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -207,6 +177,28 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
+        if(key) {
+          this.$nextTick(() => {
+            tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
+              console.log('result', result)
+            })
+          })
+        }
+        if(actId) {
+          // this.$nextTick(() => {
+          //   tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
+          //     console.log('result', result)
+          //   })
+          // })
+        }
+        this.loadProcessDefList();
+      },
+      loadProcessDefList() {
+        let self = this;
+        tapp.services.wf_Model.getMadelList().then(function(result) {
+          console.log('processDefinationlist',result);
+          self.processDefinationlist = result;
+        })
       },
       // 表单提交
       doSave () {

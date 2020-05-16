@@ -8,7 +8,7 @@ const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   ServerUrl:'"http://localhost:8082"', //后端服务路径：注意是http://
-  // ServerUrl:'"http://sjs-admin.ailodr.com"', //后端服务路径：注意是http://
+	// ServerUrl:'"http://sjs-admin.ailodr.com"', //后端服务路径：注意是http://
   // ServerUrl:'"http://47.94.229.181:81/jrtech"', //后端服务路径：注意是http://
   WebDomain:'"/"',// 网站虚拟目录，从域名后的第一个“/”开始到最后一个“/”为止
   WebCDNUrl:'"/"',// 网站本地js路径

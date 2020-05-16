@@ -7,22 +7,57 @@
         </el-button>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="保函类型：">
+            <t-dic-dropdown-select dicType="1260863704975675394"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="分公司：">
+            <t-dic-dropdown-select dicType="1260863882851913730"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="项目名称：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="联营单位：">
+            <t-dic-dropdown-select dicType="business_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="开立银行：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="开立银行：" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
+          <el-form-item label="保函状态：">
+            <t-dic-checkbox-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                                   @submit.native.prevent @keyup.enter.native="doRefresh()" :readOnly="readOnly"></t-dic-checkbox-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -66,32 +101,66 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'bId',
-                label: '流程业务id',
+                prop: 'proName',
+                label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'actTaskKey',
-                label: 'activiti执行任务key',
+                columnKey: 'actTaskKey',
+                filters: util.getListDataDicFilters('engineering_type'),
+                label: '工程类别',
                 sortable: true,
-                minWidth: 120,
+                width: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.rWay)
+                }
               },
               {
                 prop: 'pId',
-                label: '项目id',
+                label: '建设单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'plType',
-                label: '保函类型（字典表）',
+                label: '合同金额',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'plAmount',
-                label: '保函金额-元',
+                label: '所属分公司',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'bankName',
+                label: '经营方式',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'actTaskKey',
+                columnKey: 'actTaskKey',
+                filters: util.getListDataDicFilters('1260863704975675394'),
+                label: '保函类型',
+                sortable: true,
+                width: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('1260863704975675394', row.rWay)
+                }
+              },
+              {
+                prop: 'bankName',
+                label: '保函状态',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'bankName',
+                label: '保函金额',
                 sortable: true,
                 minWidth: 120,
               },
@@ -102,13 +171,10 @@
                 minWidth: 120,
               },
               {
-                prop: 'generateTime',
-                label: '开立时间',
+                prop: 'plCode',
+                label: '保函编号',
                 sortable: true,
                 minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.generateTime, 'YYYY-MM-DD');
-                }
               },
               {
                 prop: 'expireTime',
@@ -120,85 +186,28 @@
                 }
               },
               {
-                prop: 'plCode',
-                label: '保函编号',
+                prop: 'expireTime',
+                label: '退回时间',
                 sortable: true,
                 minWidth: 120,
-              },
-              {
-                prop: 'remark',
-                label: '备注',
-                sortable: true,
-                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.expireTime, 'YYYY-MM-DD');
+                }
               },
               {
                 prop: 'sign',
-                label: '执行人',
+                label: '经办人',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
+                label: '经办日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
-              },
-              {
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'createtime',
-                label: '创建时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true,
-                minWidth: 120,
               },
             ], // 需要展示的列
             defaultSort: {

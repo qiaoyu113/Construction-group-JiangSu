@@ -8,21 +8,22 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="所属分公司：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item label="项目名称：">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
+          <el-form-item label="借款日期：">
+            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+                               type="date" :readOnly="false">
+            </t-datetime-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -43,6 +44,7 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -65,40 +67,26 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-
-
               {
-                prop: 'applyAmount',
-                label: '本次申请额度',
+                prop: 'proName',
+                label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'tiimeLimit',
-                label: '本次借款期限（月）',
+                prop: 'proName',
+                label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'totalBorrowCount',
-                label: '累计借款次数',
+                label: '确认借款额度（万元',
                 sortable: true,
-                minWidth: 120,
+                minWidth: 150,
               },
               {
                 prop: 'totalBorrowAmount',
-                label: '累计借款金额',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'realAmount',
-                label: '确认借款额度',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'borrowDate',
                 label: '借款日期',
                 sortable: true,
                 minWidth: 120,
@@ -107,38 +95,50 @@
                 }
               },
               {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
+                prop: 'realAmount',
+                label: '借款额度期限',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'sign',
-                label: '执行人',
+                prop: 'realAmount',
+                label: '借款合同编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'signTime',
-                label: '执行时间',
+                prop: 'realAmount',
+                label: '放款金额（万元）',
                 sortable: true,
                 minWidth: 120,
+              },
+              {
+                prop: 'realAmount',
+                label: '放款期限',
+                sortable: true,
+                minWidth: 80,
+              },
+              {
+                prop: 'borrowDate',
+                label: '放款日期',
+                sortable: true,
+                minWidth: 100,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.borrowDate, 'YYYY-MM-DD');
                 }
               },
               {
-                prop: 'propose',
-                label: '审核意见',
+                prop: 'realAmount',
+                label: '累计放款款金额（万元）',
                 sortable: true,
-                minWidth: 120,
+                minWidth: 200,
               },
               {
-                prop: 'result',
-                label: '审核结果',
+                prop: 'realAmount',
+                label: '剩余可用额度（万元）',
                 sortable: true,
-                minWidth: 120,
-              }
+                minWidth: 150,
+              },
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',

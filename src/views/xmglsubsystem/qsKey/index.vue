@@ -1,6 +1,7 @@
 <template>
   <div class="mod-role">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+            :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
           <i class="fa fa-lg fa-level-down"></i>导出
@@ -27,22 +28,19 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属分公司：">
+          <el-form-item label="领用单位：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="所属分公司"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany" placeholder="建设单位"
                       clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同模式：">
-            <t-dic-dropdown-select dicType="contract_model" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="状态：">
+          <el-form-item label="密钥状态：">
             <t-dic-dropdown-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经办人：">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
@@ -63,7 +61,7 @@
           <el-form-item>
             <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
             <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
+              <i class="el-icon-delete"></i>清空
             </el-button>
           </el-form-item>
         </el-col>
@@ -93,7 +91,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.proRunmodeChageApproval.getPagedList,
+            serviceInstance: tapp.services.qsKeyApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
@@ -103,75 +101,91 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            fit: true, // 列的宽度是否自撑开
             columns: [
               {
                 prop: 'paoName',
                 label: '项目名称',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proType',
                 label: '工程类别',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proConstructCompany',
                 label: '建设单位',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '投资金额',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '合同模式',
-                sortable: true
-              },
-              {
-                prop: 'proTotalInvestment',
-                label: '分公司',
-                sortable: true
-              },
-              {
-                prop: 'proRunModeO',
-                label: '经营方式(变更前)',
                 sortable: true,
-                minWidth: 120
-              },
-              {
-                prop: 'conPorjectFund',
-                label: '待确认工程款',
-                sortable: true,
-                minWidth: 120
+                minWidth: 100
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式(变更后)',
+                label: '经营方式',
                 sortable: true,
-                minWidth: 120
+                minWidth: 100
+              },
+              {
+                prop: 'keyName',
+                label: '密钥名称',
+                sortable: true,
+                minWidth: 100,
+              },
+              {
+                prop: 'keyName',
+                label: '领用单位',
+                sortable: true,
+                minWidth: 100,
               },
               {
                 prop: 'approvalStatus',
                 label: '状态',
-                sortable: true
+                sortable: true,
+                minWidth: 100,
               },
               {
-                prop: 'conPorjectFund',
-                label: '最终工程款(无)',
+                prop: 'getTime',
+                label: '领用日期',
                 sortable: true,
-                minWidth: 120
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.getTime, 'YYYY-MM-DD')
+                }
+              },
+              {
+                prop: 'getTime',
+                label: '失效日期',
+                sortable: true,
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.getTime, 'YYYY-MM-DD')
+                }
               },
               {
                 prop: 'sign',
                 label: '经办人',
-                sortable: true
+                sortable: true,
+                minWidth: 100
               },
               {
                 prop: 'signTime',
-                label: '经办时间',
+                label: '经办日期',
                 sortable: true,
+                minWidth: 100,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
@@ -205,7 +219,7 @@
         this.$refs.search.resetFields()
       },
       doExportExcel () {
-        this.$refs.searchReulstList.exportCSV('${comments}表')
+        this.$refs.searchReulstList.exportCSV('密钥领用')
       },
       doRefresh () {
         this.$refs.searchReulstList.refresh()
