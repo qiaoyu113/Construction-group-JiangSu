@@ -18,7 +18,13 @@
             </el-select>
           </el-form-item>
         </el-col>
-
+        <el-col :span="8">
+          <el-form-item label="密钥类别">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
+                      clearable></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="申请时间">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
@@ -26,6 +32,7 @@
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
+
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="有效期截止日" label-width="160px">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
@@ -33,20 +40,7 @@
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
+
       </el-row>
       <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="12">
@@ -79,6 +73,7 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoKeyApproval.getPagedList,
             serviceInstanceInputParameters: {
+              keyType: null,
               province: null,
               searchKey: null,
               dateRange: ''

@@ -16,10 +16,11 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="keyType" label="类别名称">
-            <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
+            <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
                                    :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
-        </el-col>        <el-col :span="8">
+        </el-col>
+        <el-col :span="8">
           <el-form-item prop="authCompany" label="批准单位">
             <el-input v-model="dataForm.authCompany"></el-input>
           </el-form-item>
@@ -210,10 +211,10 @@
             {required: true, message: '是否直接登记', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '登记人不能为空', trigger: 'blur'}
+            {required:false, message: '登记人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '登记时间不能为空', trigger: 'blur'}
+            {required: false, message: '登记时间不能为空', trigger: 'blur'}
           ],
           keyStatus: [
             {required: true, message: '密钥状态不能为空', trigger: 'blur'}

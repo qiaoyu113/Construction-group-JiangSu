@@ -12,24 +12,34 @@
       <el-row :gutter="20">
         <el-card shadow="never">
           <t-sub-title :title="'合作方基本信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="bId" label="合作方名称">
+        <!--<el-col :span="8">
+          <el-form-item prop="bId" label="流程Id">
             <t-input v-model="dataForm.bId"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="统一社会信用代码" label-width="170px">
+          <el-form-item prop="actTaskKey" label="actId" label-width="170px">
             <t-input v-model="dataForm.actTaskKey"></t-input>
           </el-form-item>
-        </el-col>
+        </el-col>-->
         <el-col :span="8">
-          <el-form-item prop="companyName" label="合作方地址">
+          <el-form-item prop="companyName" label="合作方名称">
             <t-input v-model="dataForm.companyName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="creditCode" label="法人">
+          <el-form-item prop="creditCode" label="统一社会信用代码">
             <t-input v-model="dataForm.creditCode"></t-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="companyAddress" label="合作方地址">
+            <t-input v-model="dataForm.companyAddress"></t-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="legalPerson" label="法人">
+            <t-input v-model="dataForm.legalPerson"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -48,22 +58,22 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'合作方资产情况'"></t-sub-title>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="fixedAssets" label="固定资产">
             <t-input v-model="dataForm.fixedAssets"></t-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="fluidCapital" label="流动资金">
             <t-input v-model="dataForm.fluidCapital"></t-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="chargeAccount" label="应收账款">
             <t-input v-model="dataForm.chargeAccount"></t-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="liabilities" label="负债">
             <t-input v-model="dataForm.liabilities"></t-input>
           </el-form-item>
@@ -71,14 +81,14 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
-        <el-col :span="8">
+        <el-col :span="24">
           <el-form-item prop="marketSituation" label="市场情况">
-            <t-input v-model="dataForm.marketSituation"></t-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.marketSituation" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="24">
           <el-form-item prop="projectSituation" label="合作项目情况">
-            <t-input v-model="dataForm.projectSituation"></t-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-card>
@@ -165,10 +175,10 @@
         },
         dataRule: {
           bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
+            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
+            {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           companyName: [
             {required: true, message: '合作方名称不能为空', trigger: 'blur'}
@@ -189,22 +199,22 @@
             {required: true, message: '联系电话不能为空', trigger: 'blur'}
           ],
           fixedAssets: [
-            {required: true, message: '固定资产-元不能为空', trigger: 'blur'}
+            {required: false, message: '固定资产-元不能为空', trigger: 'blur'}
           ],
           fluidCapital: [
-            {required: true, message: '流动资金-元不能为空', trigger: 'blur'}
+            {required: false, message: '流动资金-元不能为空', trigger: 'blur'}
           ],
           chargeAccount: [
-            {required: true, message: '应收账款-元不能为空', trigger: 'blur'}
+            {required: false, message: '应收账款-元不能为空', trigger: 'blur'}
           ],
           liabilities: [
-            {required: true, message: '负债-元不能为空', trigger: 'blur'}
+            {required: false, message: '负债-元不能为空', trigger: 'blur'}
           ],
           marketSituation: [
-            {required: true, message: '市场情况不能为空', trigger: 'blur'}
+            {required: false, message: '市场情况不能为空', trigger: 'blur'}
           ],
           projectSituation: [
-            {required: true, message: '合作项目情况不能为空', trigger: 'blur'}
+            {required: false, message: '合作项目情况不能为空', trigger: 'blur'}
           ],
           bankName: [
             {required: true, message: '开户行名称不能为空', trigger: 'blur'}
@@ -216,10 +226,10 @@
             {required: true, message: '银行帐号不能为空', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: false, message: '执行人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: true, message: '审核意见不能为空', trigger: 'blur'}
@@ -228,7 +238,7 @@
             {required: true, message: '审核结果不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '审批状态不能为空', trigger: 'blur'}
           ],
           createtime: [
             {required: true, message: '创建时间不能为空', trigger: 'blur'}
@@ -249,7 +259,7 @@
       }
     },
     created() {
-      //  this.init()
+       this.init()
       this.$forceUpdate()
     },
     computed: {
