@@ -31,7 +31,7 @@ export default {
 @import '../../assets/scss/_variables.scss';
 .sub-title .title {
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   color: #333;
   padding: 12px 0;
   padding-left: 28px;

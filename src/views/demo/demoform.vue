@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目经理资质登记</div>
+      </el-col>
+    </el-row>
     <el-tabs v-model="tabActive" @tab-click="handleTabClick" tab-position="right" class="fixed-header">
       <el-tab-pane label="客户资料" name="baseInfo">
         <el-form :model="docEntity" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
