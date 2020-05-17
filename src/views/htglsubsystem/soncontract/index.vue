@@ -9,26 +9,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="子合同编号：">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
+            <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同名称：">
-           <!-- <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>-->
             <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同形式：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
-                      clearable></el-input>
+            <el-input></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -36,26 +27,19 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
+            <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同类型：">
-           <!-- <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>-->
             <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同状态：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
-                      clearable></el-input>
+            <t-dic-dropdown-select dicType="1260866186657271810"
+                                   readonly></t-dic-dropdown-select>
+            <el-input></el-input>
           </el-form-item>
         </el-col>
       </el-row>

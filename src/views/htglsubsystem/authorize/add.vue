@@ -19,42 +19,48 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="actTaskKey" label="所属分公司：">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+            <el-input v-model="dataForm.actTaskKey" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pId" label="所属事业部：">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.pId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="cId" label="建设单位：">
-            <el-input v-model="dataForm.cId"></el-input>
+            <el-input v-model="dataForm.cId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantStarttime" label="合同模式：">
-            <el-input v-model="dataForm.grantStarttime"></el-input>
+          <!--<el-form-item prop="grantStarttime" label="合同模式：">
+            <el-input v-model="dataForm.grantStarttime" readonly></el-input>
+          </el-form-item>-->
+          <el-form-item label="合同模式：" prop="proContractAttr">
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.grantStarttime" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="grantEndtime" label="投资金额：">
-            <el-input v-model="dataForm.grantEndtime"></el-input>
+            <el-input v-model="dataForm.grantEndtime" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantUser" label="工程类别：">
-            <el-input v-model="dataForm.grantUser"></el-input>
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
+          <!--<el-form-item prop="grantUser" label="工程类别：">
+            <el-input v-model="dataForm.grantUser" readonly></el-input>
+          </el-form-item>-->
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="经营方式：">
-            <el-input v-model="dataForm.grantContent"></el-input>
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="remark" label="项目规模：">
-            <el-input v-model="dataForm.remark"></el-input>
+            <el-input v-model="dataForm.remark" readonly></el-input>
           </el-form-item>
           </el-col>
       </el-row>
@@ -65,7 +71,6 @@
               <el-input v-model="dataForm.bId"></el-input>
             </el-form-item>
           </el-col>
-
           <el-col :span="8">
             <el-form-item prop="bId" label="合同期间：">
               <el-input v-model="dataForm.bId"></el-input>
@@ -81,11 +86,12 @@
           <t-sub-title :title="'办理信息'"></t-sub-title>
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-form-item prop="bId" label="授权内容：">
-                <el-input v-model="dataForm.bId"></el-input>
+                <el-form-item prop="bId" verify can-be-empty :maxLength="200" label="授权内容：">
+                  <el-input type="textarea"></el-input>
               </el-form-item>
             </el-col>
-
+          </el-row>
+          <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item prop="bId" label="授权期限：">
                 <el-input v-model="dataForm.bId"></el-input>
@@ -97,6 +103,8 @@
                 <el-input v-model="dataForm.bId"></el-input>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item prop="bId" label="经办人：">
                 <el-input v-model="dataForm.bId"></el-input>
@@ -107,9 +115,11 @@
                 <el-input v-model="dataForm.bId"></el-input>
               </el-form-item>
             </el-col>
+          </el-row>
+        <el-row :gutter="20">
             <el-col :span="8">
-              <el-form-item prop="bId" label="备注：">
-                <el-input v-model="dataForm.bId"></el-input>
+              <el-form-item prop="bId" verify can-be-empty :maxLength="200" label="备注：">
+                <el-input type="textarea"></el-input>
               </el-form-item>
             </el-col>
           </el-row>

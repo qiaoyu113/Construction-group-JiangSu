@@ -10,13 +10,13 @@
       <t-sub-title :title="'主合同补充协议'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="主合同名称：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="pId" label="主合同名称：">
+            <el-input v-model="dataForm.bId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="bId" label="主合同编号：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="pId" label="主合同编号：">
+            <el-input v-model="dataForm.bId" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -25,239 +25,252 @@
              label-width="120px" label-position="right">
       <t-sub-title :title="'项目基本信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="bId" label="项目名称：">
-            <el-input v-model="dataForm.bId"></el-input>
+        <el-col :span="10">
+          <el-form-item prop="pId" label="项目名称：">
+            <el-input v-model="dataForm.actTaskKey" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="项目编号：">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+        <el-col :span="10">
+          <el-form-item prop="pId" label="项目编号：">
+            <el-input v-model="dataForm.actTaskKey" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="10">
           <el-form-item prop="pId" label="建设单位：">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.pId" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conCode" label="单位性质：">
-            <el-input v-model="dataForm.conCode"></el-input>
+            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.proConstructCompanyAttr"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="conName" label="项目地址：">
-            <el-input v-model="dataForm.conName"></el-input>
+          <el-form-item prop="pId" label="项目地址:">
+            <el-row type="flex" justify="space-between">
+              <el-col :span="12">
+                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province"
+                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
+              </el-col>
+              <el-col :span="12">
+                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city"
+                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item prop="conModality" label="项目总投资：">
-            <el-input v-model="dataForm.conModality"></el-input>
+            <el-input v-model="dataForm.conModality" readonly></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="conStartDate" label="所属分公司：">
-            <el-input v-model="dataForm.conStartDate"></el-input>
+            <el-input v-model="dataForm.conStartDate" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conEndDate" label="所属事业部：">
-            <el-input v-model="dataForm.conEndDate"></el-input>
+            <el-input v-model="dataForm.conEndDate" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conSigningDate" label="实施主体：">
-            <el-input v-model="dataForm.conSigningDate"></el-input>
+          <el-form-item prop="conCode" label="实施主体：">
+            <t-dic-dropdown-select dicType="ss_zt" v-model="dataForm.proConstructCompanyAttr"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="conPayWay" label="计划开工日期：">
-            <el-input v-model="dataForm.conPayWay"></el-input>
+            <el-input v-model="dataForm.conPayWay" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="otherPayWay" label="计划完工日期：">
-            <el-input v-model="dataForm.otherPayWay"></el-input>
+            <el-input v-model="dataForm.otherPayWay" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="工程工期：">
-            <el-input v-model="dataForm.conTotal"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conSelfProportion" label="经营方式：">
-            <el-input v-model="dataForm.conSelfProportion"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conOtherProportion" label="联营单位管理费：">
-            <el-input v-model="dataForm.conOtherProportion"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conPayStandard" label="项目净利润承诺超：">
-            <el-input v-model="dataForm.conPayStandard"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conStatus" label="公司负责人：">
-            <el-input v-model="dataForm.conStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="联营公司名称：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="联系人：">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="联系方式：">
-            <el-input v-model="dataForm.signTime"></el-input>
+            <el-input v-model="dataForm.conTotal" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-               label-width="120px" label-position="right"></el-form>
+      <el-row :gutter="25">
+        <el-col :span="8">
+          <el-form-item prop="conCode" label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proConstructCompanyAttr"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item prop="conOtherProportion" label="联营单位管理费：">
+            <el-input v-model="dataForm.conOtherProportion" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item prop="conPayStandard" label="项目净利润承诺超：">
+            <el-input v-model="dataForm.conPayStandard" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item prop="conStatus" label="公司负责人：">
+            <el-input v-model="dataForm.conStatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="pId" label="联营公司名称：">
+            <el-input v-model="dataForm.approvalStatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="联系人：">
+            <el-input v-model="dataForm.sign" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pId" label="联系方式：">
+            <el-input v-model="dataForm.signTime" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <t-sub-title :title="'主合同基本信息'"></t-sub-title>
       <el-row :gutter="20">
-      <el-col :span="8">
-        <el-form-item prop="propose" label="主合同形式：">
-          <el-input v-model="dataForm.propose"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="result" label="主合同开始日期：">
-          <el-input v-model="dataForm.result"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="createtime" label="主合同结束日期：">
-          <el-input v-model="dataForm.createtime"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="updateuser" label="甲方单位：">
-          <el-input v-model="dataForm.updateuser"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="签订人：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="开户行名称：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="银行账户名称：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="银行账号：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="联系方式：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="地址：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="8">
-        <el-form-item prop="updateuser" label="乙方单位：">
-          <el-input v-model="dataForm.updateuser"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="签订人：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="开户行名称：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="银行账户名称：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="银行账号：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="联系方式：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="地址：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="自营占比：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="合同额：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="联营占比：">
-          <el-input v-model="dataForm.datastatus"></el-input>万元
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="合同额：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="自营占比：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="合同额：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="联营占比：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="datastatus" label="合同额：">
-          <el-input v-model="dataForm.datastatus"></el-input>
-        </el-form-item>
-      </el-col>
+        <el-col :span="8">
+          <el-form-item prop="conCode" label="主合同形式：">
+            <t-dic-dropdown-select dicType="1260865980897300482" readonly></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="主合同开始日期:" prop="updatetime" verify gtdatenow class="is-required">
+            <t-datetime-picker v-model="dataForm.updatetime" type="date" readonly></t-datetime-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="主合同结束日期:" prop="updatetime" verify gtdatenow class="is-required">
+            <t-datetime-picker v-model="dataForm.updatetime" type="date" readonly></t-datetime-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="updateuser" label="甲方单位：">
+            <el-input v-model="dataForm.updateuser" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="签订人：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="开户行名称：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="银行账户名称：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="银行账号：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="联系方式：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="地址：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="updateuser" label="乙方单位：">
+            <el-input v-model="dataForm.updateuser" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="签订人：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="开户行名称：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="银行账户名称：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="银行账号：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="联系方式：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="datastatus" label="地址：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <el-form-item prop="datastatus" label="自营占比：">
+            <el-input v-model="dataForm.datastatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item prop="datastatus" label="合同额：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item prop="datastatus" label="联营占比：">
+            <el-input v-model="dataForm.datastatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item prop="datastatus" label="合同额：">
+            <el-input v-model="dataForm.datastatus" readonly></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-               label-width="120px" label-position="right"></el-form>
+               label-width="120px" label-position="right" readonly></el-form>
       <t-sub-title :title="'补充协议内容'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -265,29 +278,35 @@
             <el-input v-model="dataForm.datastatus"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="datastatus" label="签订日期：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item label="签订日期：" prop="updatetime" verify gtdatenow class="is-required">
+            <t-datetime-picker v-model="dataForm.updatetime" type="date"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="datastatus" label="付款方式：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+            <t-dic-dropdown-select dicType="1260865577187151874"
+                                   v-model="dataForm.proConstructCompanyAttr"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="datastatus" label="调整金额：">
             <el-input v-model="dataForm.datastatus"></el-input>
+            <el-form-item label="万元"></el-form-item>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="datastatus" label="备注：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item label="备注：" prop="datastatus" verify can-be-empty :maxLength="200">
+            <el-input type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <t-sub-title :title="'附件上传'"></t-sub-title>
+      <t-sub-title :title="'附件'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
     </el-form>

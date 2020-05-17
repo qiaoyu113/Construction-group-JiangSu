@@ -20,9 +20,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目名称：">
+          <el-form-item label="子合同名称：">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
-                       placeholder="项目名称" clearable></el-input>
+                       placeholder="子合同名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">

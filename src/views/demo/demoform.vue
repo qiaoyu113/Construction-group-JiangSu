@@ -403,7 +403,70 @@
               </t-edit-grid>
             </el-col>
           </el-row>
+          <el-row :gutter="20">
+						<el-col>
+							<h4>项目选择</h4>
+							<hr class="el-row-hr" />
+						</el-col>
+						<el-col :span="8">
+							<el-input v-model="input" placeholder="项目选择"></el-input>
+							<!-- <el-button type="text" icon="el-icon-search" circle @click="dialogFormVisible = true"></el-button> -->
+							<el-button type="text" icon="el-icon-search" @click="dialogFormVisible = true"></el-button>
+							</el-button>
+							<el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%'>
 
+								<t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+									<el-row :gutter="10" class="search-top-operate">
+										<el-button type="success" @click="proChoose()">
+											确定
+										</el-button>
+										<el-button type="info" @click="">
+											取消
+										</el-button>
+									</el-row>
+									<el-row :gutter="20">
+										<el-col :span="8">
+											<el-form-item label="项目名称">
+												<el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+												 placeholder="项目名称" clearable></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :span="8">
+											<el-form-item label="建设单位">
+												<el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+												 placeholder="建设单位" clearable></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :span="8">
+											<el-form-item label="工程类别">
+												<el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+												 placeholder="工程类别" clearable></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :span="8">
+											<el-form-item label="经营方式">
+												<el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+												 placeholder="经营方式" clearable></el-input>
+											</el-form-item>
+										</el-col>
+
+									</el-row>
+									<el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+										<el-col :span="12">
+											<el-form-item>
+												<el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+												<el-button icon="el-icon-download" @click="doReset()">
+													<i class="fa fa-lg fa-level-down"></i>清空
+												</el-button>
+											</el-form-item>
+										</el-col>
+									</el-row>
+								</t-form>
+								<t-grid ref="searchReulstList" :options="gridOptions">
+								</t-grid>
+							</el-dialog>
+						</el-col>
+					</el-row>
           <el-row :gutter="20">
             <el-col>
               <h4>扩展信息(菜单 系统->扩展字段->进件扩展信息 定义表单元素)</h4>
@@ -443,195 +506,291 @@
 </template>
 
 <script>
-  import util from '@/util'
-  import moment from 'moment'
-  import baseView from '@/base/baseView'
+	import util from '@/util'
+	import moment from 'moment'
+	import baseView from '@/base/baseView'
 
-  export default {
-    extends: baseView,
-    data() {
-      return {
-        readOnly: false,
-        tabActive: 'baseInfo',
-        docId: null,
-        docEntity: {
-          id: null,
-          gmtVersion: -1,
-          customerCode: null,
-          customerName: null,
-          customerCardNO: null,
-          loanTermCount: null,
-          loanMoneyAmount: null,
-          originalLoanMoneyAmount: null,
-          financeFamilyTotalAsset: null,
-          financeReturnMoneyLoanRate: null,
-          loanApplyDate: null,
-          loanApplySumbitDate: null,
-          time1: null,
-          time2: null,
-          trackingPersonInfoMRId: null,
-          sexId: null,
-          maritalStatusIds: null,
-          educationalLevelIds: null,
-          jobId: null,
-          socialSecurityId: null,
-          companyWorkTermIds: null,
-          activited: false,
-          remark: null,
-          trackingPersonInfoMRName: null,
-          maritalStatusIdList: null,
-          educationalLevelIdList: null,
-          companyWorkTermIdList: null,
-          customerCardNOBirthday: null,
-          customerCardNOAge: null,
-          customerCardNOSexId: null,
-          customerCardNOAddress: null
-        },
-        customerRelationGridOptions: {
-          dataSource: [],
-          grid: {
-            offsetHeight: 36, // 36:查询部分高度
-            defaultSort: {
-              prop: 'id',
-              order: 'ascending'
-            }
-          }
-        },
-        baiduUrl: 'http://wwww.baidu.com',
-        extendFields: {},
-        assetCategoryClassifications: ['pl_loanapplyInput'],
-        formAction: 0, // 0：add,1:edit
-        exportTemplateUrl: null
-      }
-    },
-    components: {},
-    created() {
+	export default {
+		extends: baseView,
+		data() {
+			return {
+				readOnly: false,
+				tabActive: 'baseInfo',
+				docId: null,
+				docEntity: {
+					id: null,
+					gmtVersion: -1,
+					customerCode: null,
+					customerName: null,
+					customerCardNO: null,
+					loanTermCount: null,
+					loanMoneyAmount: null,
+					originalLoanMoneyAmount: null,
+					financeFamilyTotalAsset: null,
+					financeReturnMoneyLoanRate: null,
+					loanApplyDate: null,
+					loanApplySumbitDate: null,
+					time1: null,
+					time2: null,
+					trackingPersonInfoMRId: null,
+					sexId: null,
+					maritalStatusIds: null,
+					educationalLevelIds: null,
+					jobId: null,
+					socialSecurityId: null,
+					companyWorkTermIds: null,
+					activited: false,
+					remark: null,
+					trackingPersonInfoMRName: null,
+					maritalStatusIdList: null,
+					educationalLevelIdList: null,
+					companyWorkTermIdList: null,
+					customerCardNOBirthday: null,
+					customerCardNOAge: null,
+					customerCardNOSexId: null,
+					customerCardNOAddress: null
+				},
+				input: '',
+				formInfo: '',
 
-    },
-    watch: {
-      'docEntity.customerCardNO': {
-        handler(newValue, oldValue) {
-          if (newValue) {
-            let cardNoInfo = util.parseIdCard(newValue)
-            if (cardNoInfo && cardNoInfo.valid) {
-              this.docEntity.customerCardNOBirthday = cardNoInfo.birthdayString
-              this.docEntity.customerCardNOAge = cardNoInfo.age
-              this.docEntity.customerCardNOSexId = cardNoInfo.gender == 'M' ? 'public_sex_m' : 'public_sex_f'
-              this.docEntity.customerCardNOAddress = cardNoInfo.address
-            }
-          }
-        },
-        deep: true
-      }
-    },
-    activated() {
-      this.$nextTick((_) => {
-        if (this.routeChanged) {
-          this.load()
-        }
-      })
-    },
-    computed: {},
-    methods: {
-      handleTabClick(tab, event) {
-        if (!tab) {
-          return
-        }
-        this.tabActive = tab.name
-      },
-      load() {
-        this.docId = this.$route.query.id
-        this.$util.ui.title(this.title)
+				checkededRows: [],
+				processDefinationlist: [],
+				startDateRange: null,
+				gridOptions: {
+					dataSource: {
+						serviceInstance: tapp.services.proInfo.getPagedList,
+						serviceInstanceInputParameters: {
+							searchKey: null,
+							processDefinationKey: null,
+							dateRange: ''
+						}
+					},
+					grid: {
+						offsetHeight: 125, //125:查询部分高度
+						mutiSelect: false,
+						columns: [{
+								prop: 'proCode',
+								label: '项目备案编号',
+								sortable: true
+							},
+							{
+								prop: 'proName',
+								label: '项目名称',
+								sortable: true
+							},
+							{
+								prop: 'proConstructCompany',
+								label: '备案单位',
+								sortable: true
+							},
+							{
+								prop: 'proType',
+								label: '工程类别',
+								sortable: true
+							},
+							{
+								prop: 'proTotalInvestment',
+								label: '投资金额',
+								sortable: true
+							},
 
-        this.exportTemplateUrl = window.SITE_CONFIG['serverUrl'] + '/authapi/pl_loanenter/export?loanDocId=' + this.docId
-        let self = this
-        if (self.docId) {
-          tapp.services.pL_LoanEnter.get(self.docId).then(function (result) {
-            self.$refs.ruleForm.resetFields()
-            self.docEntity = result
-            if (!self.docEntity.loanApplyDate) {
-              self.docEntity.loanApplyDate = self.$util.datetimeFormat(moment())
-            }
-            self.customerRelationGridOptions.dataSource = result.customerRelations
-            self.extendFields = result.extendFields
+							{
+								prop: 'proSubType',
+								label: '类别子项',
+								sortable: true
+							},
+							{
+								prop: 'proBuildUnit',
+								label: '建设单位',
+								sortable: true
+							},
+							{
+								prop: 'proBuildArea',
+								label: '项目地址',
+								sortable: true
+							},
+							{
+								prop: 'proRunMode',
+								label: '经营方式',
+								sortable: true
+							},
+							{
+								prop: 'proManager',
+								label: '项目跟踪人',
+								sortable: true
+							},
+						], // 需要展示的列
+						defaultSort: {
+							prop: 'id',
+							order: 'descending'
+						},
+					}
+				},
 
-            delete self.docEntity.customerRelations
-            delete self.docEntity.extendFields
+				customerRelationGridOptions: {
+					dataSource: [],
+					grid: {
+						offsetHeight: 36, // 36:查询部分高度
+						defaultSort: {
+							prop: 'id',
+							order: 'ascending'
+						}
+					}
+				},
+				baiduUrl: 'http://wwww.baidu.com',
+				extendFields: {},
+				assetCategoryClassifications: ['pl_loanapplyInput'],
+				formAction: 0, // 0：add,1:edit
+				exportTemplateUrl: null,
+				dialogTableVisible: false,
+				dialogFormVisible: false,
+				form: {
+					name: '',
+					region: '',
+					date1: '',
+					date2: '',
+					delivery: false,
+					type: [],
+					resource: '',
+					desc: ''
+				},
+				formLabelWidth: '120px'
+			}
+		},
+		components: {},
+		created() {
+			
+		},
+		watch: {
+			'docEntity.customerCardNO': {
+				handler(newValue, oldValue) {
+					if (newValue) {
+						let cardNoInfo = util.parseIdCard(newValue)
+						if (cardNoInfo && cardNoInfo.valid) {
+							this.docEntity.customerCardNOBirthday = cardNoInfo.birthdayString
+							this.docEntity.customerCardNOAge = cardNoInfo.age
+							this.docEntity.customerCardNOSexId = cardNoInfo.gender == 'M' ? 'public_sex_m' : 'public_sex_f'
+							this.docEntity.customerCardNOAddress = cardNoInfo.address
+						}
+					}
+				},
+				deep: true
+			}
+		},
+		activated() {
+			this.$nextTick((_) => {
+				if (this.routeChanged) {
+					this.load()
+				}
+			})
+		},
+		computed: {},
+		methods: {
+			handleTabClick(tab, event) {
+				if (!tab) {
+					return
+				}
+				this.tabActive = tab.name
+			},
+			load() {
+				this.docId = this.$route.query.id
+				this.$util.ui.title(this.title)
 
-            self.formAction = 1
-            self.clearValidate()
-          })
-        } else {
-          tapp.services.base_Common.getSUIds(1).then(function (result) {
-            // data恢复初始化数据
-            self.resetData()
-            self.docId = result[0]
-            self.docEntity = {
-              id: self.docId,
-              loanApplyDate: self.$util.datetimeFormat(moment())
-            }
-            self.customerRelationGridOptions.dataSource = []
-            self.formAction = 0
-            self.clearValidate()
-          })
-        }
-      },
-      clearValidate() {
-        this.$nextTick((_) => {
-          this.$refs.customerRelationGrid.clearValidate()
-          this.$refs.ruleForm.clearValidate()
-          this.$refs.extendForm.clearValidate()
-        })
-      },
-      doSave() {
-        let self = this
-        let selfValidPromise = self.$refs['ruleForm'].validate()
-        let customerRelationGridValidPromise = this.$refs.customerRelationGrid.validate()
-        let extendFormValidPromise = this.$refs.extendForm.validate()
+				this.exportTemplateUrl = window.SITE_CONFIG['serverUrl'] + '/authapi/pl_loanenter/export?loanDocId=' + this.docId
+				let self = this
+				if (self.docId) {
+					tapp.services.pL_LoanEnter.get(self.docId).then(function(result) {
+						self.$refs.ruleForm.resetFields()
+						self.docEntity = result
+						if (!self.docEntity.loanApplyDate) {
+							self.docEntity.loanApplyDate = self.$util.datetimeFormat(moment())
+						}
+						self.customerRelationGridOptions.dataSource = result.customerRelations
+						self.extendFields = result.extendFields
 
-        Promise.all([selfValidPromise, customerRelationGridValidPromise, extendFormValidPromise])
-          .then(resultList => {
-            let customerRelationData = self.$refs.customerRelationGrid.getData()
+						delete self.docEntity.customerRelations
+						delete self.docEntity.extendFields
 
-            let model = {
-              ...self.docEntity
-            }
-            model.customerRelations = customerRelationData.list
-            model.customerRelationDeleteIdList = customerRelationData.deletedIdList
-            model.extendFields = self.extendFields
+						self.formAction = 1
+						self.clearValidate()
+					})
+				} else {
+					tapp.services.base_Common.getSUIds(1).then(function(result) {
+						// data恢复初始化数据
+						self.resetData()
+						self.docId = result[0]
+						self.docEntity = {
+							id: self.docId,
+							loanApplyDate: self.$util.datetimeFormat(moment())
+						}
+						self.customerRelationGridOptions.dataSource = []
+						self.formAction = 0
+						self.clearValidate()
+					})
+				}
+			},
+			clearValidate() {
+				this.$nextTick((_) => {
+					this.$refs.customerRelationGrid.clearValidate()
+					this.$refs.ruleForm.clearValidate()
+					this.$refs.extendForm.clearValidate()
+				})
+			},
+			doSave() {
+				let self = this
+				let selfValidPromise = self.$refs['ruleForm'].validate()
+				let customerRelationGridValidPromise = this.$refs.customerRelationGrid.validate()
+				let extendFormValidPromise = this.$refs.extendForm.validate()
 
-            tapp.services.pL_LoanEnter.save(model).then(function (result) {
-              self.docEntity = Object.assign({}, self.docEntity, result)
-              self.formAction = 1
-              self.$notify.success({
-                title: '操作成功！',
-                message: '保存成功！'
-              })
-            })
-          }).catch(function (e) {
-          self.$notify.error({
-            title: '错误',
-            message: '系统输入验证失败！'
-          })
-          return false
-        })
-      },
-      doDelete() {
-        let self = this
-        self.$confirm('此操作将永久删除, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          tapp.services.pL_LoanEnter.delete(self.docId).then(function (result) {
-            self.$util.closeCurrentTabNav('pl_loanapplyInputList')
-            self.$notify.success({
-              title: '系统成功',
-              message: '删除成功！'
-            })
-          })
-        })
-      }
-    }
-  }
+				Promise.all([selfValidPromise, customerRelationGridValidPromise, extendFormValidPromise])
+					.then(resultList => {
+						let customerRelationData = self.$refs.customerRelationGrid.getData()
+
+						let model = {
+							...self.docEntity
+						}
+						model.customerRelations = customerRelationData.list
+						model.customerRelationDeleteIdList = customerRelationData.deletedIdList
+						model.extendFields = self.extendFields
+
+						tapp.services.pL_LoanEnter.save(model).then(function(result) {
+							self.docEntity = Object.assign({}, self.docEntity, result)
+							self.formAction = 1
+							self.$notify.success({
+								title: '操作成功！',
+								message: '保存成功！'
+							})
+						})
+					}).catch(function(e) {
+						self.$notify.error({
+							title: '错误',
+							message: '系统输入验证失败！'
+						})
+						return false
+					})
+			},
+			doDelete() {
+				let self = this
+				self.$confirm('此操作将永久删除, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					tapp.services.pL_LoanEnter.delete(self.docId).then(function(result) {
+						self.$util.closeCurrentTabNav('pl_loanapplyInputList')
+						self.$notify.success({
+							title: '系统成功',
+							message: '删除成功！'
+						})
+					})
+				})
+			},
+			proChoose() {
+				//传送到父组件
+				this.formInfo = this.$refs.multipleTable.selection;
+				this.$emit('formInfo', this.formInfo);
+				console.log(this.formInfo);
+			}
+		}
+	}
 </script>
