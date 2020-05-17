@@ -95,13 +95,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="其中:  占用合同保证金">
-            <el-input readonly v-model="dataForm.account"></el-input>
+          <el-form-item label="其中:  占用合同保证金" label-width="200px">
+            <el-input readonly v-model="dataForm.account">
+              <span slot="append">元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="现金">
-            <el-input readonly v-model="dataForm.account"></el-input>
+            <el-input readonly v-model="dataForm.account">
+              <span slot="append">元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>

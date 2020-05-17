@@ -106,7 +106,9 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="申请开票金额">
-            <el-input v-model="dataForm.invoiceAmount"></el-input>
+            <t-currency-input v-model="dataForm.invoiceAmount">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">

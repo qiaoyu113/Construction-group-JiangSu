@@ -54,12 +54,16 @@
         </el-col>
         <el-col :span="4">
           <el-form-item prop="sAmount" label="自营">
-            <el-input v-model="dataForm.sAmount"></el-input>
+            <el-input v-model="dataForm.sAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="oAmount" label="联营">
-            <el-input v-model="dataForm.oAmount"></el-input>
+            <el-input v-model="dataForm.oAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>

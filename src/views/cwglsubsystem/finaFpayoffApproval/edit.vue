@@ -13,33 +13,33 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="fwaId" label="银行账号">
-            <el-input readonly v-model="dataForm.fwaId"></el-input>
+          <el-form-item prop="bankAccount" label="银行账号">
+            <el-input :readonly="true" v-model="dataForm.bankAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="fwaId" label="开户行名称">
-            <el-input readonly v-model="dataForm.fwaId"></el-input>
+          <el-form-item prop="bankName" label="开户行名称">
+            <el-input :readonly="true" v-model="dataForm.bankName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="fwaId" label="开户网点">
-            <el-input readonly v-model="dataForm.fwaId"></el-input>
+          <el-form-item prop="bankAddress" label="开户网点">
+            <el-input :readonly="true" v-model="dataForm.bankAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="fwaId" label="银行账户名称">
-            <el-input readonly v-model="dataForm.fwaId"></el-input>
+          <el-form-item prop="bankAccountName" label="银行账户名称">
+            <el-input :readonly="true" v-model="dataForm.bankAccountName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="pId" label="项目编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proCode" label="项目编号">
+            <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -87,32 +87,40 @@
           payoffMoney: '',
           approvalStatus: '',
           sign: '',
-          signTime: new Date(),
+          signTime: '',
           propose: '',
           result: '',
           createtime: '',
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          proCode: '',
+          proName:'',
+          bankAccountName: '',
+          bankAddress: '',
+          bankName: '',
+          bankAccount: ''
         },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
+          proCode: [
+            { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+          bankAccountName: [
+            { required: true, message: '银行帐户名称不能为空', trigger: 'blur' }
           ],
-          fwaId: [
-            { required: true, message: '农民工工资帐户开立id不能为空', trigger: 'blur' }
+          bankAddress: [
+            { required: true, message: '开户网点不能为空', trigger: 'blur' }
           ],
-          payoffMoney: [
-            { required: true, message: '发放金额不能为空', trigger: 'blur' }
+          bankName: [
+            { required: true, message: '开户行名称不能为空', trigger: 'blur' }
           ],
-
+          bankAccount: [
+            { required: true, message: '银行帐号不能为空', trigger: 'blur' }
+          ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],

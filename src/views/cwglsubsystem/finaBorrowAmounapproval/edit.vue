@@ -8,7 +8,7 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -34,26 +34,34 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="applyAmount" label="本次申请额度">
-            <el-input v-model="dataForm.applyAmount"></el-input>
+            <el-input v-model="dataForm.applyAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次借款额度期限">
-            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
+            <t-int-input :readonly="true" v-model="dataForm.tiimeLimit">
+              <span slot="append">月</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
