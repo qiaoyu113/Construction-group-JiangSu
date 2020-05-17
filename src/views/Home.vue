@@ -149,7 +149,7 @@ export default {
   border-bottom-right-radius: 20px;
   box-shadow:0px 8px 6px rgba(0,0,0,0.16);
   margin-bottom: -55px;
-  margin-left: -5px;
+  margin-left: 5px;
   z-index: 100;
   position: relative;
 }
