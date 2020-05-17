@@ -1,8 +1,11 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        保存
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+        审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"

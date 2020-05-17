@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        保存
-      </el-button>
+      <el-button class="demo-button" type="primary" icon="el-icon-upload2">保存</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
