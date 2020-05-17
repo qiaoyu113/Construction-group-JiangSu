@@ -1,12 +1,8 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button type="primary" @click="">
-        审批流程图
-      </el-button>
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">审批流程图</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
@@ -163,8 +159,8 @@
           keyPwd: [
             {required: true, message: '密码不能为空', trigger: 'blur'}
           ],
-          getTime: [
-            {required: true, message: '领用时间不能为空', trigger: 'blur'}
+          proName: [
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ]
         }
       }

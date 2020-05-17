@@ -3,8 +3,7 @@
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
+        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
         </el-button>
       </el-row>
       <el-row :gutter="20">
@@ -48,9 +47,9 @@
       <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="12">
           <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="el-icon-delete"></i>清空
+            <el-button @click="doRefresh()" class="demo-button" type="primary" plain icon="el-icon-search">查询
+            </el-button>
+            <el-button class="demo-button" type="primary" icon="el-icon-circle-close" @click="doReset()">清空
             </el-button>
           </el-form-item>
         </el-col>
@@ -95,70 +94,57 @@
             columns: [
               {
                 prop: 'proCode',
-                label: '项目编号',
-                sortable: true
+                label: '项目编号'
               },
               {
                 prop: 'proName',
-                label: '项目名称',
-                sortable: true
+                label: '项目名称'
               },
               {
                 prop: 'proConstructCompany',
-                label: '建设单位',
-                sortable: true
+                label: '建设单位'
               },
               {
                 prop: 'proType',
-                label: '工程类别',
-                sortable: true
+                label: '工程类别'
               },
               {
                 prop: 'proTotalInvestment',
-                label: '分公司',
-                sortable: true
+                label: '分公司'
               },
               {
                 prop: 'proBuildArea',
-                label: '建筑面积',
-                sortable: true
+                label: '建筑面积'
               },
               {
                 prop: 'proTotalInvestment',
-                label: '总投资',
-                sortable: true
+                label: '总投资'
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式',
-                sortable: true
+                label: '经营方式'
               },
               {
                 prop: 'proRunMode',
-                label: '诉讼编号',
-                sortable: true
+                label: '诉讼编号'
               },
               {
                 prop: 'proRunMode',
-                label: '标记时间',
-                sortable: true
+                label: '标记时间'
               },
               {
                 prop: 'litigationStatus',
                 label: '诉讼状态',
-                sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'freezingAmount',
                 label: '冻结金额',
-                sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'cancelTime',
                 label: '标记取消时间',
-                sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.cancelTime, 'YYYY-MM-DD')

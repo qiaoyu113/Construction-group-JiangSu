@@ -4,8 +4,7 @@
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
             :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
+        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
         </el-button>
       </el-row>
       <el-row :gutter="20">
@@ -60,9 +59,9 @@
       <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="12">
           <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="el-icon-delete"></i>清空
+            <el-button @click="doRefresh()" class="demo-button" type="primary" plain icon="el-icon-search">查询
+            </el-button>
+            <el-button class="demo-button" type="primary" icon="el-icon-circle-close" @click="doReset()">清空
             </el-button>
           </el-form-item>
         </el-col>
@@ -108,61 +107,51 @@
               {
                 prop: 'paoName',
                 label: '项目名称',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'proType',
                 label: '工程类别',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'proConstructCompany',
                 label: '建设单位',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '投资金额',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'proTotalInvestment',
                 label: '合同模式',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'proRunMode',
                 label: '经营方式',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'keyName',
                 label: '密钥名称',
-                sortable: true,
                 minWidth: 100,
               },
               {
                 prop: 'keyName',
                 label: '领用单位',
-                sortable: true,
                 minWidth: 100,
               },
               {
                 prop: 'approvalStatus',
                 label: '状态',
-                sortable: true,
                 minWidth: 100,
               },
               {
                 prop: 'getTime',
                 label: '领用日期',
-                sortable: true,
                 minWidth: 100,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.getTime, 'YYYY-MM-DD')
@@ -171,7 +160,6 @@
               {
                 prop: 'getTime',
                 label: '失效日期',
-                sortable: true,
                 minWidth: 100,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.getTime, 'YYYY-MM-DD')
@@ -180,13 +168,11 @@
               {
                 prop: 'sign',
                 label: '经办人',
-                sortable: true,
                 minWidth: 100
               },
               {
                 prop: 'signTime',
                 label: '经办日期',
-                sortable: true,
                 minWidth: 100,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')

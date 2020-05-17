@@ -1,15 +1,11 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button type="primary" @click="">
-        审批流程图
-      </el-button>
+      <el-button class="demo-button" type="primary" icon="el-icon-bell" @click="doSave()">保存并通知</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="">通知流程图</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+             label-width="140px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -70,21 +66,23 @@
             <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-form-item label="自营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-form-item label="联营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+      </el-row>
+      <el-row>
+        <el-col :span="8">
           <el-form-item label="净利润承诺超：" prop="proProfitRate" verify class="is-required">
             <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
               <span slot="append">%</span>
@@ -96,12 +94,12 @@
             <el-input v-model="dataForm.proUnionCompanyContacterO"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item label="有无借款：">
             <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrowing" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-form-item prop="proContacter" label="">
             <a>借还款信息</a>
           </el-form-item>
