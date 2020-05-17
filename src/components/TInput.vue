@@ -9,6 +9,14 @@
     <slot name="append">
     </slot>
   </template>
+    <template slot="preffix" v-if="$slots.preffix">
+    <slot name="preffix">
+    </slot>
+  </template>
+    <template slot="suffix" v-if="$slots.suffix">
+    <slot name="suffix">
+    </slot>
+  </template>
   </el-input>
   <div v-else class="t-readonly t-input-readonly-div">
     <span class="t-input-readonly-prepend" v-if="$slots.prepend">

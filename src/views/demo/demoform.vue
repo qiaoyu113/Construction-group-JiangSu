@@ -25,7 +25,7 @@
                 <el-form-item>
                   <el-button type="primary" icon="el-icon-plus">新增</el-button>
                   <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
-                  <el-button type="primary" icon="el-icon-upload2">保存</el-button></el-button>
+                  <el-button type="primary" icon="el-icon-upload2">保存</el-button>
                   <el-button type="primary" icon="el-icon-s-check">提交审批</el-button>
                 </el-form-item>
               </el-row>
