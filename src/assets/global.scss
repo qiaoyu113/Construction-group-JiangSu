@@ -283,3 +283,31 @@ input[readonly="readonly"] {
   font-size: 18px;
   padding: 20px 0;
 }
+
+.sidebar-search {
+  height: 70px;
+  background-color: #20335D;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .el-input {
+    width: 90%;
+    margin: 0 5%;
+  }
+  .icon {
+    cursor: pointer;
+    text-align: center;
+  }
+  .el-input--medium .el-input__inner {
+    border-radius: 25px;
+    line-height: 30px;
+    height: 30px;
+  }
+  .el-input__suffix {
+    top: -3px;
+  }
+  .el-icon-s-fold:before, .el-icon-s-unfold:before {
+    color: #fff;
+    font-size: 20px;
+  }
+}

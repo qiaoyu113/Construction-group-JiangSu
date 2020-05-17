@@ -1,5 +1,14 @@
 <template>
 <aside class="site-sidebar" :class="sidebarClasses">
+  <div class="sidebar-search">
+    <t-input placeholder="搜索" v-if="!$store.state.ui.sidebarCollapse">
+      <i slot="suffix" class="el-input__icon el-icon-search"></i>
+    </t-input>
+    <div class="icon" @click="handleCollsapse()" :style="{'width': !$store.state.ui.sidebarCollapse ? '15%': '100%'}">
+      <i v-if="!$store.state.ui.sidebarCollapse" class="el-icon-s-fold"></i>
+      <i v-if="$store.state.ui.sidebarCollapse" class="el-icon-s-unfold"></i>
+    </div>
+  </div>
   <div class="site-sidebar__inner">
     <el-menu :default-active="menuNavActiveName" @open="handleOpen" unique-opened text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse="$store.state.ui.sidebarCollapse" :collapse-transition="false" class="site-sidebar__menu">
       <sub-menu-nav v-for="menuNav in menuNavList" :key="menuNav.self.id" :menu-nav="menuNav">
@@ -94,16 +103,17 @@ export default {
     handleOpen(key, keyPath) {
       console.log('key, path', key, keyPath);
     },
+    handleCollsapse() {
+      // types.SWITCH_SIDEBAR_COLLAPSE
+      this.SWITCH_SIDEBAR_COLLAPSE({collapse: !this.$store.state.ui.sidebarCollapse})
+    },
     
-    ...mapMutations(['ADD_CONTENT_TAB', 'UPDATE_CONTENT_TABS_ACTIVE_NAME'])
+    ...mapMutations(['ADD_CONTENT_TAB', 'UPDATE_CONTENT_TABS_ACTIVE_NAME', 'SWITCH_SIDEBAR_COLLAPSE'])
   }
 }
 </script>
 <style lang="scss" scoped>
 #driver-highlighted-element-stage {
   opacity: 0.1;
-}
-.el-menu {
-  border-right: none;
 }
 </style>
