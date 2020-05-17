@@ -8,7 +8,7 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="150px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'付款申请信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -60,7 +60,9 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="paymentAmount" label="本次付款金额">
-            <el-input v-model="dataForm.paymentAmount"></el-input>
+            <el-input v-model="dataForm.paymentAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -91,12 +93,12 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="scTotalReceived" label="当前子合同累计已付款">
+          <el-form-item prop="scTotalReceived" label="当前子合同累计已付款" label-width="180px">
             <el-input :readonly="true" v-model="dataForm.scTotalReceived"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="scTotalReceivedRatio" label="当前子合同累计已付款比例">
+          <el-form-item prop="scTotalReceivedRatio" label="当前子合同累计已付款比例" label-width="200px">
             <el-input :readonly="true" v-model="dataForm.scTotalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>

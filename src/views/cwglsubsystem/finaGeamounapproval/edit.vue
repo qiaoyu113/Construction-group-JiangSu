@@ -36,12 +36,16 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.realAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次借款期限（月）">
-            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
+          <el-form-item prop="tiimeLimit" label="本次借款期限">
+            <el-input :readonly="true" v-model="dataForm.tiimeLimit">
+              <span slot="append">月</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,12 +55,16 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款金额">
-            <el-input v-model="dataForm.getAmount"></el-input>
+            <el-input v-model="dataForm.getAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="timeLimit" label="本次放款期限（月）">
-            <el-input v-model="dataForm.timeLimit"></el-input>
+          <el-form-item prop="timeLimit" label="本次放款期限">
+            <t-int-input v-model="dataForm.timeLimit">
+              <span slot="append">月</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -68,12 +76,16 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计放款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftAmount" label="剩余可用额度">
-            <el-input :readonly="true" v-model="dataForm.leftAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.leftAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>

@@ -100,20 +100,24 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="预征税款完税凭证号码">
+          <el-form-item label="预征税款完税凭证号码" label-width="160px">
             <el-input v-model="dataForm.levyTaxNum"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item  label="申请开票金额（元）">
-            <el-input v-model="dataForm.invoiceAmount"></el-input>
+          <el-form-item  label="申请开票金额">
+            <t-currency-input v-model="dataForm.invoiceAmount">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="已开票金额（元）">
-            <el-input :readonly="true" v-model="dataForm.invoiceAmount"></el-input>
+          <el-form-item label="已开票金额">
+            <t-currency-input :readonly="true" v-model="dataForm.invoiceAmount">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -122,13 +126,17 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="可抵扣分包金额（元）">
-            <el-input v-model="dataForm.deductAmount"></el-input>
+          <el-form-item label="可抵扣分包金额">
+            <t-currency-input v-model="dataForm.deductAmount">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="已抵扣分包金额（元）">
-            <el-input :readonly="true" v-model="dataForm.deductAmount"></el-input>
+          <el-form-item label="已抵扣分包金额">
+            <t-currency-input :readonly="true" v-model="dataForm.deductAmount">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -139,45 +147,61 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="增值税（元）">
-            <el-input v-model="dataForm.vat"></el-input>
+          <el-form-item label="增值税">
+            <t-currency-input v-model="dataForm.vat">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="城建税（元）">
-            <el-input v-model="dataForm.uct"></el-input>
+          <el-form-item label="城建税">
+            <t-currency-input v-model="dataForm.uct">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="教育费附加（元）">
-            <el-input v-model="dataForm.est"></el-input>
+          <el-form-item label="教育费附加">
+            <t-currency-input v-model="dataForm.est">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="地方教育费附加（元）">
-            <el-input v-model="dataForm.lest"></el-input>
+          <el-form-item label="地方教育费附加">
+            <t-currency-input v-model="dataForm.lest">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="印花税（元）">
-            <el-input v-model="dataForm.st"></el-input>
+          <el-form-item label="印花税">
+            <t-currency-input v-model="dataForm.st">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="企业所得税（元）">
-            <el-input v-model="dataForm.cit"></el-input>
+          <el-form-item label="企业所得税">
+            <t-currency-input v-model="dataForm.cit">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="个人所得税（元）">
-            <el-input v-model="dataForm.pit"></el-input>
+          <el-form-item label="个人所得税">
+            <t-currency-input v-model="dataForm.pit">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="其他（元）">
-            <el-input v-model="dataForm.ot"></el-input>
+          <el-form-item label="其他">
+            <t-currency-input v-model="dataForm.ot">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
       </el-row>
