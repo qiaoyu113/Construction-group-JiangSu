@@ -219,10 +219,10 @@ textarea[disabled="disabled"] {
     }
   }
   .el-tag{
-    height: 35px;
-    line-height: 35px;
-    margin-right: 10px;
-    margin-bottom: 5px;
+    // height: 35px;
+    // line-height: 35px;
+    // margin-right: 10px;
+    // margin-bottom: 5px;
   }
 
 //解决表格Fixed列后，横向滚动条无法拉动bug
@@ -266,7 +266,7 @@ input[readonly="readonly"] {
 //   top: 200px;
 // }
 .site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item, .site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item, .site-sidebar--dark .site-sidebar__menu.el-menu .el-submenu .el-submenu__title {
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .el-card__header {

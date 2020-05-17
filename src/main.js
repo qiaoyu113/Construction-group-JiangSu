@@ -8,8 +8,11 @@ import ElementUI from 'element-ui'
 import ElementUIVerify from 'element-ui-verify'
 import '@/icons' // api: http://www.iconfont.cn/
 import '@/assets/scss/index.scss'
-
 import '@/assets/global.scss'
+
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
+Vue.component('v-icon', Icon)
 
 import Vuex from 'vuex'
 

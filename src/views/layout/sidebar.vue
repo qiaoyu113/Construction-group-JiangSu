@@ -103,4 +103,7 @@ export default {
 #driver-highlighted-element-stage {
   opacity: 0.1;
 }
+.el-menu {
+  border-right: none;
+}
 </style>
