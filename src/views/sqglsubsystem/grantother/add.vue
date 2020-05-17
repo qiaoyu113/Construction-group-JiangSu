@@ -13,96 +13,105 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="项目名称：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item label="项目名称：" prop="actTaskKey" >
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="dataForm.actTaskKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="所属分公司">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="pcId" label="所属分公司：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pcId" label="所属事业部：">
-            <el-input v-model="dataForm.pcId"></el-input>
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="建设单位：">
-            <el-input v-model="dataForm.useScenes"></el-input>
+          <el-form-item prop="pcId" label="建设单位：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantUser" label="合同模式：">
-            <el-input v-model="dataForm.grantUser"></el-input>
+          <el-form-item label="合同模式：" prop="pcId">
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="投资金额：">
-            <el-input v-model="dataForm.grantContent"></el-input>
+          <el-form-item prop="pcId" label="投资金额：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="工程类别：">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.remark" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="经营方式：">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.sign" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="项目规模：">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="pcId" label="项目规模：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="pcId" label="合同名称：">
+            <el-input readonly v-model="dataForm.signTime"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="合同名称：">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="pcId" label="合同期间：">
+            <el-input readonly v-model="dataForm.signTime"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="合同期间：">
-            <el-input v-model="dataForm.signTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="合同金额">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="pcId" label="合同金额">
+            <el-input readonly v-model="dataForm.signTime"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="propose" label="授权内容：">
-            <el-input v-model="dataForm.propose"></el-input>
+          <el-form-item label="授权内容：" prop="result" verify can-be-empty :maxLength="200"  class="is-required">
+            <el-input type="textarea" v-model="result"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="result" label="授权期限：">
             <el-input v-model="dataForm.result"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="授权人：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+          <el-form-item prop="propose" label="授权人:">
+            屠亚星
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="经办人：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">
+          <el-form-item prop="propose" label="经办人:">
+            系统登录人
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="经办时间：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+        <el-col :span="5">
+          <el-form-item label="经办时间：" prop="propose">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="备注：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+          <el-form-item label="备注：" prop="propose" verify can-be-empty :maxLength="200">
+            <el-input type="textarea" v-model="dataForm.propose"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -129,8 +138,7 @@
           grantContent: '',
           remark: '',
           sign: '',
-          signTime: '',
-          propose: '',
+          signTime: new Date(),
           result: '',
           approvalStatus: '',
           createtime: '',
@@ -169,9 +177,6 @@
           ],
           signTime: [
             {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
           ],
           result: [
             {required: true, message: '审核结果不能为空', trigger: 'blur'}
