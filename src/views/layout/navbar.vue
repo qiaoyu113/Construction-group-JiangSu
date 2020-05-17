@@ -198,6 +198,8 @@
 		position: absolute;
 		left: 17%;
 		background-image: url("~@/assets/img/back.png");
+		background-repeat: no-repeat;
+    background-size: contain;
 	}
 
 	.div-loading-inner {
