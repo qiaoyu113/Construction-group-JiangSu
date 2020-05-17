@@ -3,9 +3,7 @@
     <el-card shadow="never">
     <t-form ref="search"  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button  icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
-        </el-button>
+        <el-button type="primary" class="demo-button" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -31,7 +29,7 @@
       <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="12">
           <el-form-item>
-            <el-button  @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+            <el-button type="primary" plain icon="el-icon-search" @click="doRefresh()">查询</el-button>
             <el-button  icon="el-icon-download" @click="doReset()">
               <i class="el-icon-delete"></i>清空
             </el-button>

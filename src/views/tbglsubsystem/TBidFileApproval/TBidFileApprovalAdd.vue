@@ -58,7 +58,7 @@
             <el-input v-model="dataForm.remark" readonly></el-input>
           </el-form-item>
         </el-col>
-        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="17">
           <el-form-item prop="bidFileType" label="文件类型">
             <t-dic-radio-select dicType="1260865842271358978" v-model="dataForm.updateuser"></t-dic-radio-select>
@@ -119,19 +119,19 @@
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           pcId: [
-            {required: true, message: '项目备案id不能为空', trigger: 'blur'}
+            {required: true, message: '项目备案名称不能为空', trigger: 'blur'}
           ],
           bidFileType: [
-            {required: true, message: '文件类型（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '文件类型不能为空', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: false, message: '执行人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '审批状态不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: true, message: '审核意见不能为空', trigger: 'blur'}
@@ -149,7 +149,7 @@
             {required: true, message: '创建人不能为空', trigger: 'blur'}
           ],
           updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
+            {required: false, message: '更新人不能为空', trigger: 'blur'}
           ],
           datastatus: [
             {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
