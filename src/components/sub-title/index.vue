@@ -42,12 +42,12 @@ export default {
 .sub-title .title:after {
   content: '';
   background: #5E98F8;
-  height: 8px;
+  height: 7px;
   position: relative;
   display: block;
   border-radius:8px;
-  transform: translate(20px, -10px);
-  // top: 35px;
+  transform: translate(20px, -6px);
+  opacity: 0.7;
   z-index: 1;
 }
 .sub-title .el-row-hr {
