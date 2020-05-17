@@ -1,7 +1,7 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="140px">
       <el-row :gutter="10" class="search-top-operate">
         <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
           <i class="fa fa-lg fa-level-down"></i>导出
