@@ -2,14 +2,14 @@
 <el-tabs v-model="tabActiveName" :closable="true" @tab-click="selectedTabHandle" @tab-remove="removeTabHandle">
   <el-tab-pane v-for="item in contentTabs" :key="item.name" :label="item.title" :name="item.name" >
   </el-tab-pane>
-  <el-card :body-style="contentViewStyles()">
-    <div>
-      <router-view v-if="!$route.meta.keepAlive"></router-view>
-          <keep-alive>
-            <router-view v-if="$route.meta.keepAlive" :key="$route.name"></router-view>
-          </keep-alive>
-    </div>
-  </el-card>
+  <!-- <el-card :body-style="contentViewStyles()"> -->
+  <div>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" :key="$route.name"></router-view>
+        </keep-alive>
+  </div>
+  <!-- </el-card> -->
   <!-- tabs tools -->
   <el-dropdown class="site-tabs__tools" @command="toolsCommandHandle" :show-timeout="0">
     <i class="el-icon-arrow-down el-icon--right"></i>

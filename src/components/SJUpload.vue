@@ -1,7 +1,7 @@
 <template>
 <div>
-  <el-row :gutter="20">
-    <el-col :span="showCategoryTree?9:0" v-if="showCategoryTree">
+  <el-row type="flex" justify="end">
+    <!-- <el-col :span="showCategoryTree?9:0" v-if="showCategoryTree">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>附件类别</span>
@@ -12,14 +12,13 @@
           </t-tree>
         </div>
       </el-card>
-    </el-col>
-    <el-col :span="showCategoryTree?15:24">
-      <el-card class="box-card">
+    </el-col> -->
+    <el-col :span="23">
+      <el-card class="box-card" shadow="never">
         <div slot="header" class="clearfix" v-if="disabled==false">
-          <span>{{selectedCategoryItemName}}</span>
-          <div style="float: right; padding: 3px 0">
+          <!-- <span>{{selectedCategoryItemName}}</span> -->
+          <div style="float: left; padding: 3px 0">
             <div class="btns " style="float:left; width:88px;height:56px;">
-              <div id="picker">选择文件</div>
             </div>
             <div style="float:left;width:88px;height:56px;">
               <el-button  type="primary" @click="handleGlobalPreview()" style="
@@ -27,6 +26,7 @@
                   border-radius:2px;
                   width:86px;
                   line-height: 1px;
+                  height: 36px;
               ">文件预览</el-button>
             </div>
             <div style="float:left;width:88px;height:56px;">
@@ -35,6 +35,7 @@
                   border-radius:2px;
                   width:86px;
                   line-height: 1px;
+                  height: 36px;
               ">{{switchItemViewModelButtonText}}</el-button>
             </div>
             <div style="float:left;width:88px;height:56px;">
@@ -43,6 +44,7 @@
                   border-radius:2px;
                   width:86px;
                   line-height: 1px;
+                  height: 36px;
               ">批量删除</el-button>
             </div>
 

@@ -1,5 +1,6 @@
 <template>
   <div class="mod-role">
+    <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -66,6 +67,7 @@
     </t-form>
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
+    </el-card>
   </div>
 </template>
 <script>

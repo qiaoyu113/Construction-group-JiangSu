@@ -10,6 +10,7 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
+      <el-card shadow="never">
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="baId" label="借款合同编号">
@@ -54,6 +55,7 @@
           </el-form-item>
         </el-col>
         <t-sub-title :title="'已延期信息'"></t-sub-title>
+      <el-card shadow="never">
         <t-sub-title :title="'延期申请'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款累计已还金额">
@@ -65,6 +67,7 @@
             <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
           </el-form-item>
         </el-col>
+      </el-card>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -73,6 +76,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -93,8 +98,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

@@ -10,6 +10,7 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -73,7 +74,8 @@
           </el-form-item>
         </el-col>
       </el-row>
-
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'主合同基本信息'"></t-sub-title>
         <el-row :gutter="20">
          <el-col :span="8">
@@ -102,6 +104,8 @@
            </el-form-item>
          </el-col>
        </el-row>
+      </el-card>
+      <el-card shadow="never">
        <t-sub-title :title="'子合同基本信息'"></t-sub-title>
        <el-row :gutter="20">
          <el-col :span="8">
@@ -185,15 +189,20 @@
            </el-form-item>
          </el-col>
        </el-row>
+      </el-card>
+      <el-card shadow="never">
        <t-sub-title :title="'付款条件'"></t-sub-title>
        <el-row :gutter="20">
          <el-col :span="8">
              <el-input></el-input>
          </el-col>
        </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>
