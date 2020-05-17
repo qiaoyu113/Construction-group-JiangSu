@@ -192,14 +192,15 @@
 		}
 	}
 	.jianzhu {
-		width: 70%;
+		width: 90%;
 		height: 70px;
 		z-index: 1;
 		position: absolute;
-		left: 17%;
+		// left: 17%;
+		margin: 0 0% 0 10%;
 		background-image: url("~@/assets/img/back.png");
-		background-repeat: no-repeat;
     background-size: contain;
+		background-repeat-y: no-repeat;
 	}
 
 	.div-loading-inner {
