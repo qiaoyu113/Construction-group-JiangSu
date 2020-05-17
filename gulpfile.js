@@ -18,7 +18,7 @@ var env         = ''; // 环境
 })();
 
 // 编译
-gulp.task('build', $.shell.task([ 'node build/build.js' ]));
+gulp.task('build', $.shell.task([ 'node --max_old_space_size=4096 build/build.js' ]));
 
 // 创建版本号目录
 gulp.task('create:versionPath', ['build'], function () {
