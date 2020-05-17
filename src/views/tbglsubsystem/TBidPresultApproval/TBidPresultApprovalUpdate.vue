@@ -7,28 +7,36 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="选择关键字">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="创建时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
+          <el-form-item prop="pcId" label="项目名称">
+            <el-input></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述"
-                      clearable></el-input>
+          <el-form-item prop="proSubCompany" label="工程类别">
+            <el-input></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proSubCompany" label="建设单位">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proSubCompany" label="所属分公司">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="useScenes" label="经营方式">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="proSubCompany" label="项目阶段">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+
       </el-row>
       <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
         <el-col :span="12">
@@ -61,9 +69,8 @@
           dataSource: {
             serviceInstance: tapp.services.tBidPletterApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              pcId: null,
+              proSubCompany: null,
             }
           },
           grid: {

@@ -58,7 +58,7 @@
             <el-input v-model="dataForm.remark" readonly></el-input>
           </el-form-item>
         </el-col>
-        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="17">
           <el-form-item prop="bidFileType" label="文件类型">
             <t-dic-radio-select dicType="1260865842271358978" v-model="dataForm.updateuser"></t-dic-radio-select>
