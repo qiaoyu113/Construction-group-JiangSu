@@ -10,6 +10,7 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -102,6 +103,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'经营方式'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="6">
@@ -146,6 +149,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'建筑情况'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="6">
@@ -201,6 +206,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row>
         <el-col :span="20">
@@ -234,9 +241,12 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

@@ -10,6 +10,7 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目基本信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="10">
@@ -132,6 +133,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'合同基本信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -293,6 +296,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'合同保证金信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -330,16 +335,20 @@
       </el-row>
       <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
                label-width="120px" label-position="right"></el-form>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'合同收款条件'"></t-sub-title>
       <el-row :gutter="20">
           <el-form-item prop="datastatus" verify can-be-empty :maxLength="200">
             <el-input type="textarea"></el-input>
           </el-form-item>
       </el-row>
-
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

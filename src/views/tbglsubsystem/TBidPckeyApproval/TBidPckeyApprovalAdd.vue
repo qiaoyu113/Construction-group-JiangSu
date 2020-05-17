@@ -10,169 +10,182 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
-      <t-sub-title :title="'备案信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="项目名称">
-            <el-input v-model="dataForm.pcId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属事业部">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="建设单位">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="合同模式">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="投资金额">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="经营方式">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="计划项目规模">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
+      <el-card shadow="never">
+        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="pcId" label="项目名称">
+              <el-input v-model="dataForm.pcId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属分公司">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属事业部">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="建设单位">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="合同模式">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="投资金额">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="工程类别">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="经营方式">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="计划项目规模">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属地区">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="keyId" label="密钥类别">
-            <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="批准单位">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="登录网名">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="登录网址">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="有效期至">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="useScenes" label="用途">
-            <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" readonly></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="用户名">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="密码">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="主要负责人">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="密钥颜色">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.proSubCompany"
-                                :readOnly="readOnly"></t-dic-radio-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="办理单位">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属地区">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="keyId" label="密钥类别">
+              <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="批准单位">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="登录网名">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="登录网址">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="有效期至">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="useScenes" label="用途">
+              <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" readonly></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="用户名">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="密码">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="主要负责人">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="密钥颜色">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.proSubCompany"
+                                  :readOnly="readOnly"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="办理单位">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="领用单位:">
-            <span>该项目所属分公司</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="useScenes" label="用途:">
-            <t-input  v-model="dataForm.useScenes" ></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="领用期限:">
-            <t-datetime-range-picker v-model="dataForm.limitStarttime">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item prop="getTime" label="领用时间:">
-            <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <el-form-item prop="returnTime" label="归还时间:">
-            <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人:">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="经办时间:">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="领用单位:">
+              <span>该项目所属分公司</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="useScenes" label="用途:">
+              <t-input v-model="dataForm.useScenes"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="领用期限:">
+              <t-datetime-range-picker v-model="dataForm.limitStarttime">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item prop="getTime" label="领用时间:">
+              <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item prop="returnTime" label="归还时间:">
+              <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人:">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间:">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -265,11 +278,12 @@
       }
     },
     created() {
- this.init()
+      this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,
+      })
     },
 
     methods: {
