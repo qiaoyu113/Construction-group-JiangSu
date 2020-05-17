@@ -22,6 +22,10 @@
                   <el-button class="demo-button" type="primary" icon="el-icon-circle-close">清空</el-button>
                   <el-button class="demo-button" type="primary" icon="el-icon-upload2">保存</el-button></el-button>
                   <el-button class="demo-button" type="primary" icon="el-icon-s-check">提交审批</el-button>
+                </el-form-item>
+              </el-row>
+              <el-row :gutter="20" style="margin-left: 0;">
+                <el-form-item>
                   <el-button class="demo-button" type="primary" icon="el-icon-bell">保存并通知</el-button>
                   <el-button class="demo-button" type="primary" icon="el-icon-folder">归档</el-button>
                   <el-button class="demo-button" type="primary" icon="el-icon-delete">删除</el-button>
