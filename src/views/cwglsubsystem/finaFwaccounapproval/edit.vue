@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
@@ -99,17 +99,17 @@
           openTime: '',
           approvalStatus: '',
           sign: '',
-          signTime: new Date(),
+          signTime: '',
           propose: '',
           result: '',
           remark: ''
         },
         dataRule: {
           proCode: [
-            { required: true, message: '项目名称不能为空', trigger: 'blur' }
+            { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
           proName: [
-            { required: true, message: '项目编码不能为空', trigger: 'blur' }
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
           bankName: [
             { required: true, message: '开户行名称不能为空', trigger: 'blur' }
