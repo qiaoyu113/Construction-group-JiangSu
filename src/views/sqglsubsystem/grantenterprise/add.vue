@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
@@ -14,7 +14,7 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="授权编号 ：">
+          <el-form-item prop="actTaskKey" label="授权编号 ：">
             <el-input v-model="dataForm.bId"></el-input>
           </el-form-item>
         </el-col>
@@ -34,7 +34,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantUser" label="企业性质：">
+          <el-form-item prop="useScenes" label="企业性质：">
             <el-input v-model="dataForm.grantUser"></el-input>
           </el-form-item>
         </el-col>
@@ -44,8 +44,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="备注：">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item label="备注：" prop="actTaskKey" verify can-be-empty :maxLength="200">
+            <el-input type="textarea" v-model="dataForm.propose"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -64,18 +64,27 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="授权人：">
+         <!-- <el-form-item prop="approvalStatus" label="授权人：">
             <el-input v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>-->
+          <el-form-item prop="approvalStatus" label="授权人:">
+            屠亚星
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="经办人：">
+         <!-- <el-form-item prop="approvalStatus" label="经办人：">
             <el-input v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>-->
+          <el-form-item prop="approvalStatus" label="经办人:">
+            系统登录人
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="经办时间：">
+         <!-- <el-form-item prop="approvalStatus" label="经办时间：">
             <el-input v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>-->
+          <el-form-item label="经办时间：" prop="propose">
+            <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -97,7 +106,6 @@
         docId: '',
         dataForm: {
           bId: '',
-          actTaskKey: '',
           pId: '',
           companyName: '',
           creditCode: '',
@@ -109,7 +117,7 @@
           grantUser: '',
           remark: '',
           sign: '',
-          signTime: '',
+          signTime: new Date(),
           propose: '',
           result: '',
           approvalStatus: '',
@@ -122,9 +130,6 @@
         dataRule: {
           bId: [
             {required: true, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           pId: [
             {required: true, message: '授权编号不能为空', trigger: 'blur'}

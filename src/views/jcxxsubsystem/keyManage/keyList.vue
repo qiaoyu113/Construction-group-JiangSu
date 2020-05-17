@@ -3,10 +3,7 @@
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
-        </el-button>
-<!--        <t-sub-title :title="'密钥列表'"></t-sub-title>-->
+        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
