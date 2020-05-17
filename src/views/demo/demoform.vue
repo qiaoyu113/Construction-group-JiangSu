@@ -11,12 +11,35 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="20" style="margin-left: 0;">
+            <el-form-item>
+              <el-button class="demo-button" type="primary" icon="el-icon-plus">新增</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-upload2">保存</el-button></el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-s-check">提交审批</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-bell">保存并通知</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-folder">归档</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-delete">删除</el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-edit-outline">修改</el-button>
+            </el-form-item>
+          </el-row>
+          <el-row :gutter="20" style="margin-left: 0;">
+            <el-form-item>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-download">导出</el-button>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-search">查询</el-button>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-printer">打印</el-button>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-arrow-left">返回</el-button>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-s-data">审批流程图</el-button>
+              <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation">通知流程图</el-button>
+            </el-form-item>
+          </el-row>
           <el-row :gutter="20">
             <el-col>
               <h4>基本信息</h4>
               <hr class="el-row-hr"/>
             </el-col>
           </el-row>
+          <t-sub-title :title="'密钥信息'"></t-sub-title>
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="文本输入" prop="customerName" verify :maxLength="50" class="is-required">

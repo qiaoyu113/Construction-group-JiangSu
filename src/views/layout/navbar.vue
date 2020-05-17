@@ -9,7 +9,7 @@
 					<a class="site-navbar__brand-mini" href="javascript:;">{{appShortName}}</a>
 				</div>
 			</div>
-			<el-menu class="site-navbar__menu site-navbar__menu--right" style="display: flex; margin:  10px; font-size: 16px;">
+			<el-menu class="site-navbar__menu site-navbar__menu--right" style="display: flex;align-items: center;height: 94px;margin:  10px; font-size: 16px;">
 				<el-menu-item index="2" id="base_notification">
 					<div class="el-badge" >
 						<a href="#" target="_blank" v-on:click.stop.prevent="notificationHandle()">
@@ -22,8 +22,8 @@
 				<el-menu-item index="3">
 					<el-dropdown :show-timeout="0" placement="bottom">
 						<span class="el-dropdown-link">
-							<icon-svg name="profile" class="site-sidebar__menu-icon"></icon-svg>
-							<span>{{user.userDisplayName}}</span>
+							<el-avatar shape ="circle" size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+							<span style="margin-left: 15px;font-size: 20px;">{{user.userDisplayName}}</span>
 							<i class="el-icon-arrow-down el-icon--right"></i>
 						</span>
 						<el-dropdown-menu slot="dropdown">
@@ -144,8 +144,8 @@
 </script>
 <style lang="scss" scoped>
 	.site-navbar__brand-lg {
-		font-size: 25px;
-		margin: 20px 0 0 15px;
+		font-size: 28px;
+		margin: 20px 0 0 4px;
 	}
 	.site-navbar__brand {
 		line-height: 114px;
@@ -186,9 +186,9 @@
 	.logo {
 		width: 114px;
 		height: 114px;
-		margin-left: 15px;
+		margin-left: 30px;
 		img {
-			width: 70px;
+			width: 80px;
 		}
 	}
 	.jianzhu {
@@ -203,5 +203,10 @@
 	.div-loading-inner {
 		margin-left: 50px;
 		margin-top: 18px;
+	}
+	.site-sidebar__menu-icon {
+		width: 33px;
+		height: 33px;
+		color: #fff !important;
 	}
 </style>

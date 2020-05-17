@@ -1,7 +1,7 @@
 <template>
 <aside class="site-sidebar" :class="sidebarClasses">
   <div class="site-sidebar__inner">
-    <el-menu :default-active="menuNavActiveName" :collapse="$store.state.ui.sidebarCollapse" :collapseTransition="false" class="site-sidebar__menu">
+    <el-menu :default-active="menuNavActiveName" @open="handleOpen" unique-opened text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse="$store.state.ui.sidebarCollapse" :collapse-transition="false" class="site-sidebar__menu">
       <sub-menu-nav v-for="menuNav in menuNavList" :key="menuNav.self.id" :menu-nav="menuNav">
       </sub-menu-nav>
     </el-menu>
@@ -91,6 +91,10 @@ export default {
       }
     },
 
+    handleOpen(key, keyPath) {
+      console.log('key, path', key, keyPath);
+    },
+    
     ...mapMutations(['ADD_CONTENT_TAB', 'UPDATE_CONTENT_TABS_ACTIVE_NAME'])
   }
 }
