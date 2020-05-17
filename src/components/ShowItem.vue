@@ -138,8 +138,8 @@
             },
           }
         },
-      },
-			formInfo:''
+			  formInfo:''
+      }
     },
     components: {},
     created () {

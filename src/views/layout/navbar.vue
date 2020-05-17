@@ -4,7 +4,7 @@
 			<div class="jianzhu" style=""></div>
 			<div class="site-navbar__header">
 				<div class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-					<div class="logo"><img src="../../assets/img/project_logo.png" alt="logo"></div>
+					<div class="logo"><img src="~@/assets/img/project_logo.png" alt="logo"></div>
 					<a class="site-navbar__brand-lg" href="javascript:;">{{appName}}</a>
 					<a class="site-navbar__brand-mini" href="javascript:;">{{appShortName}}</a>
 				</div>

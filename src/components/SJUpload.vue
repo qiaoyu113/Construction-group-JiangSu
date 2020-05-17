@@ -216,7 +216,7 @@ export default {
       this.$nextTick(() => {
         this.showCategoryTree = true
         this.showAttachmentGrid = false
-        this.$refs.categoryTree.refresh()
+        // this.$refs.categoryTree.refresh()
       })
     } else if (this.assetCategory) {
       let self = this
@@ -379,7 +379,7 @@ export default {
           let newCategoryItem = { ...self.selectedCategoryItem
           }
           newCategoryItem.self.attachmentCount = result.length
-          self.$refs.categoryTree.refreshNode(self.selectedAssetCategoryId, newCategoryItem)
+          // self.$refs.categoryTree.refreshNode(self.selectedAssetCategoryId, newCategoryItem)
         }
       })
     },

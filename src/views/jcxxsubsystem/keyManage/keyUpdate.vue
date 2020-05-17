@@ -261,12 +261,12 @@
     },
     created() {
       const currentQuery = this.$route.query
-      console.log('currentQuery1', this.$route)
+      // console.log('currentQuery1', this.$route)
       this.currentReadonly = (currentQuery.readonly == 'true') || this.readOnly
       this.init(currentQuery.id)
     },
     activated() {
-      console.log('currentQuery2', this.$route)
+      // console.log('currentQuery2', this.$route)
       const currentQuery = this.$route.query
       this.init(currentQuery.id)
     },

@@ -37,7 +37,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 #newscontent div {
   position: relative;
   margin: 10%;
@@ -45,8 +45,8 @@ export default {
 
 #newscontent img {
   max-width: 300px;
-  width: expression(document.body.clientWidth>document.getElementById("newscontent").scrollWidth*9/10? "300px": "auto");
   border: 1px dashed #000;
+  width: expression(document.body.clientWidth>document.getElementById("newscontent").scrollWidth*9/10? "300px": "auto");
 }
 
 p {

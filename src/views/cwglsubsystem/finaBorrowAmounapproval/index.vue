@@ -1,7 +1,7 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search"  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search"  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button  icon="el-icon-download" type="success" @click="doExportExcel()">
           <i class="fa fa-lg fa-level-down"></i>导出
@@ -9,19 +9,19 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="所属分公司：">
+          <el-form-item label="所属分公司：" prop="searchKey">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
                        placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目名称：">
+          <el-form-item label="项目名称：" prop="searchKey">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="借款日期：">
+          <el-form-item label="借款日期：" prop="searchKey">
             <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
                                type="date" :readOnly="false">
             </t-datetime-picker>
