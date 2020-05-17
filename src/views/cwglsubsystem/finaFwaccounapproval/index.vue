@@ -8,13 +8,13 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="请选择" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户行名称">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.bankName"
                        placeholder="请选择" clearable></el-input>
           </el-form-item>
         </el-col>
@@ -47,9 +47,8 @@
           dataSource: {
             serviceInstance: tapp.services.finaFwaccounapproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              bankName: null,
+              proName: null,
             }
           },
           grid: {
@@ -95,7 +94,7 @@
                 }
               },
               {
-                prop: 'openTime',
+                prop: 'cancelTime',
                 label: '注销时间',
                 sortable: true,
                 formatter: (row, column, cellValue) => {
@@ -103,7 +102,7 @@
                 }
               },
               {
-                prop: 'bankAccount',
+                prop: 'payoffMoney',
                 label: '累计发放金额（万元）',
                 sortable: true
               }
@@ -136,7 +135,7 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('工资列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
