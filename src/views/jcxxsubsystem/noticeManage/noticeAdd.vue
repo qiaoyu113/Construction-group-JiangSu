@@ -15,19 +15,19 @@
 
           </el-form-item>
         </el-col>
-        <el-col :span="15">
+        <el-col :span="16">
           <el-form-item prop="fromDept" label="发布部门">
             <el-input v-model="dataForm.fromDept"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="24">
           <el-form-item prop="noticeTitle" label="公告标题">
             <el-input v-model="dataForm.noticeTitle" ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="24">
           <el-form-item prop="noticeContent" label="公告内容">
-            <el-input v-model="dataForm.noticeContent"></el-input>
+            <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">

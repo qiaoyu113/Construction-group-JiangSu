@@ -15,7 +15,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proCode" label="项目备案编号">
-            <el-input v-model="dataForm.proCode" readonly></el-input>
+            <el-input v-model="dataForm.proCode" placeholder="系统自动生成" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -28,7 +28,7 @@
             <el-input v-model="dataForm.proBusDept" readonly></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="24">
           <el-form-item prop="proName" label="拟建项目名称">
             <el-input v-model="dataForm.proName"></el-input>
           </el-form-item>
