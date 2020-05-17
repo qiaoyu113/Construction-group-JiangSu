@@ -9,7 +9,7 @@
 					<a class="site-navbar__brand-mini" href="javascript:;">{{appShortName}}</a>
 				</div>
 			</div>
-			<el-menu class="site-navbar__menu site-navbar__menu--right" style="border-right: none;display: flex;align-items: center;height: 50px;margin:  10px; font-size: 16px;">
+			<el-menu class="site-navbar__menu site-navbar__menu--right" style="z-index: 10;border-right: none;display: flex;align-items: center;height: 50px;margin:  10px; font-size: 16px;">
 				<el-menu-item index="2" id="base_notification">
 					<div class="el-badge" >
 						<a href="#" target="_blank" v-on:click.stop.prevent="notificationHandle()">
