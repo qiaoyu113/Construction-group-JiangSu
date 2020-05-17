@@ -1,7 +1,8 @@
 <template>
 <div class="mod-role">
+  <el-card shadow="never">
   <div class="query_opr">
-  <div style="float:left;">
+    <el-row style="float:left;">
       <el-button  type="primary" @click="doNew()" icon="el-icon-plus">新增</el-button>
       <el-button  icon="el-icon-download" @click="doExportExcel()">
         <i class="fa fa-lg fa-level-down"></i>导出
@@ -10,7 +11,7 @@
         <el-badge is-dot v-if="hasQuery">筛选</el-badge>
         <span v-else>筛选</span>
       </el-button>
-    </div>
+    </el-row>
     <div style="float:right;">
       <el-form :inline="true" @submit.native.prevent @keyup.enter.native="doSearch">
         <el-form-item>
@@ -130,8 +131,9 @@
   </el-dialog>
   </div>
 
-  <t-grid ref="searchReulstList" :options="gridOptions">
+  <t-grid ref="searchReulstList" :options="gridOptions"  @cell-click="handleCellClick">
   </t-grid>
+  </el-card>
 </div>
 </template>
 
@@ -195,7 +197,18 @@ export default {
             prop: 'customerCardNO',
             label: '身份证号',
             sortable: true,
-            width: 170
+            width: 170,
+            render: (h, params) => {
+              // params对象包含 column 当前列信息，row 当前行的数据
+              var self = this;
+              return (
+                <div style="margin:0 auto; ">
+                  <a href="#" onClick={() => this.doSomething(params.row)}> 
+                    {params.row.customerCardNO}
+                  </a>
+                </div>
+              );
+            }
           },
           {
             prop: 'loanMoneyAmount',
@@ -265,24 +278,26 @@ export default {
               return util.datetimeFormat(row.loanApplySumbitDate)
             }
           },
+          // 显示单个字典值
           {
             prop: 'sexId',
-            columnKey: 'sexId',
-            filters: util.getListDataDicFilters('public_sex'),
+            columnKey: 'sexId', // 保持与prop一致（可以去掉）
             label: '性别',
             sortable: true,
             width: 100,
             formatter: (row, column, cellValue) => {
-              return util.dataDicFormat('public_sex', row.sexId)
+              return util.dataDicFormat('public_sex', row.sexId) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
             }
           },
+          // 显示多个字典值
           {
             prop: 'maritalStatusIdList',
-            columnKey: 'maritalStatusIdList',
+            columnKey: 'maritalStatusIdList', // 保持与prop一致（可以去掉）
             label: '婚姻状况',
             sortable: true,
             width: 150,
             formatter: (row, column, cellValue) => {
+               // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
               return util.dataDicsFormat('public_maritalstatus', row.maritalStatusIds)
             }
           },
@@ -370,7 +385,7 @@ export default {
       })
     },
     doEdit (key, row) {
-      let tpath = '/loansubsystem/task/loanEnterForm?id=' + row.id
+      let tpath = '/demo/demolist?id=' + row.id
 
       this.$router.push({
         path: tpath
@@ -378,6 +393,19 @@ export default {
     },
     showQueryDialog () {
       this.queryDialogVisible = true
+    },
+    doSomething() {
+      this.queryDialogVisible = true
+    },
+    // row行数据，column列信息，cell当前点击的单元格数据，event相关事件
+    handleCellClick(row, column, cell, event) {
+      // do something
+      console.log('click info', row, column, cell, event)
+      // 通过判断当前列，可以限制某几列或者某一列可点击
+      // 不判断，就是整行可点击
+      if(column.property == 'loanMoneyAmount' || column.property == 'loanTermCount') {
+        this.queryDialogVisible = true
+      }
     },
     doQuery () {
       this.hasQuery = true

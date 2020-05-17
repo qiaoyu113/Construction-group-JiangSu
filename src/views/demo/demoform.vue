@@ -113,6 +113,12 @@
                     <t-number-input v-model="docEntity.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
                   </el-form-item>
                 </el-col>
+                <el-col :span="12">
+                  <el-form-item label="数字输入(8位小数)" prop="loanMoneyAmount2" verify class="is-required">
+                    <!-- precision为小数位数，默认为2 -->
+                    <t-number-input v-model="docEntity.loanMoneyAmount2" precision="8" :readOnly="readOnly"></t-number-input>
+                  </el-form-item>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
                 <el-col :span="12">
@@ -550,6 +556,7 @@
 					customerCardNO: null,
 					loanTermCount: null,
 					loanMoneyAmount: null,
+					loanMoneyAmount2: null,
 					originalLoanMoneyAmount: null,
 					financeFamilyTotalAsset: null,
 					financeReturnMoneyLoanRate: null,
