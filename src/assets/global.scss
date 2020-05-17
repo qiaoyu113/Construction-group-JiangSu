@@ -247,6 +247,7 @@ input[readonly="readonly"] {
 }
 .search-top-operate {
   margin-bottom: 22px;
+  margin-left: 15px !important;
   .el-form-item__content {
     text-align: left;
   }
@@ -273,7 +274,8 @@ input[readonly="readonly"] {
   border-bottom: none;
 }
 .el-card {
-  margin-bottom: 24px;
+  margin: 0 12px 24px;
+  border-radius: 15px;
 }
 
 .page-title .title {

@@ -1,78 +1,82 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="项目名称：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item label="项目名称：" prop="actTaskKey" >
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="dataForm.actTaskKey"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="所属分公司">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="pcId" label="所属分公司：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="pcId" label="所属事业部：">
-            <el-input v-model="dataForm.pcId"></el-input>
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="建设单位：">
-            <el-input v-model="dataForm.useScenes"></el-input>
+          <el-form-item prop="pcId" label="建设单位：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantUser" label="合同模式：">
-            <el-input v-model="dataForm.grantUser"></el-input>
+          <el-form-item label="合同模式：" prop="pcId">
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="投资金额：">
-            <el-input v-model="dataForm.grantContent"></el-input>
+          <el-form-item prop="pcId" label="投资金额：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="工程类别：">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item label="工程类别：">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.remark" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="经营方式：">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item label="经营方式：">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.sign" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="项目规模：">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="pcId" label="项目规模：">
+            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="propose" label="项目经理：：">
-            <el-input v-model="dataForm.propose"></el-input>
+          <el-form-item prop="pcId" label="项目经理：">
+            <el-input readonly v-model="dataForm.propose"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="result" label="所在单位：">
-            <el-input v-model="dataForm.result"></el-input>
+          <el-form-item prop="pcId" label="所在单位：">
+            <el-input readonly v-model="dataForm.result"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="称职：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
+          <el-form-item prop="pcId" label="称职：">
+            <el-input readonly v-model="dataForm.approvalStatus"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -81,29 +85,45 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="授权人：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="授权内容：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-        <el-form-item prop="approvalStatus" label="经办人：">
-          <el-input v-model="dataForm.approvalStatus"></el-input>
-        </el-form-item>
-      </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="经办时间：">
+          <el-form-item prop="pcId" label="授权人：">
             <el-input v-model="dataForm.approvalStatus"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+        <!--  <el-form-item prop="approvalStatus" label="授权内容：">
+            <el-input v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>-->
+          <el-form-item label="授权内容：" prop="approvalStatus" verify can-be-empty :maxLength="200">
+            <el-input type="textarea" v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+       <!-- <el-form-item prop="approvalStatus" label="经办人：">
+          <el-input v-model="dataForm.approvalStatus"></el-input>
+        </el-form-item>-->
+          <el-form-item prop="approvalStatus" label="经办人:">
+            系统登录人
+          </el-form-item>
+      </el-col>
+        <el-col :span="8">
+          <!--<el-form-item prop="approvalStatus" label="经办时间：">
+            <el-input v-model="dataForm.approvalStatus"></el-input>
+          </el-form-item>-->
+          <el-form-item label="经办时间：" prop="approvalStatus">
+            <span>{{dataForm.signTime}}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                  :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>
@@ -126,7 +146,7 @@
           grantContent: '',
           remark: '',
           sign: '',
-          signTime: '',
+          signTime: new Date(),
           propose: '',
           result: '',
           approvalStatus: '',

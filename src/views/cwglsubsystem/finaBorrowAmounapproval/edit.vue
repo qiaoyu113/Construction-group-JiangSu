@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="16">
@@ -33,26 +34,34 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="applyAmount" label="本次申请额度">
-            <el-input v-model="dataForm.applyAmount"></el-input>
+            <el-input v-model="dataForm.applyAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次借款额度期限">
-            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
+            <t-int-input :readonly="true" v-model="dataForm.tiimeLimit">
+              <span slot="append">月</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -61,6 +70,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -81,8 +92,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

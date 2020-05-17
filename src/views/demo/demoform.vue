@@ -684,7 +684,7 @@
 		},
 		components: {},
 		created() {
-			
+
 		},
 		watch: {
 			'docEntity.customerCardNO': {

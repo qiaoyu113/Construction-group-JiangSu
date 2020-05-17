@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -37,6 +38,8 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'帐户信息（帐户开立申请通过后填写）'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -65,8 +68,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>
@@ -93,17 +99,17 @@
           openTime: '',
           approvalStatus: '',
           sign: '',
-          signTime: new Date(),
+          signTime: '',
           propose: '',
           result: '',
           remark: ''
         },
         dataRule: {
           proCode: [
-            { required: true, message: '项目名称不能为空', trigger: 'blur' }
+            { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
           proName: [
-            { required: true, message: '项目编码不能为空', trigger: 'blur' }
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
           bankName: [
             { required: true, message: '开户行名称不能为空', trigger: 'blur' }

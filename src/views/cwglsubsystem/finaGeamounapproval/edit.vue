@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="16">
@@ -35,25 +36,35 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" v-model="dataForm.realAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.realAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次借款期限（月）">
-            <el-input :readonly="true" v-model="dataForm.tiimeLimit"></el-input>
+          <el-form-item prop="tiimeLimit" label="本次借款期限">
+            <el-input :readonly="true" v-model="dataForm.tiimeLimit">
+              <span slot="append">月</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款金额">
-            <el-input v-model="dataForm.getAmount"></el-input>
+            <el-input v-model="dataForm.getAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="timeLimit" label="本次放款期限（月）">
-            <el-input v-model="dataForm.timeLimit"></el-input>
+          <el-form-item prop="timeLimit" label="本次放款期限">
+            <t-int-input v-model="dataForm.timeLimit">
+              <span slot="append">月</span>
+            </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -65,14 +76,21 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计放款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftAmount" label="剩余可用额度">
-            <el-input :readonly="true" v-model="dataForm.leftAmount"></el-input>
+            <el-input :readonly="true" v-model="dataForm.leftAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -93,9 +111,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

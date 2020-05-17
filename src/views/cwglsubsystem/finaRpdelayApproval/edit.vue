@@ -1,100 +1,126 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="baId" label="借款合同编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item prop="proName" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proCode" label="项目编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="所属单位">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input readonly v-model="dataForm.realAmount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="借款期限（月）">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="getAmount" label="本次放款金额">
-            <el-input readonly v-model="dataForm.getAmount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="timeLimit" label="本次放款期限（月）">
-            <el-input readonly v-model="dataForm.timeLimit"></el-input>
-          </el-form-item>
-        </el-col>
-        <t-sub-title :title="'已延期信息'"></t-sub-title>
-        <t-sub-title :title="'延期申请'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="getAmount" label="本次放款累计已还金额">
-            <el-input readonly v-model="dataForm.getAmount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次放款累计未还金额">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="getCode" label="申请延期还款日">
-            <el-input v-model="dataForm.getCode"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="经办时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item prop="remark" label="延期说明">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      <el-card shadow="never">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="baId" label="借款合同编号">
+              <el-input readonly v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-form-item prop="proName" label="项目名称">
+              <el-input readonly v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proCode" label="项目编号">
+              <el-input readonly v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="pId" label="所属单位">
+              <el-input readonly v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="realAmount" label="确认借款额度">
+              <el-input readonly v-model="dataForm.realAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="tiimeLimit" label="借款期限">
+              <t-int-input readonly v-model="dataForm.tiimeLimit">
+                <span slot="append">月</span>
+              </t-int-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="getAmount" label="本次放款金额">
+              <el-input readonly v-model="dataForm.getAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="timeLimit" label="本次放款期限">
+              <t-int-input readonly v-model="dataForm.timeLimit">
+                <span slot="append">月</span>
+              </t-int-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-card shadow="never">
+          <t-sub-title :title="'已延期信息'"></t-sub-title>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'延期申请'"></t-sub-title>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item prop="getAmount" label="本次放款累计已还金额" label-width="200px">
+                <el-input readonly v-model="dataForm.getAmount">
+                  <span slot="append">万元</span>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="tiimeLimit" label="本次放款累计未还金额" label-width="200px">
+                <el-input readonly v-model="dataForm.tiimeLimit">
+                  <span slot="append">万元</span>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item prop="getCode" label="申请延期还款日" label-width="200px">
+                <el-input v-model="dataForm.getCode"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <el-input v-model="dataForm.sign"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item prop="remark" label="延期说明">
+              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

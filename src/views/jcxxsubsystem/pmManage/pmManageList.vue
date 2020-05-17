@@ -1,13 +1,16 @@
 <template>
   <div class="mod-role">
+    <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
-        </el-button>
+        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
+      </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">项目经理状态列表</div>
+        </el-col>
       </el-row>
       <el-row :gutter="20">
-        <t-sub-title :title="'项目经理状态列表'"></t-sub-title>
         <el-col :span="8">
           <el-form-item label="姓名">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
@@ -43,6 +46,7 @@
     </t-form>
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
+    </el-card>
   </div>
 </template>
 <script>

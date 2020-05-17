@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+      <el-card shadow="never">
       <t-sub-title :title="'到账信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -55,35 +56,53 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rAmount" label="到帐金额">
-            <el-input readonly v-model="dataForm.rAmount"></el-input>
+            <el-input readonly v-model="dataForm.rAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="sAmount" label="自营金额">
-            <el-input readonly v-model="dataForm.sAmount"></el-input>
+            <el-input readonly v-model="dataForm.sAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="oAmount" label="联营金额">
-            <el-input readonly v-model="dataForm.oAmount"></el-input>
+            <el-input readonly v-model="dataForm.oAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
-
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="2" >
+          <el-form-item prop="sAmount" label="已支付预付款"></el-form-item>
+        </el-col>
         <el-col :span="4">
-          <el-form-item prop="sAmount" label="已支付预付款  自营">
-            <el-input readonly v-model="dataForm.sAmount"></el-input>
+          <el-form-item prop="sAmount" label="自营金额" label-width="80px">
+            <el-input readonly v-model="dataForm.sAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="oAmount" label="联营">
-            <el-input readonly v-model="dataForm.oAmount"></el-input>
+          <el-form-item prop="oAmount" label="联营金额">
+            <el-input readonly v-model="dataForm.oAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
-
+      </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'请款信息'"></t-sub-title>
         <el-col :span="4">
           <el-form-item prop="mangementRatio" label="总部管理费比例">
-            <el-input readonly v-model="dataForm.mangementRatio"></el-input>
+            <el-input readonly v-model="dataForm.mangementRatio">
+              <span slot="append">%</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -92,20 +111,28 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="realAmount" label="本次实际请款金额">
-            <el-input readonly v-model="dataForm.realAmount"></el-input>
+          <el-form-item prop="realAmount" label="本次实际请款金额" label-width="140px">
+            <el-input readonly v-model="dataForm.realAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="sAmount" label="自营金额">
-            <el-input readonly v-model="dataForm.sAmount"></el-input>
+            <el-input readonly v-model="dataForm.sAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="oAmount" label="联营金额">
-            <el-input readonly v-model="dataForm.oAmount"></el-input>
+            <el-input readonly v-model="dataForm.oAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -126,9 +153,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-row>
+      </el-card>
+      <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
       <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+      </el-card>
     </el-form>
   </div>
 </template>

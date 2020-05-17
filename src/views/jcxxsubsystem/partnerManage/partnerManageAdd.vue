@@ -1,16 +1,17 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" @click="">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
-      <t-sub-title :title="'合作方基本信息'"></t-sub-title>
       <el-row :gutter="20">
+        <el-card shadow="never">
+          <t-sub-title :title="'合作方基本信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="bId" label="合作方名称">
             <t-input v-model="dataForm.bId"></t-input>
@@ -41,7 +42,11 @@
             <t-input v-model="dataForm.contactNum"></t-input>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'合作方主要工程业绩'"></t-sub-title>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'合作方资产情况'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="fixedAssets" label="固定资产">
@@ -63,6 +68,8 @@
             <t-input v-model="dataForm.liabilities"></t-input>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="marketSituation" label="市场情况">
@@ -74,7 +81,11 @@
             <t-input v-model="dataForm.projectSituation"></t-input>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'合作方主要管理人员情况'"></t-sub-title>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="bankName" label="开户行名称">
@@ -91,6 +102,8 @@
             <t-input v-model="dataForm.bankAccount"></t-input>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="' 登记信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="sign" label="登记人">
@@ -102,9 +115,12 @@
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'附件上传'"></t-sub-title>
         <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
                    :businessDocId="docId"></sj-upload>
+      </el-card>
       </el-row>
     </el-form>
   </div>

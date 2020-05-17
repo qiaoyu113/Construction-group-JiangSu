@@ -1,8 +1,13 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目经理更新列表</div>
+      </el-col>
+    </el-row>
+    <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="20">
-        <t-sub-title :title="'项目经理更新列表'"></t-sub-title>
         <el-col :span="8">
           <el-form-item label="姓名">
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
@@ -38,6 +43,7 @@
     </t-form>
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
+    </el-card>
   </div>
 </template>
 <script>
