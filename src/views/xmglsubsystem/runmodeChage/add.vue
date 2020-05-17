@@ -1,15 +1,11 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button type="primary" @click="">
-        审批流程图
-      </el-button>
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">审批流程图</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+             label-width="150px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -70,14 +66,14 @@
             <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="8">
           <el-form-item label="自营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="8">
           <el-form-item label="联营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
@@ -91,12 +87,12 @@
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item prop="proUnionCompanyContacterO" label="公司负责人：">
             <el-input v-model="dataForm.proUnionCompanyContacterO"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="有无借款：">
             <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrowing" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
@@ -133,12 +129,12 @@
             <el-input v-model="dataForm.conDepositO"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-form-item prop="conDepositO" label="">
             <a>详细</a>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-form-item label="管理费" prop="conDepositO" verify class="is-required">
             <t-int-input v-model="dataForm.conDepositO" :readOnly="readOnly">
               <span slot="append">%</span>
@@ -155,21 +151,21 @@
             <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="8">
           <el-form-item label="自营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="8">
           <el-form-item label="联营：" prop="proUnionCompanyMerate" verify class="is-required">
             <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="8">
           <el-form-item label="净利润承诺超：" prop="proProfitRate" verify class="is-required">
             <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
               <span slot="append">%</span>
@@ -181,6 +177,8 @@
             <el-input v-model="dataForm.proUnionCompanyContacterO"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
           <el-form-item label="联营单位名称：" prop="proUnionCompany">
             <el-input v-model="dataForm.proUnionCompany" readonly>

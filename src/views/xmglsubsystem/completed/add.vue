@@ -1,26 +1,22 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button type="success" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button type="primary" @click="">
-        审批流程图
-      </el-button>
+      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">审批流程图</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+             label-width="150px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item label="项目名称：" prop="proName">
             <el-input v-model="dataForm.proName" readonly>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-form-item prop="actTaskKey" label="">
             <a>项目详细信息</a>
           </el-form-item>
@@ -86,7 +82,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同总金额(含补充协议)：" prop="proTotalInvestment">
+          <el-form-item label="合同总金额(含补充协议)：" prop="proTotalInvestment" label-width="200px">
             <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
           </el-form-item>
         </el-col>

@@ -1,72 +1,80 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="项目编号：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proCode" placeholder="项目编号"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="项目名称：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName" placeholder="项目名称"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="建设单位：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany" placeholder="建设单位"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属分公司：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="所属分公司"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属事业部：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proBusDept" placeholder="所属事业部"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="经营方式：">
-            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="工程类别：">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="类别子项：">
-            <t-dic-dropdown-select dicType="category_child" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="项目编号：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proCode" placeholder="项目编号"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="项目名称：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName" placeholder="项目名称"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="建设单位：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                        placeholder="建设单位"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属分公司：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
+                        placeholder="所属分公司"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属事业部：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proBusDept" placeholder="所属事业部"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经营方式：">
+              <t-dic-dropdown-select dicType="business_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="工程类别：">
+              <t-dic-dropdown-select dicType="engineering_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="类别子项：">
+              <t-dic-dropdown-select dicType="category_child"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" class="demo-button" type="primary" plain icon="el-icon-search">查询
+              </el-button>
+              <el-button class="demo-button" type="primary" icon="el-icon-circle-close" @click="doReset()">清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
@@ -103,83 +111,72 @@
             columns: [
               {
                 prop: 'proCode',
-                label: '项目编号',
-                sortable: true
+                label: '项目编号'
               },
               {
                 prop: 'proName',
-                label: '项目名称',
-                sortable: true
+                label: '项目名称'
               },
               {
                 prop: 'proConstructCompany',
-                label: '建设单位',
-                sortable: true
+                label: '建设单位'
               },
               {
                 prop: 'proBusDept',
-                label: '事业部',
-                sortable: true
+                label: '事业部'
               },
               {
                 prop: 'proSubCompany',
-                label: '分公司',
-                sortable: true
+                label: '分公司'
               },
               {
                 prop: 'proType',
-                label: '工程类别',
-                sortable: true
+                label: '工程类别'
               },
               {
                 prop: 'proSubType',
-                label: '类别子项',
-                sortable: true
+                label: '类别子项'
               },
               {
                 prop: 'proBuildArea',
-                label: '建筑面积',
-                sortable: true
+                label: '建筑面积'
               },
               {
                 prop: 'proTotalInvestment',
-                label: '总投资',
-                sortable: true
+                label: '总投资'
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式（注）',
-                sortable: true
+                label: '经营方式(注)',
+                minWidth: 120
               },
               {
                 prop: 'proWinAmount',
-                label: '中标金额',
-                sortable: true
+                label: '中标金额'
               },
               {
                 prop: 'proManager',
-                label: '项目经理',
-                sortable: true
+                label: '项目经理'
               },
               {
                 prop: 'proConstructCompanyAttr',
                 label: '累计到账金额',
-                sortable: true
+                minWidth: 120
               },
               {
                 prop: 'proDriveSubject',
                 label: '累计支出金额',
-                sortable: true
+                minWidth: 120
               },
               {
                 prop: 'proContractAttr',
                 label: '是否有借款',
-                sortable: true
+                minWidth: 120
               },
               {
                 prop: 'proFundSource',
                 label: '是否有诉讼',
-                sortable: true
+                minWidth: 120
               }
             ], // 需要展示的列
             defaultSort: {
