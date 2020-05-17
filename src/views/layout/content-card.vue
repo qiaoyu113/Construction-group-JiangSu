@@ -1,10 +1,12 @@
 <template>
-<el-card  :body-style="contentViewStyles">
-  <keep-alive>
-    <router-view v-if="$route.meta.keepAlive"  :key="$route.name"></router-view>
-  </keep-alive>
-  <router-view v-if="!$route.meta.keepAlive"></router-view>
-</el-card>
+<!-- <el-card  :body-style="contentViewStyles"> -->
+  <div>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"  :key="$route.name"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+  </div>
+<!-- </el-card> -->
 </template>
 
 <script>

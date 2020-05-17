@@ -269,9 +269,9 @@ input[readonly="readonly"] {
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-.demo-button {
-  border-radius: 10px;
-  height: 50px;
-  padding: 13px 27px;
-  font-size: 20px;
+.el-card__header {
+  border-bottom: none;
+}
+.el-card {
+  margin-bottom: 24px;
 }
