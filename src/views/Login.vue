@@ -51,8 +51,10 @@ export default {
       captchaPath: '',
       showCaptch: false,
       dataForm: {
-        userName: 'admin',
-        password: '123qwe.asd',
+        // userName: 'admin',
+        userName: '',
+        // password: '123qwe.asd',
+        password: '',
         rememberme: true,
         captcha: ''
       },
