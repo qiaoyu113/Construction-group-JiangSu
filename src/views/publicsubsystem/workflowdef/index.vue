@@ -1,34 +1,35 @@
 <template>
-<div class="mod-role"> 
-  <div style="float:left;">
-    
-      <el-button  icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
-      <el-button  icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button>
-      <el-button  icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-  </div>
+  <div class="mod-role"> 
+    <el-card shadow="never">
+      <div style="float:left;">
+          <el-button  icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
+          <el-button  icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button>
+          <el-button  icon="el-icon-download" @click="doExportExcel()">导出</el-button>
+      </div>
       <div style="float:right;">
-      <el-form :inline="true" @submit.native.prevent @keyup.enter.native="doRefresh">
-        <el-form-item>
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
-            placeholder="模型名称"
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="doRefresh()" icon="el-icon-search">查询</el-button>
-        </el-form-item>
-      </el-form>
-    </div> 
+        <el-form :inline="true" @submit.native.prevent @keyup.enter.native="doRefresh">
+          <el-form-item>
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+              placeholder="模型名称"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="doRefresh()" icon="el-icon-search">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </div> 
 
-  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-  </t-grid>
-  <!-- 弹窗, 新增 / 修改 -->
-  <edit-form v-if="editFormVisible" ref="editForm" @change="doRefresh"></edit-form>
-  <design-form v-if="designFormVisible" ref="designForm"></design-form>
-  <code-view-form v-if="codeViewFormVisible" ref="codeViewForm"></code-view-form>
-  <upload-form v-if="uploadFormVisible" ref="uploadForm"></upload-form>
+    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+    </t-grid>
+    <!-- 弹窗, 新增 / 修改 -->
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doRefresh"></edit-form>
+    <design-form v-if="designFormVisible" ref="designForm"></design-form>
+    <code-view-form v-if="codeViewFormVisible" ref="codeViewForm"></code-view-form>
+    <upload-form v-if="uploadFormVisible" ref="uploadForm"></upload-form>
+  </el-card>
 </div>
 </template>
 

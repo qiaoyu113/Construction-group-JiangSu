@@ -29,9 +29,7 @@
       <el-tab-pane label="流程办理信息" name="second">
         <el-card shadow="never">
           <t-sub-title :title="'流程图'"></t-sub-title>
-          <div style="width: 100%;height: 200px;">
-            <t-workflow-map></t-workflow-map>
-          </div>
+          <t-workflow-map :businessKey="$route.query.processDefinationKey"></t-workflow-map>
           <t-sub-title :title="'流程办理信息'"></t-sub-title>
           <t-grid ref="searchReulstList" :options="gridOptions"></t-grid>
         </el-card>
