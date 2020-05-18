@@ -101,7 +101,7 @@ export default {
     },
 
     handleOpen(key, keyPath) {
-      console.log('key, path', key, keyPath);
+      // console.log('key, path', key, keyPath);
     },
     handleCollsapse() {
       // types.SWITCH_SIDEBAR_COLLAPSE

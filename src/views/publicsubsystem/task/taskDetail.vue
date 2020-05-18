@@ -25,12 +25,14 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="流程办理信息" name="second">
-        <t-sub-title :title="'流程图'"></t-sub-title>
-        <div style="width: 100%;height: 200px;">
-          流程图
-        </div>
-        <t-sub-title :title="'流程办理信息'"></t-sub-title>
-        <t-grid ref="searchReulstList" :options="gridOptions"></t-grid>
+        <el-card shadow="never">
+          <t-sub-title :title="'流程图'"></t-sub-title>
+          <div style="width: 100%;height: 200px;">
+            流程图
+          </div>
+          <t-sub-title :title="'流程办理信息'"></t-sub-title>
+          <t-grid ref="searchReulstList" :options="gridOptions"></t-grid>
+        </el-card>
       </el-tab-pane>
     </el-tabs>
     <el-row :gutter="10" class="search-top-operate">
@@ -157,7 +159,7 @@
       this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId);
     },
     activated() {
-      console.log('this.$route111', this.$route)
+      console.log('this.$route222', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况

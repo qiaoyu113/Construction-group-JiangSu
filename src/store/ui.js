@@ -54,7 +54,6 @@ export default {
     [types.UPDATE_DOCUMENT_CLIENT_HEIGHT](state, {
       height
     }) {
-      console.log('height', height)
       state.documentClientHeight = height
     },
 
