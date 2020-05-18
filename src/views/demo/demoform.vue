@@ -116,7 +116,7 @@
                 <el-col :span="12">
                   <el-form-item label="数字输入(8位小数)" prop="loanMoneyAmount2" verify class="is-required">
                     <!-- precision为小数位数，默认为2 -->
-                    <t-number-input v-model="docEntity.loanMoneyAmount2" precision="8" :readOnly="readOnly"></t-number-input>
+                    <t-number-input v-model="docEntity.loanMoneyAmount2" :precision="8" :readOnly="readOnly"></t-number-input>
                   </el-form-item>
                 </el-col>
               </el-row>
