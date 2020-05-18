@@ -1,63 +1,67 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">公告列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-      </el-row>
-      <t-sub-title :title="'公告列表'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="公告类型">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="noticeTitle" label="公告标题">
-            <el-input v-model="gridOptions.dataSource.noticeTitle" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="noticeContent" label="公告内容">
-            <el-input v-model="gridOptions.dataSource.noticeContent"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="发布人">
-            <el-input v-model="gridOptions.dataSource.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="有效期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+          </el-button>
+        </el-row>
+        <t-sub-title :title="'公告列表'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="noticeType" label="公告类型" aria-placeholder="请选择">
+              <t-dic-dropdown-select dicType="notice_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="noticeTitle" label="公告标题">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeTitle"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="noticeContent" label="公告内容">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeContent"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="createuser" label="发布人">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.createuser"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="timeLimit" label="有效期">
+              <t-dic-dropdown-select dicType="time_limit"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.timeLimit"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button icon="el-icon-download" @click="doReset()">
+                <i class="fa fa-lg fa-level-down"></i>清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
 <script>
   import baseView from '@/base/baseView'
-
+  import util from '@/util'
   export default {
     name: 'myTask',
     extends: baseView,
@@ -68,14 +72,13 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            noticeTitle: '',
-            noticeContent: '',
-            updateuser: '',
             serviceInstance: tapp.services.tBaseinfoNotice.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              noticeTitle: null,
+              noticeContent: null,
+              noticeType: null,
+              createuser: null,
+              timeLimit: ''
             }
           },
           grid: {
@@ -95,7 +98,10 @@
               {
                 prop: 'noticeType',
                 label: '公告类型',
-                sortable: false
+                sortable: false,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('notice_type', row.noticeType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'fromDept',
@@ -105,16 +111,22 @@
               {
                 prop: 'remark',
                 label: '是否置顶',
-                sortable: false
+                sortable: false,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('y_or_n', row.remark) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'timeLimit',
                 label: '有效期',
-                sortable: false
+                sortable: false,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('time_limit', row.timeLimit) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
 
               {
-                prop: 'updateuser',
+                prop: 'createuser',
                 label: '发布人',
                 sortable: false
               },

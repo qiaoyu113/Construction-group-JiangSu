@@ -1,48 +1,61 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">合作方列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
-    <t-form ref="search"  @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="合作方名称">
-            <el-select placeholder="" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="入库时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="有无诉讼">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="单据描述" clearable></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button  @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button  icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+          </el-button>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="合作方名称">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="法人">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.legalPerson"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="入库时间">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                       @change="onStartDateRangeChanged">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="有无诉讼">
+              <!--诉讼-->
+              <t-dic-dropdown-select dicType="have_or_not"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.litigation"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button icon="el-icon-download" @click="doReset()">
+                <i class="fa fa-lg fa-level-down"></i>清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
 <script>
   import baseView from '@/base/baseView'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -55,8 +68,9 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoPartnerApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
+              companyName: null,
+              legalPerson: null,
+              litigation: null,
               dateRange: ''
             }
           },
