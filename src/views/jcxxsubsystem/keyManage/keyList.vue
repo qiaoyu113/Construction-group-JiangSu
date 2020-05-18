@@ -1,63 +1,88 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">密钥列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="所属地区">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" clearable>
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+          </el-button>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="所属地区">
+              <t-dic-tree-select placeholder="请选择" dicType="base_region"
+                                 v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
+                                 :readOnly="readOnly"></t-dic-tree-select>
               <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
                          :value="item.key"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+            </el-form-item>
+          </el-col>
 
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="申请时间">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="有效期截止日" label-width="160px">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="关键字">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+          <el-col :span="8">
+            <el-form-item label="密钥类别">
+              <t-dic-dropdown-select dicType="key_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="申请时间" prop="applyforDate">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.applyforDate"
+                                       @change="onStartDateRangeChanged">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="办理单位">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.authCompany"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="密钥状态">
+              <t-dic-dropdown-select dicType="key_status"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyStatus"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="有效截止日">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
+                                       @change="onStartDateRangeChanged">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经办人">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="经办日期">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime"
+                                       @change="onStartDateRangeChanged">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button icon="el-icon-download" @click="doReset()">
+                <i class="fa fa-lg fa-level-down"></i>清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
@@ -76,9 +101,14 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoKeyApproval.getPagedList,
             serviceInstanceInputParameters: {
+              sign: null,
+              keyType: null,
               province: null,
-              searchKey: null,
-              dateRange: ''
+              authCompany: null,
+              keyStatus: null,
+              applyforDate: '',
+              expirationDate: '',
+              signTime: ''
             }
           },
           grid: {
@@ -120,6 +150,11 @@
                 }
               },
               {
+                prop: '',
+                label: '办理单位',
+                sortable: false
+              },
+              {
                 prop: 'useScenes',
                 label: '用途',
                 sortable: false
@@ -133,13 +168,33 @@
                 }
               },
               {
+                prop: 'keyStatus',
+                label: '密钥状态',
+                sortable: false
+              },
+              {
+                prop: '',
+                label: '领用单位',
+                sortable: false
+              },
+              {
+                prop: '',
+                label: '领用日期',
+                sortable: false
+              },
+              {
+                prop: '',
+                label: '归还日期',
+                sortable: false
+              },
+              {
                 prop: 'sign',
-                label: '登记人',
+                label: '经办人',
                 sortable: false
               },
               {
                 prop: 'signTime',
-                label: '登记时间',
+                label: '经办时间',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');

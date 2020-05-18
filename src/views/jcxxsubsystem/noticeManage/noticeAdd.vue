@@ -1,65 +1,71 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">公告发布</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'公告信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="noticeType" label="公告类型">
-            <t-dic-dropdown-select dicType="1260861375056580609" v-model="dataForm.noticeType"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+        <t-sub-title :title="'公告信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="noticeType" label="公告类型">
+              <t-dic-dropdown-select dicType="notice_type" v-model="dataForm.noticeType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
 
-          </el-form-item>
-        </el-col>
-        <el-col :span="16">
-          <el-form-item prop="fromDept" label="发布部门">
-            <el-input v-model="dataForm.fromDept"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="noticeTitle" label="公告标题">
-            <el-input v-model="dataForm.noticeTitle" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="noticeContent" label="公告内容">
-            <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item prop="fromDept" label="发布部门">
+              <el-input v-model="dataForm.fromDept"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="noticeTitle" label="公告标题">
+              <el-input v-model="dataForm.noticeTitle"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="noticeContent" label="公告内容">
+              <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="是否置顶">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.remark"
+                                  :readOnly="readOnly"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="timeLimit" label="有效期">
+              <t-dic-dropdown-select dicType="time_limit" v-model="dataForm.timeLimit"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-col :span="8">
+          <el-form-item prop="createuser" label="发布人">
+            <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="是否置顶">
-            <t-dic-radio-select dicType="1260860975985332225" v-model="dataForm.remark"
-                                :readOnly="readOnly"></t-dic-radio-select>
+          <el-form-item prop="createtime" label="发布时间">
+            <span>{{dataForm.createtime}}</span>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="timeLimit" label="有效期">
-            <t-dic-dropdown-select dicType="1260861490588684289" v-model="dataForm.timeLimit" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-col :span="8">
-        <el-form-item prop="createuser" label="登记人">
-          <span>{{dataForm.createuser}}</span>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="createtime" label="登记时间">
-          <span>{{dataForm.createtime}}</span>
-        </el-form-item>
-      </el-col>
-      </el-card>
-      <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -67,7 +73,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -100,35 +107,36 @@
             {required: true, message: '公告内容不能为空', trigger: 'blur'}
           ],
           timeLimit: [
-            {required: true, message: '有效期不能为空', trigger: 'blur'}
+            {required: false, message: '有效期不能为空', trigger: 'blur'}
           ],
           remark: [
-            {required: true, message: '是否置顶不能为空', trigger: 'blur'}
+            {required: false, message: '是否置顶不能为空', trigger: 'blur'}
           ],
           createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
+            {required: false, message: '创建人不能为空', trigger: 'blur'}
           ],
           updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
+            {required: false, message: '更新人不能为空', trigger: 'blur'}
           ],
           datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ],
           createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
+            {required: false, message: '创建时间不能为空', trigger: 'blur'}
           ],
           updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
+            {required: false, message: '更新时间不能为空', trigger: 'blur'}
           ]
         }
       }
     },
     created() {
-       this.init()
+      this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况

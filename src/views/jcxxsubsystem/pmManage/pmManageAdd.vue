@@ -11,117 +11,117 @@
         </el-col>
       </el-row>
       <el-card shadow="never">
-      <t-sub-title :title="'资质信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pmId" label="项目经理">
-            <el-input v-model="dataForm.pmId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pmId" label="所属单位">
-            <el-input v-model="dataForm.pmId" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="constructorLevel" label="联系方式">
-            <el-input v-model="dataForm.constructorLevel" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="constructorLevel" label="建造师登记">
-            <el-input v-model="dataForm.constructorLevel"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="constructorCode" label="建造师证书编号">
-            <el-input v-model="dataForm.constructorCode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="安全B证">
-            <el-input v-model="dataForm.safeB"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="是否在建">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16">
-          <el-form-item prop="safeB" label="累计项目合同额">
-            <el-input v-model="dataForm.safeB" readonly ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="在建项目名称">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目开工日期">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目合同额">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="在建项目名称">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目开工日期">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目合同额">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="在建项目名称">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目开工日期">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="safeB" label="项目合同额">
-            <el-input v-model="dataForm.safeB" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" >
-          <el-form-item prop="remark" label="备注" >
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'资质信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="pmId" label="项目经理">
+              <el-input v-model="dataForm.pmId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="pmId" label="所属单位">
+              <el-input v-model="dataForm.pmId" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="constructorLevel" label="联系方式">
+              <el-input v-model="dataForm.constructorLevel" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="constructorLevel" label="建造师登记">
+              <el-input v-model="dataForm.constructorLevel"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="constructorCode" label="建造师证书编号">
+              <el-input v-model="dataForm.constructorCode"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="安全B证">
+              <el-input v-model="dataForm.safeB"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="是否在建">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item prop="safeB" label="累计项目合同额">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="在建项目名称">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目开工日期">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目合同额">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="在建项目名称">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目开工日期">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目合同额">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="在建项目名称">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目开工日期">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="safeB" label="项目合同额">
+              <el-input v-model="dataForm.safeB" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-col :span="8">
-        <el-form-item prop="createuser" label="登记人" >
-          <span>{{dataForm.createuser}}</span>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item prop="createtime" label="登记时间" >
-          <span>{{dataForm.createtime}}</span>
-        </el-form-item>
-      </el-col>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-col :span="8">
+          <el-form-item prop="createuser" label="登记人">
+            <span>{{dataForm.createuser}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="createtime" label="登记时间">
+            <span>{{dataForm.createtime}}</span>
+          </el-form-item>
+        </el-col>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -129,7 +129,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -182,11 +183,13 @@
       }
     },
     created() {
-   this.init()
+      this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })},
+        currentUser: state => state.app.user,
+      })
+    },
     methods: {
       // 初始化 编辑和新增 2种情况
       init(id) {

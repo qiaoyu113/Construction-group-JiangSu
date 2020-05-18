@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">合作方登记</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -8,129 +13,120 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+             label-width="120px" label-position="right">
       <el-row :gutter="20">
         <el-card shadow="never">
           <t-sub-title :title="'合作方基本信息'"></t-sub-title>
-        <!--<el-col :span="8">
-          <el-form-item prop="bId" label="流程Id">
-            <t-input v-model="dataForm.bId"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="actId" label-width="170px">
-            <t-input v-model="dataForm.actTaskKey"></t-input>
-          </el-form-item>
-        </el-col>-->
-        <el-col :span="8">
-          <el-form-item prop="companyName" label="合作方名称">
-            <t-input v-model="dataForm.companyName"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="creditCode" label="统一社会信用代码">
-            <t-input v-model="dataForm.creditCode"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="companyAddress" label="合作方地址">
-            <t-input v-model="dataForm.companyAddress"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="legalPerson" label="法人">
-            <t-input v-model="dataForm.legalPerson"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="principal" label="负责人">
-            <t-input v-model="dataForm.principal"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="contactNum" label="联系电话">
-            <t-input v-model="dataForm.contactNum"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="'合作方主要工程业绩'"></t-sub-title>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="'合作方资产情况'"></t-sub-title>
-        <el-col :span="12">
-          <el-form-item prop="fixedAssets" label="固定资产">
-            <t-input v-model="dataForm.fixedAssets"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="fluidCapital" label="流动资金">
-            <t-input v-model="dataForm.fluidCapital"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="chargeAccount" label="应收账款">
-            <t-input v-model="dataForm.chargeAccount"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="liabilities" label="负债">
-            <t-input v-model="dataForm.liabilities"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
-        <el-col :span="24">
-          <el-form-item prop="marketSituation" label="市场情况">
-            <t-input type="textarea" :rows="3" v-model="dataForm.marketSituation" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="projectSituation" label="合作项目情况">
-            <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="'合作方主要管理人员情况'"></t-sub-title>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="bankName" label="开户行名称">
-            <t-input v-model="dataForm.bankName"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="bankAccountName" label="银行帐户名称">
-            <t-input v-model="dataForm.bankAccountName"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="bankAccount" label="银行帐号">
-            <t-input v-model="dataForm.bankAccount"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="' 登记信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="登记时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-card>
-      <el-card shadow="never">
-        <t-sub-title :title="'附件上传'"></t-sub-title>
-        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                   :businessDocId="docId"></sj-upload>
-      </el-card>
+          <el-col :span="8">
+            <el-form-item prop="companyName" label="合作方名称">
+              <t-input v-model="dataForm.companyName"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="creditCode" label="统一社会信用代码" label-width="180px">
+              <t-input v-model="dataForm.creditCode"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="companyAddress" label="合作方地址">
+              <t-input v-model="dataForm.companyAddress"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="legalPerson" label="法人">
+              <t-input v-model="dataForm.legalPerson"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="principal" label="负责人">
+              <t-input v-model="dataForm.principal"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="contactNum" label="联系电话">
+              <t-input v-model="dataForm.contactNum"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'合作方主要工程业绩'"></t-sub-title>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'合作方资产情况'"></t-sub-title>
+          <el-col :span="12">
+            <el-form-item prop="fixedAssets" label="固定资产">
+              <t-input v-model="dataForm.fixedAssets"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="fluidCapital" label="流动资金">
+              <t-input v-model="dataForm.fluidCapital"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="chargeAccount" label="应收账款">
+              <t-input v-model="dataForm.chargeAccount"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="liabilities" label="负债">
+              <t-input v-model="dataForm.liabilities"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
+          <el-col :span="24">
+            <el-form-item prop="marketSituation" label="市场情况">
+              <t-input type="textarea" :rows="3" v-model="dataForm.marketSituation" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="projectSituation" label="合作项目情况">
+              <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'合作方主要管理人员情况'"></t-sub-title>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
+          <el-col :span="8">
+            <el-form-item prop="bankName" label="开户行名称">
+              <t-input v-model="dataForm.bankName"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="bankAccountName" label="银行帐户名称">
+              <t-input v-model="dataForm.bankAccountName"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="bankAccount" label="银行帐号">
+              <t-input v-model="dataForm.bankAccount"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="' 登记信息'"></t-sub-title>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="登记人">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="登记时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-card>
+        <el-card shadow="never">
+          <t-sub-title :title="'附件上传'"></t-sub-title>
+          <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                     :businessDocId="docId"></sj-upload>
+        </el-card>
       </el-row>
     </el-form>
   </div>
@@ -138,7 +134,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -259,12 +256,14 @@
       }
     },
     created() {
-       this.init()
+      this.init()
       this.$forceUpdate()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })},
+        currentUser: state => state.app.user,
+      })
+    },
     methods: {
       // 初始化 编辑和新增 2种情况
       init(id) {
