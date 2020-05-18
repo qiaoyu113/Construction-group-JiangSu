@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
@@ -21,23 +21,23 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
-              <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyType"
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="authCompany" label="批准单位">
-              <el-input v-model="dataForm.authCompany"></el-input>
+              <t-input v-model="dataForm.authCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="loginUsername" label="登陆网名">
-              <el-input v-model="dataForm.loginUsername"></el-input>
+              <t-input v-model="dataForm.loginUsername" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="loginUrl" label="登陆网址">
-              <el-input v-model="dataForm.loginUrl"></el-input>
+              <t-input v-model="dataForm.loginUrl" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -48,17 +48,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="account" label="用户名">
-              <el-input v-model="dataForm.account" placeholder="如无用户名，请填无"></el-input>
+              <t-input v-model="dataForm.account" placeholder="如无用户名，请填无" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="password" label="密码">
-              <el-input v-model="dataForm.password" placeholder="如无密码，请填无"></el-input>
+              <t-input v-model="dataForm.password" placeholder="如无密码，请填无" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principalId" label="主要负责人">
-              <el-input v-model="dataForm.principalId"></el-input>
+              <t-input v-model="dataForm.principalId" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -74,7 +74,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyColor" label="密匙颜色">
-              <el-input v-model="dataForm.keyColor"></el-input>
+              <t-input v-model="dataForm.keyColor" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -119,19 +119,14 @@
   } from 'vuex'
 
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
         dataForm: {
-          bId: '',
+          id: '',
           actTaskKey: '',
           province: '',
           city: '',
@@ -151,22 +146,10 @@
           isInput: '',
           sign: '',
           signTime: '',
-          keyStatus: '',
-          propose: '',
-          result: '',
-          approvalStatus: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
         },
         dataRule: {
           bId: [
             {required: true, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           province: [
             {required: true, message: '所属地区-省', trigger: 'blur'}
@@ -222,43 +205,20 @@
           signTime: [
             {required: false, message: '登记时间不能为空', trigger: 'blur'}
           ],
-          keyStatus: [
-            {required: true, message: '密钥状态不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ]
         }
       }
     },
     created() {
       const currentQuery = this.$route.query
-      // console.log('currentQuery1', this.$route)
-      this.currentReadonly = (currentQuery.readonly == 'true') || this.readOnly
-      this.init(currentQuery.id)
+      console.log('currentQuery1', this.$route)
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     activated() {
-      // console.log('currentQuery2', this.$route)
+      console.log('currentQuery2', this.$route)
       const currentQuery = this.$route.query
-      this.init(currentQuery.id)
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -271,39 +231,32 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
+                console.log('result1111111', result)
+                console.log('self.$util.', self.$util)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBaseinfoKeyApproval.bId
-                this.dataForm.actTaskKey = result.tBaseinfoKeyApproval.actTaskKey
-                this.dataForm.province = result.tBaseinfoKeyApproval.province
-                this.dataForm.city = result.tBaseinfoKeyApproval.city
-                this.dataForm.keyType = result.tBaseinfoKeyApproval.keyType
-                this.dataForm.authCompany = result.tBaseinfoKeyApproval.authCompany
-                this.dataForm.loginUsername = result.tBaseinfoKeyApproval.loginUsername
-                this.dataForm.loginUrl = result.tBaseinfoKeyApproval.loginUrl
-                this.dataForm.expirationDate = result.tBaseinfoKeyApproval.expirationDate
-                this.dataForm.account = result.tBaseinfoKeyApproval.account
-                this.dataForm.principalId = result.tBaseinfoKeyApproval.principalId
-                this.dataForm.useScenes = result.tBaseinfoKeyApproval.useScenes
-                this.dataForm.applyforDate = result.tBaseinfoKeyApproval.applyforDate
-                this.dataForm.keyColor = result.tBaseinfoKeyApproval.keyColor
-                this.dataForm.existElectMark = result.tBaseinfoKeyApproval.existElectMark
-                this.dataForm.remark = result.tBaseinfoKeyApproval.remark
-                this.dataForm.password = result.tBaseinfoKeyApproval.password
-                this.dataForm.isInput = result.tBaseinfoKeyApproval.isInput
-                this.dataForm.sign = result.tBaseinfoKeyApproval.sign
-                this.dataForm.signTime = result.tBaseinfoKeyApproval.signTime
-                this.dataForm.keyStatus = result.tBaseinfoKeyApproval.keyStatus
-                this.dataForm.propose = result.tBaseinfoKeyApproval.propose
-                this.dataForm.result = result.tBaseinfoKeyApproval.result
-                this.dataForm.approvalStatus = result.tBaseinfoKeyApproval.approvalStatus
-                this.dataForm.createtime = result.tBaseinfoKeyApproval.createtime
-                this.dataForm.updatetime = result.tBaseinfoKeyApproval.updatetime
-                this.dataForm.createuser = result.tBaseinfoKeyApproval.createuser
-                this.dataForm.updateuser = result.tBaseinfoKeyApproval.updateuser
-                this.dataForm.datastatus = result.tBaseinfoKeyApproval.datastatus
+                self.dataForm.id = result.id
+                self.dataForm.province = result.province
+                self.dataForm.city = result.city
+                self.dataForm.keyType = result.keyType
+                self.dataForm.authCompany = result.authCompany
+                self.dataForm.loginUsername = result.loginUsername
+                self.dataForm.loginUrl = result.loginUrl
+                self.dataForm.expirationDate = result.expirationDate
+                self.dataForm.account = result.account
+                self.dataForm.principalId = result.principalId
+                self.dataForm.useScenes = result.useScenes
+                self.dataForm.applyforDate = result.applyforDate
+                self.dataForm.keyColor = result.keyColor
+                self.dataForm.existElectMark = result.existElectMark
+                self.dataForm.remark = result.remark
+                self.dataForm.password = result.password
+                self.dataForm.isInput = result.isInput
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
               })
             }
           })

@@ -88,8 +88,8 @@ export default {
   },
   watch: {},
   created() {
-    console.log("this.showTag", this.showTag);
-    console.log("this.list", this.list);
+    // console.log("this.showTag", this.showTag);
+    // console.log("this.list", this.list);
   },
   mounted() {},
   computed: {},

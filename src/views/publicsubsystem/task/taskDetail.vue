@@ -1,36 +1,40 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" type="card">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
-        <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="200px">
-          <t-sub-title :title="'办理意见'"></t-sub-title>
-          <el-row :gutter="10">
-            <el-col :span="24">
-              <el-form-item prop="suggestion" label="办理意见">
-                <t-input type="textarea" :rows="3" v-model="dataForm.suggestion"></t-input>
+        <el-card shadow="never">
+          <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="200px">
+            <t-sub-title :title="'办理意见'"></t-sub-title>
+            <el-row :gutter="10">
+              <el-col :span="24">
+                <el-form-item prop="suggestion" label="办理意见">
+                  <t-input type="textarea" :rows="3" v-model="dataForm.suggestion"></t-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
+                <el-col :span="8">
+                  <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
+                </el-col>
+                <el-col :span="8">
+                  <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
+                </el-col>
               </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="10">
-            <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
-              <el-col :span="8">
-                <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
-              </el-col>
-              <el-col :span="8">
-                <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-form>
+            </el-row>
+          </el-form>
+        </el-card>
       </el-tab-pane>
       <el-tab-pane label="流程办理信息" name="second">
-        <t-sub-title :title="'流程图'"></t-sub-title>
-        <div style="width: 100%;height: 200px;">
-          流程图
-        </div>
-        <t-sub-title :title="'流程办理信息'"></t-sub-title>
-        <t-grid ref="searchReulstList" :options="gridOptions"></t-grid>
+        <el-card shadow="never">
+          <t-sub-title :title="'流程图'"></t-sub-title>
+          <div style="width: 100%;height: 200px;">
+            <t-workflow-map></t-workflow-map>
+          </div>
+          <t-sub-title :title="'流程办理信息'"></t-sub-title>
+          <t-grid ref="searchReulstList" :options="gridOptions"></t-grid>
+        </el-card>
       </el-tab-pane>
     </el-tabs>
     <el-row :gutter="10" class="search-top-operate">
@@ -154,14 +158,14 @@
     },
     mounted() {
       console.log('this.$route111', this.$route)
-      this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId);
+      this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId, this.$route.query.taskId);
     },
     activated() {
-      console.log('this.$route111', this.$route)
+      console.log('this.$route222', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id, key, actId) {
+      init(id, key, actId, taskId) {
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -180,18 +184,18 @@
         if(key) {
           this.$nextTick(() => {
             tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
-              console.log('result', result)
+              console.log('key result', result)
             })
           })
         }
-        if(actId) {
-          // this.$nextTick(() => {
-          //   tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
-          //     console.log('result', result)
-          //   })
-          // })
+        if(taskId) {
+          this.$nextTick(() => {
+            tapp.services.wf_TaskAction.getTaskAssignee(taskId).then(function(result) {
+              console.log('taskId result', result)
+            })
+          })
         }
-        this.loadProcessDefList();
+        // this.loadProcessDefList();
       },
       loadProcessDefList() {
         let self = this;
