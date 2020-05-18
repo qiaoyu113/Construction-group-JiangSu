@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="site-sidebar__inner">
-    <el-menu :default-active="menuNavActiveName" @open="handleOpen" unique-opened text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse="$store.state.ui.sidebarCollapse" :collapse-transition="false" class="site-sidebar__menu">
+    <el-menu :default-active="menuNavActiveName" @open="handleOpen" :default-openeds="defaultOpends" text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse="$store.state.ui.sidebarCollapse" :collapse-transition="false" class="site-sidebar__menu">
       <sub-menu-nav v-for="menuNav in menuNavList" :key="menuNav.self.id" :menu-nav="menuNav">
       </sub-menu-nav>
     </el-menu>
@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       menuNavActiveName: null,
-      menuNavList: []
+      menuNavList: [],
+      defaultOpends: []
     }
   },
   components: {
@@ -71,6 +72,11 @@ export default {
             permissions
           } = response
         self.menuNavList = authoritiyNavigationTree || []
+        // console.log('self.menuNavList', self.menuNavList)
+        // self.menuNavList.map((item, index) => {
+        //   self.defaultOpends.push(item.self.id)
+        // })
+        // console.log('self.defaultOpends', self.defaultOpends)
         self.routeHandle(self.$route)
         self.$store.commit('setNotificationNum', notificationCount)
         self.$store.commit('setPermissions', permissions)

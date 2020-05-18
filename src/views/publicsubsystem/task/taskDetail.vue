@@ -16,10 +16,10 @@
             <el-row :gutter="10">
               <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
                 <el-col :span="8">
-                  <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
+                  <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" :multiple="true" v-model="dataForm.userRole"></t-dic-dropdown-select>
                 </el-col>
                 <el-col :span="8">
-                  <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true" v-model="dataForm.maritalStatusIdList"></t-dic-dropdown-select>
+                  <t-dic-dropdown-select :data="userList" placeholder="请选择审批人" :multiple="true" v-model="dataForm.taskAssignee"></t-dic-dropdown-select>
                 </el-col>
               </el-form-item>
             </el-row>
@@ -56,10 +56,13 @@
         docId: '',
         component: '',
         processDefinationlist: [],
+        userList: [],
+        userRole: [],
         dataForm: {
           time: '',
           suggestion: '',
-          maritalStatusIdList: ''
+          userRole: [],
+          taskAssignee: []
         },
         dataRule: {
           
@@ -179,17 +182,23 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
-        if(key) {
-          this.$nextTick(() => {
-            tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
-              console.log('key result', result)
-            })
-          })
-        }
+        // if(key) {
+        //   this.$nextTick(() => {
+        //     tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
+        //       console.log('key result', result)
+        //     })
+        //   })
+        // }
         if(taskId) {
           this.$nextTick(() => {
+            let self = this;
             tapp.services.wf_TaskAction.getTaskAssignee(taskId).then(function(result) {
-              console.log('taskId result', result)
+              let userList = result[0].userList
+              let userRole = result[0].userRole
+              userList.map(item => {
+                self.userList.push({value: item.key, label: item.value})
+              })
+              self.userRole.push({value: userRole.key, label: userRole.value})
             })
           })
         }
@@ -234,7 +243,8 @@
               docId: currentQuery.id,
               result: '审批通过',
               taskId: currentQuery.taskId,
-              taskRemark: '同意'
+              taskRemark: '同意',
+              taskAssignee: self.dataForm.taskAssignee // 新添加的值，为数组
             }
             tapp.services.wf_TaskAction.approve(model).then(function(result) {
               self.$notify.success({

@@ -43,7 +43,8 @@
                   <el-button type="primary" plain icon="el-icon-search">查询</el-button>
                   <el-button type="primary" plain icon="el-icon-printer">打印</el-button>
                   <el-button type="primary" plain icon="el-icon-arrow-left">返回</el-button>
-                  <el-button type="primary" plain>
+                  <!-- click简写将变量值变为true -->
+                  <el-button type="primary" plain @click="dialogVisible = true">
                     <span style="display: flex;align-items:center;">
                       <v-icon name="sitemap"></v-icon>
                       <span style="margin-left: 5px;">审批流程图</span>
@@ -53,6 +54,14 @@
                 </el-form-item>
               </el-row>
             </div>
+            <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
+            <el-dialog title="密钥办理流程图" :visible.sync="dialogVisible" width="60%" center>
+              <!-- businessKey为当前流程的key值 -->
+              <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+              <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+            </el-dialog>
           </el-card>
           <el-card>
             <div slot="header">
@@ -547,7 +556,8 @@
 			return {
 				readOnly: false,
 				tabActive: 'baseInfo',
-				docId: null,
+        docId: null,
+        dialogVisible: false,
 				docEntity: {
 					id: null,
 					gmtVersion: -1,
