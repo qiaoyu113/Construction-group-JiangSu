@@ -1,10 +1,9 @@
 <template>
 <div class="mod-role">
+  <el-card shadow="never">
   <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
     <el-row :gutter="10" class="search-top-operate">
-      <el-button  icon="el-icon-download" type="success" @click="doExportExcel()">
-        <i class="fa fa-lg fa-level-down"></i>导出
-      </el-button>
+      <el-button type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
@@ -50,6 +49,7 @@
   </t-form>
   <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-click="handleCellClick">
   </t-grid>
+  </el-card>
 </div>
 </template>
 <script>
@@ -70,7 +70,7 @@ export default {
             searchKey: null,
           }
         },
-        grid: {     
+        grid: {
           offsetHeight: 125, //125:查询部分高度
           mutiSelect: false,
           columns: [
