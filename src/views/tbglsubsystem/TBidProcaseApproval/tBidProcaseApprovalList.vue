@@ -1,13 +1,22 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目备案信息列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+      <el-row :gutter="10" class="search-top-operate">
+        <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称">
+          <el-form-item label="项目名称" >
             <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
-                      placeholder="匹配项目名称、简介、备注查询"></el-input>
+                      placeholder="匹配项目名称、简介、备注查询">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -26,16 +35,35 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别">
-            <t-dic-dropdown-select dicType="1260861756058767362"
+            <t-dic-dropdown-select dicType="engineering_type"
                                    v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                                    :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式">
-            <t-dic-dropdown-select dicType="1260863139436695554"
+            <t-dic-dropdown-select dicType="business_type"
                                    v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
                                    :readOnly="readOnly"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="审批状态">
+            <t-edit-grid-column dicType="approval_status"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                                   :readOnly="readOnly"></t-edit-grid-column>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="备案人">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="备案单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -57,11 +85,18 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
-
+  import util from '@/util'
   export default {
     name: 'myTask',
     extends: baseView,
-    data() {
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -70,15 +105,9 @@
           dataSource: {
             serviceInstance: tapp.services.tBidProcaseApproval.getPagedList,
             serviceInstanceInputParameters: {
-              proName: null,
-              proAddressProvince: null,
-              proConstructCompany: null,
-              proType: null,
-              proRunMode: null,
-              approvalStatus: null,
-              sign: null,
-              signTime: null,
-
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
             }
           },
           grid: {
@@ -105,6 +134,9 @@
                 label: '工程类别',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('engineering_type', row.proType)
+                }
               },
 
               {
@@ -131,6 +163,9 @@
                 label: '项目地址',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('base_region', row.proAddressProvince) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
 
 
@@ -139,6 +174,10 @@
                 label: '经营方式',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('business_type', row.proRunMode)
+                }
               },
 
               {

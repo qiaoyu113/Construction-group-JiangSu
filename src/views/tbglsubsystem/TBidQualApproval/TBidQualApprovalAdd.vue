@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">资格审查</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -19,50 +24,50 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="所属分公司">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="所属事业部">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="建设单位">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="合同模式">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="8">
-          <el-form-item prop="amount" label="投资金额">
+          <el-form-item prop="" label="所属分公司">
             <el-input readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="工程类别">
-            <el-input reanonly></el-input>
+          <el-form-item prop="" label="所属事业部">
+            <el-input readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="经营方式">
-            <el-input reanonly></el-input>
+          <el-form-item prop="" label="建设单位">
+            <el-input readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="计划项目规模">
-            <el-input reanonly></el-input>
+          <el-form-item prop="" label="合同模式">
+            <el-input readonly></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item prop="" label="投资金额">
+            <el-input readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="" label="工程类别">
+            <el-input readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="" label="经营方式">
+            <el-input readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="" label="计划项目规模">
+            <el-input readonly></el-input>
           </el-form-item>
         </el-col>
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="amount" label="金额">
-            <el-input></el-input>
+            <el-input  v-model="dataForm.amount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -131,10 +136,10 @@
             {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           pcId: [
-            {required: false, message: '项目备案id不能为空', trigger: 'blur'}
+            {required: true, message: '项目备案id不能为空', trigger: 'blur'}
           ],
           amount: [
-            {required: false, message: '金额-元不能为空', trigger: 'blur'}
+            {required: true, message: '金额-元不能为空', trigger: 'blur'}
           ],
           existElectMark: [
             {required: false, message: '是否使用电子章（字典表）不能为空', trigger: 'blur'}

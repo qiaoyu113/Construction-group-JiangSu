@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">密钥领用归还申请</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
@@ -12,8 +17,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input></el-input>
+          <el-form-item label="工程类别">
+            <t-dic-dropdown-select dicType="engineering_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -22,8 +29,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="密钥类别">
-            <el-input></el-input>
+          <el-form-item prop="keyType" label="密钥类别">
+            <t-dic-dropdown-select dicType="key_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -39,8 +47,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="密钥状态">
-            <el-input></el-input>
+          <el-form-item label="密钥状态">
+            <t-dic-dropdown-select dicType="key_status"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyStatus"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -89,6 +99,9 @@
             serviceInstanceInputParameters: {
               pcId: null,
               searchKey: null,
+              proType: null,
+              keyType: null,
+              keyStatus: null,
               processDefinationKey: null,
               dateRange: ''
             }

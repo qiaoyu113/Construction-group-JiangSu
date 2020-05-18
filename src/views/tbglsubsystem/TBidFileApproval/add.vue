@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">投标准备文件审批</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -11,75 +16,81 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'备案信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="项目名称">
-            <el-input v-model="dataForm.pcId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="所属分公司">
-            <el-input v-model="dataForm.remark"readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="所属事业部">
-            <el-input v-model="dataForm.remark"readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="建设单位">
-            <el-input v-model="dataForm.remark" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="合同模式">
-            <t-dic-dropdown-select dicType="1260862577664200706" v-model="dataForm.updateuser"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="投资金额">
-            <el-input v-model="dataForm.remark" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="工程类别">
-            <el-input v-model="dataForm.remark" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="经营范式">
-            <el-input v-model="dataForm.remark" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="remark" label="计划规模项目">
-            <el-input v-model="dataForm.remark" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-col :span="17">
-          <el-form-item prop="bidFileType" label="文件类型">
-            <t-dic-radio-select dicType="1260865842271358978" v-model="dataForm.updateuser"></t-dic-radio-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="经办时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="pcId" label="项目名称">
+              <el-input v-model="dataForm.pcId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="所属分公司">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="所属事业部">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="建设单位">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="updateuser" label="合同模式">
+              <t-dic-dropdown-select dicType="1260862577664200706"
+                                     v-model="dataForm.updateuser"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="投资金额">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="工程类别">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="经营范式">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="remark" label="计划规模项目">
+              <el-input v-model="dataForm.remark" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <t-sub-title :title="'办理信息'"></t-sub-title>
+          <el-col :span="17">
+            <el-form-item prop="bidFileType" label="文件类型">
+              <t-dic-radio-select dicType="file_type" v-model="dataForm.updateuser"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -87,7 +98,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -99,6 +111,7 @@
           actTaskKey: '',
           pcId: '',
           bidFileType: '',
+          remark: '',
           sign: '',
           signTime: '',
           approvalStatus: '',
@@ -123,6 +136,9 @@
           ],
           bidFileType: [
             {required: true, message: '文件类型不能为空', trigger: 'blur'}
+          ],
+          remark: [
+            {required: false, message: '备注不能为空', trigger: 'blur'}
           ],
           sign: [
             {required: false, message: '执行人不能为空', trigger: 'blur'}
@@ -158,11 +174,12 @@
       }
     },
     created() {
- this.init()
+      this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -179,6 +196,7 @@
                 this.dataForm.actTaskKey = result.tBidFileApproval.actTaskKey
                 this.dataForm.pcId = result.tBidFileApproval.pcId
                 this.dataForm.bidFileType = result.tBidFileApproval.bidFileType
+                this.dataForm.remark = result.tBidFileApproval.remark
                 this.dataForm.sign = result.tBidFileApproval.sign
                 this.dataForm.signTime = result.tBidFileApproval.signTime
                 this.dataForm.approvalStatus = result.tBidFileApproval.approvalStatus
