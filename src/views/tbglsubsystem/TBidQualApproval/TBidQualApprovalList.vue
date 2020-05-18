@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">资格审查列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
       <el-row :gutter="10" class="search-top-operate">
@@ -12,8 +17,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input></el-input>
+          <el-form-item label="工程类别">
+            <t-dic-dropdown-select dicType="engineering_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -27,18 +34,22 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="合同模式">
-            <el-input></el-input>
+          <el-form-item prop="proContractAttr" label="合同模式">
+            <t-dic-dropdown-select dicType="contract_model" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="经营方式">
-            <el-input></el-input>
+          <el-form-item prop="proRunMode" label="经营方式">
+            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="审查状态">
-            <el-input></el-input>
+          <el-form-item label="审查状态">
+            <t-dic-dropdown-select dicType="approval_status"
+                                v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                                :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
