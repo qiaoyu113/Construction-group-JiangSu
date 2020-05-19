@@ -8,26 +8,33 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="所属分公司：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属分公司：" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同名称：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conName"
                        placeholder="子合同名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="付款方式">
-            <t-dic-dropdown-select dicType="1260867076478865410"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="payment_way"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.conPayWay"
+                                   :readOnly="false"></t-dic-dropdown-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" class="search-date-picker">
+          <el-form-item label="付款类型">
+            <t-dic-dropdown-select dicType="1260907717166501889"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.paymentType"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -64,9 +71,11 @@
           dataSource: {
             serviceInstance: tapp.services.finaPaymenapproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              paymentType: null,
+              conPayWay: null,
+              conName: null,
+              proName: null,
+              proSubCompany: null
             }
           },
           grid: {
@@ -81,37 +90,37 @@
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'conName',
                 label: '子合同名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'unionCompany',
+                prop: 'conTotal',
                 label: '子合同额',
                 sortable: true,
                 width: 120,
               },
               {
-                prop: 'unionCompany',
+                prop: 'paymentType',
                 minWidth: 120,
                 columnKey: 'rWay',
-                filters: util.getListDataDicFilters('1260865577187151874'),
+                filters: util.getListDataDicFilters('payment_way'),
                 label: '付款方式',
                 sortable: true,
                 width: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('1260865577187151874', row.rWay)
+                  return util.dataDicFormat('payment_way', row.rWay)
                 }
               },
               {
-                prop: 'paymentType',
+                prop: 'conPayWay',
                 columnKey: 'rWay',
                 filters: util.getListDataDicFilters('1260907717166501889'),
                 label: '付款类型',
@@ -122,7 +131,7 @@
                 }
               },
               {
-                prop: 'processBranch',
+                prop: 'lNum',
                 label: '票号',
                 sortable: true,
                 minWidth: 120,
@@ -150,7 +159,7 @@
               },
               {
                 prop: 'remark',
-                label: '审核结果',
+                label: '备注',
                 sortable: true,
                 minWidth: 120,
               }
