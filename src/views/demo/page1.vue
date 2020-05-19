@@ -11,8 +11,8 @@
           <t-sub-title :title="'弹出框'"></t-sub-title>
         </div>
         <div>
-          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
-          <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.name" @selectedUser="getSelectedUser"></t-handler-select>
+          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.proCode" @selectedProject="getSelectedProject"></t-project-select>
+          <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.id" @selectedUser="getSelectedUser"></t-handler-select>
         </div>
       </el-card>
       <div style="float: right;margin-right: 12px;">
@@ -33,10 +33,7 @@
 			return {
 				readOnly: false,
 				dataForm: {
-          proName: '',
           proCode: '',
-          
-          name: '',
           id: ''
 				},
 			}
@@ -52,13 +49,15 @@
       getSelectedProject(project) {
         console.log('current project', project)
         // project为从弹窗框列表带出来的那一行的数据
-        // dataForm.proName是页面上展示的值，实际上需要传到接口的项目的值，从这里的project获取
+        // 项目 proCode 已从从组件里已经带出来，这里定义为 dataForm.proCode，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的项目的值，从这里的project获取
         // 例如 this.dataForm.proCode = project.proCode
       },
       getSelectedUser(user) {
         console.log('current user', user)
         // user为从弹窗框列表带出来的那一行的数据
-        // dataForm.name是页面上展示的值，实际上需要传到接口的项目的值，从这里的user获取
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.id，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的user的其他值，从这里的user获取
         // 例如 this.dataForm.id = user.id
       },
 			consoleData() {

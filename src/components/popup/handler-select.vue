@@ -49,9 +49,10 @@
 	import util from '@/util'
 	import moment from 'moment'
 	import baseView from '@/base/baseView'
-
+  import emitter from 'element-ui/src/mixins/emitter';
 	export default {
     extends: baseView,
+    mixins: [emitter],
     props: {
       value: {
         type: String,
@@ -72,7 +73,7 @@
 		data() {
 			return {
 				selectedUser: {
-          proCode: ''
+          name: ''
         },
         currentValue: '',
         gridOptions: {
@@ -158,8 +159,8 @@
 		},
 		components: {},
 		created() {
-      this.currentValue = this.value
-		},
+      this.currentValue = this.value;
+    },
 		methods: {
 			clearValidate() {
 				this.$nextTick((_) => {
@@ -180,7 +181,8 @@
       },
 			proChoose() {
 				//传送到父组件
-				this.$emit('selectedUser', this.selectedUser);
+        this.$emit('selectedUser', this.selectedUser);
+        this.$emit('input', this.selectedUser.id);
         this.doReset();
         this.dialogFormVisible = false
 			}

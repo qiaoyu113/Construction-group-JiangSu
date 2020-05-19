@@ -13,55 +13,53 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="pcId" label="项目名称">
-              <el-input v-model="dataForm.pcId"></el-input>
+              <t-input v-model="dataForm.pcId"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="所属分公司">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="所属事业部">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="建设单位">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="updateuser" label="合同模式">
-              <t-dic-dropdown-select dicType="1260862577664200706"
-                                     v-model="dataForm.updateuser"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.updateuser"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="投资金额">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="工程类别">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="经营范式">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="remark" label="计划规模项目">
-              <el-input v-model="dataForm.remark" readonly></el-input>
+              <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <t-sub-title :title="'办理信息'"></t-sub-title>
@@ -103,6 +101,7 @@
   export default {
     data() {
       return {
+        readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {

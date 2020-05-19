@@ -207,7 +207,8 @@
       },
 			proChoose() {
 				//传送到父组件
-				this.$emit('selectedProject', this.selectProject);
+        this.$emit('selectedProject', this.selectProject);
+        this.$emit('input', this.selectProject.proCode);
         this.doReset();
         this.dialogFormVisible = false
 			}

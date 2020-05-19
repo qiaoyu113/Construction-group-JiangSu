@@ -110,7 +110,7 @@ export default {
         self.$emit('input', result.id);
         self.$emit('change', result);
         self.$emit('blur');
-        this.dispatch('ElFormItem', 'el.form.change', self.currentValue); 
+        self.dispatch('ElFormItem', 'el.form.change', self.currentValue); 
     
       });
     },
