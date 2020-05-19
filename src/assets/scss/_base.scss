@@ -179,7 +179,7 @@ img {
   &__brand {
     display: table-cell;
     vertical-align: middle;
-    width: 230px;
+    width: 280px;
     height: 50px;
     margin: 0;
     line-height: 50px;
@@ -236,7 +236,7 @@ img {
 
   &__body {
     position: relative;
-    margin-left: 230px;
+    margin-left: 280px;
     padding-right: 15px;
     background-color: #fff;
   }
@@ -284,7 +284,7 @@ img {
   left: 0;
   bottom: 0;
   z-index: 1020;
-  width: 230px;
+  width: 280px;
   overflow: hidden;
 
 
@@ -323,14 +323,14 @@ img {
   &__inner {
     position: relative;
     z-index: 1;
-    width: 250px;
+    width: 280px;
     height: 100%;
     padding-bottom: 15px;
     overflow-y: scroll;
   }
 
   &__menu.el-menu {
-    width: 230px;
+    width: 280px;
     border-right: 0;
   }
   &__menu.el-menu--horizontal {
@@ -342,7 +342,7 @@ img {
 
   &__menu-icon {
     width: 24px;
-    margin-right: 5px;
+    margin-right: 2px;
     text-align: center;
     font-size: 16px;
     color: inherit !important;
@@ -359,8 +359,8 @@ img {
     text-align: center;
     margin: 0 auto;
     position: fixed;
-      width: calc(100% - 230px);
-    left: 230px;
+      width: calc(100% - 280px);
+    left: 280px;
     right: 0;
     bottom: 0;
     padding: 0 10px;
@@ -375,7 +375,7 @@ img {
   &__wrapper {
     position: relative;
     padding-top: 70px;
-    margin-left: 230px;
+    margin-left: 280px;
     min-height: 100%;
     background: $content--background-color;
   }
@@ -388,7 +388,7 @@ img {
     > .el-tabs__header {
       position: fixed;
       top: 70px;
-      left: 230px;
+      left: 280px;
       right: 0;
       z-index: 930;
       padding: 0 55px 0 15px;

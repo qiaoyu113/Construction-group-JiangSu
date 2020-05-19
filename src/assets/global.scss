@@ -312,6 +312,9 @@ input[readonly="readonly"] {
     color: #fff;
     font-size: 20px;
   }
+  .el-icon-s-fold, .el-icon-s-unfold {
+    transform: rotate(-90deg);
+  }
 }
 .project-select {
   .el-input.is-disabled .el-input__inner, .el-input.is-disabled .el-input__icon {
