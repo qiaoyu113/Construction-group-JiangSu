@@ -62,7 +62,9 @@
               <t-input v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
-          <t-sub-title :title="'办理信息'"></t-sub-title>
+        </el-row>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item prop="bidFileType" label="文件类型">
               <t-dic-radio-select dicType="file_type" v-model="dataForm.updateuser"></t-dic-radio-select>
@@ -188,24 +190,25 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tBidFileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
 
-                this.dataForm.bId = result.tBidFileApproval.bId
-                this.dataForm.actTaskKey = result.tBidFileApproval.actTaskKey
-                this.dataForm.pcId = result.tBidFileApproval.pcId
-                this.dataForm.bidFileType = result.tBidFileApproval.bidFileType
-                this.dataForm.remark = result.tBidFileApproval.remark
-                this.dataForm.sign = result.tBidFileApproval.sign
-                this.dataForm.signTime = result.tBidFileApproval.signTime
-                this.dataForm.approvalStatus = result.tBidFileApproval.approvalStatus
-                this.dataForm.propose = result.tBidFileApproval.propose
-                this.dataForm.result = result.tBidFileApproval.result
-                this.dataForm.createtime = result.tBidFileApproval.createtime
-                this.dataForm.updatetime = result.tBidFileApproval.updatetime
-                this.dataForm.createuser = result.tBidFileApproval.createuser
-                this.dataForm.updateuser = result.tBidFileApproval.updateuser
-                this.dataForm.datastatus = result.tBidFileApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pcId = result.pcId
+                self.dataForm.bidFileType = result.bidFileType
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })

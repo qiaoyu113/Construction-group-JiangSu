@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">密钥办理申请</div>
+      </el-col>
+    </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -8,8 +13,7 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
