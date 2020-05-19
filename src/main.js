@@ -145,6 +145,8 @@ import TTextInput from './components/text-input/index.vue'
 import TSubTitle from './components/sub-title/index.vue'
 import TRegionPicker from './components/regions/region-picker.vue'
 import TWorkflowMap from './components/workflow-map/index.vue'
+import TProjectSelect from './components/popup/project-select.vue'
+import THandlerSelect from './components/popup/handler-select.vue'
 Vue.component('t-grid', TGrid)
 Vue.component('t-edit-grid', TEditGrid)
 Vue.component('t-edit-grid-column', TEditGridColumn)
@@ -160,6 +162,8 @@ Vue.component('t-text-input', TTextInput)
 Vue.component('t-sub-title', TSubTitle)
 Vue.component('t-region-picker', TRegionPicker)
 Vue.component('t-workflow-map', TWorkflowMap)
+Vue.component('t-project-select', TProjectSelect)
+Vue.component('t-handler-select', THandlerSelect)
 
 Vue.component('t-cascader', TCascader)
 Vue.component('t-tree', TTree)

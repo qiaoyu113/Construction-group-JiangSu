@@ -11,6 +11,8 @@ export default {
     sidebarLayoutSkin: 'dark',
     // 侧边栏, 水平折叠收起状态
     sidebarCollapse: false,
+    // 侧边栏, 垂直折叠收起状态
+    sidebarSpread: false,
     // 页面文档可视高度(随窗口改变大小)
     documentClientHeight: 0,
     // 菜单导航
@@ -49,6 +51,11 @@ export default {
       collapse
     }) {
       state.sidebarCollapse = collapse
+    },
+    [types.SWITCH_SIDEBAR_SPREAD](state, {
+      spread
+    }) {
+      state.sidebarSpread = spread
     },
 
     [types.UPDATE_DOCUMENT_CLIENT_HEIGHT](state, {
