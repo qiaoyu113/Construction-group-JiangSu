@@ -23,7 +23,7 @@
       <slot name="prepend">
       </slot>
     </span>
-    <span class="t-input-readonly-value">{{currentValue || placeholder}}</span>
+    <span class="t-input-readonly-value" :style="{'color': currentValue ? '#606266' : '#999999'}">{{currentValue || placeholder}}</span>
     <span class="t-input-readonly-append" v-if="$slots.append">
       <slot name="append">
       </slot>
@@ -106,3 +106,4 @@ export default {
    }
 }
 </script>
+

@@ -242,8 +242,10 @@ input[readonly="readonly"] {
   background-color: #f3f3f3;
 }
 
-.search-bottom-operate .el-form-item__content {
-  text-align: right;
+.search-bottom-operate {
+  .el-col-12 {
+    text-align: right;
+  }
 }
 .search-top-operate {
   margin-bottom: 22px;
@@ -309,5 +311,10 @@ input[readonly="readonly"] {
   .el-icon-s-fold:before, .el-icon-s-unfold:before {
     color: #fff;
     font-size: 20px;
+  }
+}
+.project-select {
+  .el-input.is-disabled .el-input__inner, .el-input.is-disabled .el-input__icon {
+    cursor: pointer;
   }
 }
