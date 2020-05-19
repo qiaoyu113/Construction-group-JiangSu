@@ -173,7 +173,7 @@ export default {
         take = this.pageSize
       }
       let result = await this.getDataPromise(isPageable, skip, take)
-
+      console.log('list result', result)
       let datas = result.data
 
       self.data = datas

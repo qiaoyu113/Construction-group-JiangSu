@@ -6,19 +6,13 @@
       </el-col>
     </el-row>
     <el-form :model="dataForm" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px">
-      <el-row>
-        <el-col :span="24">
-          <el-form-item label="切换只读">
-            <el-switch v-model="readOnly"></el-switch>
-          </el-form-item>
-        </el-col>
-      </el-row>
       <el-card shadow="never">
         <div slot="header">
           <t-sub-title :title="'弹出框'"></t-sub-title>
         </div>
         <div>
-          <t-project-select label="项目选择" v-model="dataForm.proName" @selectProject="getSelectProject"></t-project-select>
+          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
+          <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.name" @selectedUser="getSelectedUser"></t-handler-select>
         </div>
       </el-card>
       <div style="float: right;margin-right: 12px;">
@@ -40,7 +34,10 @@
 				readOnly: false,
 				dataForm: {
           proName: '',
-          proCode: ''
+          proCode: '',
+          
+          name: '',
+          id: ''
 				},
 			}
 		},
@@ -52,11 +49,17 @@
 		},
 		computed: {},
 		methods: {
-      getSelectProject(project) {
+      getSelectedProject(project) {
         console.log('current project', project)
         // project为从弹窗框列表带出来的那一行的数据
         // dataForm.proName是页面上展示的值，实际上需要传到接口的项目的值，从这里的project获取
         // 例如 this.dataForm.proCode = project.proCode
+      },
+      getSelectedUser(user) {
+        console.log('current user', user)
+        // user为从弹窗框列表带出来的那一行的数据
+        // dataForm.name是页面上展示的值，实际上需要传到接口的项目的值，从这里的user获取
+        // 例如 this.dataForm.id = user.id
       },
 			consoleData() {
         console.log('dataForm', this.dataForm)

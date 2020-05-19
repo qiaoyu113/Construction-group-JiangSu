@@ -316,7 +316,7 @@ input[readonly="readonly"] {
     transform: rotate(-90deg);
   }
 }
-.project-select {
+.project-select, .handler-select {
   .el-input.is-disabled .el-input__inner, .el-input.is-disabled .el-input__icon {
     cursor: pointer;
   }

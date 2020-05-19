@@ -3,13 +3,13 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item :label="label">
-          <t-input v-model="currentValue" placeholder="选择一个项目" :disabled="true">
+          <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true">
             <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
           </t-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%'>
+    <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%' center>
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button type="primary" @click="proChoose()">
@@ -79,6 +79,11 @@
         type: String,
         default: '项目选择',
         required: true
+      },
+      placeholder: {
+        type: String,
+        default: '选择一个项目',
+        required: false
       }
     },
 		data() {
@@ -202,7 +207,7 @@
       },
 			proChoose() {
 				//传送到父组件
-				this.$emit('selectProject', this.selectProject);
+				this.$emit('selectedProject', this.selectProject);
         this.doReset();
         this.dialogFormVisible = false
 			}
