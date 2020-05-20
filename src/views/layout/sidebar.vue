@@ -1,16 +1,16 @@
 <template>
 <aside class="site-sidebar" :class="sidebarClasses">
   <div class="sidebar-search">
-    <t-input placeholder="搜索" v-if="!$store.state.ui.sidebarCollapse">
+    <t-input placeholder="搜索">
       <i slot="suffix" class="el-input__icon el-icon-search"></i>
     </t-input>
-    <div class="icon" @click="handleCollsapse()" :style="{'width': !$store.state.ui.sidebarCollapse ? '15%': '100%'}">
-      <i v-if="!$store.state.ui.sidebarCollapse" class="el-icon-s-fold"></i>
-      <i v-if="$store.state.ui.sidebarCollapse" class="el-icon-s-unfold"></i>
+    <div class="icon" @click="handleCollsapse()">
+      <i v-if="!$store.state.ui.sidebarSpread" class="el-icon-s-fold"></i>
+      <i v-if="$store.state.ui.sidebarSpread" class="el-icon-s-unfold"></i>
     </div>
   </div>
   <div class="site-sidebar__inner">
-    <el-menu :default-active="menuNavActiveName" @open="handleOpen" :default-openeds="defaultOpends" text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse="$store.state.ui.sidebarCollapse" :collapse-transition="false" class="site-sidebar__menu">
+    <el-menu :default-active="menuNavActiveName" @open="handleOpen" :default-openeds="defaultOpends" text-color="#ffffff" background-color="#20335D" active-text-color="#357EF7" :collapse-transition="false" class="site-sidebar__menu">
       <sub-menu-nav v-for="menuNav in menuNavList" :key="menuNav.self.id" :menu-nav="menuNav">
       </sub-menu-nav>
     </el-menu>
@@ -37,7 +37,8 @@ export default {
     return {
       menuNavActiveName: null,
       menuNavList: [],
-      defaultOpends: []
+      defaultOpends: [],
+      menuIds: [],
     }
   },
   components: {
@@ -72,11 +73,19 @@ export default {
             permissions
           } = response
         self.menuNavList = authoritiyNavigationTree || []
-        // console.log('self.menuNavList', self.menuNavList)
-        // self.menuNavList.map((item, index) => {
-        //   self.defaultOpends.push(item.self.id)
-        // })
-        // console.log('self.defaultOpends', self.defaultOpends)
+        self.menuNavList.map((item) => {
+          self.menuIds.push(item.self.id)
+          if(item.hasChildren) {
+            item.items.map(_item => {
+              self.menuIds.push(_item.self.id)
+              if(_item.hasChildren) {
+                _item.items.map(__item => {
+                  self.menuIds.push(__item.self.id)
+                })
+              }
+            })
+          }
+        })
         self.routeHandle(self.$route)
         self.$store.commit('setNotificationNum', notificationCount)
         self.$store.commit('setPermissions', permissions)
@@ -110,11 +119,15 @@ export default {
       // console.log('key, path', key, keyPath);
     },
     handleCollsapse() {
-      // types.SWITCH_SIDEBAR_COLLAPSE
-      this.SWITCH_SIDEBAR_COLLAPSE({collapse: !this.$store.state.ui.sidebarCollapse})
+      if(!this.$store.state.ui.sidebarSpread) {
+        this.defaultOpends = this.menuIds
+      } else {
+        this.defaultOpends = []
+      }
+      this.SWITCH_SIDEBAR_SPREAD({spread: !this.$store.state.ui.sidebarSpread})
     },
     
-    ...mapMutations(['ADD_CONTENT_TAB', 'UPDATE_CONTENT_TABS_ACTIVE_NAME', 'SWITCH_SIDEBAR_COLLAPSE'])
+    ...mapMutations(['ADD_CONTENT_TAB', 'UPDATE_CONTENT_TABS_ACTIVE_NAME', 'SWITCH_SIDEBAR_SPREAD'])
   }
 }
 </script>

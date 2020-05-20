@@ -1,16 +1,15 @@
 <template>
-<el-submenu v-if="subMenus && subMenus.length >= 1" :data-idx="menuNav.self.id + ''" :index="menuNav.self.id + ''" :id="menuNav.self.id + ''">
-  <template slot="title">
+  <el-submenu v-if="subMenus && subMenus.length >= 1" :data-idx="menuNav.self.id + ''" :index="menuNav.self.id + ''" :id="menuNav.self.id + ''">
+    <template slot="title">
       <icon-svg :name="menuNav.self.icon" class="site-sidebar__menu-icon" v-if="menuNav.self.icon"></icon-svg>
-      <span>{{ menuNav.self.title }}</span>
+      <span :style="{'padding-left':menuNav.self.icon? '0': '18px'}">{{ menuNav.self.title }}</span>
     </template>
-  <sub-menu-nav v-for="item in subMenus" :key="item.self.id" :menu-nav="item">
-  </sub-menu-nav>
-</el-submenu>
-<el-menu-item :class="{'t-sub-menu-item':menuNav.level>1}" v-else :index="menuNav.self.id + ''" :data-idx="menuNav.self.id + ''" :id="menuNav.self.id + ''" @click="gotoRouteHandle(menuNav)">
-  <icon-svg :name="menuNav.self.icon" class="site-sidebar__menu-icon" v-if="menuNav.self.icon"></icon-svg>
-  <span>{{ menuNav.self.title }}</span>
-</el-menu-item>
+    <sub-menu-nav v-for="item in subMenus" :key="item.self.id" :menu-nav="item"></sub-menu-nav>
+  </el-submenu>
+  <el-menu-item :class="{'t-sub-menu-item':menuNav.level>1}" v-else :index="menuNav.self.id + ''" :data-idx="menuNav.self.id + ''" :id="menuNav.self.id + ''" @click="gotoRouteHandle(menuNav)">
+    <icon-svg :name="menuNav.self.icon" class="site-sidebar__menu-icon" v-if="menuNav.self.icon"></icon-svg>
+    <span :style="{'padding-left':menuNav.self.icon? '0': '14px'}">{{ menuNav.self.title }}</span>
+  </el-menu-item>
 </template>
 
 <script>
@@ -47,9 +46,10 @@ export default {
 </script>
 <style>
 .t-sub-menu-item {
-  padding-left: 52px !important;
-  height: 42px !important;
-  line-height: 42px !important;
+  /* padding-left: 52px !important; */
+  /* height: 42px !important;
+  line-height: 42px !important; */
+  background: rgba(36, 51, 85, 1) !important;
 }
 .site-sidebar__menu-icon{
   width:24px;

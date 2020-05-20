@@ -2,28 +2,24 @@
 <div>
   <el-input ref="input" v-model="currentValue" @change="onChange" @focus="onFocus"  @blur="onBlur" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" :disabled="disabled" v-if="!readOnly">
     <template slot="prepend" v-if="$slots.prepend">
-    <slot name="prepend">
-    </slot>
-  </template>
+      <slot name="prepend"></slot>
+    </template>
     <template slot="append" v-if="$slots.append">
-    <slot name="append">
-    </slot>
-  </template>
+      <slot name="append"></slot>
+    </template>
     <template slot="preffix" v-if="$slots.preffix">
-    <slot name="preffix">
-    </slot>
-  </template>
+      <slot name="preffix"></slot>
+    </template>
     <template slot="suffix" v-if="$slots.suffix">
-    <slot name="suffix">
-    </slot>
-  </template>
+      <slot name="suffix"></slot>
+    </template>
   </el-input>
   <div v-else class="t-readonly t-input-readonly-div">
     <span class="t-input-readonly-prepend" v-if="$slots.prepend">
       <slot name="prepend">
       </slot>
     </span>
-    <span class="t-input-readonly-value">{{currentValue || placeholder}}</span>
+    <span class="t-input-readonly-value" :style="{'color': currentValue ? '#606266' : '#999999'}">{{currentValue || placeholder}}</span>
     <span class="t-input-readonly-append" v-if="$slots.append">
       <slot name="append">
       </slot>
@@ -106,3 +102,4 @@ export default {
    }
 }
 </script>
+
