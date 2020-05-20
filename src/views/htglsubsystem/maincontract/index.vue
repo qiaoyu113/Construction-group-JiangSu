@@ -5,6 +5,11 @@
       <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">主合同列表</div>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="主合同编号：">
@@ -58,6 +63,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -102,22 +108,22 @@
                 sortable: true
               },
               {
-                prop: 'conTotal',
+                prop: 'conEndDate',
                 label: '主合期间',
                 sortable: true
               },
               {
-                prop: 'conName',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true
               },
               {
-                prop: 'conName',
+                prop: 'proSubCompany',
                 label: '所属于分公司',
                 sortable: true
               },
               {
-                prop: 'conSigningDate',
+                prop: 'conStatus',
                 label: '签订日期',
                 sortable: true,
                 formatter: (row, column, cellValue) => {
