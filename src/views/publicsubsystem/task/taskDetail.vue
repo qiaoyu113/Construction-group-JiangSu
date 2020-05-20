@@ -159,11 +159,11 @@
       // this.init()
     },
     mounted() {
-      console.log('this.$route111', this.$route)
+      // console.log('this.$route111', this.$route)
       this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId, this.$route.query.taskId);
     },
     activated() {
-      console.log('this.$route222', this.$route)
+      // console.log('this.$route222', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -183,13 +183,6 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
-        // if(key) {
-        //   this.$nextTick(() => {
-        //     tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
-        //       console.log('key result', result)
-        //     })
-        //   })
-        // }
         if(taskId) {
           this.$nextTick(() => {
             let self = this;
