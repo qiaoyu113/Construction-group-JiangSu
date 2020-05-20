@@ -73,6 +73,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -105,14 +106,17 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'paoName',
+                prop: 'proName',
                 label: '项目名称',
                 minWidth: 100
               },
               {
                 prop: 'proType',
                 label: '工程类别',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -127,12 +131,18 @@
               {
                 prop: 'proTotalInvestment',
                 label: '合同模式',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('contract_model', row.proContractAttr) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proRunMode',
                 label: '经营方式',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'keyName',
@@ -148,6 +158,9 @@
                 prop: 'approvalStatus',
                 label: '状态',
                 minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'getTime',

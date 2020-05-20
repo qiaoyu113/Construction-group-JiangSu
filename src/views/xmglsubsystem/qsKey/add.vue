@@ -10,11 +10,7 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
-              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-            </el-input>
-          </el-form-item>
+          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
@@ -209,6 +205,17 @@
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+      getSelectedProject(project) {
+        console.log('current project', project);
+        this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proConstructCompany = project.proConstructCompany;
+        this.dataForm.proContractAttr = project.proContractAttr;
+        this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proType = project.proType;
+        this.dataForm.proRunMode = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
       },
       // 表单提交
       doSave () {

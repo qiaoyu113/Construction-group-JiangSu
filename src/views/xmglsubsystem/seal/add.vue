@@ -11,11 +11,6 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
-          <!--<el-form-item label="项目名称：" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
-              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-            </el-input>
-          </el-form-item>-->
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
