@@ -13,7 +13,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row :gutter="10">
+            <el-row :gutter="10" v-if="userRole.length > 0">
               <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
                 <el-col :span="8">
                   <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" v-model="dataForm.userRole" :readOnly="true"></t-dic-dropdown-select>
@@ -48,6 +48,7 @@
 
 <script>
   import findIndex from 'lodash/findIndex'
+  import isEmpty from 'lodash/isEmpty'
   export default {
     data () {
       return {
@@ -90,9 +91,6 @@
                 label: '业务类型',
                 sortable: true,
                 width: 120,
-                formatter: (row, column, cellValue) => {
-                  return "<a target='_blank' href='" + window.SITE_CONFIG['serverUrl'] + '/pmtapi/base_AssetManagement/view?id=' + row.id + "'>" + row.name + '</a>'
-                }
               },
               {
                 prop: 'customerCode',
@@ -158,11 +156,11 @@
       // this.init()
     },
     mounted() {
-      console.log('this.$route111', this.$route)
+      // console.log('this.$route111', this.$route)
       this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId, this.$route.query.taskId);
     },
     activated() {
-      console.log('this.$route222', this.$route)
+      // console.log('this.$route222', this.$route)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -182,13 +180,6 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
-        // if(key) {
-        //   this.$nextTick(() => {
-        //     tapp.services.wf_Model.getProcessActivities(key).then(function(result) {
-        //       console.log('key result', result)
-        //     })
-        //   })
-        // }
         if(taskId) {
           this.$nextTick(() => {
             let self = this;
@@ -198,8 +189,12 @@
               userList.map(item => {
                 self.userList.push({value: item.key, label: item.value})
               })
-              self.userRole.push({value: userRole.key, label: userRole.value})
-              self.dataForm.userRole = userRole.key;
+              if(!isEmpty(userRole)) {
+                self.userRole.push({value: userRole.key, label: userRole.value})
+                self.dataForm.userRole = userRole.key;
+              } else {
+                self.userRole = []
+              }
             })
           })
         }
@@ -208,7 +203,6 @@
       loadProcessDefList() {
         let self = this;
         tapp.services.wf_Model.getMadelList().then(function(result) {
-          console.log('processDefinationlist',result);
           self.processDefinationlist = result;
         })
       },

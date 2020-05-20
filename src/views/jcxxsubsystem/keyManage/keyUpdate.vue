@@ -19,14 +19,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-dic-tree-select dicType="base_region" v-model="dataForm.province"
-                                 :readOnly="readOnly"></t-dic-tree-select>
+              <t-dic-tree-select dicType="base_region" v-model="dataForm.province" :readOnly="readOnly"></t-dic-tree-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
-              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -46,8 +44,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly">
-              </t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -72,8 +69,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
-              <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly">
-              </t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -83,8 +79,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
-                                  :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -109,8 +104,7 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'附件上传'"></t-sub-title>
-        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                   :businessDocId="docId"></sj-upload>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -214,13 +208,11 @@
     },
     created() {
       const currentQuery = this.$route.query
-      console.log('currentQuery1', this.$route)
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
     activated() {
-      console.log('currentQuery2', this.$route)
       const currentQuery = this.$route.query
       this.init(currentQuery.businessId)
     },
@@ -239,8 +231,6 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
-                console.log('result1111111', result)
-                console.log('self.$util.', self.$util)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.id = result.id
                 self.dataForm.province = result.province
@@ -274,7 +264,6 @@
       },
       // 表单提交
       doSave() {
-        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
