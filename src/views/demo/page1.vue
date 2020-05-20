@@ -11,8 +11,14 @@
           <t-sub-title :title="'弹出框'"></t-sub-title>
         </div>
         <div>
-          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
-          <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.userId" @selectedUser="getSelectedUser"></t-handler-select>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+            </el-col>
+            <el-col :span="8">
+              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.userId" @selectedUser="getSelectedUser"></t-handler-select>
+            </el-col>
+          </el-row>
         </div>
       </el-card>
       <div style="float: right;margin-right: 12px;">

@@ -1,14 +1,10 @@
 <template>
   <div class="handler-select">
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-form-item :label="label">
-          <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true">
-            <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
-          </t-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
+    <el-form-item :label="label">
+      <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true">
+        <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      </t-input>
+    </el-form-item>
     <el-dialog title="经办人选择" :visible.sync="dialogFormVisible" width='80%' center>
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
