@@ -1,12 +1,10 @@
 <template>
   <div class="project-select">
-    
-        <el-form-item :label="label">
-          <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true">
-            <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
-          </t-input>
-        </el-form-item>
-      
+    <el-form-item :label="label" verify class="is-required">
+      <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true">
+        <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      </t-input>
+    </el-form-item>
     <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
@@ -116,7 +114,7 @@
 								sortable: true
 							},
 							{
-								prop: 'proConstructCompany',
+								prop: '',
 								label: '备案单位',
 								sortable: true
 							},
@@ -136,7 +134,7 @@
 								sortable: true
 							},
 							{
-								prop: 'proBuildUnit',
+								prop: 'proConstructCompany',
 								label: '建设单位',
 								sortable: true
 							},
