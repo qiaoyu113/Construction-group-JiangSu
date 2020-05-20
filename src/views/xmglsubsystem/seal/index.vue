@@ -76,6 +76,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -107,12 +108,15 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'pId',
+                prop: 'proName',
                 label: '项目名称'
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -123,16 +127,22 @@
                 label: '投资金额'
               },
               {
-                prop: 'proTotalInvestment',
-                label: '合同模式'
+                prop: 'proContractAttr',
+                label: '合同模式',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('contract_model', row.proContractAttr) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'proSubCompany',
                 label: '分公司'
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式'
+                label: '经营方式',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sealContent',
@@ -140,7 +150,10 @@
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态'
+                label: '审批状态',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sealCustodian',
