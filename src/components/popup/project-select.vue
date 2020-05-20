@@ -7,7 +7,7 @@
           </t-input>
         </el-form-item>
       
-    <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%' center>
+    <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button type="primary" @click="proChoose()">
@@ -99,8 +99,6 @@
 						serviceInstance: tapp.services.proInfo.getPagedList,
 						serviceInstanceInputParameters: {
 							searchKey: null,
-							processDefinationKey: null,
-							dateRange: ''
 						}
 					},
 					grid: {
@@ -197,14 +195,15 @@
       doReset() {
         this.$refs.search.resetFields()
         this.selectProject = { proName: '' }
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
       handleCellClick(row, value, cell, event) {
         this.selectProject = row;
-        this.currentValue = row.proName;
       },
 			proChoose() {
-				//传送到父组件
+        //传送到父组件
+        this.currentValue = this.selectProject.proName;
         this.$emit('selectedProject', this.selectProject);
         this.$emit('input', this.selectProject.id);
         this.doReset();

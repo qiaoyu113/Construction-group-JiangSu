@@ -5,7 +5,7 @@
         <div class="title">弹出框模板</div>
       </el-col>
     </el-row>
-    <el-form :model="dataForm" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px">
+    <el-form :model="dataForm" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="100px">
       <el-card shadow="never">
         <div slot="header">
           <t-sub-title :title="'弹出框'"></t-sub-title>
@@ -17,6 +17,9 @@
             </el-col>
             <el-col :span="8">
               <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.userId" @selectedUser="getSelectedUser"></t-handler-select>
+            </el-col>
+            <el-col :span="8">
+              <t-partner-select label="联营公司名称" placeholder="选择一个联营公司" v-model="dataForm.companyId" @selectedPartner="getSelectedPartner"></t-partner-select>
             </el-col>
           </el-row>
         </div>
@@ -40,7 +43,8 @@
 				readOnly: false,
 				dataForm: {
           projectId: '',
-          userId: ''
+          userId: '',
+          companyId: ''
 				},
 			}
 		},
@@ -62,9 +66,16 @@
       getSelectedUser(user) {
         console.log('current user', user)
         // user为从弹窗框列表带出来的那一行的数据
-        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.id，可以自行修改为当前传到接口的变量名
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的user的其他值，从这里的user获取
         // 例如 this.dataForm.id = user.id
+      },
+      getSelectedPartner(company) {
+        console.log('current company', company)
+        // company为从弹窗框列表带出来的那一行的数据
+        // 公司id 已从从组件里已经带出来，这里定义为 dataForm.companyId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的company的其他值，从这里的company获取
+        // 例如 this.dataForm.creditCode = company.creditCode
       },
 			consoleData() {
         console.log('dataForm', this.dataForm)
