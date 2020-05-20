@@ -74,6 +74,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -105,12 +106,15 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'pId',
+                prop: 'proName',
                 label: '项目名称'
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -127,15 +131,23 @@
               {
                 prop: 'proRunMode',
                 label: '经营方式',
-                sortable: true
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'processFileType',
-                label: '文件类型'
+                label: '文件类型',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('file_type', row.processFileType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态'
+                label: '审批状态',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sign',
