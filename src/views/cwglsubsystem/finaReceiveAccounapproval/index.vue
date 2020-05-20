@@ -8,27 +8,27 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="所属单位：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属单位" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="项目名称：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6" class="search-date-picker">
           <el-form-item label="到帐方式：">
-            <t-dic-dropdown-select dicType="1260866780805599234"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="account_way"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.rWay"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="6" class="search-date-picker">
           <el-form-item label="到帐类型：">
-            <t-dic-dropdown-select dicType="1260866912477384705"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="account_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.rType"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -63,11 +63,12 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.finaReceiveAccounapproval.getPagedList,
+            serviceInstance: tapp.services.finaTakebackApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              proName: null,
+              proSubCompany: null,
+              rWay: null,
+              rType: null
             }
           },
           grid: {
@@ -83,18 +84,18 @@
               },
               {
                 prop: 'proCode',
-                label: '项目编码',
+                label: '项目编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'sAmount',
+                prop: 'asAmount',
                 label: '自营',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'oAmount',
+                prop: 'aoAmount',
                 label: '联营',
                 sortable: true,
                 minWidth: 120,
@@ -102,23 +103,23 @@
               {
                 prop: 'rWay',
                 columnKey: 'rWay',
-                filters: util.getListDataDicFilters('1260866780805599234'),
+                filters: util.getListDataDicFilters('account_way'),
                 label: '到帐方式',
                 sortable: true,
                 width: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('1260866780805599234', row.rWay)
+                  return util.dataDicFormat('account_way', row.rWay)
                 }
               },
               {
                 prop: 'rType',
                 columnKey: 'rType',
-                filters: util.getListDataDicFilters('1260866912477384705'),
+                filters: util.getListDataDicFilters('account_type'),
                 label: '到帐类型',
                 sortable: true,
                 width: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('1260866912477384705', row.rType)
+                  return util.dataDicFormat('account_type', row.rType)
                 }
               },
               {
