@@ -104,7 +104,7 @@
 						mutiSelect: false,
 						columns: [{
 								prop: 'proCode',
-								label: '项目备案编号',
+								label: '项目编号',
                 sortable: true,
                 width: 150,
 							},
@@ -114,8 +114,13 @@
 								sortable: true
 							},
 							{
-								prop: '',
-								label: '备案单位',
+								prop: 'proSubCompany',
+								label: '所属分公司',
+								sortable: true
+							},
+							{
+								prop: 'proBusDept',
+								label: '所属事业部',
 								sortable: true
 							},
 							{
@@ -127,11 +132,6 @@
                 formatter: (row, column, cellValue) => {
                   return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
-							},
-							{
-								prop: 'proTotalInvestment',
-								label: '投资金额',
-								sortable: true
 							},
 							{
 								prop: 'proConstructCompany',
@@ -155,7 +155,7 @@
 							},
 							{
 								prop: 'proManager',
-								label: '项目跟踪人',
+								label: '项目经理',
 								sortable: true
 							},
 						], // 需要展示的列
