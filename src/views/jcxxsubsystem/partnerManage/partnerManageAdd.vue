@@ -6,10 +6,10 @@
       </el-col>
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
     </el-row>
@@ -20,58 +20,105 @@
           <t-sub-title :title="'合作方基本信息'"></t-sub-title>
           <el-col :span="8">
             <el-form-item prop="companyName" label="合作方名称">
-              <t-input v-model="dataForm.companyName"></t-input>
+              <t-input v-model="dataForm.companyName"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="creditCode" label="统一社会信用代码" label-width="180px">
-              <t-input v-model="dataForm.creditCode"></t-input>
+              <t-input v-model="dataForm.creditCode"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="companyAddress" label="合作方地址">
-              <t-input v-model="dataForm.companyAddress"></t-input>
+              <t-input v-model="dataForm.companyAddress"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="legalPerson" label="法人">
-              <t-input v-model="dataForm.legalPerson"></t-input>
+              <t-input v-model="dataForm.legalPerson"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principal" label="负责人">
-              <t-input v-model="dataForm.principal"></t-input>
+              <t-input v-model="dataForm.principal"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="contactNum" label="联系电话">
-              <t-input v-model="dataForm.contactNum"></t-input>
+              <t-input v-model="dataForm.contactNum"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-card>
         <el-card shadow="never">
-          <t-sub-title :title="'合作方主要工程业绩'"></t-sub-title>
+          <t-sub-title :title="'合作方主要工程业绩'" extra="增加行" :readOnly="readOnly" @extraClick="achievementDialogVisible = true"></t-sub-title>
+           <el-table :data="achievements" border style="width: 100%" max-height="220">
+            <el-table-column prop="projectName" label="工程名称" min-width="180"></el-table-column>
+            <el-table-column prop="projectScale" label="工程规模" width="180"></el-table-column>
+            <el-table-column prop="buildStartDate" label="开工日期" width="180"></el-table-column>
+            <el-table-column prop="buildEndDate" label="竣工日期" width="180"></el-table-column>
+            <el-table-column prop="buildCompany" label="建设单位" min-width="180"></el-table-column>
+            <el-table-column align="center">
+              <template slot-scope="scope">
+                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row, 'achievement')">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-dialog title="添加业绩" :visible.sync="achievementDialogVisible" width="50%">
+            <el-form ref="achievementForm" :model="achievementForm" label-width="80px">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="工程名称" prop="projectName">
+                    <t-input v-model="achievementForm.projectName"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="工程规模" prop="projectScale">
+                    <t-input v-model="achievementForm.projectScale"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="开工日期" prop="buildStartDate">
+                    <t-input v-model="achievementForm.buildStartDate"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="竣工日期" prop="buildEndDate">
+                    <t-input v-model="achievementForm.buildEndDate"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="建设单位" prop="buildCompany">
+                    <t-input v-model="achievementForm.buildCompany"></t-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <div slot="footer">
+              <el-button @click="achievementDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="addAchievement()">确 定</el-button>
+            </div>
+          </el-dialog>
         </el-card>
         <el-card shadow="never">
           <t-sub-title :title="'合作方资产情况'"></t-sub-title>
           <el-col :span="12">
             <el-form-item prop="fixedAssets" label="固定资产">
-              <t-input v-model="dataForm.fixedAssets"></t-input>
+              <t-input v-model="dataForm.fixedAssets"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="fluidCapital" label="流动资金">
-              <t-input v-model="dataForm.fluidCapital"></t-input>
+              <t-input v-model="dataForm.fluidCapital"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="chargeAccount" label="应收账款">
-              <t-input v-model="dataForm.chargeAccount"></t-input>
+              <t-input v-model="dataForm.chargeAccount"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="liabilities" label="负债">
-              <t-input v-model="dataForm.liabilities"></t-input>
+              <t-input v-model="dataForm.liabilities"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-card>
@@ -84,28 +131,69 @@
           </el-col>
           <el-col :span="24">
             <el-form-item prop="projectSituation" label="合作项目情况">
-              <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation" :readOnly="readOnly"></t-input>
+              <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-card>
         <el-card shadow="never">
-          <t-sub-title :title="'合作方主要管理人员情况'"></t-sub-title>
+          <t-sub-title :title="'合作方主要管理人员情况'" extra="增加行" :readOnly="readOnly" @extraClick="managerDialogVisible = true"></t-sub-title>
+           <el-table :data="managers" border style="width: 100%" max-height="220">
+            <el-table-column prop="staffName" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="age" label="年龄" width="180"></el-table-column>
+            <el-table-column prop="technicalTitle" label="职称及职业资格" min-width="180"></el-table-column>
+            <el-table-column prop="achievement" label="主要管理业绩" min-width="180"></el-table-column>
+            <el-table-column align="center">
+              <template slot-scope="scope">
+                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row, 'manager')">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-dialog title="添加管理人员" :visible.sync="managerDialogVisible" width="50%">
+            <el-form ref="managerForm" :model="managerForm" label-width="120px" label-position="right">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="姓名" prop="staffName">
+                    <t-input v-model="managerForm.staffName"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="年龄" prop="age">
+                    <t-input v-model="managerForm.age"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="职称及职业资格" prop="technicalTitle">
+                    <t-input v-model="managerForm.technicalTitle"></t-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="主要管理业绩" prop="achievement">
+                    <t-input v-model="managerForm.achievement"></t-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <div slot="footer">
+              <el-button @click="managerDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="addManager()">确 定</el-button>
+            </div>
+          </el-dialog>
         </el-card>
         <el-card shadow="never">
           <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
           <el-col :span="8">
             <el-form-item prop="bankName" label="开户行名称">
-              <t-input v-model="dataForm.bankName"></t-input>
+              <t-input v-model="dataForm.bankName"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="bankAccountName" label="银行帐户名称">
-              <t-input v-model="dataForm.bankAccountName"></t-input>
+              <t-input v-model="dataForm.bankAccountName"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="bankAccount" label="银行帐号">
-              <t-input v-model="dataForm.bankAccount"></t-input>
+              <t-input v-model="dataForm.bankAccount"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-card>
@@ -141,6 +229,24 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
+        achievements: [],
+        managers: [],
+        achievementDialogVisible: false,
+        managerDialogVisible: false,
+        achievementForm: {
+          projectName: '',
+          projectScale: '',
+          buildStartDate: '',
+          buildEndDate: '',
+          buildCompany: ''
+        },
+        managerForm: {
+          staffName: '',
+          age: '',
+          technicalTitle: '',
+          achievement: '',
+        },
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -168,7 +274,9 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          getPartnerAchievements: [],
+          getPartnerStaffs: [],
         },
         dataRule: {
           bId: [
@@ -257,7 +365,6 @@
     },
     created() {
       this.init()
-      this.$forceUpdate()
     },
     computed: {
       ...mapState({
@@ -271,36 +378,37 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
+            let self = this;
             if (this.dataForm.id) {
               tapp.services.tBaseinfoPartnerApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBaseinfoPartnerApproval.bId
-                this.dataForm.actTaskKey = result.tBaseinfoPartnerApproval.actTaskKey
-                this.dataForm.companyName = result.tBaseinfoPartnerApproval.companyName
-                this.dataForm.creditCode = result.tBaseinfoPartnerApproval.creditCode
-                this.dataForm.companyAddress = result.tBaseinfoPartnerApproval.companyAddress
-                this.dataForm.legalPerson = result.tBaseinfoPartnerApproval.legalPerson
-                this.dataForm.principal = result.tBaseinfoPartnerApproval.principal
-                this.dataForm.contactNum = result.tBaseinfoPartnerApproval.contactNum
-                this.dataForm.fixedAssets = result.tBaseinfoPartnerApproval.fixedAssets
-                this.dataForm.fluidCapital = result.tBaseinfoPartnerApproval.fluidCapital
-                this.dataForm.chargeAccount = result.tBaseinfoPartnerApproval.chargeAccount
-                this.dataForm.liabilities = result.tBaseinfoPartnerApproval.liabilities
-                this.dataForm.marketSituation = result.tBaseinfoPartnerApproval.marketSituation
-                this.dataForm.projectSituation = result.tBaseinfoPartnerApproval.projectSituation
-                this.dataForm.bankName = result.tBaseinfoPartnerApproval.bankName
-                this.dataForm.bankAccountName = result.tBaseinfoPartnerApproval.bankAccountName
-                this.dataForm.bankAccount = result.tBaseinfoPartnerApproval.bankAccount
-                this.dataForm.sign = result.tBaseinfoPartnerApproval.sign
-                this.dataForm.signTime = result.tBaseinfoPartnerApproval.signTime
-                this.dataForm.propose = result.tBaseinfoPartnerApproval.propose
-                this.dataForm.result = result.tBaseinfoPartnerApproval.result
-                this.dataForm.approvalStatus = result.tBaseinfoPartnerApproval.approvalStatus
-                this.dataForm.createtime = result.tBaseinfoPartnerApproval.createtime
-                this.dataForm.updatetime = result.tBaseinfoPartnerApproval.updatetime
-                this.dataForm.createuser = result.tBaseinfoPartnerApproval.createuser
-                this.dataForm.updateuser = result.tBaseinfoPartnerApproval.updateuser
-                this.dataForm.datastatus = result.tBaseinfoPartnerApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.companyName = result.companyName
+                self.dataForm.creditCode = result.creditCode
+                self.dataForm.companyAddress = result.companyAddress
+                self.dataForm.legalPerson = result.legalPerson
+                self.dataForm.principal = result.principal
+                self.dataForm.contactNum = result.contactNum
+                self.dataForm.fixedAssets = result.fixedAssets
+                self.dataForm.fluidCapital = result.fluidCapital
+                self.dataForm.chargeAccount = result.chargeAccount
+                self.dataForm.liabilities = result.liabilities
+                self.dataForm.marketSituation = result.marketSituation
+                self.dataForm.projectSituation = result.projectSituation
+                self.dataForm.bankName = result.bankName
+                self.dataForm.bankAccountName = result.bankAccountName
+                self.dataForm.bankAccount = result.bankAccount
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -311,6 +419,23 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
+      },
+      addAchievement() {
+        if(this.achievementForm.projectName || this.achievementForm.projectScale || this.achievementForm.buildStartDate || this.achievementForm.buildEndDate || this.achievementForm.buildCompany) {
+          this.dataForm.getPartnerAchievements.push(JSON.parse(JSON.stringify(this.achievementForm)))
+        }
+        this.$refs.achievementForm.resetFields()
+        this.achievementDialogVisible = false
+      },
+      addManager() {
+        if(this.managerForm.staffName || this.managerForm.age || this.managerForm.technicalTitle || this.managerForm.achievement) {
+          this.dataForm.getPartnerStaffs.push(JSON.parse(JSON.stringify(this.managerForm)))
+        }
+        this.$refs.managerForm.resetFields()
+        this.managerDialogVisible = false
+      },
+      handleDelete(index, row, type) {
+        type == 'achievement' ? this.dataForm.getPartnerAchievements.splice(index, 1) : this.dataForm.getPartnerStaffs.splice(index, 1)
       },
       // 表单提交
       doSave() {

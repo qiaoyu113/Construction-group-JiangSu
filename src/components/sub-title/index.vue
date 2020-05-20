@@ -1,9 +1,9 @@
 <template>
   <el-row class="sub-title" :gutter="20">
     <el-col>
-      <div>
-        <div class="title-background"></div>
+      <div style="display: flex;">
         <div class="title">{{title}}</div>
+        <div v-if="!readOnly" class="extra" @click="handleExtraClick">{{extra}}</div>
       </div>
     </el-col>
   </el-row>
@@ -18,13 +18,27 @@ export default {
        default: '',
        required: true
      },
+     extra: {
+       type: String,
+       default: '',
+       required: false
+     },
+     readOnly: {
+       type: Boolean,
+       default: false,
+       required: false
+     },
    },
    data () { return {} },
    watch: {},
    created () {},
    mounted () {},
    computed: {},
-   methods: {}
+   methods: {
+     handleExtraClick() {
+       this.$emit('extraClick')
+     }
+   }
 }
 </script>
 <style lang="scss">
@@ -33,8 +47,8 @@ export default {
   font-weight: 500;
   font-size: 16px;
   color: #333;
-  padding: 0 0 12px 18px;
-  z-index: 20000;
+  padding: 0 0 12px 0;
+  z-index: 100;
   background: transparent;
   width: fit-content;
 }
@@ -51,6 +65,13 @@ export default {
 }
 .sub-title .el-row-hr {
   margin-top: 0;
+}
+.sub-title .extra {
+  font-size: 14px;
+  color: #5E98F8;
+  margin-left: 25px;
+  padding-top: 2px;
+  cursor: pointer;
 }
 </style>
 
