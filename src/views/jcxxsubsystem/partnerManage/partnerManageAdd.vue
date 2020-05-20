@@ -78,12 +78,12 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="开工日期" prop="buildStartDate">
-                    <t-input v-model="achievementForm.buildStartDate"></t-input>
+                    <t-datetime-picker v-model="achievementForm.buildStartDate" type="date"></t-datetime-picker>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="竣工日期" prop="buildEndDate">
-                    <t-input v-model="achievementForm.buildEndDate"></t-input>
+                    <t-datetime-picker v-model="achievementForm.buildEndDate" type="date"></t-datetime-picker>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -158,7 +158,7 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="年龄" prop="age">
-                    <t-input v-model="managerForm.age"></t-input>
+                    <t-int-input v-model="managerForm.age"></t-int-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -444,7 +444,6 @@
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
           tapp.services.tBaseinfoPartnerApproval.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",
