@@ -5,7 +5,7 @@
         <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
       </t-input>
     </el-form-item>
-    <el-dialog title="经办人选择" :visible.sync="dialogFormVisible" width='80%' center>
+    <el-dialog title="经办人选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button type="primary" @click="proChoose()">
@@ -169,6 +169,7 @@
       doReset() {
         this.$refs.search.resetFields()
         this.selectedUser = { name: '' }
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
       handleCellClick(row, value, cell, event) {
@@ -176,7 +177,8 @@
         this.currentValue = row.name;
       },
 			proChoose() {
-				//传送到父组件
+        //传送到父组件
+        this.currentValue = this.selectedUser.name;
         this.$emit('selectedUser', this.selectedUser);
         this.$emit('input', this.selectedUser.id);
         this.doReset();
