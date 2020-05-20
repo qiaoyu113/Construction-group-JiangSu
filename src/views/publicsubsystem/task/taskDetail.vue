@@ -91,9 +91,6 @@
                 label: '业务类型',
                 sortable: true,
                 width: 120,
-                formatter: (row, column, cellValue) => {
-                  return "<a target='_blank' href='" + window.SITE_CONFIG['serverUrl'] + '/pmtapi/base_AssetManagement/view?id=' + row.id + "'>" + row.name + '</a>'
-                }
               },
               {
                 prop: 'customerCode',

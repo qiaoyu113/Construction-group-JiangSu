@@ -14,24 +14,24 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="合作方名称">
+            <el-form-item label="合作方名称" prop="companyName">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="法人">
+            <el-form-item label="法人" prop="legalPerson">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.legalPerson"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="入库时间">
+            <el-form-item label="入库时间" prop="dateRange">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                        @change="onStartDateRangeChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有无诉讼">
+            <el-form-item label="有无诉讼" prop="litigation" >
               <!--诉讼-->
               <t-dic-dropdown-select dicType="have_or_not"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.litigation"/>
