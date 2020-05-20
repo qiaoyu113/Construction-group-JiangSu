@@ -13,7 +13,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row :gutter="10">
+            <el-row :gutter="10" v-if="userRole.length > 0">
               <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
                 <el-col :span="8">
                   <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" v-model="dataForm.userRole" :readOnly="true"></t-dic-dropdown-select>
@@ -48,6 +48,7 @@
 
 <script>
   import findIndex from 'lodash/findIndex'
+  import isEmpty from 'lodash/isEmpty'
   export default {
     data () {
       return {
@@ -198,8 +199,12 @@
               userList.map(item => {
                 self.userList.push({value: item.key, label: item.value})
               })
-              self.userRole.push({value: userRole.key, label: userRole.value})
-              self.dataForm.userRole = userRole.key;
+              if(!isEmpty(userRole)) {
+                self.userRole.push({value: userRole.key, label: userRole.value})
+                self.dataForm.userRole = userRole.key;
+              } else {
+                self.userRole = []
+              }
             })
           })
         }
@@ -208,7 +213,6 @@
       loadProcessDefList() {
         let self = this;
         tapp.services.wf_Model.getMadelList().then(function(result) {
-          console.log('processDefinationlist',result);
           self.processDefinationlist = result;
         })
       },
