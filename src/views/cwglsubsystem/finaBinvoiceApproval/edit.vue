@@ -19,27 +19,27 @@
         </el-col>
         <el-col :span="8">
           <el-form-item  label="所属公司">
-            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目地址">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.proAddressProvince"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方单位名称">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.secompanyName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方单位地址">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.secompanyAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方联系电话">
-            <el-input v-model="dataForm.pId"></el-input>
+            <el-input v-model="dataForm.secompanyTel"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -59,7 +59,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <el-input :readonly="true" v-model="dataForm.cId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -69,7 +69,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <el-input :readonly="true" v-model="dataForm.cId"></el-input>
+            <el-input :readonly="true" v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -79,18 +79,18 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="计税方法">
-            <t-dic-radio-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-radio-select>
+            <t-dic-radio-select dicType="tax_method" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发票类别">
-            <t-dic-radio-select dicType="1260866595392196609" v-model="dataForm.invoiceType" :readOnly="false"></t-dic-radio-select>
+            <t-dic-radio-select dicType="invoice_type" v-model="dataForm.invoiceType" :readOnly="false"></t-dic-radio-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="适用税率或征收率">
+        <el-col :span="8" >
+          <el-form-item label="适用税率或征收率" label-width="130px">
             <el-input v-model="dataForm.levyRate"></el-input>
           </el-form-item>
         </el-col>

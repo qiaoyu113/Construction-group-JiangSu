@@ -8,20 +8,20 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发票类型">
-            <t-dic-dropdown-select dicType="1260866595392196609"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="invoice_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.invoiceType"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -29,14 +29,14 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="发票税率">
-            <t-dic-dropdown-select dicType="Invoice_tax_rate"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="1261639167251714050"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.levyRate"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="外经证号">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.lId"
                        placeholder="外经证号" clearable></el-input>
           </el-form-item>
         </el-col>
@@ -44,13 +44,13 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="经办人">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
                        placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办日期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime" @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
@@ -68,6 +68,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -82,9 +83,13 @@
           dataSource: {
             serviceInstance: tapp.services.finaBinvoiceApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              sign: null,
+              lId: null,
+              levyRate: null,
+              invoiceType: null,
+              proSubCompany: null,
+              proName: null,
+              signTime: null
             }
           },
           grid: {
@@ -97,7 +102,7 @@
                 sortable: true
               },
               {
-                prop: 'orgname',
+                prop: 'proSubCompany',
                 label: '分公司',
                 sortable: true
               },
@@ -113,7 +118,7 @@
               },
               {
                 prop: 'levyRate',
-                label: '开票税率',
+                label: '开票税额（元）',
                 sortable: true
               },
               {
@@ -122,9 +127,15 @@
                 sortable: true
               },
               {
-                prop: 'levyTaxNum',
+                prop: 'invoiceType',
+                columnKey: 'invoiceType',
+                filters: util.getListDataDicFilters('invoice_type'),
                 label: '发票类别',
-                sortable: true
+                sortable: true,
+                width: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('invoice_type', row.taxMethod)
+                }
               },
               {
                 prop: 'invoiceNum',

@@ -6,7 +6,8 @@
       </el-col>
     </el-row>
     <el-card shadow="never">
-      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+              :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
@@ -30,9 +31,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="applyforDate">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.applyforDate"
-                                       @change="onStartDateRangeChanged">
+            <el-form-item label="申请时间" prop="dateRange">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+                                       @change="onStartApplyforDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
@@ -50,9 +51,9 @@
           </el-col>
 
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
-                                       @change="onStartDateRangeChanged">
+            <el-form-item label="有效截止日" prop="dateRange1">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
+                                       @change="onStartExpirationDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
@@ -62,9 +63,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="经办日期">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime"
-                                       @change="onStartDateRangeChanged">
+            <el-form-item label="经办日期" prop="dateRange2">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
+                                       @change="onStartSignTimeChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
@@ -88,10 +89,17 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
-
+  import util from '@/util'
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data() {
       return {
         checkededRows: [],
@@ -106,9 +114,8 @@
               province: null,
               authCompany: null,
               keyStatus: null,
-              applyforDate: '',
-              expirationDate: '',
-              signTime: ''
+              dateRange1: '',
+              dateRange2: ''
             }
           },
           grid: {
@@ -118,13 +125,19 @@
               {
                 prop: 'province',
                 label: '所属地区',
-                sortable: false
+                sortable: false,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('base_region', row.province) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'keyType',
                 label: '密钥类别',
                 sortable: false,
-                width: '100px'
+                width: '100px',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('key_type', row.keyType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'authCompany',
@@ -218,9 +231,18 @@
       loadCodeTableList() {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      onStartExpirationDateChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1];
+      },
+      onStartSignTimeChanged(val){
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart=val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1];
+
+      },
+      onStartApplyforDateChanged(val){
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart=val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd= val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
