@@ -76,7 +76,7 @@
           <el-col :span="8">
             <el-form-item label="有无借款：" prop="isBorrowing">
               <t-dic-dropdown-select dicType="have_or_not"
-                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.isBorrowing"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.isBorrow"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
@@ -112,6 +112,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -144,7 +145,8 @@
             columns: [
               {
                 prop: 'proCode',
-                label: '项目编号'
+                label: '项目编号',
+                minWidth: 150
               },
               {
                 prop: 'proName',
@@ -164,11 +166,17 @@
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proSubType',
-                label: '类别子项'
+                label: '类别子项',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('category_child', row.proSubType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proBuildArea',
@@ -181,7 +189,10 @@
               {
                 prop: 'proRunMode',
                 label: '经营方式(注)',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proRunMode',
@@ -193,14 +204,22 @@
                 label: '项目经理'
               },
               {
-                prop: 'proManager',
+                prop: 'totalIncome',
                 label: '累计到账金额',
-                minWidth: 110
+                minWidth: 110,
+                formatter: (row, column, cellValue) => {
+                  if (!row.totalIncome) { return '0' }
+                  return row.totalIncome
+                }
               },
               {
-                prop: 'proManager',
+                prop: 'totalSpending',
                 label: '累计支出金额',
-                minWidth: 110
+                minWidth: 110,
+                formatter: (row, column, cellValue) => {
+                  if (!row.totalSpending) { return '0' }
+                  return row.totalSpending
+                }
               },
               {
                 prop: 'proManager',
@@ -208,18 +227,27 @@
                 minWidth: 120
               },
               {
-                prop: 'proManager',
+                prop: 'isBorrow',
                 label: '是否有借款',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('have_or_not', row.isBorrow) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
-                prop: 'proManager',
+                prop: 'isLitigation',
                 label: '是否有诉讼',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('have_or_not', row.isLitigation) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proStatue',
-                label: '状态'
+                label: '状态',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('pro_status', row.proStatue) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               }
             ], // 需要展示的列
             defaultSort: {

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目信息登记</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
     </el-row>
@@ -21,13 +26,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proCode" label="无投标流程：">
-              <el-input v-model="dataForm.proCode"></el-input>
+            <el-form-item prop="proCode" label="投标流程：">
+              <t-dic-radio-select dicType="have_or_not" v-model="dataForm.haveOrNot" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="项目编号：">
-              <el-input v-model="dataForm.proCode"></el-input>
+              <el-input v-model="dataForm.proCode" readonly placeholder="保存后系统自动生成"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
@@ -49,12 +54,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="详细地址：" prop="pro_address_detail" verify class="is-required">
-              <el-input v-model="dataForm.pro_address_detail"></el-input>
+              <el-input v-model="dataForm.proAddressDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="项目总投资：">
-              <el-input v-model="dataForm.proTotalInvestment"></el-input>
+              <t-currency-input v-model="dataForm.proTotalInvestment"></t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -115,7 +120,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proWinAmount" label="中标金额：">
-              <el-input v-model="dataForm.proWinAmount"></el-input>
+              <t-currency-input v-model="dataForm.proWinAmount"></t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -236,6 +241,8 @@
               </el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
@@ -249,6 +256,8 @@
               </t-int-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <el-form-item label="联营公司名称：" prop="proUnionCompany">
               <el-input v-model="dataForm.proUnionCompany">
@@ -266,6 +275,8 @@
               <el-input v-model="dataForm.proContactway"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
@@ -346,7 +357,7 @@
         type: Boolean,
         default: false,
         required: false
-      },
+      }
     },
     data () {
       return {
@@ -405,9 +416,6 @@
           bidProcessList: null
         },
         dataRule: {
-          proCode: [
-            {required: true, message: '项目编号不能为空', trigger: 'blur'}
-          ],
           proName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
@@ -512,9 +520,6 @@
           ],
           proContactway: [
             {required: true, message: '联系方式不能为空', trigger: 'blur'}
-          ],
-          proStatue: [
-            {required: true, message: '项目状态不能为空', trigger: 'blur'}
           ]
         }
       }

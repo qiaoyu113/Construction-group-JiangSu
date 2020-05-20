@@ -81,7 +81,7 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
-
+  import util from '@/util'
   export default {
     name: 'myTask',
     extends: baseView,
@@ -160,25 +160,39 @@
                 label: '项目经理'
               },
               {
-                prop: 'proConstructCompanyAttr',
+                prop: 'totalIncome',
                 label: '累计到账金额',
-                minWidth: 120
+                minWidth: 110,
+                formatter: (row, column, cellValue) => {
+                  if (!row.totalIncome) { return '0' }
+                  return row.totalIncome
+                }
               },
               {
-                prop: 'proDriveSubject',
+                prop: 'totalSpending',
                 label: '累计支出金额',
-                minWidth: 120
+                minWidth: 110,
+                formatter: (row, column, cellValue) => {
+                  if (!row.totalSpending) { return '0' }
+                  return row.totalSpending
+                }
               },
               {
-                prop: 'proContractAttr',
+                prop: 'isBorrow',
                 label: '是否有借款',
-                minWidth: 120
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('have_or_not', row.isBorrow) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
-                prop: 'proFundSource',
+                prop: 'isLitigation',
                 label: '是否有诉讼',
-                minWidth: 120
-              }
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('have_or_not', row.isLitigation) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
+              },
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
