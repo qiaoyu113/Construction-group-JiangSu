@@ -1,10 +1,8 @@
 <template>
   <div class="handler-select">
-    <el-form-item :label="label">
-      <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-        <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
-      </t-input>
-    </el-form-item>
+    <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+    </t-input>
     <el-dialog title="联营公司选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="110px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
@@ -68,11 +66,6 @@
         type: String,
         default: '',
         required: false
-      },
-      label: {
-        type: String,
-        default: '联营公司',
-        required: true
       },
       placeholder: {
         type: String,

@@ -89,84 +89,72 @@
             columns: [
               {
                 prop: 'bId',
-                label: '姓名',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'actTaskKey',
-                label: '分公司',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '联系方式',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'proManager',
-                label: '建造师等级',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'grantStarttime',
-                label: '建造师证书编号',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.grantStarttime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'grantEndtime',
-                label: '安全B证',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.grantEndtime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'useScenes',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
+                prop: 'actTaskKey',
+                label: '工程类别',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'pcId',
+                label: '建设单位',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'useScenes',
+                label: '投资金额',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
                 prop: 'grantUser',
-                label: '项目编号',
+                label: '合同模式',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'grantContent',
-                label: '授权内容',
+                label: '经营方式',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'remark',
-                label: '授权状态',
+                label: '授权用途',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '经办人',
+                label: '授权内容',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '经办日期',
+                label: '审查状态',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
+              },
+              {
+                prop: 'propose',
+                label: '经办人',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'result',
+                label: '经办日期',
+                sortable: true,
+                minWidth: 120,
               }
             ], // 需要展示的列
             defaultSort: {
