@@ -82,7 +82,6 @@
     },
 		data() {
 			return {
-				readOnly: false,
 				dataForm: {
 					
         },
