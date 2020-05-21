@@ -13,17 +13,19 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="主合同编号：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="主合同编号" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="主合同名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conName"
+                       placeholder="主合同名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conCode" label="主合同形式：">
-            <t-dic-dropdown-select dicType="1260865980897300482" :readOnly="readOnly"></t-dic-dropdown-select>
+          <el-form-item  label="主合同形式：">
+            <t-dic-dropdown-select dicType="con_modality"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conModality"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -31,18 +33,20 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="所属分公司：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
+                       placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conCode" label="主合同状态：">
-            <t-dic-dropdown-select dicType="" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
+            <el-form-item prop="conCode" label="主合同状态：">
+              <t-dic-dropdown-select dicType="1260865980897300482"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conStatus"></t-dic-dropdown-select>
+            </el-form-item>
         </el-col>
       </el-row>
 
@@ -100,7 +104,10 @@
               {
                 prop: 'conModality',
                 label: '合同形式',
-                sortable: true
+                sortable: true,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('con_modality', row.conModality) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conTotal',
