@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目信息更新</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
@@ -132,11 +137,17 @@
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proSubType',
-                label: '类别子项'
+                label: '类别子项',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('category_child', row.proSubType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proBuildArea',
@@ -149,7 +160,10 @@
               {
                 prop: 'proRunMode',
                 label: '经营方式(注)',
-                minWidth: 120
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proWinAmount',

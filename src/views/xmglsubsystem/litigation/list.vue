@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目诉讼列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
             :model="gridOptions.dataSource.serviceInstanceInputParameters">
@@ -62,6 +67,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -95,7 +101,8 @@
             columns: [
               {
                 prop: 'proCode',
-                label: '项目编号'
+                label: '项目编号',
+                minWidth: 120
               },
               {
                 prop: 'proName',
@@ -107,7 +114,10 @@
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proTotalInvestment',
@@ -123,25 +133,35 @@
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式'
+                label: '经营方式',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
-                prop: 'proRunMode',
+                prop: 'litigationCode',
                 label: '诉讼编号'
               },
               {
-                prop: 'proRunMode',
-                label: '标记时间'
+                prop: 'signTime',
+                label: '标记时间',
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
+                }
               },
               {
                 prop: 'litigationStatus',
                 label: '诉讼状态',
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('litigation_status', row.litigationStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'freezingAmount',
                 label: '冻结金额',
-                minWidth: 120,
+                minWidth: 120
               },
               {
                 prop: 'cancelTime',
