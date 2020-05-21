@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">人员调整审批列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
             :model="gridOptions.dataSource.serviceInstanceInputParameters">
@@ -70,6 +75,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -106,7 +112,10 @@
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -122,7 +131,10 @@
               },
               {
                 prop: 'proRunMode',
-                label: '经营方式'
+                label: '经营方式',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'remark',
@@ -130,7 +142,10 @@
               },
               {
                 prop: 'approvalStatus',
-                label: '审批状态'
+                label: '审批状态',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sign',
