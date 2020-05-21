@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="150px" label-position="right">
       <el-card shadow="never">
@@ -195,6 +202,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',scId: '',paymentType: '',
           fundPurpose: '',processBranch: '',paymentWay: '',totalReceived: '',
@@ -287,7 +297,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -300,45 +319,42 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaPaymenapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaPaymenapproval.bId
-                this.dataForm.actTaskKey = result.finaPaymenapproval.actTaskKey
-                this.dataForm.pId = result.finaPaymenapproval.pId
-                this.dataForm.proRunMode = result.finaPaymenapproval.proRunMode
-                this.dataForm.unionCompany = result.finaPaymenapproval.unionCompany
-                this.dataForm.scId = result.finaPaymenapproval.scId
-                this.dataForm.paymentType = result.finaPaymenapproval.paymentType
-                this.dataForm.fundPurpose = result.finaPaymenapproval.fundPurpose
-                this.dataForm.processBranch = result.finaPaymenapproval.processBranch
-                this.dataForm.paymentWay = result.finaPaymenapproval.paymentWay
-                this.dataForm.rId = result.finaPaymenapproval.rId
-                this.dataForm.totalReceived = result.finaPaymenapproval.totalReceived
-                this.dataForm.totalReceivedRatio = result.finaPaymenapproval.totalReceivedRatio
-                this.dataForm.totalPayment = result.finaPaymenapproval.totalPayment
-                this.dataForm.scTotalReceived = result.finaPaymenapproval.scTotalReceived
-                this.dataForm.scTotalReceivedRatio = result.finaPaymenapproval.scTotalReceivedRatio
-                this.dataForm.paymentAmount = result.finaPaymenapproval.paymentAmount
-                this.dataForm.afterThisRatio = result.finaPaymenapproval.afterThisRatio
-                this.dataForm.leftoverAmount = result.finaPaymenapproval.leftoverAmount
-                this.dataForm.leftoverAmountRatio = result.finaPaymenapproval.leftoverAmountRatio
-                this.dataForm.receiveCompany = result.finaPaymenapproval.receiveCompany
-                this.dataForm.bankName = result.finaPaymenapproval.bankName
-                this.dataForm.bankAccountName = result.finaPaymenapproval.bankAccountName
-                this.dataForm.bankAccount = result.finaPaymenapproval.bankAccount
-                this.dataForm.contacter = result.finaPaymenapproval.contacter
-                this.dataForm.contacterTel = result.finaPaymenapproval.contacterTel
-                this.dataForm.approvalStatus = result.finaPaymenapproval.approvalStatus
-                this.dataForm.sign = result.finaPaymenapproval.sign
-                this.dataForm.signTime = result.finaPaymenapproval.signTime
-                this.dataForm.propose = result.finaPaymenapproval.propose
-                this.dataForm.result = result.finaPaymenapproval.result
-                this.dataForm.createtime = result.finaPaymenapproval.createtime
-                this.dataForm.updatetime = result.finaPaymenapproval.updatetime
-                this.dataForm.createuser = result.finaPaymenapproval.createuser
-                this.dataForm.updateuser = result.finaPaymenapproval.updateuser
-                this.dataForm.datastatus = result.finaPaymenapproval.datastatus
+                self.dataForm.pId = result.finaPaymenapproval.pId
+                self.dataForm.proRunMode = result.finaPaymenapproval.proRunMode
+                self.dataForm.unionCompany = result.finaPaymenapproval.unionCompany
+                self.dataForm.scId = result.finaPaymenapproval.scId
+                self.dataForm.paymentType = result.finaPaymenapproval.paymentType
+                self.dataForm.fundPurpose = result.finaPaymenapproval.fundPurpose
+                self.dataForm.processBranch = result.finaPaymenapproval.processBranch
+                self.dataForm.paymentWay = result.finaPaymenapproval.paymentWay
+                self.dataForm.rId = result.finaPaymenapproval.rId
+                self.dataForm.totalReceived = result.finaPaymenapproval.totalReceived
+                self.dataForm.totalReceivedRatio = result.finaPaymenapproval.totalReceivedRatio
+                self.dataForm.totalPayment = result.finaPaymenapproval.totalPayment
+                self.dataForm.scTotalReceived = result.finaPaymenapproval.scTotalReceived
+                self.dataForm.scTotalReceivedRatio = result.finaPaymenapproval.scTotalReceivedRatio
+                self.dataForm.paymentAmount = result.finaPaymenapproval.paymentAmount
+                self.dataForm.afterThisRatio = result.finaPaymenapproval.afterThisRatio
+                self.dataForm.leftoverAmount = result.finaPaymenapproval.leftoverAmount
+                self.dataForm.leftoverAmountRatio = result.finaPaymenapproval.leftoverAmountRatio
+                self.dataForm.receiveCompany = result.finaPaymenapproval.receiveCompany
+                self.dataForm.bankName = result.finaPaymenapproval.bankName
+                self.dataForm.bankAccountName = result.finaPaymenapproval.bankAccountName
+                self.dataForm.bankAccount = result.finaPaymenapproval.bankAccount
+                self.dataForm.contacter = result.finaPaymenapproval.contacter
+                self.dataForm.contacterTel = result.finaPaymenapproval.contacterTel
+                self.dataForm.approvalStatus = result.finaPaymenapproval.approvalStatus
+                self.dataForm.sign = result.finaPaymenapproval.sign
+                self.dataForm.signTime = result.finaPaymenapproval.signTime
+                self.dataForm.propose = result.finaPaymenapproval.propose
+                self.dataForm.result = result.finaPaymenapproval.result
+                self.dataForm.createtime = result.finaPaymenapproval.createtime
+                self.dataForm.updatetime = result.finaPaymenapproval.updatetime
+                self.dataForm.createuser = result.finaPaymenapproval.createuser
               })
             }
           })

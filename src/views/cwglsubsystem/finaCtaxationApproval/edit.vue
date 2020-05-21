@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px" label-position="right">
       <el-card shadow="never">
@@ -121,6 +128,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',applyAmount: '',province: '',city: '',district: '',
           address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: '',
@@ -161,7 +171,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -174,32 +193,29 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaCtaxationApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaCtaxationApproval.bId
-                this.dataForm.actTaskKey = result.finaCtaxationApproval.actTaskKey
-                this.dataForm.pId = result.finaCtaxationApproval.pId
-                this.dataForm.cId = result.finaCtaxationApproval.cId
-                this.dataForm.taxMethod = result.finaCtaxationApproval.taxMethod
-                this.dataForm.applyAmount = result.finaCtaxationApproval.applyAmount
-                this.dataForm.province = result.finaCtaxationApproval.province
-                this.dataForm.city = result.finaCtaxationApproval.city
-                this.dataForm.district = result.finaCtaxationApproval.district
-                this.dataForm.address = result.finaCtaxationApproval.address
-                this.dataForm.licenceCode = result.finaCtaxationApproval.licenceCode
-                this.dataForm.startDate = result.finaCtaxationApproval.startDate
-                this.dataForm.endDate = result.finaCtaxationApproval.endDate
-                this.dataForm.approvalStatus = result.finaCtaxationApproval.approvalStatus
-                this.dataForm.sign = result.finaCtaxationApproval.sign
-                this.dataForm.signTime = result.finaCtaxationApproval.signTime
-                this.dataForm.propose = result.finaCtaxationApproval.propose
-                this.dataForm.result = result.finaCtaxationApproval.result
-                this.dataForm.createtime = result.finaCtaxationApproval.createtime
-                this.dataForm.updatetime = result.finaCtaxationApproval.updatetime
-                this.dataForm.createuser = result.finaCtaxationApproval.createuser
-                this.dataForm.updateuser = result.finaCtaxationApproval.updateuser
-                this.dataForm.datastatus = result.finaCtaxationApproval.datastatus
+                self.dataForm.pId = result.finaCtaxationApproval.pId
+                self.dataForm.cId = result.finaCtaxationApproval.cId
+                self.dataForm.taxMethod = result.finaCtaxationApproval.taxMethod
+                self.dataForm.applyAmount = result.finaCtaxationApproval.applyAmount
+                self.dataForm.province = result.finaCtaxationApproval.province
+                self.dataForm.city = result.finaCtaxationApproval.city
+                self.dataForm.district = result.finaCtaxationApproval.district
+                self.dataForm.address = result.finaCtaxationApproval.address
+                self.dataForm.licenceCode = result.finaCtaxationApproval.licenceCode
+                self.dataForm.startDate = result.finaCtaxationApproval.startDate
+                self.dataForm.endDate = result.finaCtaxationApproval.endDate
+                self.dataForm.approvalStatus = result.finaCtaxationApproval.approvalStatus
+                self.dataForm.sign = result.finaCtaxationApproval.sign
+                self.dataForm.signTime = result.finaCtaxationApproval.signTime
+                self.dataForm.propose = result.finaCtaxationApproval.propose
+                self.dataForm.result = result.finaCtaxationApproval.result
+                self.dataForm.createtime = result.finaCtaxationApproval.createtime
+                self.dataForm.updatetime = result.finaCtaxationApproval.updatetime
+                self.dataForm.createuser = result.finaCtaxationApproval.createuser
               })
             }
           })

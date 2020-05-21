@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -167,6 +174,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           id: 0,
           pId: '',                                                                                                            plId: '',                                                                                                            remark: '',                                                                                                            sign: '',                                                                                                            signTime: '',                                                                                                                                                                                                                                                                                        },
@@ -190,7 +200,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -204,23 +223,20 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.plReamounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.plReamounapproval.bId
-                this.dataForm.actTaskKey = result.plReamounapproval.actTaskKey
-                this.dataForm.pId = result.plReamounapproval.pId
-                this.dataForm.plId = result.plReamounapproval.plId
-                this.dataForm.remark = result.plReamounapproval.remark
-                this.dataForm.sign = result.plReamounapproval.sign
-                this.dataForm.signTime = result.plReamounapproval.signTime
-                this.dataForm.propose = result.plReamounapproval.propose
-                this.dataForm.result = result.plReamounapproval.result
-                this.dataForm.approvalStatus = result.plReamounapproval.approvalStatus
-                this.dataForm.createtime = result.plReamounapproval.createtime
-                this.dataForm.updatetime = result.plReamounapproval.updatetime
-                this.dataForm.createuser = result.plReamounapproval.createuser
-                this.dataForm.updateuser = result.plReamounapproval.updateuser
-                this.dataForm.datastatus = result.plReamounapproval.datastatus
+                self.dataForm.pId = result.plReamounapproval.pId
+                self.dataForm.plId = result.plReamounapproval.plId
+                self.dataForm.remark = result.plReamounapproval.remark
+                self.dataForm.sign = result.plReamounapproval.sign
+                self.dataForm.signTime = result.plReamounapproval.signTime
+                self.dataForm.propose = result.plReamounapproval.propose
+                self.dataForm.result = result.plReamounapproval.result
+                self.dataForm.approvalStatus = result.plReamounapproval.approvalStatus
+                self.dataForm.createtime = result.plReamounapproval.createtime
+                self.dataForm.updatetime = result.plReamounapproval.updatetime
+                self.dataForm.createuser = result.plReamounapproval.createuser
               })
             }
           })
