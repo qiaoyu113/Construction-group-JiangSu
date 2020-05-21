@@ -37,8 +37,8 @@
     </el-tabs>
     <el-row :gutter="10" class="search-top-operate">
       <div class="t-form-footer">
-        <el-button type="primary" @click="doApprove()">提交</el-button>
-        <el-button type="danger" @click="doGoOriginator()">驳回</el-button>
+        <el-button type="primary" @click="doApprove()">同意</el-button>
+        <el-button type="danger" @click="doGoOriginator()">退回</el-button>
         <el-button type="danger" @click="doDecline()">拒绝</el-button>
         <el-button type="info" @click="">转交</el-button>
       </div>
