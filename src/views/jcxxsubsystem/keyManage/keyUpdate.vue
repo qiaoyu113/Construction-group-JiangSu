@@ -9,9 +9,16 @@
       <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -123,6 +130,7 @@
         docId: '',
         showButton: true,
         readOnly: false,
+        dialogVisible: false,
         dataForm: {
           id: '',
           actTaskKey: '',
@@ -214,6 +222,8 @@
     },
     activated() {
       const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -269,7 +279,6 @@
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
           tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

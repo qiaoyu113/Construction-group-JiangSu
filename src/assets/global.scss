@@ -320,4 +320,7 @@ input[readonly="readonly"] {
   .el-input.is-disabled .el-input__inner, .el-input.is-disabled .el-input__icon {
     cursor: pointer;
   }
+  .el-input__inner, .el-input__inner:focus, .el-textarea__inner, .el-textarea__inner:focus {
+    border-color: #DCDFE6 !important;
+  }
 }
