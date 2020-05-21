@@ -45,7 +45,7 @@
         </el-col>
         <el-col :span="8">
             <el-form-item prop="conCode" label="主合同状态：">
-              <t-dic-dropdown-select dicType="1260865980897300482"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conStatus"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="main_con_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conStatus"></t-dic-dropdown-select>
             </el-form-item>
         </el-col>
       </el-row>
@@ -99,7 +99,8 @@
               {
                 prop: 'conName',
                 label: '主合同名称',
-                sortable: true
+                sortable: true,
+                width: 120
               },
               {
                 prop: 'conModality',
@@ -112,7 +113,8 @@
               {
                 prop: 'conTotal',
                 label: '主合同额(万元)',
-                sortable: true
+                sortable: true,
+                width: 140
               },
               {
                 prop: 'conEndDate',
@@ -127,10 +129,11 @@
               {
                 prop: 'proSubCompany',
                 label: '所属于分公司',
-                sortable: true
+                sortable: true,
+                width: 130
               },
               {
-                prop: 'conStatus',
+                prop: 'conSigningDate',
                 label: '签订日期',
                 sortable: true,
                 formatter: (row, column, cellValue) => {
@@ -140,7 +143,10 @@
               {
                 prop: 'conStatus',
                 label: '主合同状态',
-                sortable: true
+                sortable: true,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('main_con_status', row.conStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               }
             ], // 需要展示的列
             defaultSort: {
