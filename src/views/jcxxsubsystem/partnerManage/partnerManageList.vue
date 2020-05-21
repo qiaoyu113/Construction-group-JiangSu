@@ -8,7 +8,7 @@
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-      <el-row :gutter="10" class="search-top-operate">
+        <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
         </el-row>
@@ -25,9 +25,9 @@
           </el-col>
           <el-col :span="8" class="search-date-picker">
             <el-form-item label="入库时间" prop="dateRange">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
-                                       @change="onStartDateRangeChanged">
-              </t-datetime-range-picker>
+              <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.createTime" type="date"
+                                 :readOnly="readOnly">
+              </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -60,6 +60,13 @@
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data() {
       return {
         checkededRows: [],
@@ -71,8 +78,8 @@
             serviceInstanceInputParameters: {
               companyName: null,
               legalPerson: null,
-              litigation: null,
-              dateRange: ''
+              isLitigation: null,
+              createTime: ''
             }
           },
           grid: {
@@ -101,23 +108,25 @@
                 sortable: false
               },
               {
-                prop: '',
+                prop: 'createTime',
                 label: '入库时间',
-                sortable: false
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.createTime, 'YYYY-MM-DD');
+                }
               },
               {
-                prop: '',
+                prop: 'amountMoney',
                 label: '合同履约保证金',
                 sortable: false
               },
 
               {
-                prop: '',
+                prop: 'isLitigation',
                 label: '有无诉讼',
                 sortable: false
               },
               {
-                prop: '',
+                prop: 'depositType',
                 label: '有无房产或其他抵押',
                 sortable: false
               },
