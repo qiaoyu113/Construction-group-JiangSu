@@ -5,7 +5,7 @@
         <div class="title">弹出框模板</div>
       </el-col>
     </el-row>
-    <el-form :model="dataForm" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="100px">
+    <el-form :model="dataForm" :rules="dataRules" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="100px">
       <el-card shadow="never">
         <div slot="header">
           <t-sub-title :title="'弹出框'"></t-sub-title>
@@ -13,13 +13,19 @@
         <div>
           <el-row :gutter="20">
             <el-col :span="8">
-              <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+              <el-form-item label="项目选择" prop="projectId">
+                <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+              </el-form-item>
             </el-col>
             <el-col :span="8">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.userId" @selectedUser="getSelectedUser"></t-handler-select>
+              <el-form-item label="经办人" prop="userId">
+                <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="dataForm.userId" @selectedUser="getSelectedUser"></t-handler-select>
+              </el-form-item>
             </el-col>
             <el-col :span="8">
-              <t-partner-select label="联营公司名称" placeholder="选择一个联营公司" v-model="dataForm.companyId" @selectedPartner="getSelectedPartner"></t-partner-select>
+              <el-form-item label="联营公司名称" prop="companyId">
+                <t-partner-select placeholder="选择一个联营公司" v-model="dataForm.companyId" @selectedPartner="getSelectedPartner"></t-partner-select>
+              </el-form-item>
             </el-col>
           </el-row>
         </div>
@@ -45,7 +51,18 @@
           projectId: '',
           userId: '',
           companyId: ''
-				},
+        },
+        dataRules: {
+          projectId: [
+            {required: true, message: '项目id不能为空', trigger: 'change'},
+          ],
+          userId: [
+            {required: true, message: '用户id不能为空', trigger: 'blur'},
+          ],
+          companyId: [
+            {required: true, message: '公司id不能为空', trigger: 'blur'},
+          ],
+        }
 			}
 		},
 		components: {},
@@ -79,6 +96,8 @@
       },
 			consoleData() {
         console.log('dataForm', this.dataForm)
+        console.log('self.$refs', this.$refs)
+        console.log(this.$refs['ruleForm'].validate())
       }
 		}
 	}
