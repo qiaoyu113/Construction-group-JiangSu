@@ -1,5 +1,10 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目验收审批列表</div>
+      </el-col>
+    </el-row>
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
             :model="gridOptions.dataSource.serviceInstanceInputParameters">

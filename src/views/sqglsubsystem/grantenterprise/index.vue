@@ -5,37 +5,48 @@
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">已入甲方企业列表</div>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="信用代码：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="信用代码" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="企业名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="企业名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="企业地主：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="企业地主" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="企业性质：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="企业性质" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办人：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="审查状态：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="审查状态" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -67,7 +78,7 @@
           startDateRange: null,
           gridOptions: {
             dataSource: {
-              /*serviceInstance: tapp.services.tGrantAuthbidApproval.getPagedList,*/
+              serviceInstance: tapp.services.tGrantContractApproval.getPagedList,
               serviceInstanceInputParameters: {
                 searchKey: null,
                 processDefinationKey: null,
@@ -80,55 +91,55 @@
               fit: true, // 列的宽度是否自撑开
               columns: [
                 {
-                  prop: 'bId',
+                  prop: 'companyName',
                   label: '企业名称',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'actTaskKey',
+                  prop: 'creditCode',
                   label: '统一社会信用代码',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'pId',
+                  prop: 'companyAttr',
                   label: '企业性质',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'companyName',
+                  prop: 'companyAddress',
                   label: '企业地址',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'creditCode',
+                  prop: 'legalPerson',
                   label: '法人代表',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'companyAddress',
+                  prop: 'intentionProject',
                   label: '意向项目',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'companyAttr',
+                  prop: 'proBuildArea',
                   label: '项目规模',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'legalPerson',
+                  prop: 'sign',
                   label: '经办人',
                   sortable: true,
                   minWidth: 120,
                 },
                 {
-                  prop: 'intentionProject',
+                  prop: 'approvalStatus',
                   label: '审批状态',
                   sortable: true,
                   minWidth: 120,

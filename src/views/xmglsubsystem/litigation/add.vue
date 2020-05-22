@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目诉讼登记</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-bell" @click="doSave()">保存并通知</el-button>
       <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="">通知流程图</el-button>
@@ -10,11 +15,7 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
-              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-            </el-input>
-          </el-form-item>
+          <t-project-select label="项目选择" placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
@@ -64,12 +65,12 @@
       <el-card shadow="never">
       <t-sub-title :title="'新诉讼信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="4">
+        <el-col :span="8">
           <el-form-item prop="isLitigation" label="标记诉讼：">
             <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.isLitigation" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-form-item prop="owingtoUnionCompany" label="与联营单位有关：">
             <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.owingtoUnionCompany" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
@@ -149,65 +150,17 @@
           datastatus: ''
         },
         dataRule: {
-          bId: [
-            {required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
-          pId: [
-            {required: true, message: '项目id不能为空', trigger: 'blur'}
-          ],
           isLitigation: [
-            {required: true, message: '是否标记诉讼（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否标记诉讼不能为空', trigger: 'blur'}
           ],
           owingtoUnionCompany: [
-            {required: true, message: '是否与联营单位有关（字典表）不能为空', trigger: 'blur'}
-          ],
-          unionCompany: [
-            {required: true, message: '联营公司标识不能为空', trigger: 'blur'}
+            {required: true, message: '是否与联营单位有关不能为空', trigger: 'blur'}
           ],
           freezingAmount: [
             {required: true, message: '冻结金额不能为空', trigger: 'blur'}
           ],
           remark: [
             {required: true, message: '说明不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          litigationStatus: [
-            {required: true, message: '诉讼状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          cancelTime: [
-            {required: true, message: '取消时间不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
@@ -259,6 +212,17 @@
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+      getSelectedProject(project) {
+        console.log('current project', project);
+        this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proConstructCompany = project.proConstructCompany;
+        this.dataForm.proContractAttr = project.proContractAttr;
+        this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proType = project.proType;
+        this.dataForm.proRunMode = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
       },
       // 表单提交
       doSave () {
