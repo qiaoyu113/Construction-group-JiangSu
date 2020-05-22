@@ -78,7 +78,6 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
-             <!-- <el-input readonly v-model="dataForm.grantUser"></el-input>-->
               <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
@@ -134,10 +133,20 @@
         readOnly: false,
         dataForm: {
           proName: '',
+          proSubCompany: '',
+          proBusDept: '',
+          proConstructCompany: '',
+          proContractAttr: '',
+          proTotalInvestment: '',
+          proType: '',
+          proRunMode: '',
+          proBuildArea: '',
           useScenes: '',
+          grantUser: '',
           grantContent: '',
           sign: '',
           signTime: '',
+          remark: ''
         },
         dataRule: {
           proName: [
@@ -157,7 +166,7 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  
+        currentUser: state => state.app.user,
       })
     },
     methods: {
