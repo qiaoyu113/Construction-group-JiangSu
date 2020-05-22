@@ -76,6 +76,13 @@
   import {mapState} from 'vuex'
 
   export default {
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
