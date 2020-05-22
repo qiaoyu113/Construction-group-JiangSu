@@ -20,8 +20,8 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="bankAccount" label="银行账号">
-            <el-input :readonly="true" v-model="dataForm.bankAccount"></el-input>
+          <el-form-item prop="bankAccount" label="银行账号：">
+            <t-bank-select :readonly="true" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -52,8 +52,10 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="payoffMoney" label="发放金额">
-            <el-input-number v-model="dataForm.payoffMoney" :precision="2" ></el-input-number>
+          <el-form-item prop="payoffMoney" label="发放金额" >
+            <t-currency-input v-model="dataForm.payoffMoney" :precision="2" :readOnly="readOnly">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -158,6 +160,20 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目
+      selectedData(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.fwaId = data.id
+        this.dataForm.pId = data.pId
+        this.dataForm.bankName = data.bankName
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.bankAddress = data.bankAddress
+        this.dataForm.bankAccountName = data.bankAccountName
+        this.dataForm.bankAccount = data.bankAccount
+        this.dataForm.openTime = data.openTime
+
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
