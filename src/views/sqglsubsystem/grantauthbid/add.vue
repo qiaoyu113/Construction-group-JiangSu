@@ -70,15 +70,17 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-row :gutter="24">
+        <el-row :gutter="20">
           <el-col :span="16">
             <el-form-item prop="useScenes" label="授权用途：">
-              <t-dic-radio-select dicType="grant_use_type" v-model="dataForm.useScenes" class="el-radio-group-vertical"></t-dic-radio-select>
+              <t-dic-radio-select dicType="grant_use_type" v-model="dataForm.useScenes"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
-              <el-input readonly v-model="dataForm.grantUser"></el-input>
+             <!-- <el-input readonly v-model="dataForm.grantUser"></el-input>-->
+              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -129,10 +131,13 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           proName: '',
           useScenes: '',
-          grantContent: ''
+          grantContent: '',
+          sign: '',
+          signTime: '',
         },
         dataRule: {
           proName: [
@@ -152,7 +157,8 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,  
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -160,35 +166,36 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tGrantAuthbidApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tGrantAuthbidApproval.bId
-                this.dataForm.actTaskKey = result.tGrantAuthbidApproval.actTaskKey
-                this.dataForm.pcId = result.tGrantAuthbidApproval.pcId
-                this.dataForm.useScenes = result.tGrantAuthbidApproval.useScenes
-                this.dataForm.grantUser = result.tGrantAuthbidApproval.grantUser
-                this.dataForm.grantContent = result.tGrantAuthbidApproval.grantContent
-                this.dataForm.remark = result.tGrantAuthbidApproval.remark
-                this.dataForm.sign = result.tGrantAuthbidApproval.sign
-                this.dataForm.signTime = result.tGrantAuthbidApproval.signTime
-                this.dataForm.propose = result.tGrantAuthbidApproval.propose
-                this.dataForm.result = result.tGrantAuthbidApproval.result
-                this.dataForm.approvalStatus = result.tGrantAuthbidApproval.approvalStatus
-                this.dataForm.createtime = result.tGrantAuthbidApproval.createtime
-                this.dataForm.updatetime = result.tGrantAuthbidApproval.updatetime
-                this.dataForm.createuser = result.tGrantAuthbidApproval.createuser
-                this.dataForm.updateuser = result.tGrantAuthbidApproval.updateuser
-                this.dataForm.datastatus = result.tGrantAuthbidApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pcId = result.pcId
+                self.dataForm.useScenes = result.useScenes
+                self.dataForm.grantUser = result.grantUser
+                self.dataForm.grantContent = result.grantContent
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate()
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
@@ -202,6 +209,8 @@
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.proName = project.proName;
+        this.dataForm.pcId = project.pcId;
       },
       // 表单提交
       doSave() {

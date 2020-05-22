@@ -99,11 +99,12 @@
                 <el-col :span="12">
                   <el-form-item label="身份证-性别" prop="customerCardNOSexId" verify class="is-required">
                     <t-dic-dropdown-select dicType="public_sex" v-model="docEntity.customerCardNOSexId"
-                                          :readOnly="readOnly"></t-dic-dropdown-select>
+                                           :readOnly="readOnly"></t-dic-dropdown-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="身份证-家庭地址" prop="customerCardNOAddress" verify :maxLength="200" class="is-required">
+                  <el-form-item label="身份证-家庭地址" prop="customerCardNOAddress" verify :maxLength="200"
+                                class="is-required">
                     <t-input v-model="docEntity.customerCardNOAddress" :readOnly="readOnly"></t-input>
                   </el-form-item>
                 </el-col>
@@ -125,7 +126,8 @@
                 <el-col :span="12">
                   <el-form-item label="数字输入(8位小数)" prop="loanMoneyAmount2" verify class="is-required">
                     <!-- precision为小数位数，默认为2 -->
-                    <t-number-input v-model="docEntity.loanMoneyAmount2" :precision="8" :readOnly="readOnly"></t-number-input>
+                    <t-number-input v-model="docEntity.loanMoneyAmount2" :precision="8"
+                                    :readOnly="readOnly"></t-number-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -139,7 +141,8 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="金额输入-万" prop="financeFamilyTotalAsset" verify class="is-required">
-                    <t-currency-input v-model="docEntity.financeFamilyTotalAsset" :unit-value="10000" :readOnly="readOnly">
+                    <t-currency-input v-model="docEntity.financeFamilyTotalAsset" :unit-value="10000"
+                                      :readOnly="readOnly">
                       <span slot="append">万</span>
                     </t-currency-input>
                   </el-form-item>
@@ -148,7 +151,8 @@
               <el-row :gutter="20">
                 <el-col :span="12">
                   <el-form-item label="百分比输入" prop="financeReturnMoneyLoanRate" verify class="is-required">
-                    <t-percent-input v-model="docEntity.financeReturnMoneyLoanRate" :readOnly="readOnly"></t-percent-input>
+                    <t-percent-input v-model="docEntity.financeReturnMoneyLoanRate"
+                                     :readOnly="readOnly"></t-percent-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -186,7 +190,8 @@
                 <el-col :span="12">
                   <el-form-item label="人员弹出选择" prop="trackingPersonInfoMRId" verify :maxLength="50" class="is-required">
                     <base-user-select role-category="base_rolecategory_trackingpersoninfomr"
-                                      v-model="docEntity.trackingPersonInfoMRId" :text="docEntity.trackingPersonInfoMRName"
+                                      v-model="docEntity.trackingPersonInfoMRId"
+                                      :text="docEntity.trackingPersonInfoMRName"
                                       placeholder="请选择" :readOnly="readOnly">
                     </base-user-select>
                   </el-form-item>
@@ -211,14 +216,14 @@
                 <el-col :span="12">
                   <el-form-item label="性别-下拉-单选" prop="sexId" verify class="is-required">
                     <t-dic-dropdown-select dicType="public_sex" v-model="docEntity.sexId"
-                                          :readOnly="readOnly"></t-dic-dropdown-select>
+                                           :readOnly="readOnly"></t-dic-dropdown-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="婚姻状况-下拉-多选" prop="maritalStatusIdList" verify class="is-required">
                     <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true"
-                                          v-model="docEntity.maritalStatusIdList"
-                                          :readOnly="readOnly"></t-dic-dropdown-select>
+                                           v-model="docEntity.maritalStatusIdList"
+                                           :readOnly="readOnly"></t-dic-dropdown-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -226,7 +231,8 @@
                 <el-col :span="8">
                   <el-form-item label="所属地区" prop="region" class="is-required">
                     <!-- v-model 请绑定当前页面的对应值 -->
-                    <t-region-picker v-model="docEntity.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+                    <t-region-picker v-model="docEntity.province" @province="getProvince" @city="getCity"
+                                     :readOnly="readOnly"></t-region-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -234,7 +240,7 @@
                 <el-col :span="24">
                   <el-form-item label="学历-复选" prop="educationalLevelIdList" verify class="is-required">
                     <t-dic-checkbox-select dicType="public_educationallevel" v-model="docEntity.educationalLevelIdList"
-                                          :readOnly="readOnly"></t-dic-checkbox-select>
+                                           :readOnly="readOnly"></t-dic-checkbox-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -251,13 +257,13 @@
                 <el-col :span="12">
                   <el-form-item label="树形单选" prop="socialSecurityId" verify class="is-required">
                     <t-dic-tree-select dicType="base_region" v-model="docEntity.socialSecurityId"
-                                      :readOnly="readOnly"></t-dic-tree-select>
+                                       :readOnly="readOnly"></t-dic-tree-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="树形多选" prop="companyWorkTermIdList" verify class="is-required">
                     <t-dic-multi-tree-select dicType="base_region" v-model="docEntity.companyWorkTermIdList"
-                                            :readOnly="readOnly"></t-dic-multi-tree-select>
+                                             :readOnly="readOnly"></t-dic-multi-tree-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -288,7 +294,7 @@
                 <el-col :span="24">
                   <el-form-item label="多图片上传">
                     <base-asset-image-management ref="assetManagement" assetCategory="image" :businessDocId="docId"
-                                                list-type="picture-card">
+                                                 list-type="picture-card">
                     </base-asset-image-management>
                   </el-form-item>
                 </el-col>
@@ -297,7 +303,7 @@
                 <el-col :span="24">
                   <el-form-item label="单图片上传">
                     <base-asset-image-management ref="assetManagement" assetCategory="image2" :businessDocId="docId"
-                                                list-type="picture-card" :limit="1">
+                                                 list-type="picture-card" :limit="1">
                     </base-asset-image-management>
                   </el-form-item>
                 </el-col>
@@ -335,7 +341,8 @@
                         </template>
                       </t-edit-grid-column>
 
-                      <t-edit-grid-column prop="loanMoneyAmount" label="数字输入" verify width="200" class-name="is-required">
+                      <t-edit-grid-column prop="loanMoneyAmount" label="数字输入" verify width="200"
+                                          class-name="is-required">
                         <template slot-scope="scope">
                           <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
                         </template>
@@ -361,7 +368,7 @@
                                           class-name="is-required">
                         <template slot-scope="scope">
                           <t-percent-input v-model="scope.row.financeReturnMoneyLoanRate"
-                                          :readOnly="readOnly"></t-percent-input>
+                                           :readOnly="readOnly"></t-percent-input>
 
                           </t-currency-input>
                         </template>
@@ -375,7 +382,8 @@
                       <t-edit-grid-column prop="loanApplySumbitDate" label="日期时间输入" verify min-width="200"
                                           class-name="is-required">
                         <template slot-scope="scope">
-                          <t-datetime-picker v-model="scope.row.loanApplySumbitDate" type="datetime" :readOnly="readOnly">
+                          <t-datetime-picker v-model="scope.row.loanApplySumbitDate" type="datetime"
+                                             :readOnly="readOnly">
                           </t-datetime-picker>
                         </template>
                       </t-edit-grid-column>
@@ -394,15 +402,15 @@
                       <t-edit-grid-column prop="sexId" label="性别-下拉-单选" verify min-width="160" class-name="is-required">
                         <template slot-scope="scope">
                           <t-dic-dropdown-select dicType="public_sex" v-model="scope.row.sexId"
-                                                :readOnly="readOnly"></t-dic-dropdown-select>
+                                                 :readOnly="readOnly"></t-dic-dropdown-select>
                         </template>
                       </t-edit-grid-column>
                       <t-edit-grid-column prop="maritalStatusIdList" label="婚姻状况-下拉-多选" verify min-width="160"
                                           class-name="is-required">
                         <template slot-scope="scope">
                           <t-dic-dropdown-select dicType="public_maritalstatus" :multiple="true"
-                                                v-model="scope.row.maritalStatusIdList"
-                                                :readOnly="readOnly"></t-dic-dropdown-select>
+                                                 v-model="scope.row.maritalStatusIdList"
+                                                 :readOnly="readOnly"></t-dic-dropdown-select>
                         </template>
                       </t-edit-grid-column>
 
@@ -410,8 +418,8 @@
                                           class-name="is-required">
                         <template slot-scope="scope">
                           <t-dic-checkbox-select dicType="public_educationallevel" class="el-checkbox-group-vertical"
-                                                v-model="scope.row.educationalLevelIdList"
-                                                :readOnly="readOnly"></t-dic-checkbox-select>
+                                                 v-model="scope.row.educationalLevelIdList"
+                                                 :readOnly="readOnly"></t-dic-checkbox-select>
                         </template>
                       </t-edit-grid-column>
 
@@ -426,14 +434,14 @@
                                           class-name="is-required">
                         <template slot-scope="scope">
                           <t-dic-tree-select dicType="base_region" v-model="scope.row.socialSecurityId"
-                                            :readOnly="readOnly"></t-dic-tree-select>
+                                             :readOnly="readOnly"></t-dic-tree-select>
                         </template>
                       </t-edit-grid-column>
                       <t-edit-grid-column prop="companyWorkTermIdList" label="树形多选" verify min-width="160"
                                           class-name="is-required">
                         <template slot-scope="scope">
                           <t-dic-multi-tree-select dicType="base_region" v-model="scope.row.companyWorkTermIdList"
-                                                  :readOnly="readOnly"></t-dic-multi-tree-select>
+                                                   :readOnly="readOnly"></t-dic-multi-tree-select>
                         </template>
                       </t-edit-grid-column>
 
@@ -454,7 +462,7 @@
             </div>
             <div>
               <t-extend-form ref="extendForm" v-model="extendFields" definition-id="pl_loan_doc_enter"
-                            :readOnly="readOnly"></t-extend-form>
+                             :readOnly="readOnly"></t-extend-form>
             </div>
           </el-card>
         </el-form>
@@ -487,305 +495,305 @@
 </template>
 
 <script>
-	import util from '@/util'
-	import moment from 'moment'
-	import baseView from '@/base/baseView'
+  import util from '@/util'
+  import moment from 'moment'
+  import baseView from '@/base/baseView'
 
-	export default {
-		extends: baseView,
-		data() {
-			return {
-				readOnly: false,
-				tabActive: 'baseInfo',
+  export default {
+    extends: baseView,
+    data () {
+      return {
+        readOnly: false,
+        tabActive: 'baseInfo',
         docId: null,
         dialogVisible: false,
-				docEntity: {
-					id: null,
-					gmtVersion: -1,
-					customerCode: null,
-					customerName: null,
-					customerCardNO: null,
-					loanTermCount: null,
-					loanMoneyAmount: null,
-					loanMoneyAmount2: null,
-					originalLoanMoneyAmount: null,
-					financeFamilyTotalAsset: null,
-					financeReturnMoneyLoanRate: null,
-					loanApplyDate: null,
-					loanApplySumbitDate: null,
-					time1: null,
-					time2: null,
-					trackingPersonInfoMRId: null,
-					sexId: null,
-					maritalStatusIds: null,
-					educationalLevelIds: null,
-					jobId: null,
-					socialSecurityId: null,
-					companyWorkTermIds: null,
-					activited: false,
-					remark: null,
-					trackingPersonInfoMRName: null,
-					maritalStatusIdList: null,
-					educationalLevelIdList: null,
-					companyWorkTermIdList: null,
-					customerCardNOBirthday: null,
-					customerCardNOAge: null,
-					customerCardNOSexId: null,
+        docEntity: {
+          id: null,
+          gmtVersion: -1,
+          customerCode: null,
+          customerName: null,
+          customerCardNO: null,
+          loanTermCount: null,
+          loanMoneyAmount: null,
+          loanMoneyAmount2: null,
+          originalLoanMoneyAmount: null,
+          financeFamilyTotalAsset: null,
+          financeReturnMoneyLoanRate: null,
+          loanApplyDate: null,
+          loanApplySumbitDate: null,
+          time1: null,
+          time2: null,
+          trackingPersonInfoMRId: null,
+          sexId: null,
+          maritalStatusIds: null,
+          educationalLevelIds: null,
+          jobId: null,
+          socialSecurityId: null,
+          companyWorkTermIds: null,
+          activited: false,
+          remark: null,
+          trackingPersonInfoMRName: null,
+          maritalStatusIdList: null,
+          educationalLevelIdList: null,
+          companyWorkTermIdList: null,
+          customerCardNOBirthday: null,
+          customerCardNOAge: null,
+          customerCardNOSexId: null,
           customerCardNOAddress: null,
           province: '',
           city: ''
-				},
-				input: '',
-				formInfo: '',
+        },
+        input: '',
+        formInfo: '',
 
-				checkededRows: [],
-				processDefinationlist: [],
-				startDateRange: null,
-				gridOptions: {
-					dataSource: {
-						serviceInstance: tapp.services.proInfo.getPagedList,
-						serviceInstanceInputParameters: {
-							searchKey: null,
-							processDefinationKey: null,
-							dateRange: ''
-						}
-					},
-					grid: {
-						offsetHeight: 125, //125:查询部分高度
-						mutiSelect: false,
-						columns: [{
-								prop: 'proCode',
-								label: '项目备案编号',
-								sortable: true
-							},
-							{
-								prop: 'proName',
-								label: '项目名称',
-								sortable: true
-							},
-							{
-								prop: 'proConstructCompany',
-								label: '备案单位',
-								sortable: true
-							},
-							{
-								prop: 'proType',
-								label: '工程类别',
-								sortable: true
-							},
-							{
-								prop: 'proTotalInvestment',
-								label: '投资金额',
-								sortable: true
-							},
+        checkededRows: [],
+        processDefinationlist: [],
+        startDateRange: null,
+        gridOptions: {
+          dataSource: {
+            serviceInstance: tapp.services.proInfo.getPagedList,
+            serviceInstanceInputParameters: {
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
+            }
+          },
+          grid: {
+            offsetHeight: 125, //125:查询部分高度
+            mutiSelect: false,
+            columns: [{
+              prop: 'proCode',
+              label: '项目备案编号',
+              sortable: true
+            },
+              {
+                prop: 'proName',
+                label: '项目名称',
+                sortable: true
+              },
+              {
+                prop: 'proConstructCompany',
+                label: '备案单位',
+                sortable: true
+              },
+              {
+                prop: 'proType',
+                label: '工程类别',
+                sortable: true
+              },
+              {
+                prop: 'proTotalInvestment',
+                label: '投资金额',
+              sortable: true
+              },
 
-							{
-								prop: 'proSubType',
-								label: '类别子项',
-								sortable: true
-							},
-							{
-								prop: 'proBuildUnit',
-								label: '建设单位',
-								sortable: true
-							},
-							{
-								prop: 'proBuildArea',
-								label: '项目地址',
-								sortable: true
-							},
-							{
-								prop: 'proRunMode',
-								label: '经营方式',
-								sortable: true
-							},
-							{
-								prop: 'proManager',
-								label: '项目跟踪人',
-								sortable: true
-							},
-						], // 需要展示的列
-						defaultSort: {
-							prop: 'id',
-							order: 'descending'
-						},
-					}
-				},
+              {
+                prop: 'proSubType',
+                label: '类别子项',
+                sortable: true
+              },
+              {
+                prop: 'proBuildUnit',
+                label: '建设单位',
+                sortable: true
+              },
+              {
+                prop: 'proBuildArea',
+                label: '项目地址',
+                sortable: true
+              },
+              {
+                prop: 'proRunMode',
+                label: '经营方式',
+                sortable: true
+              },
+              {
+                prop: 'proManager',
+                label: '项目跟踪人',
+                sortable: true
+              },
+            ], // 需要展示的列
+            defaultSort: {
+              prop: 'id',
+              order: 'descending'
+            },
+          }
+        },
 
-				customerRelationGridOptions: {
-					dataSource: [],
-					grid: {
-						offsetHeight: 36, // 36:查询部分高度
-						defaultSort: {
-							prop: 'id',
-							order: 'ascending'
-						}
-					}
-				},
-				baiduUrl: 'http://wwww.baidu.com',
-				extendFields: {},
-				assetCategoryClassifications: ['pl_loanapplyInput'],
-				formAction: 0, // 0：add,1:edit
-				exportTemplateUrl: null,
-				dialogTableVisible: false,
-				dialogFormVisible: false,
-				form: {
-					name: '',
-					region: '',
-					date1: '',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
-				},
-				formLabelWidth: '120px'
-			}
-		},
-		components: {},
-		created() {
+        customerRelationGridOptions: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            defaultSort: {
+              prop: 'id',
+              order: 'ascending'
+            }
+          }
+        },
+        baiduUrl: 'http://wwww.baidu.com',
+        extendFields: {},
+        assetCategoryClassifications: ['pl_loanapplyInput'],
+        formAction: 0, // 0：add,1:edit
+        exportTemplateUrl: null,
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '120px'
+      }
+    },
+    components: {},
+    created () {
 
-		},
-		watch: {
-			'docEntity.customerCardNO': {
-				handler(newValue, oldValue) {
-					if (newValue) {
-						let cardNoInfo = util.parseIdCard(newValue)
-						if (cardNoInfo && cardNoInfo.valid) {
-							this.docEntity.customerCardNOBirthday = cardNoInfo.birthdayString
-							this.docEntity.customerCardNOAge = cardNoInfo.age
-							this.docEntity.customerCardNOSexId = cardNoInfo.gender == 'M' ? 'public_sex_m' : 'public_sex_f'
-							this.docEntity.customerCardNOAddress = cardNoInfo.address
-						}
-					}
-				},
-				deep: true
-			}
-		},
-		activated() {
-			this.$nextTick((_) => {
-				if (this.routeChanged) {
-					this.load()
-				}
-			})
-		},
-		computed: {},
-		methods: {
-			handleTabClick(tab, event) {
-				if (!tab) {
-					return
-				}
-				this.tabActive = tab.name
-			},
-			load() {
-				this.docId = this.$route.query.id
-				this.$util.ui.title(this.title)
-
-				this.exportTemplateUrl = window.SITE_CONFIG['serverUrl'] + '/authapi/pl_loanenter/export?loanDocId=' + this.docId
-				let self = this
-				if (self.docId) {
-					tapp.services.pL_LoanEnter.get(self.docId).then(function(result) {
-						self.$refs.ruleForm.resetFields()
-						self.docEntity = result
-						if (!self.docEntity.loanApplyDate) {
-							self.docEntity.loanApplyDate = self.$util.datetimeFormat(moment())
-						}
-						self.customerRelationGridOptions.dataSource = result.customerRelations
-						self.extendFields = result.extendFields
-
-						delete self.docEntity.customerRelations
-						delete self.docEntity.extendFields
-
-						self.formAction = 1
-						self.clearValidate()
-					})
-				} else {
-					tapp.services.base_Common.getSUIds(1).then(function(result) {
-						// data恢复初始化数据
-						self.resetData()
-						self.docId = result[0]
-						self.docEntity = {
-							id: self.docId,
-							loanApplyDate: self.$util.datetimeFormat(moment())
-						}
-						self.customerRelationGridOptions.dataSource = []
-						self.formAction = 0
-						self.clearValidate()
-					})
-				}
-			},
-			clearValidate() {
-				this.$nextTick((_) => {
-					this.$refs.customerRelationGrid.clearValidate()
-					this.$refs.ruleForm.clearValidate()
-					this.$refs.extendForm.clearValidate()
-				})
-			},
-			doSave() {
-				let self = this
-				let selfValidPromise = self.$refs['ruleForm'].validate()
-				let customerRelationGridValidPromise = this.$refs.customerRelationGrid.validate()
-				let extendFormValidPromise = this.$refs.extendForm.validate()
-
-				Promise.all([selfValidPromise, customerRelationGridValidPromise, extendFormValidPromise])
-					.then(resultList => {
-						let customerRelationData = self.$refs.customerRelationGrid.getData()
-
-						let model = {
-							...self.docEntity
-						}
-						model.customerRelations = customerRelationData.list
-						model.customerRelationDeleteIdList = customerRelationData.deletedIdList
-						model.extendFields = self.extendFields
-
-						tapp.services.pL_LoanEnter.save(model).then(function(result) {
-							self.docEntity = Object.assign({}, self.docEntity, result)
-							self.formAction = 1
-							self.$notify.success({
-								title: '操作成功！',
-								message: '保存成功！'
-							})
-						})
-					}).catch(function(e) {
-						self.$notify.error({
-							title: '错误',
-							message: '系统输入验证失败！'
-						})
-						return false
-					})
-			},
-			doDelete() {
-				let self = this
-				self.$confirm('此操作将永久删除, 是否继续?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					tapp.services.pL_LoanEnter.delete(self.docId).then(function(result) {
-						self.$util.closeCurrentTabNav('pl_loanapplyInputList')
-						self.$notify.success({
-							title: '系统成功',
-							message: '删除成功！'
-						})
-					})
-				})
-			},
-			proChoose() {
-				//传送到父组件
-				this.formInfo = this.$refs.multipleTable.selection;
-				this.$emit('formInfo', this.formInfo);
-				console.log(this.formInfo);
+    },
+    watch: {
+      'docEntity.customerCardNO': {
+        handler (newValue, oldValue) {
+          if (newValue) {
+            let cardNoInfo = util.parseIdCard(newValue)
+            if (cardNoInfo && cardNoInfo.valid) {
+              this.docEntity.customerCardNOBirthday = cardNoInfo.birthdayString
+              this.docEntity.customerCardNOAge = cardNoInfo.age
+              this.docEntity.customerCardNOSexId = cardNoInfo.gender == 'M' ? 'public_sex_m' : 'public_sex_f'
+              this.docEntity.customerCardNOAddress = cardNoInfo.address
+            }
+          }
+        },
+        deep: true
+      }
+    },
+    activated () {
+      this.$nextTick((_) => {
+        if (this.routeChanged) {
+          this.load()
+        }
+      })
+    },
+    computed: {},
+    methods: {
+      handleTabClick (tab, event) {
+        if (!tab) {
+          return
+        }
+        this.tabActive = tab.name
       },
-      getProvince(province) {
+      load () {
+        this.docId = this.$route.query.id
+        this.$util.ui.title(this.title)
+
+        this.exportTemplateUrl = window.SITE_CONFIG['serverUrl'] + '/authapi/pl_loanenter/export?loanDocId=' + this.docId
+        let self = this
+        if (self.docId) {
+          tapp.services.pL_LoanEnter.get(self.docId).then(function (result) {
+            self.$refs.ruleForm.resetFields()
+            self.docEntity = result
+            if (!self.docEntity.loanApplyDate) {
+              self.docEntity.loanApplyDate = self.$util.datetimeFormat(moment())
+            }
+            self.customerRelationGridOptions.dataSource = result.customerRelations
+            self.extendFields = result.extendFields
+
+            delete self.docEntity.customerRelations
+            delete self.docEntity.extendFields
+
+            self.formAction = 1
+            self.clearValidate()
+          })
+        } else {
+          tapp.services.base_Common.getSUIds(1).then(function (result) {
+            // data恢复初始化数据
+            self.resetData()
+            self.docId = result[0]
+            self.docEntity = {
+              id: self.docId,
+              loanApplyDate: self.$util.datetimeFormat(moment())
+            }
+            self.customerRelationGridOptions.dataSource = []
+            self.formAction = 0
+            self.clearValidate()
+          })
+        }
+      },
+      clearValidate () {
+        this.$nextTick((_) => {
+          this.$refs.customerRelationGrid.clearValidate()
+          this.$refs.ruleForm.clearValidate()
+          this.$refs.extendForm.clearValidate()
+        })
+      },
+      doSave () {
+        let self = this
+        let selfValidPromise = self.$refs['ruleForm'].validate()
+        let customerRelationGridValidPromise = this.$refs.customerRelationGrid.validate()
+        let extendFormValidPromise = this.$refs.extendForm.validate()
+
+        Promise.all([selfValidPromise, customerRelationGridValidPromise, extendFormValidPromise])
+          .then(resultList => {
+            let customerRelationData = self.$refs.customerRelationGrid.getData()
+
+            let model = {
+              ...self.docEntity
+            }
+            model.customerRelations = customerRelationData.list
+            model.customerRelationDeleteIdList = customerRelationData.deletedIdList
+            model.extendFields = self.extendFields
+
+            tapp.services.pL_LoanEnter.save(model).then(function (result) {
+              self.docEntity = Object.assign({}, self.docEntity, result)
+              self.formAction = 1
+              self.$notify.success({
+                title: '操作成功！',
+                message: '保存成功！'
+              })
+            })
+          }).catch(function (e) {
+          self.$notify.error({
+            title: '错误',
+            message: '系统输入验证失败！'
+          })
+          return false
+        })
+      },
+      doDelete () {
+        let self = this
+        self.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          tapp.services.pL_LoanEnter.delete(self.docId).then(function (result) {
+            self.$util.closeCurrentTabNav('pl_loanapplyInputList')
+            self.$notify.success({
+              title: '系统成功',
+              message: '删除成功！'
+            })
+          })
+        })
+      },
+      proChoose () {
+        //传送到父组件
+        this.formInfo = this.$refs.multipleTable.selection
+        this.$emit('formInfo', this.formInfo)
+        console.log(this.formInfo)
+      },
+      getProvince (province) {
         console.log('province', province)
         // 赋值给实际页面的值
         this.docEntity.province = province
       },
-      getCity(city) {
+      getCity (city) {
         console.log('city', city)
         // 赋值给实际页面的值
         this.docEntity.city = city
       },
-		}
-	}
+    }
+  }
 </script>

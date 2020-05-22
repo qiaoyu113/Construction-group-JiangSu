@@ -329,3 +329,12 @@ input[readonly="readonly"] {
     min-width: 100px;
   }
 }
+.home {
+  .el-card {
+    margin: 0 10px 12px;
+    .el-card__header {
+      height: 50px;
+      padding-bottom: 0;
+    }
+  }
+}
