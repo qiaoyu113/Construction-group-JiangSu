@@ -1,7 +1,7 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"  :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
@@ -12,19 +12,19 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="姓名：">
+          <el-form-item label="姓名："  prop="proName">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="姓名" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="建造师等级：">
+          <el-form-item label="建造师等级："   prop="proType">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                        placeholder="建造师等级" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="分公司：">
+          <el-form-item label="分公司："  prop="proConstructCompany">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
                        placeholder="分公司" clearable></el-input>
           </el-form-item>
@@ -32,29 +32,27 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目名称：">
+          <el-form-item label="项目名称："  prop="useScenes">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目编号：">
+          <el-form-item label="项目编号："  prop="proRunMode">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
                        placeholder="项目编号" clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="审查状态：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                       placeholder="审查状态" clearable></el-input>
+       <!-- <el-col :span="8" class="search-date-picker">
+          <el-form-item label="审查状态："  prop="approvalStatus">
+            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
-        </el-col>
+        </el-col>-->
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="审批状态：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
-                       placeholder="审批状态" clearable></el-input>
+          <el-form-item label="审批状态："  prop="approvalStatus">
+            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -162,6 +160,9 @@
                 label: '授权状态',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sign',
@@ -174,6 +175,9 @@
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD')
+                }
               }
             ], // 需要展示的列
             defaultSort: {
