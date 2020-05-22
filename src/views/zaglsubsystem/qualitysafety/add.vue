@@ -1,84 +1,91 @@
 <template>
   <div>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
-        审批流程图
-      </el-button>
-    </el-row>
+        <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+          提交审批
+        </el-button>
+        <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+          审批流程图
+        </el-button>
+      </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">投标授权申请</div>
+        </el-col>
+      </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bId" label="项目名称：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item label="项目名称：" prop="proName">
+            <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="所属分公司">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="proSubCompany" label="所属分公司：">
+            <el-input disabled v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="所属事业部：">
-            <el-input v-model="dataForm.pcId"></el-input>
+          <el-form-item prop="proBusDept" label="所属事业部：">
+            <el-input disabled v-model="dataForm.proBusDept"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="建设单位：">
-            <el-input v-model="dataForm.useScenes"></el-input>
+          <el-form-item prop="proConstructCompany" label="建设单位：">
+            <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantUser" label="合同模式：">
-            <el-input v-model="dataForm.grantUser"></el-input>
+          <el-form-item label="合同模式：" prop="proContractAttr">
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="投资金额：">
-            <el-input v-model="dataForm.grantContent"></el-input>
+          <el-form-item prop="proTotalInvestment" label="投资金额：">
+            <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="remark" label="工程类别：">
-            <el-input v-model="dataForm.remark"></el-input>
+          <el-form-item label="工程类别：" prop="proType">
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="经营方式：">
-            <el-input v-model="dataForm.sign"></el-input>
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="项目规模：">
-            <el-input v-model="dataForm.signTime"></el-input>
+          <el-form-item prop="proBuildArea" label="项目规模：">
+            <el-input disabled v-model="dataForm.proBuildArea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="propose" label="经办人：">
-            <el-input v-model="dataForm.propose"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="result" label="经办时间：">
-            <el-input v-model="dataForm.result"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="说明：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人：">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间：">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="说明：" prop="remark">
+              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -90,75 +97,41 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',
-          actTaskKey: '',
-          pId: '',
-          remark: '',
+          proName: '',
+          proSubCompany: '',
+          proBusDept: '',
+          proConstructCompany: '',
+          proContractAttr: '',
+          proTotalInvestment: '',
+          proType: '',
+          proRunMode: '',
+          proBuildArea: '',
           sign: '',
           signTime: '',
-          approvalStatus: '',
-          propose: '',
-          result: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
+          remark: ''
         },
         dataRule: {
-          bId: [
-            {required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
-          pId: [
-            {required: true, message: '项目id不能为空', trigger: 'blur'}
-          ],
-          remark: [
-            {required: true, message: '说明不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+          proName: [
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ]
         }
       }
     },
     created() {
-      // this.init()
+      this.init()
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -189,13 +162,28 @@
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
+            this.$refs.ruleForm.clearValidate()
           })
         }
+      },
+      getSelectedProject(project) {
+        console.log('current project', project);
+        this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proConstructCompany = project.proConstructCompany;
+        this.dataForm.proContractAttr = project.proContractAttr;
+        this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proType = project.proType;
+        this.dataForm.proRunMode = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.proName = project.proName;
       },
       // 表单提交
       doSave() {
         let self = this;
+        console.log(self.dataForm)
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
