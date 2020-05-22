@@ -49,9 +49,9 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="审批状态">
-            <t-edit-grid-column dicType="approval_status"
+            <t-dic-checkbox-select dicType="approval_status"
                                    v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                                   :readOnly="readOnly"></t-edit-grid-column>
+                                   :readOnly="readOnly"></t-dic-checkbox-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

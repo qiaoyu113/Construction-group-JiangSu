@@ -16,11 +16,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="所属地区">
-              <t-dic-tree-select placeholder="请选择" dicType="base_region"
-                                 v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
-                                 :readOnly="readOnly"></t-dic-tree-select>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
+              <t-region-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
+                               @province="getProvince" @city="getCity" ></t-region-picker>
             </el-form-item>
           </el-col>
 
@@ -31,20 +28,21 @@
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="applyforDate">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.applyforDate"
-                                       @change="onStartDateRangeChanged">
-              </t-datetime-range-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日" prop="applyforDate">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
-                                       @change="onStartDateRangeChanged">
-              </t-datetime-range-picker>
-            </el-form-item>
-          </el-col>
+            <el-col :span="8" class="search-date-picker">
+              <el-form-item label="申请时间" prop="dateRange2">
+                <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
+                                         @change="onStartApplyforDateChanged">
+                </t-datetime-range-picker>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="8" class="search-date-picker">
+              <el-form-item label="有效截止日" prop="dateRange1">
+                <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
+                                         @change="onStartExpirationDateChanged">
+                </t-datetime-range-picker>
+              </el-form-item>
+            </el-col>
 
 
         </el-row>
@@ -52,9 +50,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button icon="el-icon-download" @click="doReset()">
-                <i class="fa fa-lg fa-level-down"></i>清空
-              </el-button>
+              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -89,8 +85,8 @@
             serviceInstanceInputParameters: {
               keyType: null,
               province: null,
-              applyforDate: '',
-              expirationDate: ''
+              dateRange1: '',
+              dateRange2: ''
             }
           },
           grid: {
@@ -191,13 +187,31 @@
       doReset() {
         this.$refs.search.resetFields();
       },
+      onStartExpirationDateChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1];
+      },
+      onStartApplyforDateChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1];
+      },
       doExportExcel() {
         // eslint-disable-next-line no-template-curly-in-string
         this.$refs.searchReulstList.exportCSV('${comments}表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
-      }
+      },
+      getProvince (province) {
+        console.log('province', province)
+        // 赋值给实际页面的值
+        this.dataForm.province = province
+      },
+      getCity (city) {
+        console.log('city', city)
+        // 赋值给实际页面的值
+        this.dataForm.city = city
+      },
     }
   }
 </script>

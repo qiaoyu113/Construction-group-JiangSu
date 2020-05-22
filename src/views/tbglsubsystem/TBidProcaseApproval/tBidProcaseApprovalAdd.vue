@@ -44,9 +44,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="province" label="项目地点">
-              <t-dic-tree-select dicType="base_region" v-model="dataForm.province"
-                                 :readOnly="readOnly"></t-dic-tree-select>
+            <el-form-item prop="proAddressProvince" label="项目地点">
+              <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity" ></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -222,7 +221,7 @@
             {required: true, message: '项目地址不能为空', trigger: 'blur'}
           ],
           proAddressCity: [
-            {required: true, message: '项目地址不能为空', trigger: 'blur'}
+            {required: false, message: '项目地址不能为空', trigger: 'blur'}
           ],
           proAddressDetail: [
             {required: true, message: '项目地址不能为空', trigger: 'blur'}
@@ -348,7 +347,17 @@
           });
           return false;
         });
-      }
+      },
+      getProvince (proAddressProvince) {
+        console.log('proAddressProvince', proAddressProvince)
+        // 赋值给实际页面的值
+        this.dataForm.proAddressProvince = proAddressProvince
+      },
+      getCity (proAddressCity) {
+        console.log('proAddressCity', proAddressCity)
+        // 赋值给实际页面的值
+        this.dataForm.proAddressCity = proAddressCity
+      },
     }
   }
 </script>

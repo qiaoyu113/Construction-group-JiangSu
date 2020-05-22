@@ -21,26 +21,16 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="建设单位" prop="proConstructCompany" style="margin-bottom: 15px;">
-              <t-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+            <el-form-item label="开户行名称" prop="proConstructCompany" style="margin-bottom: 15px;">
+              <t-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.bankName"
                        placeholder="建设单位" clearable></t-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="工程类别" prop="proType" style="margin-bottom: 15px;">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经营方式" prop="proRunMode" style="margin-bottom: 15px;">
-              <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
           <el-col :span="8">
-            <el-form-item label="选择的项目" prop="selectedProname" style="margin-bottom: 15px;">
-              <t-input v-model="selectProject.proName" :readOnly="true" placeholder="还未选择项目"></t-input>
+            <el-form-item label="选择的银行账号" prop="selectedProname" style="margin-bottom: 15px;">
+              <t-input v-model="selectData.proName" :readOnly="true" placeholder="还未选择银行账号"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -102,15 +92,16 @@
             {required: false}
           ],
         },
-        selectProject: {
+        selectData: {
           proCode: ''
         },
         currentValue: '',
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.finaFwaccounapproval.getPagedList,
+            serviceInstance: tapp.services.finaFwaccounapproval.getFinaBankList,
             serviceInstanceInputParameters: {
-              searchKey: null,
+              bankName: null,
+              proName: null
             }
           },
           grid: {
@@ -189,18 +180,18 @@
       },
       doReset() {
         this.$refs.search.resetFields()
-        this.selectProject = { proName: '' }
+        this.selectData = { proName: '' }
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
       handleCellClick(row, value, cell, event) {
-        this.selectProject = row;
+        this.selectData = row;
       },
       proChoose() {
         //传送到父组件
-        this.currentValue = this.selectProject.proName;
-        this.$emit('selectedProject', this.selectProject);
-        this.$emit('input', this.selectProject.id);
+        this.currentValue = this.selectData.proName;
+        this.$emit('selectedData', this.selectData);
+        this.$emit('input', this.selectData.id);
         this.doReset();
         this.dialogFormVisible = false
       }

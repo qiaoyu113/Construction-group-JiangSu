@@ -26,7 +26,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="bankAccount" label="银行账号：">
-            <t-bank-select :readonly="true" v-model="dataForm.bankAccount"></t-bank-select>
+            <t-bank-select :readonly="true" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="sign" label="经办人：">
+          <el-form-item prop="sign" :readonly="true" label="经办人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
@@ -157,6 +157,20 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目
+      selectedData(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.fwaId = data.id
+        this.dataForm.pId = data.pId
+        this.dataForm.bankName = data.bankName
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.bankAddress = data.bankAddress
+        this.dataForm.bankAccountName = data.bankAccountName
+        this.dataForm.bankAccount = data.bankAccount
+        this.dataForm.openTime = data.openTime
+
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
