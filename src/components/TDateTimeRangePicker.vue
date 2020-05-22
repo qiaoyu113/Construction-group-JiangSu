@@ -1,5 +1,6 @@
 <template>
-<el-date-picker v-model="currentValue" :value-format="valueFormat" type="daterange" :picker-options="pickerOptions" range-separator="-" align="right" :start-placeholder="startPlaceholder" :end-placeholder="endPlaceholder">
+<el-date-picker v-model="currentValue" :value-format="valueFormat" type="daterange" :picker-options="pickerOptions"
+                :disabled="disabled" range-separator="-" align="right" :start-placeholder="startPlaceholder" :end-placeholder="endPlaceholder">
 </el-date-picker>
 </template>
 <script>
@@ -129,7 +130,7 @@ export default {
         return this.selectValue;
       },
       set: function(val) {
-         
+
         //如果原值，新值都为空，无需重新赋值，防止首次进入显示必输提示
         if ((val == null || val == undefined) && (this.selectValue == null || this.selectValue == undefined)) {
           return;
@@ -139,11 +140,10 @@ export default {
         this.$emit('input', this.selectValue);
         this.$emit('change', this.selectValue);
         this.$emit('blur');
-        this.dispatch('ElFormItem', 'el.form.change', this.selectValue);  
+        this.dispatch('ElFormItem', 'el.form.change', this.selectValue);
       }
     }
   },
-  mounted() {},
   methods: {
     isEmpty() {
       return this.currentValue == null || this.currentValue.length == 0;
