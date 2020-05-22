@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -152,6 +159,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           id: 0,
           pId: '',
@@ -200,7 +210,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -214,28 +233,25 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.plGenerateApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.plGenerateApproval.bId
-                this.dataForm.actTaskKey = result.plGenerateApproval.actTaskKey
-                this.dataForm.pId = result.plGenerateApproval.pId
-                this.dataForm.plType = result.plGenerateApproval.plType
-                this.dataForm.plAmount = result.plGenerateApproval.plAmount
-                this.dataForm.bankName = result.plGenerateApproval.bankName
-                this.dataForm.generateTime = result.plGenerateApproval.generateTime
-                this.dataForm.expireTime = result.plGenerateApproval.expireTime
-                this.dataForm.plCode = result.plGenerateApproval.plCode
-                this.dataForm.remark = result.plGenerateApproval.remark
-                this.dataForm.sign = result.plGenerateApproval.sign
-                this.dataForm.signTime = result.plGenerateApproval.signTime
-                this.dataForm.propose = result.plGenerateApproval.propose
-                this.dataForm.result = result.plGenerateApproval.result
-                this.dataForm.approvalStatus = result.plGenerateApproval.approvalStatus
-                this.dataForm.createtime = result.plGenerateApproval.createtime
-                this.dataForm.updatetime = result.plGenerateApproval.updatetime
-                this.dataForm.createuser = result.plGenerateApproval.createuser
-                this.dataForm.updateuser = result.plGenerateApproval.updateuser
-                this.dataForm.datastatus = result.plGenerateApproval.datastatus
+                self.dataForm.pId = result.plGenerateApproval.pId
+                self.dataForm.plType = result.plGenerateApproval.plType
+                self.dataForm.plAmount = result.plGenerateApproval.plAmount
+                self.dataForm.bankName = result.plGenerateApproval.bankName
+                self.dataForm.generateTime = result.plGenerateApproval.generateTime
+                self.dataForm.expireTime = result.plGenerateApproval.expireTime
+                self.dataForm.plCode = result.plGenerateApproval.plCode
+                self.dataForm.remark = result.plGenerateApproval.remark
+                self.dataForm.sign = result.plGenerateApproval.sign
+                self.dataForm.signTime = result.plGenerateApproval.signTime
+                self.dataForm.propose = result.plGenerateApproval.propose
+                self.dataForm.result = result.plGenerateApproval.result
+                self.dataForm.approvalStatus = result.plGenerateApproval.approvalStatus
+                self.dataForm.createtime = result.plGenerateApproval.createtime
+                self.dataForm.updatetime = result.plGenerateApproval.updatetime
+                self.dataForm.createuser = result.plGenerateApproval.createuser
               })
             }
           })

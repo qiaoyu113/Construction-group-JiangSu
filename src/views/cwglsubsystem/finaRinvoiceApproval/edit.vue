@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -168,6 +175,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',biId: '',invoiceAmount: '',reason: '',invoiceDate: '',
           invoiceCode: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: '',propose: '',
@@ -183,7 +193,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -196,28 +215,25 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaRinvoiceApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaRinvoiceApproval.bId
-                this.dataForm.actTaskKey = result.finaRinvoiceApproval.actTaskKey
-                this.dataForm.pId = result.finaRinvoiceApproval.pId
-                this.dataForm.biId = result.finaRinvoiceApproval.biId
-                this.dataForm.invoiceAmount = result.finaRinvoiceApproval.invoiceAmount
-                this.dataForm.reason = result.finaRinvoiceApproval.reason
-                this.dataForm.invoiceDate = result.finaRinvoiceApproval.invoiceDate
-                this.dataForm.invoiceCode = result.finaRinvoiceApproval.invoiceCode
-                this.dataForm.invoiceNum = result.finaRinvoiceApproval.invoiceNum
-                this.dataForm.approvalStatus = result.finaRinvoiceApproval.approvalStatus
-                this.dataForm.sign = result.finaRinvoiceApproval.sign
-                this.dataForm.signTime = result.finaRinvoiceApproval.signTime
-                this.dataForm.propose = result.finaRinvoiceApproval.propose
-                this.dataForm.result = result.finaRinvoiceApproval.result
-                this.dataForm.createtime = result.finaRinvoiceApproval.createtime
-                this.dataForm.updatetime = result.finaRinvoiceApproval.updatetime
-                this.dataForm.createuser = result.finaRinvoiceApproval.createuser
-                this.dataForm.updateuser = result.finaRinvoiceApproval.updateuser
-                this.dataForm.datastatus = result.finaRinvoiceApproval.datastatus
+                self.dataForm.pId = result.finaRinvoiceApproval.pId
+                self.dataForm.biId = result.finaRinvoiceApproval.biId
+                self.dataForm.invoiceAmount = result.finaRinvoiceApproval.invoiceAmount
+                self.dataForm.reason = result.finaRinvoiceApproval.reason
+                self.dataForm.invoiceDate = result.finaRinvoiceApproval.invoiceDate
+                self.dataForm.invoiceCode = result.finaRinvoiceApproval.invoiceCode
+                self.dataForm.invoiceNum = result.finaRinvoiceApproval.invoiceNum
+                self.dataForm.approvalStatus = result.finaRinvoiceApproval.approvalStatus
+                self.dataForm.sign = result.finaRinvoiceApproval.sign
+                self.dataForm.signTime = result.finaRinvoiceApproval.signTime
+                self.dataForm.propose = result.finaRinvoiceApproval.propose
+                self.dataForm.result = result.finaRinvoiceApproval.result
+                self.dataForm.createtime = result.finaRinvoiceApproval.createtime
+                self.dataForm.updatetime = result.finaRinvoiceApproval.updatetime
+                self.dataForm.createuser = result.finaRinvoiceApproval.createuser
               })
             }
           })

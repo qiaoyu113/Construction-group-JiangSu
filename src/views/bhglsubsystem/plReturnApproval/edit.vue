@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -167,6 +174,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           id: 0,
           pId: '',
@@ -199,7 +209,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -212,25 +231,22 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.plReturnApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.plReturnApproval.bId
-                this.dataForm.actTaskKey = result.plReturnApproval.actTaskKey
-                this.dataForm.pId = result.plReturnApproval.pId
-                this.dataForm.plId = result.plReturnApproval.plId
-                this.dataForm.returnDate = result.plReturnApproval.returnDate
-                this.dataForm.remark = result.plReturnApproval.remark
-                this.dataForm.sign = result.plReturnApproval.sign
-                this.dataForm.signTime = result.plReturnApproval.signTime
-                this.dataForm.propose = result.plReturnApproval.propose
-                this.dataForm.result = result.plReturnApproval.result
-                this.dataForm.approvalStatus = result.plReturnApproval.approvalStatus
-                this.dataForm.createtime = result.plReturnApproval.createtime
-                this.dataForm.updatetime = result.plReturnApproval.updatetime
-                this.dataForm.createuser = result.plReturnApproval.createuser
-                this.dataForm.updateuser = result.plReturnApproval.updateuser
-                this.dataForm.datastatus = result.plReturnApproval.datastatus
+                self.dataForm.pId = result.plReturnApproval.pId
+                self.dataForm.plId = result.plReturnApproval.plId
+                self.dataForm.returnDate = result.plReturnApproval.returnDate
+                self.dataForm.remark = result.plReturnApproval.remark
+                self.dataForm.sign = result.plReturnApproval.sign
+                self.dataForm.signTime = result.plReturnApproval.signTime
+                self.dataForm.propose = result.plReturnApproval.propose
+                self.dataForm.result = result.plReturnApproval.result
+                self.dataForm.approvalStatus = result.plReturnApproval.approvalStatus
+                self.dataForm.createtime = result.plReturnApproval.createtime
+                self.dataForm.updatetime = result.plReturnApproval.updatetime
+                self.dataForm.createuser = result.plReturnApproval.createuser
               })
             }
           })

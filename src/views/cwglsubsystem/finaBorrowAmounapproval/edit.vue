@@ -1,101 +1,108 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目编号">
-            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="所属单位">
-            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="totalBorrowCount" label="累计借款次数">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowCount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
-              <span slot="append">万元</span>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="applyAmount" label="本次申请额度">
-            <el-input v-model="dataForm.applyAmount">
-              <span slot="append">万元</span>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次借款额度期限">
-            <t-int-input :readonly="true" v-model="dataForm.tiimeLimit">
-              <span slot="append">月</span>
-            </t-int-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
-              <span slot="append">万元</span>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="borrowDate" label="借款日期">
-            <el-input :readonly="true" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'项目信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-form-item prop="pId" label="项目名称">
+              <el-input v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="pId" label="项目编号">
+              <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="pId" label="所属单位">
+              <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="totalBorrowCount" label="累计借款次数">
+              <el-input :readonly="true" v-model="dataForm.totalBorrowCount"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="totalBorrowAmount" label="累计借款金额">
+              <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="applyAmount" label="本次申请额度">
+              <el-input v-model="dataForm.applyAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="tiimeLimit" label="本次借款额度期限">
+              <t-int-input :readonly="true" v-model="dataForm.tiimeLimit">
+                <span slot="append">月</span>
+              </t-int-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="realAmount" label="确认借款额度">
+              <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="borrowDate" label="借款日期">
+              <el-input :readonly="true" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
-            <el-input v-model="dataForm.sign"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="经办时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item prop="remark" label="借款原因">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <el-input v-model="dataForm.sign"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item prop="remark" label="借款原因">
+              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -110,6 +117,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',applyAmount: '',tiimeLimit: '',totalBorrowCount: '',totalBorrowAmount: '',
           realAmount: '',borrowDate: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
@@ -157,7 +167,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -171,27 +190,24 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaBorrowAmounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaBorrowAmounapproval.bId
-                this.dataForm.actTaskKey = result.finaBorrowAmounapproval.actTaskKey
-                this.dataForm.pId = result.finaBorrowAmounapproval.pId
-                this.dataForm.applyAmount = result.finaBorrowAmounapproval.applyAmount
-                this.dataForm.tiimeLimit = result.finaBorrowAmounapproval.tiimeLimit
-                this.dataForm.totalBorrowCount = result.finaBorrowAmounapproval.totalBorrowCount
-                this.dataForm.totalBorrowAmount = result.finaBorrowAmounapproval.totalBorrowAmount
-                this.dataForm.realAmount = result.finaBorrowAmounapproval.realAmount
-                this.dataForm.borrowDate = result.finaBorrowAmounapproval.borrowDate
-                this.dataForm.approvalStatus = result.finaBorrowAmounapproval.approvalStatus
-                this.dataForm.sign = result.finaBorrowAmounapproval.sign
-                this.dataForm.signTime = result.finaBorrowAmounapproval.signTime
-                this.dataForm.propose = result.finaBorrowAmounapproval.propose
-                this.dataForm.result = result.finaBorrowAmounapproval.result
-                this.dataForm.createtime = result.finaBorrowAmounapproval.createtime
-                this.dataForm.updatetime = result.finaBorrowAmounapproval.updatetime
-                this.dataForm.createuser = result.finaBorrowAmounapproval.createuser
-                this.dataForm.updateuser = result.finaBorrowAmounapproval.updateuser
-                this.dataForm.datastatus = result.finaBorrowAmounapproval.datastatus
+                self.dataForm.pId = result.finaBorrowAmounapproval.pId
+                self.dataForm.applyAmount = result.finaBorrowAmounapproval.applyAmount
+                self.dataForm.tiimeLimit = result.finaBorrowAmounapproval.tiimeLimit
+                self.dataForm.totalBorrowCount = result.finaBorrowAmounapproval.totalBorrowCount
+                self.dataForm.totalBorrowAmount = result.finaBorrowAmounapproval.totalBorrowAmount
+                self.dataForm.realAmount = result.finaBorrowAmounapproval.realAmount
+                self.dataForm.borrowDate = result.finaBorrowAmounapproval.borrowDate
+                self.dataForm.approvalStatus = result.finaBorrowAmounapproval.approvalStatus
+                self.dataForm.sign = result.finaBorrowAmounapproval.sign
+                self.dataForm.signTime = result.finaBorrowAmounapproval.signTime
+                self.dataForm.propose = result.finaBorrowAmounapproval.propose
+                self.dataForm.result = result.finaBorrowAmounapproval.result
+                self.dataForm.createtime = result.finaBorrowAmounapproval.createtime
+                self.dataForm.updatetime = result.finaBorrowAmounapproval.updatetime
+                self.dataForm.createuser = result.finaBorrowAmounapproval.createuser
               })
             }
           })

@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
@@ -134,6 +141,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -185,7 +195,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -198,26 +217,24 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaRpdelayApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaRpdelayApproval.bId
-                this.dataForm.actTaskKey = result.finaRpdelayApproval.actTaskKey
-                this.dataForm.pId = result.finaRpdelayApproval.pId
-                this.dataForm.gId = result.finaRpdelayApproval.gId
-                this.dataForm.getAmount = result.finaRpdelayApproval.getAmount
-                this.dataForm.tiimeLimit = result.finaRpdelayApproval.tiimeLimit
-                this.dataForm.getCode = result.finaRpdelayApproval.getCode
-                this.dataForm.approvalStatus = result.finaRpdelayApproval.approvalStatus
-                this.dataForm.sign = result.finaRpdelayApproval.sign
-                this.dataForm.signTime = result.finaRpdelayApproval.signTime
-                this.dataForm.propose = result.finaRpdelayApproval.propose
-                this.dataForm.result = result.finaRpdelayApproval.result
-                this.dataForm.createtime = result.finaRpdelayApproval.createtime
-                this.dataForm.updatetime = result.finaRpdelayApproval.updatetime
-                this.dataForm.createuser = result.finaRpdelayApproval.createuser
-                this.dataForm.updateuser = result.finaRpdelayApproval.updateuser
-                this.dataForm.datastatus = result.finaRpdelayApproval.datastatus
+                self.dataForm.pId = result.finaRpdelayApproval.pId
+                self.dataForm.gId = result.finaRpdelayApproval.gId
+                self.dataForm.getAmount = result.finaRpdelayApproval.getAmount
+                self.dataForm.tiimeLimit = result.finaRpdelayApproval.tiimeLimit
+                self.dataForm.getCode = result.finaRpdelayApproval.getCode
+                self.dataForm.approvalStatus = result.finaRpdelayApproval.approvalStatus
+                self.dataForm.sign = result.finaRpdelayApproval.sign
+                self.dataForm.signTime = result.finaRpdelayApproval.signTime
+                self.dataForm.propose = result.finaRpdelayApproval.propose
+                self.dataForm.result = result.finaRpdelayApproval.result
+                self.dataForm.createtime = result.finaRpdelayApproval.createtime
+                self.dataForm.updatetime = result.finaRpdelayApproval.updatetime
+                self.dataForm.createuser = result.finaRpdelayApproval.createuser
+
               })
             }
           })
