@@ -60,11 +60,16 @@ export default {
       if(this.province == null || this.province.length == 0 || this.province == '') {
         return cb(new Error('省份不能为空')) 
       }
+      return cb()
     },
     isCityEmpty(rule, value, cb) {
+      if(this.currentProvince && this.currentProvince.items && this.currentProvince.items.length == 0) {
+        return cb()
+      }
       if(this.city == null || this.city.length == 0 || this.city == '') {
         return cb(new Error('城市不能为空')) 
       }
+      return cb()
     },
   },
 }
