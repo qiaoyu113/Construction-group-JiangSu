@@ -7,6 +7,13 @@
       <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -14,69 +21,16 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-            <t-input v-model="dataForm.proName" placeholder="项目选择">
-              <el-button slot="append" type="text" icon="el-icon-search" @click="dialogFormVisible = true"></el-button>
-            </t-input>
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
-          <el-dialog title="项目选择" :visible.sync="dialogFormVisible" width='80%'>
-            <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-              <el-row :gutter="10" class="search-top-operate">
-                <el-button type="success" @click="proChoose()">
-                  确定
-                </el-button>
-                <el-button type="info" @click="">
-                  取消
-                </el-button>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :span="8">
-                  <el-form-item label="项目名称">
-                    <el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
-                              placeholder="项目名称" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="建设单位">
-                    <el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
-                              placeholder="建设单位" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="工程类别">
-                    <el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
-                              placeholder="工程类别" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="经营方式">
-                    <el-input @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
-                              placeholder="经营方式" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-
-              </el-row>
-              <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-                <el-col :span="12">
-                  <el-form-item>
-                    <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-                    <el-button icon="el-icon-download" @click="doReset()">
-                      <i class="fa fa-lg fa-level-down"></i>清空
-                    </el-button>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </t-form>
-            <t-grid ref="searchReulstList" :options="gridOptions">
-            </t-grid>
-          </el-dialog>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="proCode" label="项目编号">
+          <el-form-item prop="proCode" :readOnly="readOnly" label="项目编号">
             <el-input v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="remark" label="申请事项">
+          <el-form-item prop="remark" :readOnly="readOnly" label="申请事项">
             <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
@@ -137,79 +91,12 @@
   export default {
     data () {
       return {
-        gridOptions: {
-          dataSource: {
-            serviceInstance: tapp.services.proInfo.getPagedList,
-            serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
-            }
-          },
-          grid: {
-            offsetHeight: 125, //125:查询部分高度
-            mutiSelect: false,
-            columns: [{
-              prop: 'proCode',
-              label: '项目备案编号',
-              sortable: true
-            },
-              {
-                prop: 'proName',
-                label: '项目名称',
-                sortable: true
-              },
-              {
-                prop: 'proConstructCompany',
-                label: '备案单位',
-                sortable: true
-              },
-              {
-                prop: 'proType',
-                label: '工程类别',
-                sortable: true
-              },
-              {
-                prop: 'proTotalInvestment',
-                label: '投资金额',
-                sortable: true
-              },
-
-              {
-                prop: 'proSubType',
-                label: '类别子项',
-                sortable: true
-              },
-              {
-                prop: 'proBuildUnit',
-                label: '建设单位',
-                sortable: true
-              },
-              {
-                prop: 'proBuildArea',
-                label: '项目地址',
-                sortable: true
-              },
-              {
-                prop: 'proRunMode',
-                label: '经营方式',
-                sortable: true
-              },
-              {
-                prop: 'proManager',
-                label: '项目跟踪人',
-                sortable: true
-              },
-            ], // 需要展示的列
-            defaultSort: {
-              prop: 'id',
-              order: 'descending'
-            },
-          }
-        },
         dialogFormVisible: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           proName: '',
           proCode: '',
@@ -235,21 +122,21 @@
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          bankName: [
-            { required: true, message: '开户行名称不能为空', trigger: 'blur' }
-          ],
-          bankAddress: [
-            { required: true, message: '开户网点不能为空', trigger: 'blur' }
-          ],
-          bankAccountName: [
-            { required: true, message: '银行帐户名称不能为空', trigger: 'blur' }
-          ],
-          bankAccount: [
-            { required: true, message: '银行帐号不能为空', trigger: 'blur' }
-          ],
-          openTime: [
-            { required: true, message: '开户时间不能为空', trigger: 'blur' }
-          ],
+          // bankName: [
+          //   { required: true, message: '开户行名称不能为空', trigger: 'blur' }
+          // ],
+          // bankAddress: [
+          //   { required: true, message: '开户网点不能为空', trigger: 'blur' }
+          // ],
+          // bankAccountName: [
+          //   { required: true, message: '银行帐户名称不能为空', trigger: 'blur' }
+          // ],
+          // bankAccount: [
+          //   { required: true, message: '银行帐号不能为空', trigger: 'blur' }
+          // ],
+          // openTime: [
+          //   { required: true, message: '开户时间不能为空', trigger: 'blur' }
+          // ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -260,13 +147,31 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
         currentUser: state => state.app.user,  })
     },
+
     methods: {
+      // 选择项目
+      getSelectedProject(project) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = project.proName
+        this.dataForm.pId = project.id
+        this.dataForm.proCode = project.proCode
+
+      },
       // 搜索条件重置
       doRefresh() {
         this.$refs.searchReulstList.refresh();
@@ -278,26 +183,23 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaFwaccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaFwaccounapproval.bId
-                this.dataForm.actTaskKey = result.finaFwaccounapproval.actTaskKey
-                this.dataForm.pId = result.finaFwaccounapproval.pId
-                this.dataForm.bankName = result.finaFwaccounapproval.bankName
-                this.dataForm.bankAddress = result.finaFwaccounapproval.bankAddress
-                this.dataForm.bankAccountName = result.finaFwaccounapproval.bankAccountName
-                this.dataForm.bankAccount = result.finaFwaccounapproval.bankAccount
-                this.dataForm.openTime = result.finaFwaccounapproval.openTime
-                this.dataForm.approvalStatus = result.finaFwaccounapproval.approvalStatus
-                this.dataForm.sign = result.finaFwaccounapproval.sign
-                this.dataForm.signTime = result.finaFwaccounapproval.signTime
-                this.dataForm.propose = result.finaFwaccounapproval.propose
-                this.dataForm.result = result.finaFwaccounapproval.result
-                this.dataForm.createtime = result.finaFwaccounapproval.createtime
-                this.dataForm.updatetime = result.finaFwaccounapproval.updatetime
-                this.dataForm.createuser = result.finaFwaccounapproval.createuser
-                this.dataForm.updateuser = result.finaFwaccounapproval.updateuser
-                this.dataForm.datastatus = result.finaFwaccounapproval.datastatus
+                self.dataForm.pId = result.finaFwaccounapproval.pId
+                self.dataForm.bankName = result.finaFwaccounapproval.bankName
+                self.dataForm.bankAddress = result.finaFwaccounapproval.bankAddress
+                self.dataForm.bankAccountName = result.finaFwaccounapproval.bankAccountName
+                self.dataForm.bankAccount = result.finaFwaccounapproval.bankAccount
+                self.dataForm.openTime = result.finaFwaccounapproval.openTime
+                self.dataForm.approvalStatus = result.finaFwaccounapproval.approvalStatus
+                self.dataForm.sign = result.finaFwaccounapproval.sign
+                self.dataForm.signTime = result.finaFwaccounapproval.signTime
+                self.dataForm.propose = result.finaFwaccounapproval.propose
+                self.dataForm.result = result.finaFwaccounapproval.result
+                self.dataForm.createtime = result.finaFwaccounapproval.createtime
+                self.dataForm.updatetime = result.finaFwaccounapproval.updatetime
+                self.dataForm.createuser = result.finaFwaccounapproval.createuser
               })
             }
           })

@@ -1,12 +1,24 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">农民工工资帐户开立申请</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card>
@@ -14,7 +26,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="bankAccount" label="银行账号：">
-            <el-input :readonly="true" v-model="dataForm.bankAccount"></el-input>
+            <t-bank-select :readonly="true" v-model="dataForm.bankAccount"></t-bank-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -77,6 +89,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',
           pId: '',
@@ -126,7 +141,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -139,24 +163,21 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaCancelFwaccounapproval.bId
-                this.dataForm.actTaskKey = result.finaCancelFwaccounapproval.actTaskKey
-                this.dataForm.pId = result.finaCancelFwaccounapproval.pId
-                this.dataForm.fwaId = result.finaCancelFwaccounapproval.fwaId
-                this.dataForm.cancelTime = result.finaCancelFwaccounapproval.cancelTime
-                this.dataForm.approvalStatus = result.finaCancelFwaccounapproval.approvalStatus
-                this.dataForm.sign = result.finaCancelFwaccounapproval.sign
-                this.dataForm.signTime = result.finaCancelFwaccounapproval.signTime
-                this.dataForm.propose = result.finaCancelFwaccounapproval.propose
-                this.dataForm.result = result.finaCancelFwaccounapproval.result
-                this.dataForm.createtime = result.finaCancelFwaccounapproval.createtime
-                this.dataForm.updatetime = result.finaCancelFwaccounapproval.updatetime
-                this.dataForm.createuser = result.finaCancelFwaccounapproval.createuser
-                this.dataForm.updateuser = result.finaCancelFwaccounapproval.updateuser
-                this.dataForm.datastatus = result.finaCancelFwaccounapproval.datastatus
+                self.dataForm.pId = result.finaCancelFwaccounapproval.pId
+                self.dataForm.fwaId = result.finaCancelFwaccounapproval.fwaId
+                self.dataForm.cancelTime = result.finaCancelFwaccounapproval.cancelTime
+                self.dataForm.approvalStatus = result.finaCancelFwaccounapproval.approvalStatus
+                self.dataForm.sign = result.finaCancelFwaccounapproval.sign
+                self.dataForm.signTime = result.finaCancelFwaccounapproval.signTime
+                self.dataForm.propose = result.finaCancelFwaccounapproval.propose
+                self.dataForm.result = result.finaCancelFwaccounapproval.result
+                self.dataForm.createtime = result.finaCancelFwaccounapproval.createtime
+                self.dataForm.updatetime = result.finaCancelFwaccounapproval.updatetime
+                self.dataForm.createuser = result.finaCancelFwaccounapproval.createuser
               })
             }
           })

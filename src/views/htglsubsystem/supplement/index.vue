@@ -1,7 +1,7 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="140px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="140px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
         </el-row>
@@ -12,19 +12,19 @@
         </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="补充协议编号：">
+          <el-form-item label="补充协议编号：" prop="saCode">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.saCode"
                        placeholder="补充协议编号" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="补充协议名称：">
+          <el-form-item label="补充协议名称：" prop="saName">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.saName"
                        placeholder="补充协议名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  label="补充协议形式：">
+          <el-form-item  label="补充协议形式：" prop="conModality">
             <t-dic-dropdown-select dicType="con_modality"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conModality"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -32,13 +32,13 @@
 
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：">
+          <el-form-item label="项目名称：" prop="proName">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="所属分公司：">
+          <el-form-item label="所属分公司：" prop="proSubCompany">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属分公司" clearable></el-input>
           </el-form-item>

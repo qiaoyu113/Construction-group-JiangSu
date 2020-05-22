@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -276,6 +283,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',invoiceType: '',levyRate: '',isLevyTax: '',levyTaxNum: '',invoiceAmount: '',deductAmount: '',
           isReceivables: '',vat: '',uct: '',est: '',lest: '',st: '',cit: '',pit: '',ot: '',taxBureau: '',taxStartTime: '',taxEndTime: '',
@@ -292,7 +302,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -305,46 +324,43 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaBinvoiceApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaBinvoiceApproval.bId
-                this.dataForm.actTaskKey = result.finaBinvoiceApproval.actTaskKey
-                this.dataForm.pId = result.finaBinvoiceApproval.pId
-                this.dataForm.cId = result.finaBinvoiceApproval.cId
-                this.dataForm.taxMethod = result.finaBinvoiceApproval.taxMethod
-                this.dataForm.invoiceType = result.finaBinvoiceApproval.invoiceType
-                this.dataForm.levyRate = result.finaBinvoiceApproval.levyRate
-                this.dataForm.isLevyTax = result.finaBinvoiceApproval.isLevyTax
-                this.dataForm.levyTaxNum = result.finaBinvoiceApproval.levyTaxNum
-                this.dataForm.invoiceAmount = result.finaBinvoiceApproval.invoiceAmount
-                this.dataForm.deductAmount = result.finaBinvoiceApproval.deductAmount
-                this.dataForm.isReceivables = result.finaBinvoiceApproval.isReceivables
-                this.dataForm.vat = result.finaBinvoiceApproval.vat
-                this.dataForm.uct = result.finaBinvoiceApproval.uct
-                this.dataForm.est = result.finaBinvoiceApproval.est
-                this.dataForm.lest = result.finaBinvoiceApproval.lest
-                this.dataForm.st = result.finaBinvoiceApproval.st
-                this.dataForm.cit = result.finaBinvoiceApproval.cit
-                this.dataForm.pit = result.finaBinvoiceApproval.pit
-                this.dataForm.ot = result.finaBinvoiceApproval.ot
-                this.dataForm.taxBureau = result.finaBinvoiceApproval.taxBureau
-                this.dataForm.taxStartTime = result.finaBinvoiceApproval.taxStartTime
-                this.dataForm.taxEndTime = result.finaBinvoiceApproval.taxEndTime
-                this.dataForm.paymentDate = result.finaBinvoiceApproval.paymentDate
-                this.dataForm.lId = result.finaBinvoiceApproval.lId
-                this.dataForm.invoiceDate = result.finaBinvoiceApproval.invoiceDate
-                this.dataForm.invoiceNum = result.finaBinvoiceApproval.invoiceNum
-                this.dataForm.approvalStatus = result.finaBinvoiceApproval.approvalStatus
-                this.dataForm.sign = result.finaBinvoiceApproval.sign
-                this.dataForm.signTime = result.finaBinvoiceApproval.signTime
-                this.dataForm.propose = result.finaBinvoiceApproval.propose
-                this.dataForm.result = result.finaBinvoiceApproval.result
-                this.dataForm.createtime = result.finaBinvoiceApproval.createtime
-                this.dataForm.updatetime = result.finaBinvoiceApproval.updatetime
-                this.dataForm.createuser = result.finaBinvoiceApproval.createuser
-                this.dataForm.updateuser = result.finaBinvoiceApproval.updateuser
-                this.dataForm.datastatus = result.finaBinvoiceApproval.datastatus
+                self.dataForm.pId = result.finaBinvoiceApproval.pId
+                self.dataForm.cId = result.finaBinvoiceApproval.cId
+                self.dataForm.taxMethod = result.finaBinvoiceApproval.taxMethod
+                self.dataForm.invoiceType = result.finaBinvoiceApproval.invoiceType
+                self.dataForm.levyRate = result.finaBinvoiceApproval.levyRate
+                self.dataForm.isLevyTax = result.finaBinvoiceApproval.isLevyTax
+                self.dataForm.levyTaxNum = result.finaBinvoiceApproval.levyTaxNum
+                self.dataForm.invoiceAmount = result.finaBinvoiceApproval.invoiceAmount
+                self.dataForm.deductAmount = result.finaBinvoiceApproval.deductAmount
+                self.dataForm.isReceivables = result.finaBinvoiceApproval.isReceivables
+                self.dataForm.vat = result.finaBinvoiceApproval.vat
+                self.dataForm.uct = result.finaBinvoiceApproval.uct
+                self.dataForm.est = result.finaBinvoiceApproval.est
+                self.dataForm.lest = result.finaBinvoiceApproval.lest
+                self.dataForm.st = result.finaBinvoiceApproval.st
+                self.dataForm.cit = result.finaBinvoiceApproval.cit
+                self.dataForm.pit = result.finaBinvoiceApproval.pit
+                self.dataForm.ot = result.finaBinvoiceApproval.ot
+                self.dataForm.taxBureau = result.finaBinvoiceApproval.taxBureau
+                self.dataForm.taxStartTime = result.finaBinvoiceApproval.taxStartTime
+                self.dataForm.taxEndTime = result.finaBinvoiceApproval.taxEndTime
+                self.dataForm.paymentDate = result.finaBinvoiceApproval.paymentDate
+                self.dataForm.lId = result.finaBinvoiceApproval.lId
+                self.dataForm.invoiceDate = result.finaBinvoiceApproval.invoiceDate
+                self.dataForm.invoiceNum = result.finaBinvoiceApproval.invoiceNum
+                self.dataForm.approvalStatus = result.finaBinvoiceApproval.approvalStatus
+                self.dataForm.sign = result.finaBinvoiceApproval.sign
+                self.dataForm.signTime = result.finaBinvoiceApproval.signTime
+                self.dataForm.propose = result.finaBinvoiceApproval.propose
+                self.dataForm.result = result.finaBinvoiceApproval.result
+                self.dataForm.createtime = result.finaBinvoiceApproval.createtime
+                self.dataForm.updatetime = result.finaBinvoiceApproval.updatetime
+                self.dataForm.createuser = result.finaBinvoiceApproval.createuser
               })
             }
           })

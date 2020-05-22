@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -107,6 +114,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',rAmount: '',rDatetime: '',rWay: '',
           lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
@@ -153,7 +163,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -166,31 +185,28 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaReceiveAccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaReceiveAccounapproval.bId
-                this.dataForm.actTaskKey = result.finaReceiveAccounapproval.actTaskKey
-                this.dataForm.pId = result.finaReceiveAccounapproval.pId
-                this.dataForm.proRunMode = result.finaReceiveAccounapproval.proRunMode
-                this.dataForm.unionCompany = result.finaReceiveAccounapproval.unionCompany
-                this.dataForm.rAmount = result.finaReceiveAccounapproval.rAmount
-                this.dataForm.rDatetime = result.finaReceiveAccounapproval.rDatetime
-                this.dataForm.rWay = result.finaReceiveAccounapproval.rWay
-                this.dataForm.lNum = result.finaReceiveAccounapproval.lNum
-                this.dataForm.rType = result.finaReceiveAccounapproval.rType
-                this.dataForm.sAmount = result.finaReceiveAccounapproval.sAmount
-                this.dataForm.oAmount = result.finaReceiveAccounapproval.oAmount
-                this.dataForm.approvalStatus = result.finaReceiveAccounapproval.approvalStatus
-                this.dataForm.sign = result.finaReceiveAccounapproval.sign
-                this.dataForm.signTime = result.finaReceiveAccounapproval.signTime
-                this.dataForm.propose = result.finaReceiveAccounapproval.propose
-                this.dataForm.result = result.finaReceiveAccounapproval.result
-                this.dataForm.createtime = result.finaReceiveAccounapproval.createtime
-                this.dataForm.updatetime = result.finaReceiveAccounapproval.updatetime
-                this.dataForm.createuser = result.finaReceiveAccounapproval.createuser
-                this.dataForm.updateuser = result.finaReceiveAccounapproval.updateuser
-                this.dataForm.datastatus = result.finaReceiveAccounapproval.datastatus
+                self.dataForm.pId = result.finaReceiveAccounapproval.pId
+                self.dataForm.proRunMode = result.finaReceiveAccounapproval.proRunMode
+                self.dataForm.unionCompany = result.finaReceiveAccounapproval.unionCompany
+                self.dataForm.rAmount = result.finaReceiveAccounapproval.rAmount
+                self.dataForm.rDatetime = result.finaReceiveAccounapproval.rDatetime
+                self.dataForm.rWay = result.finaReceiveAccounapproval.rWay
+                self.dataForm.lNum = result.finaReceiveAccounapproval.lNum
+                self.dataForm.rType = result.finaReceiveAccounapproval.rType
+                self.dataForm.sAmount = result.finaReceiveAccounapproval.sAmount
+                self.dataForm.oAmount = result.finaReceiveAccounapproval.oAmount
+                self.dataForm.approvalStatus = result.finaReceiveAccounapproval.approvalStatus
+                self.dataForm.sign = result.finaReceiveAccounapproval.sign
+                self.dataForm.signTime = result.finaReceiveAccounapproval.signTime
+                self.dataForm.propose = result.finaReceiveAccounapproval.propose
+                self.dataForm.result = result.finaReceiveAccounapproval.result
+                self.dataForm.createtime = result.finaReceiveAccounapproval.createtime
+                self.dataForm.updatetime = result.finaReceiveAccounapproval.updatetime
+                self.dataForm.createuser = result.finaReceiveAccounapproval.createuser
               })
             }
           })
