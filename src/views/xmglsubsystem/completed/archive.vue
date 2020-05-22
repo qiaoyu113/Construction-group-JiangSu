@@ -14,10 +14,8 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="项目名称：" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
-              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-            </el-input>
+          <el-form-item label="项目名称：" prop="pId">
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">

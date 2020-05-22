@@ -125,12 +125,18 @@
               {
                 prop: 'proType',
                 label: '工程类别',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proSubType',
                 label: '类别子项',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('category_child', row.proSubType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -155,7 +161,10 @@
               {
                 prop: 'proRunMode',
                 label: '经营方式',
-                minWidth: 100
+                minWidth: 100,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proRealStartDate',
@@ -177,11 +186,14 @@
                 prop: 'approvalStatus',
                 label: '审批状态',
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sign',
                 label: '经办人',
-                minWidth: 120,
+                minWidth: 120
               },
               {
                 prop: 'signTime',
