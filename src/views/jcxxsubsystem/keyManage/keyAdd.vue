@@ -15,8 +15,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-dic-tree-select dicType="base_region" v-model="dataForm.province"
-                                 :readOnly="readOnly"></t-dic-tree-select>
+              <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -119,17 +118,11 @@
   } from 'vuex'
 
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -265,37 +258,38 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBaseinfoKeyApproval.bId
-                this.dataForm.actTaskKey = result.tBaseinfoKeyApproval.actTaskKey
-                this.dataForm.province = result.tBaseinfoKeyApproval.province
-                this.dataForm.city = result.tBaseinfoKeyApproval.city
-                this.dataForm.keyType = result.tBaseinfoKeyApproval.keyType
-                this.dataForm.authCompany = result.tBaseinfoKeyApproval.authCompany
-                this.dataForm.loginUsername = result.tBaseinfoKeyApproval.loginUsername
-                this.dataForm.loginUrl = result.tBaseinfoKeyApproval.loginUrl
-                this.dataForm.expirationDate = result.tBaseinfoKeyApproval.expirationDate
-                this.dataForm.account = result.tBaseinfoKeyApproval.account
-                this.dataForm.principalId = result.tBaseinfoKeyApproval.principalId
-                this.dataForm.useScenes = result.tBaseinfoKeyApproval.useScenes
-                this.dataForm.applyforDate = result.tBaseinfoKeyApproval.applyforDate
-                this.dataForm.keyColor = result.tBaseinfoKeyApproval.keyColor
-                this.dataForm.existElectMark = result.tBaseinfoKeyApproval.existElectMark
-                this.dataForm.remark = result.tBaseinfoKeyApproval.remark
-                this.dataForm.password = result.tBaseinfoKeyApproval.password
-                this.dataForm.isInput = result.tBaseinfoKeyApproval.isInput
-                this.dataForm.sign = result.tBaseinfoKeyApproval.sign
-                this.dataForm.signTime = result.tBaseinfoKeyApproval.signTime
-                this.dataForm.keyStatus = result.tBaseinfoKeyApproval.keyStatus
-                this.dataForm.propose = result.tBaseinfoKeyApproval.propose
-                this.dataForm.result = result.tBaseinfoKeyApproval.result
-                this.dataForm.approvalStatus = result.tBaseinfoKeyApproval.approvalStatus
-                this.dataForm.createtime = result.tBaseinfoKeyApproval.createtime
-                this.dataForm.updatetime = result.tBaseinfoKeyApproval.updatetime
-                this.dataForm.createuser = result.tBaseinfoKeyApproval.createuser
-                this.dataForm.updateuser = result.tBaseinfoKeyApproval.updateuser
-                this.dataForm.datastatus = result.tBaseinfoKeyApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.province = result.province
+                self.dataForm.city = result.city
+                self.dataForm.keyType = result.keyType
+                self.dataForm.authCompany = result.authCompany
+                self.dataForm.loginUsername = result.loginUsername
+                self.dataForm.loginUrl = result.loginUrl
+                self.dataForm.expirationDate = result.expirationDate
+                self.dataForm.account = result.account
+                self.dataForm.principalId = result.principalId
+                self.dataForm.useScenes = result.useScenes
+                self.dataForm.applyforDate = result.applyforDate
+                self.dataForm.keyColor = result.keyColor
+                self.dataForm.existElectMark = result.existElectMark
+                self.dataForm.remark = result.remark
+                self.dataForm.password = result.password
+                self.dataForm.isInput = result.isInput
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.keyStatus = result.keyStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -309,7 +303,6 @@
       },
       // 表单提交
       doSave() {
-        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
@@ -328,7 +321,13 @@
           });
           return false;
         });
-      }
+      },
+      getProvince(province) {
+        this.dataForm.province = province
+      },
+      getCity(city) {
+        this.dataForm.city = city
+      },
     }
   }
 </script>

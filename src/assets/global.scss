@@ -324,3 +324,8 @@ input[readonly="readonly"] {
     border-color: #DCDFE6 !important;
   }
 }
+.region-picker {
+  .el-select .el-input {
+    min-width: 100px;
+  }
+}

@@ -1,12 +1,16 @@
 <template>
-  <el-form-item label="地区" prop="region" class="is-required">
-    <el-col :span="12">
-      <t-dic-dropdown-select dicType="base_region" v-model="provinceCode" :readOnly="readOnly"></t-dic-dropdown-select>
+  <div class="region-picker">
+    <el-col :span="12" style="padding-left: 0;padding-right: 2px;">
+      <el-form-item prop="province" :rules="dataRules.province">
+        <t-dic-dropdown-select dicType="base_region" v-model="province" :readOnly="readOnly"></t-dic-dropdown-select>
+      </el-form-item>
     </el-col>
-    <el-col :span="12" >
-      <t-dic-dropdown-select :dataisgood="currentProvince.items" v-model="cityCode" :readOnly="readOnly"></t-dic-dropdown-select>
+    <el-col :span="12" style="padding-left: 0;padding-right: 0;">
+      <el-form-item prop="city" :rules="dataRules.city"> 
+        <t-dic-dropdown-select :dataisgood="currentProvince.items" v-model="city" :readOnly="readOnly"></t-dic-dropdown-select>
+      </el-form-item>
     </el-col>
-  </el-form-item>
+  </div>
 </template>
 <script>
 import emitter from 'element-ui/src/mixins/emitter';
@@ -27,35 +31,40 @@ export default {
   },
   data() {
     return {
-      provinceCode: null,
-      cityCode: '',
+      province: '',
+      city: '',
       currentProvince: {},
       selectValue: '',
+      dataRules: {
+        province: [{validator: this.isProvinceEmpty, trigger: 'change'}],
+        city: [{validator: this.isCityEmpty, trigger: 'change'}]
+      },
     }
   },
   watch: {
-    provinceCode(value) {
-      this.provinceCode = value
+    province(value) {
+      this.city = '';
+      if(!value) {
+        this.currentProvince.items = [];
+        return 
+      }
       this.currentProvince = find(tapp.data.base_datadictionary['base_region'], {id: value});
       this.$emit('province', value)
-      this.$emit('input', value)
     },
-    cityCode(value) {
+    city(value) {
       this.$emit('city', value);
-      this.$emit('input', value)
-    }
+    },
   },
-  created() {
-
-  },
-  mounted() {},
-  computed: {
-
-  },
-  mounted() {},
   methods: {
-    isEmpty() {
-      return this.provinceCode == null || this.provinceCode.length == 0;
+    isProvinceEmpty(rule, value, cb) {
+      if(this.province == null || this.province.length == 0 || this.province == '') {
+        return cb(new Error('省份不能为空')) 
+      }
+    },
+    isCityEmpty(rule, value, cb) {
+      if(this.city == null || this.city.length == 0 || this.city == '') {
+        return cb(new Error('城市不能为空')) 
+      }
     },
   },
 }
