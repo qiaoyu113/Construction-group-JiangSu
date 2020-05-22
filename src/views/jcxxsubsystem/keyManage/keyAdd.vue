@@ -303,6 +303,7 @@
       },
       // 表单提交
       doSave() {
+        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
@@ -322,10 +323,14 @@
           return false;
         });
       },
-      getProvince(province) {
+      getProvince (province) {
+        console.log('province', province)
+        // 赋值给实际页面的值
         this.dataForm.province = province
       },
-      getCity(city) {
+      getCity (city) {
+        console.log('city', city)
+        // 赋值给实际页面的值
         this.dataForm.city = city
       },
     }

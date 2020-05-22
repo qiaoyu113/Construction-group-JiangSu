@@ -15,7 +15,7 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目选择：" prop="pId">
+          <el-form-item label="项目名称：" prop="pId">
             <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
