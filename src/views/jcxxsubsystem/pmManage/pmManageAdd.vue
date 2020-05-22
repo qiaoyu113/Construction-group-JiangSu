@@ -15,17 +15,18 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="pmId" label="项目经理">
-              <el-input v-model="dataForm.pmId"></el-input>
+              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmId" @selectedManager="getSelectedManager"></t-manager-select>
+
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="pmId" label="所属单位">
-              <el-input v-model="dataForm.pmId" readonly></el-input>
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="constructorLevel" label="联系方式">
-              <el-input v-model="dataForm.constructorLevel" readonly></el-input>
+            <el-form-item prop="proContactway" label="联系方式">
+              <el-input v-model="dataForm.proContactway" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -45,7 +46,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="是否在建">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proStatue" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
@@ -55,47 +56,47 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="在建项目名称">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目开工日期">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目合同额">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="在建项目名称">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目开工日期">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目合同额">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="在建项目名称">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目开工日期">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="safeB" label="项目合同额">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+              <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -148,7 +149,12 @@
           constructorLevel: '',
           constructorCode: '',
           safeB: '',
-          remark: '',
+          proContactway: '',
+          proStatue: '',
+          proName: '',
+          proRealStartDate: '',
+          proWinAmount: '',
+          proSubCompany: '',
           createtime: '',
           updatetime: '',
           createuser: '',
@@ -248,7 +254,11 @@
           });
           return false;
         });
-      }
+      },
+      getSelectedManager(manager) {
+        console.log('current charge', manager)
+        this.dataForm.proContactway = manager.name
+      },
     }
   }
 </script>
