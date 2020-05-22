@@ -1,53 +1,66 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
+      </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">投标授权列表</div>
+        </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="项目名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="工程类别：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                       placeholder="工程类别" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="建设单位：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                       placeholder="建设单位" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="授权用途：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"
+                       placeholder="授权用途" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经营方式：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                       placeholder="经营方式" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="审查状态：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                       placeholder="审查状态" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办人：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                       placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办日期：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="经办日期" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -68,6 +81,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -93,55 +107,55 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'bId',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'actTaskKey',
+                prop: 'proType',
                 label: '工程类别',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'pcId',
+                prop: 'proConstructCompany',
                 label: '建设单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'useScenes',
+                prop: 'proTotalInvestment',
                 label: '投资金额',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'grantUser',
+                prop: 'proContractAttr',
                 label: '合同模式',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'grantContent',
+                prop: 'proRunMode',
                 label: '经营方式',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'remark',
+                prop: 'useScenes',
                 label: '授权用途',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'sign',
+                prop: 'grantContent',
                 label: '授权内容',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'signTime',
+                prop: 'approvalStatus',
                 label: '审查状态',
                 sortable: true,
                 minWidth: 120,
@@ -150,13 +164,13 @@
                 }
               },
               {
-                prop: 'propose',
+                prop: 'sign',
                 label: '经办人',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'result',
+                prop: 'updatetime',
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,

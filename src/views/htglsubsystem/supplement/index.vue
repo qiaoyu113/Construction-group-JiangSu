@@ -2,25 +2,30 @@
   <div class="mod-role">
     <el-card shadow="never">
     <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="140px">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
-        </el-button>
-      </el-row>
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
+        </el-row>
+        <el-row :gutter="20" class="page-title">
+          <el-col>
+            <div class="title">主合同补充协议列表</div>
+          </el-col>
+        </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="补充协议编号：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.saCode"
+                       placeholder="补充协议编号" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="补充协议名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.saName"
+                       placeholder="补充协议名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="补充协议形式：">
-            <t-dic-dropdown-select dicType="1260865980897300482"></t-dic-dropdown-select>
+          <el-form-item  label="补充协议形式：">
+            <t-dic-dropdown-select dicType="con_modality"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conModality"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -28,12 +33,14 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
+                       placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -54,6 +61,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -91,10 +99,13 @@
                 minWidth: 120,
               },
               {
-                prop: 'saName',
+                prop: 'conModality',
                 label: '补充协议形式',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('con_modality', row.conModality) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conTotal',
@@ -103,13 +114,13 @@
                 minWidth: 120,
               },
               {
-                prop: 'conStatus',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'conStatus',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
@@ -124,10 +135,13 @@
                 }
               },
               {
-                prop: 'approvalStatus',
+                prop: 'conStatus',
                 label: '补充协议状态',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('main_con_status', row.conStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               }
             ], // 需要展示的列
             defaultSort: {

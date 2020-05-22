@@ -5,20 +5,28 @@
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">子合同列表</div>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="子合同编号：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="子合同编号" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conName"
+                       placeholder="子合同名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同形式：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conModality"
+                       placeholder="子合同形式" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -26,19 +34,19 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同类型：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conType"
+                       placeholder="子合同类型" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="子合同状态：">
-            <t-dic-dropdown-select dicType="1260866186657271810"
-                                   readonly></t-dic-dropdown-select>
-            <el-input></el-input>
+              <t-dic-dropdown-select dicType="con_modality"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.conStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -60,6 +68,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -101,12 +110,18 @@
                 label: '子合同形式',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('con_modality', row.conModality) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conType',
                 label: '子合同类型',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('con_type', row.conType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conTotal',
@@ -115,13 +130,13 @@
                 minWidth: 120,
               },
               {
-                prop: 'propose',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'propose',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
@@ -136,10 +151,13 @@
                 }
               },
               {
-                prop: 'approvalStatus',
+                prop: 'conStatus',
                 label: '审批状态',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.conStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               }
             ], // 需要展示的列
             defaultSort: {

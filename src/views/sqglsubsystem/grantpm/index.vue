@@ -5,44 +5,56 @@
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
+      <el-row :gutter="20" class="page-title">
+        <el-col>
+          <div class="title">项目经理授权列表</div>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="姓名：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="姓名" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="建造师等级：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                       placeholder="建造师等级" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="分公司：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                       placeholder="分公司" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="项目名称：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="项目编号：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                       placeholder="项目编号" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="审查状态：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                       placeholder="审查状态" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="审批状态：">
-            <el-input></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
+                       placeholder="审批状态" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -63,6 +75,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -88,56 +101,56 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'bId',
+                prop: 'proManager',
+                label: '姓名',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proSubCompany',
+                label: '分公司',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proContactway',
+                label: '联系方式',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'constructorLevel',
+                label: '建造师等级',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'constructorCode',
+                label: '建造师证书编号',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'safeB',
+                label: '安全B证',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'actTaskKey',
-                label: '工程类别',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'pcId',
-                label: '建设单位',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'useScenes',
-                label: '投资金额',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'grantUser',
-                label: '合同模式',
+                prop: 'proCode',
+                label: '项目编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'grantContent',
-                label: '经营方式',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'remark',
-                label: '授权用途',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'sign',
                 label: '授权内容',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'signTime',
-                label: '审查状态',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
@@ -145,13 +158,19 @@
                 }
               },
               {
-                prop: 'propose',
+                prop: 'approvalStatus',
+                label: '授权状态',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'sign',
                 label: '经办人',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'result',
+                prop: 'updatetime',
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,
