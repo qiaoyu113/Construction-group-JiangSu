@@ -1,5 +1,27 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">企业入库授权</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
+    </el-row>
+<!--<template>
+  <div>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -12,9 +34,9 @@
       <el-col>
         <div class="title">企业入库授权</div>
       </el-col>
-    </el-row>
+    </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-             label-width="120px" label-position="right">
+             label-width="140px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -40,7 +62,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyAttr" label="企业性质：">
-            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.companyAttr" disabled></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.companyAttr"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -48,11 +70,11 @@
             <el-input v-model="dataForm.legalPerson"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="备注：" prop="remark" verify can-be-empty :maxLength="200">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
-          </el-form-item>
-        </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注：" prop="remark">
+              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
       </el-row>
       </el-card>
       <el-card shadow="never">
@@ -71,7 +93,7 @@
         <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
               <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
-                                     disabled></t-dic-dropdown-select>
+                                     ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -96,11 +118,16 @@
 </template>
 
 <script>
+  import moment from 'moment'
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           pId: '',
           companyName: '',
@@ -116,14 +143,25 @@
           signTime: ''
         },
         dataRule: {
-          pId: [
-            {required: true, message: '项目名称不能为空', trigger: 'blur'}
-          ]
         }
       }
     },
     created() {
-      // this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -133,36 +171,39 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tGrantEnterpriseApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tGrantEnterpriseApproval.bId
-                this.dataForm.actTaskKey = result.tGrantEnterpriseApproval.actTaskKey
-                this.dataForm.pId = result.tGrantEnterpriseApproval.pId
-                this.dataForm.companyName = result.tGrantEnterpriseApproval.companyName
-                this.dataForm.creditCode = result.tGrantEnterpriseApproval.creditCode
-                this.dataForm.companyAddress = result.tGrantEnterpriseApproval.companyAddress
-                this.dataForm.companyAttr = result.tGrantEnterpriseApproval.companyAttr
-                this.dataForm.legalPerson = result.tGrantEnterpriseApproval.legalPerson
-                this.dataForm.intentionProject = result.tGrantEnterpriseApproval.intentionProject
-                this.dataForm.proBuildArea = result.tGrantEnterpriseApproval.proBuildArea
-                this.dataForm.grantUser = result.tGrantEnterpriseApproval.grantUser
-                this.dataForm.remark = result.tGrantEnterpriseApproval.remark
-                this.dataForm.sign = result.tGrantEnterpriseApproval.sign
-                this.dataForm.signTime = result.tGrantEnterpriseApproval.signTime
-                this.dataForm.propose = result.tGrantEnterpriseApproval.propose
-                this.dataForm.result = result.tGrantEnterpriseApproval.result
-                this.dataForm.approvalStatus = result.tGrantEnterpriseApproval.approvalStatus
-                this.dataForm.createtime = result.tGrantEnterpriseApproval.createtime
-                this.dataForm.updatetime = result.tGrantEnterpriseApproval.updatetime
-                this.dataForm.createuser = result.tGrantEnterpriseApproval.createuser
-                this.dataForm.updateuser = result.tGrantEnterpriseApproval.updateuser
-                this.dataForm.datastatus = result.tGrantEnterpriseApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.companyName = result.companyName
+                self.dataForm.creditCode = result.creditCode
+                self.dataForm.companyAddress = result.companyAddress
+                self.dataForm.companyAttr = result.companyAttr
+                self.dataForm.legalPerson = result.legalPerson
+                self.dataForm.intentionProject = result.intentionProject
+                self.dataForm.proBuildArea = result.proBuildArea
+                self.dataForm.grantUser =result.grantUser
+                self.dataForm.remark =result.remark
+                self.dataForm.sign =result.sign
+                self.dataForm.signTime =result.signTime
+                self.dataForm.propose =result.propose
+                self.dataForm.result =result.result
+                self.dataForm.approvalStatus =result.approvalStatus
+                self.dataForm.createtime =result.createtime
+                self.dataForm.updatetime =result.updatetime
+                self.dataForm.createuser =result.createuser
+                self.dataForm.updateuser =result.updateuser
+                self.dataForm.datastatus =result.datastatus
               })
             }
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.dataForm.sign = this.currentUser.userDisplayName
+            this.dataForm.signTime = this.$util.datetimeFormat(moment())
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
