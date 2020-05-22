@@ -99,7 +99,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="sign" label="登记时间">
+            <el-form-item prop="signTime" label="登记时间">
               <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
