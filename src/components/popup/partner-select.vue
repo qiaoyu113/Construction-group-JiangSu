@@ -1,5 +1,5 @@
 <template>
-  <div class="handler-select">
+  <div class="partner-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
       <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
     </t-input>
@@ -15,22 +15,22 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="合作方名称" prop="companyName">
+            <el-form-item label="合作方名称" prop="companyName" style="margin-bottom: 15px;">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="法人" prop="legalPerson">
+            <el-form-item label="法人" prop="legalPerson" style="margin-bottom: 15px;">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.legalPerson"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="入库时间" prop="dateRange">
+            <el-form-item label="入库时间" prop="dateRange" style="margin-bottom: 15px;">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged"></t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有无诉讼" prop="litigation">
+            <el-form-item label="有无诉讼" prop="litigation" style="margin-bottom: 15px;">
               <!--诉讼-->
               <t-dic-dropdown-select dicType="have_or_not" v-model="gridOptions.dataSource.serviceInstanceInputParameters.litigation"/>
             </el-form-item>
@@ -38,12 +38,12 @@
         </el-row>
         <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
           <el-col :span="8">
-            <el-form-item label="选择的联营公司" prop="selectedName">
+            <el-form-item label="选择的联营公司" prop="selectedName" style="margin-bottom: 15px;">
               <t-input v-model="selectedPartner.companyName" :readOnly="true" placeholder="还未选择联营公司"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item>
+            <el-form-item style="margin-bottom: 15px;">
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
               <el-button @click="doReset()" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
@@ -178,7 +178,7 @@
       },
 			proChoose() {
         //传送到父组件
-        this.currentValue = this.electedPartner.companyName;
+        this.currentValue = this.selectedPartner.companyName;
         this.$emit('selectedPartner', this.selectedPartner);
         this.$emit('input', this.selectedPartner.id);
         this.doReset();

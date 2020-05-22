@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -79,6 +86,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -132,7 +142,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -145,24 +164,21 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
-            if (this.dataForm.id) {
+                        if (this.dataForm.id) {
+              let self = this;
               tapp.services.finaFpayoffApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.finaFpayoffApproval.bId
-                this.dataForm.actTaskKey = result.finaFpayoffApproval.actTaskKey
-                this.dataForm.pId = result.finaFpayoffApproval.pId
-                this.dataForm.fwaId = result.finaFpayoffApproval.fwaId
-                this.dataForm.payoffMoney = result.finaFpayoffApproval.payoffMoney
-                this.dataForm.approvalStatus = result.finaFpayoffApproval.approvalStatus
-                this.dataForm.sign = result.finaFpayoffApproval.sign
-                this.dataForm.signTime = result.finaFpayoffApproval.signTime
-                this.dataForm.propose = result.finaFpayoffApproval.propose
-                this.dataForm.result = result.finaFpayoffApproval.result
-                this.dataForm.createtime = result.finaFpayoffApproval.createtime
-                this.dataForm.updatetime = result.finaFpayoffApproval.updatetime
-                this.dataForm.createuser = result.finaFpayoffApproval.createuser
-                this.dataForm.updateuser = result.finaFpayoffApproval.updateuser
-                this.dataForm.datastatus = result.finaFpayoffApproval.datastatus
+                self.dataForm.pId = result.finaFpayoffApproval.pId
+                self.dataForm.fwaId = result.finaFpayoffApproval.fwaId
+                self.dataForm.payoffMoney = result.finaFpayoffApproval.payoffMoney
+                self.dataForm.approvalStatus = result.finaFpayoffApproval.approvalStatus
+                self.dataForm.sign = result.finaFpayoffApproval.sign
+                self.dataForm.signTime = result.finaFpayoffApproval.signTime
+                self.dataForm.propose = result.finaFpayoffApproval.propose
+                self.dataForm.result = result.finaFpayoffApproval.result
+                self.dataForm.createtime = result.finaFpayoffApproval.createtime
+                self.dataForm.updatetime = result.finaFpayoffApproval.updatetime
+                self.dataForm.createuser = result.finaFpayoffApproval.createuser
               })
             }
           })

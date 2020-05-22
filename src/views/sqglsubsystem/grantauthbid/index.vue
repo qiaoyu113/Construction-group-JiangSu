@@ -1,7 +1,7 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
@@ -11,56 +11,52 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目名称：">
+        <el-col :span="8" class="search-date-picker" >
+          <el-form-item label="项目名称："prop="proName">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="工程类别：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
-                       placeholder="工程类别" clearable></el-input>
+          <el-form-item  label="工程类别：" prop="proType">
+            <t-dic-dropdown-select dicType="engineering_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="建设单位：">
+          <el-form-item label="建设单位："  prop="proConstructCompany">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
                        placeholder="建设单位" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="授权用途：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"
-                       placeholder="授权用途" clearable></el-input>
+        <el-col :span="8" class="search-date-picker" >
+          <el-form-item  label="授权用途：" prop="useScenes">
+            <t-dic-dropdown-select dicType="grant_use_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"></t-dic-dropdown-select>
+          </el-form-item>
+
+        </el-col>
+        <el-col :span="8" class="search-date-picker" >
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经营方式：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
-                       placeholder="经营方式" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="审查状态：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                       placeholder="审查状态" clearable></el-input>
+          <el-form-item label="审查状态："  prop="approvalStatus">
+            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办人：">
+        <el-col :span="8" class="search-date-picker" >
+          <el-form-item label="经办人：" prop="sign">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
                        placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"
-                       placeholder="经办日期" clearable></el-input>
+        <el-col :span="12">
+          <el-form-item label="经办日期"  prop="updatetime">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.updatetime"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -81,6 +77,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -116,6 +113,9 @@
                 label: '工程类别',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -134,18 +134,27 @@
                 label: '合同模式',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('contract_model', row.proContractAttr) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proRunMode',
                 label: '经营方式',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'useScenes',
                 label: '授权用途',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('grant_use_type', row.useScenes) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'grantContent',
@@ -159,7 +168,7 @@
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
               {
@@ -173,6 +182,9 @@
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD')
+                }
               }
             ], // 需要展示的列
             defaultSort: {

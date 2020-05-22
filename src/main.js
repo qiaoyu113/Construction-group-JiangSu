@@ -146,8 +146,11 @@ import TSubTitle from './components/sub-title/index.vue'
 import TRegionPicker from './components/regions/region-picker.vue'
 import TWorkflowMap from './components/workflow-map/index.vue'
 import TProjectSelect from './components/popup/project-select.vue'
+import TbankSelect from './components/popup/bank-select.vue'
 import THandlerSelect from './components/popup/handler-select.vue'
 import TPartnerSelect from './components/popup/partner-select.vue'
+import TMainChargeSelect from './components/popup/maincharge-select.vue'
+import TManagerSelect from './components/popup/manager-select.vue'
 Vue.component('t-grid', TGrid)
 Vue.component('t-edit-grid', TEditGrid)
 Vue.component('t-edit-grid-column', TEditGridColumn)
@@ -164,8 +167,11 @@ Vue.component('t-sub-title', TSubTitle)
 Vue.component('t-region-picker', TRegionPicker)
 Vue.component('t-workflow-map', TWorkflowMap)
 Vue.component('t-project-select', TProjectSelect)
+Vue.component('t-bank-select', TbankSelect)
 Vue.component('t-handler-select', THandlerSelect)
 Vue.component('t-partner-select', TPartnerSelect)
+Vue.component('t-maincharge-select', TMainChargeSelect)
+Vue.component('t-manager-select', TManagerSelect)
 
 Vue.component('t-cascader', TCascader)
 Vue.component('t-tree', TTree)

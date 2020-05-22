@@ -8,28 +8,28 @@
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="保函类型：">
-            <t-dic-dropdown-select dicType="1260863704975675394"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="pl_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.plType"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="分公司：">
             <t-dic-dropdown-select dicType="1260863882851913730"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目名称：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="工程类别：">
             <t-dic-dropdown-select dicType="engineering_type"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -49,13 +49,13 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="开立银行：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.bankName"
                        placeholder="开立银行：" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="16">
           <el-form-item label="保函状态：">
-            <t-dic-checkbox-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <t-dic-checkbox-select dicType="approval_status" v-model="gridOptions.dataSource.serviceInstanceInputParameters.generateStatus"
                                    @submit.native.prevent @keyup.enter.native="doRefresh()" :readOnly="readOnly"></t-dic-checkbox-select>
           </el-form-item>
         </el-col>
@@ -107,8 +107,8 @@
                 minWidth: 120,
               },
               {
-                prop: 'actTaskKey',
-                columnKey: 'actTaskKey',
+                prop: 'proType',
+                columnKey: 'proType',
                 filters: util.getListDataDicFilters('engineering_type'),
                 label: '工程类别',
                 sortable: true,
@@ -118,48 +118,48 @@
                 }
               },
               {
-                prop: 'pId',
+                prop: 'proConstructCompany',
                 label: '建设单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'plType',
+                prop: 'conTotal',
                 label: '合同金额',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'plAmount',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'bankName',
+                prop: 'proRunMode',
                 label: '经营方式',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'actTaskKey',
-                columnKey: 'actTaskKey',
-                filters: util.getListDataDicFilters('1260863704975675394'),
+                prop: 'plType',
+                columnKey: 'plType',
+                filters: util.getListDataDicFilters('pl_type'),
                 label: '保函类型',
                 sortable: true,
                 width: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('1260863704975675394', row.rWay)
+                  return util.dataDicFormat('pl_type', row.rWay)
                 }
               },
               {
-                prop: 'bankName',
+                prop: 'generateStatus',
                 label: '保函状态',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'bankName',
+                prop: 'plAmount',
                 label: '保函金额',
                 sortable: true,
                 minWidth: 120,
@@ -186,7 +186,7 @@
                 }
               },
               {
-                prop: 'expireTime',
+                prop: 'returnDate',
                 label: '退回时间',
                 sortable: true,
                 minWidth: 120,
@@ -211,7 +211,7 @@
               },
             ], // 需要展示的列
             defaultSort: {
-              prop: 'id',
+              prop: 'proName',
               order: 'descending'
             },
           }
