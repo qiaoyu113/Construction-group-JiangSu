@@ -90,6 +90,7 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -235,14 +236,14 @@
         this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
         this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1];
       },
-      onStartSignTimeChanged(val){
-        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart=val[0];
+      onStartSignTimeChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0];
         this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1];
 
       },
-      onStartApplyforDateChanged(val){
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart=val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd= val[1];
+      onStartApplyforDateChanged(val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
