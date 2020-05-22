@@ -1,9 +1,9 @@
 <template>
-  <div class="handler-select">
+  <div class="manager-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
       <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
     </t-input>
-    <el-dialog title="经办人选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
+    <el-dialog title="项目经理选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
           <el-button type="primary" @click="proChoose()">
@@ -23,7 +23,7 @@
         <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
           <el-col :span="8">
             <el-form-item label="选择的用户" prop="selectedName" style="margin-bottom: 15px;">
-              <t-input v-model="selectedUser.name" :readOnly="true" placeholder="还未选择用户"></t-input>
+              <t-input v-model="selectedManager.name" :readOnly="true" placeholder="还未选择用户"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -41,12 +41,9 @@
 
 <script>
 	import util from '@/util'
-	import moment from 'moment'
 	import baseView from '@/base/baseView'
-  import emitter from 'element-ui/src/mixins/emitter';
 	export default {
     extends: baseView,
-    mixins: [emitter],
     props: {
       value: {
         type: String,
@@ -55,7 +52,7 @@
       },
       placeholder: {
         type: String,
-        default: '选择一个经办人',
+        default: '选择一个项目经理',
         required: false
       },
       readOnly: {
@@ -66,7 +63,7 @@
     },
 		data() {
 			return {
-				selectedUser: {
+				selectedManager: {
           name: ''
         },
         currentValue: '',
@@ -166,18 +163,18 @@
       },
       doReset() {
         this.$refs.search.resetFields()
-        this.selectedUser = { name: '' }
+        this.selectedManager = { name: '' }
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
       handleCellClick(row, value, cell, event) {
-        this.selectedUser = row;
+        this.selectedManager = row;
       },
 			proChoose() {
         //传送到父组件
-        this.currentValue = this.selectedUser.name;
-        this.$emit('selectedUser', this.selectedUser);
-        this.$emit('input', this.selectedUser.id);
+        this.currentValue = this.selectedManager.name;
+        this.$emit('selectedManager', this.selectedManager);
+        this.$emit('input', this.selectedManager.id);
         this.doReset();
         this.dialogFormVisible = false
 			}

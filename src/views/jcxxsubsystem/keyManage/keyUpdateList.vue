@@ -6,7 +6,9 @@
       </el-col>
     </el-row>
     <el-card shadow="never">
-      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+              :model="gridOptions.dataSource.serviceInstanceInputParameters">
+
         <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
@@ -69,6 +71,13 @@
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data() {
       return {
         checkededRows: [],
@@ -80,7 +89,6 @@
             serviceInstanceInputParameters: {
               keyType: null,
               province: null,
-              searchKey: null,
               applyforDate: '',
               expirationDate: ''
             }

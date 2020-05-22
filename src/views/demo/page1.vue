@@ -23,8 +23,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="联营公司名称" prop="companyId">
+              <el-form-item label="联营公司名称" prop="companyId" verify>
                 <t-partner-select placeholder="选择一个联营公司" v-model="dataForm.companyId" @selectedPartner="getSelectedPartner"></t-partner-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="主要负责人" prop="mainPid">
+                <t-maincharge-select placeholder="选择一个主要负责人" v-model="dataForm.mainPid" @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="项目经理" prop="managerId">
+                <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.managerId" @selectedManager="getSelectedManager"></t-manager-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -50,17 +60,25 @@
 				dataForm: {
           projectId: '',
           userId: '',
-          companyId: ''
+          companyId: '',
+          mainPid: '',
+          managerId: ''
         },
         dataRules: {
           projectId: [
             {required: true, message: '项目id不能为空', trigger: 'change'},
           ],
           userId: [
-            {required: true, message: '用户id不能为空', trigger: 'blur'},
+            {required: true, message: '用户不能为空', trigger: 'change'},
           ],
           companyId: [
-            {required: true, message: '公司id不能为空', trigger: 'blur'},
+            {required: true, message: '公司不能为空', trigger: 'change'},
+          ],
+          mainPid: [
+            {required: true, message: '负责人不能为空', trigger: 'change'},
+          ],
+          managerId: [
+            {required: true, message: '项目经理不能为空', trigger: 'change'},
           ],
         }
 			}
@@ -93,6 +111,20 @@
         // 公司id 已从从组件里已经带出来，这里定义为 dataForm.companyId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的company的其他值，从这里的company获取
         // 例如 this.dataForm.creditCode = company.creditCode
+      },
+      getSelectedMainCharge(charge) {
+        console.log('current charge', charge)
+        // charge为从弹窗框列表带出来的那一行的数据
+        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
+        // 例如 this.dataForm.id = charge.id
+      },
+      getSelectedManager(manager) {
+        console.log('current charge', manager)
+        // manager为从弹窗框列表带出来的那一行的数据
+        // 项目经理id 已从从组件里已经带出来，这里定义为 dataForm.managerId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的manager的其他值，从这里的manager获取
+        // 例如 this.dataForm.id = manager.id
       },
 			consoleData() {
         console.log('dataForm', this.dataForm)

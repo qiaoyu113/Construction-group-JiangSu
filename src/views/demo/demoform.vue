@@ -5,10 +5,10 @@
         <div class="title">项目经理资质登记</div>
       </el-col>
     </el-row>
-    <el-tabs v-model="tabActive" @tab-click="handleTabClick" tab-position="right" class="fixed-header">
+    <el-tabs v-model="tabActive" @tab-click="handleTabClick">
       <el-tab-pane label="客户资料" name="baseInfo">
         <el-form :model="docEntity" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
-                 label-width="160px">
+                 label-width="120px">
           <el-row :gutter="20">
             <el-col :span="24">
               <el-form-item label="切换只读">
@@ -16,7 +16,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header">
               <t-sub-title :title="'密钥信息'"></t-sub-title>
             </div>
@@ -63,7 +63,7 @@
               </span>
             </el-dialog>
           </el-card>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header">
               <t-sub-title :title="'基本信息'"></t-sub-title>
             </div>
@@ -202,7 +202,7 @@
               </el-row>
             </div>
           </el-card>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header">
               <t-sub-title :title="'字典控件'"></t-sub-title>
             </div>
@@ -222,6 +222,14 @@
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-row :gutter="0">
+                <el-col :span="8">
+                  <el-form-item label="所属地区" prop="region" class="is-required">
+                    <!-- v-model 请绑定当前页面的对应值 -->
+                    <t-region-picker v-model="docEntity.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
               <el-row :gutter="20">
                 <el-col :span="24">
                   <el-form-item label="学历-复选" prop="educationalLevelIdList" verify class="is-required">
@@ -231,7 +239,7 @@
                 </el-col>
               </el-row>
               <el-row :gutter="20">
-                <el-col :span="24">
+                <el-col :span="8">
                   <el-form-item label="职务-radio" prop="jobId" verify class="is-required">
                     <t-dic-radio-select dicType="pl_loanenter_job" v-model="docEntity.jobId"
                                         :readOnly="readOnly"></t-dic-radio-select>
@@ -296,7 +304,7 @@
               </el-row>
             </div>
           </el-card>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header">
               <t-sub-title :title="'可编辑表格'"></t-sub-title>
             </div>
@@ -440,7 +448,7 @@
               </el-row>
             </div>
           </el-card>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header">
               <t-sub-title :title="'扩展信息(菜单 系统->扩展字段->进件扩展信息 定义表单元素)'"></t-sub-title>
             </div>
@@ -523,7 +531,9 @@
 					customerCardNOBirthday: null,
 					customerCardNOAge: null,
 					customerCardNOSexId: null,
-					customerCardNOAddress: null
+          customerCardNOAddress: null,
+          province: '',
+          city: ''
 				},
 				input: '',
 				formInfo: '',
@@ -765,7 +775,17 @@
 				this.formInfo = this.$refs.multipleTable.selection;
 				this.$emit('formInfo', this.formInfo);
 				console.log(this.formInfo);
-			}
+      },
+      getProvince(province) {
+        console.log('province', province)
+        // 赋值给实际页面的值
+        this.docEntity.province = province
+      },
+      getCity(city) {
+        console.log('city', city)
+        // 赋值给实际页面的值
+        this.docEntity.city = city
+      },
 		}
 	}
 </script>
