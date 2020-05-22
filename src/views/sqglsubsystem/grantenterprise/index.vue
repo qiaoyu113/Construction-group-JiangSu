@@ -67,7 +67,9 @@
   </div>
 </template>
 <script>
+    import util from '@/util'
     import baseView from '@/base/baseView'
+
     export default {
       name: 'myTask',
       extends: baseView,
