@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <el-form-item label="地区" prop="region" class="is-required">
     <el-col :span="12">
       <t-dic-dropdown-select dicType="base_region" v-model="provinceCode" :readOnly="readOnly"></t-dic-dropdown-select>
     </el-col>
     <el-col :span="12" >
       <t-dic-dropdown-select :dataisgood="currentProvince.items" v-model="cityCode" :readOnly="readOnly"></t-dic-dropdown-select>
     </el-col>
-  </div>
+  </el-form-item>
 </template>
 <script>
 import emitter from 'element-ui/src/mixins/emitter';
@@ -15,34 +15,42 @@ export default {
   components: {},
   props: {
     value: {
-      type: String
-    }
+      type: String,
+      default: '',
+      required: false
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
   },
   data() {
     return {
       provinceCode: null,
       cityCode: '',
       currentProvince: {},
-      readOnly: false
+      selectValue: '',
     }
   },
   watch: {
     provinceCode(value) {
-      this.cityCode = value
+      this.provinceCode = value
       this.currentProvince = find(tapp.data.base_datadictionary['base_region'], {id: value});
-      this.cityCode = ''
+      this.$emit('province', value)
+      this.$emit('input', value)
     },
     cityCode(value) {
-      console.log('value12121', value)
-      this.value = this.provinceCode+','+this.cityCode
+      this.$emit('city', value);
+      this.$emit('input', value)
     }
   },
   created() {
-    this.provinceCode = this.value || (this.multiple ? [] : null);
+
   },
   mounted() {},
   computed: {
-    
+
   },
   mounted() {},
   methods: {

@@ -222,6 +222,13 @@
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-row :gutter="0">
+                <el-col :span="12">
+                  <!-- <el-form-item label="地区" prop="region" class="is-required"> -->
+                    <t-region-picker @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+                  <!-- </el-form-item> -->
+                </el-col>
+              </el-row>
               <el-row :gutter="20">
                 <el-col :span="24">
                   <el-form-item label="学历-复选" prop="educationalLevelIdList" verify class="is-required">
@@ -523,7 +530,9 @@
 					customerCardNOBirthday: null,
 					customerCardNOAge: null,
 					customerCardNOSexId: null,
-					customerCardNOAddress: null
+          customerCardNOAddress: null,
+          province: '',
+          city: ''
 				},
 				input: '',
 				formInfo: '',
@@ -765,7 +774,15 @@
 				this.formInfo = this.$refs.multipleTable.selection;
 				this.$emit('formInfo', this.formInfo);
 				console.log(this.formInfo);
-			}
+      },
+      getProvince(province) {
+        console.log('province', province)
+        this.docEntity.province = province
+      },
+      getCity(city) {
+        console.log('city', city)
+        this.docEntity.city = city
+      },
 		}
 	}
 </script>
