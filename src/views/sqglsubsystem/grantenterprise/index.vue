@@ -33,7 +33,7 @@
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="企业性质："  prop="companyAttr">
-            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyAttr"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="unit_nature"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyAttr"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">

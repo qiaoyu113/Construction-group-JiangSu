@@ -8,44 +8,50 @@
         审批流程图
       </el-button>
     </el-row>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">企业入库授权</div>
+      </el-col>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="授权编号 ：">
-            <el-input v-model="dataForm.bId"></el-input>
+          <el-form-item prop="pId" label="授权编号 ：">
+            <el-input v-model="dataForm.pId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="actTaskKey" label="企业名称：">
-            <el-input v-model="dataForm.actTaskKey"></el-input>
+          <el-form-item prop="companyName" label="企业名称：">
+            <el-input v-model="dataForm.companyName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pcId" label="统一社会信用代码：">
-            <el-input v-model="dataForm.pcId"></el-input>
+          <el-form-item prop="creditCode" label="统一社会信用代码：">
+            <el-input v-model="dataForm.creditCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="企业地址：">
-            <el-input v-model="dataForm.useScenes"></el-input>
+          <el-form-item prop="companyAddress" label="企业地址：">
+            <el-input v-model="dataForm.companyAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="企业性质：">
-            <el-input v-model="dataForm.grantUser"></el-input>
+          <el-form-item prop="companyAttr" label="企业性质：">
+            <el-input v-model="dataForm.companyAttr"></el-input>
+            <t-dic-dropdown-select dicType="unit_nature"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyAttr"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="grantContent" label="法人代表：">
-            <el-input v-model="dataForm.grantContent"></el-input>
+          <el-form-item prop="legalPerson" label="法人代表：">
+            <el-input v-model="dataForm.legalPerson"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="备注：" prop="actTaskKey" verify can-be-empty :maxLength="200">
-            <el-input type="textarea" v-model="dataForm.propose"></el-input>
+          <el-form-item label="备注：" prop="remark" verify can-be-empty :maxLength="200">
+            <el-input type="textarea" v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -54,36 +60,28 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="propose" label="意向项目：">
-            <el-input v-model="dataForm.propose"></el-input>
+          <el-form-item prop="intentionProject" label="意向项目：">
+            <el-input v-model="dataForm.intentionProject"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="result" label="项目规模：">
-            <el-input v-model="dataForm.result"></el-input>
+          <el-form-item prop="proBuildArea" label="项目规模：">
+            <el-input v-model="dataForm.proBuildArea"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         <!-- <el-form-item prop="approvalStatus" label="授权人：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>-->
-          <el-form-item prop="approvalStatus" label="授权人:">
-            屠亚星
+            <el-form-item label="授权人:" prop="grantUser">
+              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         <!-- <el-form-item prop="approvalStatus" label="经办人：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>-->
-          <el-form-item prop="approvalStatus" label="经办人:">
-            系统登录人
+          <el-form-item prop="sign" label="登记人">
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-         <!-- <el-form-item prop="approvalStatus" label="经办时间：">
-            <el-input v-model="dataForm.approvalStatus"></el-input>
-          </el-form-item>-->
-          <el-form-item label="经办时间：" prop="propose">
+          <el-form-item label="经办时间：" prop="signTime">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -105,91 +103,22 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          bId: '',
           pId: '',
           companyName: '',
           creditCode: '',
           companyAddress: '',
           companyAttr: '',
           legalPerson: '',
+          remark: '',
           intentionProject: '',
           proBuildArea: '',
           grantUser: '',
-          remark: '',
           sign: '',
-          signTime: new Date(),
-          propose: '',
-          result: '',
-          approvalStatus: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
+          signTime: ''
         },
         dataRule: {
-          bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
           pId: [
-            {required: true, message: '授权编号不能为空', trigger: 'blur'}
-          ],
-          companyName: [
-            {required: true, message: '企业名称不能为空', trigger: 'blur'}
-          ],
-          creditCode: [
-            {required: true, message: '统一社会信用代码不能为空', trigger: 'blur'}
-          ],
-          companyAddress: [
-            {required: true, message: '企业地址不能为空', trigger: 'blur'}
-          ],
-          companyAttr: [
-            {required: true, message: '企业性质（字典表）不能为空', trigger: 'blur'}
-          ],
-          legalPerson: [
-            {required: true, message: '法人代表不能为空', trigger: 'blur'}
-          ],
-          intentionProject: [
-            {required: true, message: '意向项目不能为空', trigger: 'blur'}
-          ],
-          proBuildArea: [
-            {required: true, message: '项目规模-建筑面积-平方米不能为空', trigger: 'blur'}
-          ],
-          grantUser: [
-            {required: true, message: '授权人不能为空', trigger: 'blur'}
-          ],
-          remark: [
-            {required: true, message: '备注不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审核状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ]
         }
       }
