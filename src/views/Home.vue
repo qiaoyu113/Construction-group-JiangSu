@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container home">
   <div class="content has-text-centered">
     <!-- <div>
       <h2 id="-b">技术说明</h2>
@@ -13,7 +13,7 @@
         <li>前端 element ui：2.13.0</li>
       </ul>
     </div> -->
-    <el-row :gutter="20">
+    <el-row :gutter="0">
       <el-col :span="12">
           <div class="title">
             <el-badge :value="12" class="item">
@@ -43,7 +43,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
+    <el-row :gutter="0">
       <el-col :span="12">
         <div class="title">公告栏</div>
         <el-card shadow="never">
@@ -140,21 +140,21 @@ export default {
 .title {
   background: #357EF7 url("~@/assets/img/wave.png");
   background-size: cover;
-  padding: 20px 40px;
+  padding: 16px 32px;
   height: fit-content;
   width: fit-content;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow:0px 8px 6px rgba(0,0,0,0.16);
-  margin-bottom: -55px;
+  margin-bottom: -45px;
   margin-left: 5px;
   z-index: 100;
   position: relative;
 }
 .el-icon-message:before {
-  font-size: 25px;
+  font-size: 20px;
 }
 .done {
   width:10px;
