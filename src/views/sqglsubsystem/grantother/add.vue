@@ -25,62 +25,62 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+              <el-input  v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input readonly v-model="dataForm.proBusDept"></el-input>
+              <el-input v-model="dataForm.proBusDept"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input readonly v-model="dataForm.proConstructCompany"></el-input>
+              <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同模式：" prop="proContractAttr">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input readonly v-model="dataForm.proTotalInvestment"></el-input>
+              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模：">
-              <el-input readonly v-model="dataForm.proBuildArea"></el-input>
+              <el-input disabled v-model="dataForm.proBuildArea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="conName" label="合同名称：">
-            <el-input readonly v-model="dataForm.conName"></el-input>
+            <el-input disabled v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conStartDate" label="合同期间：">
-            <el-input readonly v-model="dataForm.conStartDate"></el-input>
+            <el-input disabled v-model="dataForm.conStartDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同金额">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
+            <el-input disabled v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,7 +103,7 @@
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
               <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>

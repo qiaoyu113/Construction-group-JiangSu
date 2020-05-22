@@ -36,7 +36,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式：" prop="pcId">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.grantUser" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -46,12 +46,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别：">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.remark" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.remark" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式：">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.sign" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.sign" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

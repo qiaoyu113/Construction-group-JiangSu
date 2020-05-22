@@ -56,7 +56,7 @@
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办日期："  prop="conCode">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.updatetime"></t-datetime-range-picker>
+            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -196,8 +196,8 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.starttime = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.endtime = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
