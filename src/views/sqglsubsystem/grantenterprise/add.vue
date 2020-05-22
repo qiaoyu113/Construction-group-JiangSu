@@ -40,8 +40,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyAttr" label="企业性质：">
-            <el-input v-model="dataForm.companyAttr"></el-input>
-            <t-dic-dropdown-select dicType="unit_nature"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyAttr"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.companyAttr" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

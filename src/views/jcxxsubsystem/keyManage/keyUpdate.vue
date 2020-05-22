@@ -26,7 +26,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-dic-tree-select dicType="base_region" v-model="dataForm.province" :readOnly="readOnly"></t-dic-tree-select>
+              <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -291,7 +291,17 @@
           });
           return false;
         });
-      }
+      },
+      getProvince (province) {
+        console.log('province', province)
+        // 赋值给实际页面的值
+        this.dataForm.province = province
+      },
+      getCity (city) {
+        console.log('city', city)
+        // 赋值给实际页面的值
+        this.dataForm.city = city
+      },
     }
   }
 </script>
