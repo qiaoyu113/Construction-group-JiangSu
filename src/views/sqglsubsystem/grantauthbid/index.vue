@@ -56,7 +56,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="经办日期"  prop="updatetime">
-            <t-datetime-range-picker @change="timeRangeChange"></t-datetime-range-picker>
+            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -204,8 +204,8 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startTime = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.endTime = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
@@ -218,10 +218,6 @@
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
-      },
-      timeRangeChange(value) {
-          this.gridOptions.dataSource.serviceInstanceInputParameters.startTime = value[0]
-          this.gridOptions.dataSource.serviceInstanceInputParameters.endTime = value[1]
       }
     }
   }
