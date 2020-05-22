@@ -56,7 +56,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="经办日期"  prop="updatetime">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.updatetime"></t-datetime-range-picker>
+            <t-datetime-range-picker @change="timeRangeChange"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -92,9 +92,8 @@
           dataSource: {
             serviceInstance: tapp.services.tGrantAuthbidApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              startTime: '',
+              endTime: ''
             }
           },
           grid: {
@@ -215,10 +214,14 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('投标授权表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
+      },
+      timeRangeChange(value) {
+          this.gridOptions.dataSource.serviceInstanceInputParameters.startTime = value[0]
+          this.gridOptions.dataSource.serviceInstanceInputParameters.endTime = value[1]
       }
     }
   }
