@@ -62,6 +62,7 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+  import find from "lodash/find";
 
   export default {
     name: 'myTask',
@@ -108,7 +109,7 @@
                 label: '所属地区',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('base_region', row.province) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  return this.$util.getProvinceCityName(row.province, row.city)
                 }
               },
               {
@@ -210,7 +211,7 @@
       },
       doExportExcel() {
         // eslint-disable-next-line no-template-curly-in-string
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('密钥信息更新列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();

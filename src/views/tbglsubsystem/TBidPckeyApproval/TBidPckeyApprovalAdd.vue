@@ -190,8 +190,9 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
-
+  import baseView from '@/base/baseView'
   export default {
+    extends: baseView,
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -263,27 +264,20 @@
           ],
           result: [
             {required: false, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: false, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: false, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: false, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: false, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
     },
     created() {
       this.init()
+    },
+    activated () {
+      this.$nextTick((_) => {
+        if (this.routeChanged) {
+          this.docId = this.$route.query.id
+          this.init(this.docId)
+        }
+      })
     },
     computed: {
       ...mapState({
