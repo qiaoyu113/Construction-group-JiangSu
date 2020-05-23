@@ -23,13 +23,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="联营公司名称" prop="companyId" verify>
+              <el-form-item label="联营公司名称" prop="companyId">
                 <t-partner-select placeholder="选择一个联营公司" v-model="dataForm.companyId" @selectedPartner="getSelectedPartner"></t-partner-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="主要负责人" prop="mainPid">
                 <t-maincharge-select placeholder="选择一个主要负责人" v-model="dataForm.mainPid" @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="备案项目" prop="recordId">
+                <t-record-select placeholder="选择一个备案项目" v-model="dataForm.recordId" @selectedRecord="getSelectedRecord"></t-record-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -62,7 +67,8 @@
           userId: '',
           companyId: '',
           mainPid: '',
-          managerId: ''
+          managerId: '',
+          recordId: ''
         },
         dataRules: {
           projectId: [
@@ -79,6 +85,9 @@
           ],
           managerId: [
             {required: true, message: '项目经理不能为空', trigger: 'change'},
+          ],
+          recordId: [
+            {required: true, message: '备案项目不能为空', trigger: 'change'},
           ],
         }
 			}
@@ -120,11 +129,18 @@
         // 例如 this.dataForm.id = charge.id
       },
       getSelectedManager(manager) {
-        console.log('current charge', manager)
+        console.log('current manager', manager)
         // manager为从弹窗框列表带出来的那一行的数据
         // 项目经理id 已从从组件里已经带出来，这里定义为 dataForm.managerId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的manager的其他值，从这里的manager获取
         // 例如 this.dataForm.id = manager.id
+      },
+      getSelectedRecord(record) {
+        console.log('current record', record)
+        // record为从弹窗框列表带出来的那一行的数据
+        // 备案项目id 已从从组件里已经带出来，这里定义为 dataForm.recordId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的record的其他值，从这里的record获取
+        // 例如 this.dataForm.id = record.id
       },
 			consoleData() {
         console.log('dataForm', this.dataForm)
