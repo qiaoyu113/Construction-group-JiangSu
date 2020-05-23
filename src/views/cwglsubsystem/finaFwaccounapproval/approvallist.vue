@@ -1,6 +1,6 @@
 <template>
   <div>
-    <t-grid ref="searchReulstList" :options="gridOptions">
+    <t-grid ref="approvallist" :options="gridOptions">
     </t-grid>
   </div>
 </template>
@@ -8,7 +8,11 @@
 <script>
   export default {
     props: {
-      pId: -1
+      pId: {
+        type: String || Number,
+        default: -1,
+        required: false,
+      },
     },
     name: 'approvalList',
     data() {
@@ -18,7 +22,7 @@
           dataSource: {
             serviceInstance: tapp.services.finaFpayoffApproval.getFpayoffList,
             serviceInstanceInputParameters: {
-              pId: pId,
+              pId: this.pId,
             }
           },
           grid: {
@@ -63,15 +67,24 @@
       }
     },
     components: {},
-    created() {
+    mounted() {
+      this.init()
+      this.doRefresh()
+    },
+    watch: {
+      pId(val) {
+        this.$emit('getPid', val)
+      }
     },
     methods: {
       // 初始化
       init(pId) {
         console.log(pId)
-
-
       },
+      doRefresh() {
+        this.$refs.approvallist.refresh();
+      },
+
     }
   }
 </script>

@@ -32,7 +32,7 @@
     </t-grid>
     </el-card>
     <el-dialog title="工资发放信息" :visible.sync="dialogTableVisible" width="50%">
-      <approvalList :pId="pId" ref="approvalList"></approvalList>
+      <approvalList :pId="pId" ref="approvalList" @getPid="getPid"></approvalList>
     </el-dialog>
   </div>
 </template>
@@ -48,6 +48,7 @@
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
+        pId: '',
         gridOptions: {
           dataSource: {
             serviceInstance: tapp.services.finaFwaccounapproval.getPagedList,
@@ -139,13 +140,10 @@
     },
     methods: {
       doSomething(row){
-        debugger
         this.dialogTableVisible=true;//默认页面不显示为false,点击按钮将这个属性变成true
         if (row.pId) {
-          this.$refs.approvalList.pId = row.pId;
+          this.pId = row.pId;
           console.log(row.pId)
-          console.log(this.$refs.approvalList)
-          console.log(this.$refs.approvalList.pId)
         }
       },
       // 获取码表值
@@ -167,6 +165,9 @@
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
+      },
+      getPid(val) {
+        console.log(val)
       }
     }
   }
