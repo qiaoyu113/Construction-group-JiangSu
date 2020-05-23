@@ -9,19 +9,17 @@
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="proName">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
-                       placeholder="建设单位" clearable></el-input>
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="工程类别：" prop="proType">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
-                       placeholder="建设单位" clearable></el-input>
+            <t-dic-dropdown-select dicType="engineering_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式：" prop="proRunMode">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
-                       placeholder="建设单位" clearable></el-input>
+            <t-dic-dropdown-select dicType="business_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -29,20 +27,18 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="审批状态："  prop="approvalStatus">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                       placeholder="建设单位" clearable></el-input>
+            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办人：" prop="sign">
             <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
-                       placeholder="建设单位" clearable></el-input>
+                       placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办日期：" prop="sign">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
-                       placeholder="建设单位" clearable></el-input>
+          <el-form-item label="经办日期"  prop="updatetime">
+            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,6 +120,9 @@
                 label: '经营方式',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'filePath',
@@ -136,6 +135,9 @@
                 label: '审批状态',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'sign',
@@ -148,6 +150,9 @@
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD')
+                }
               }
             ], // 需要展示的列
             defaultSort: {
@@ -168,8 +173,8 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.starttime = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.endtime = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
