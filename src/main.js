@@ -151,6 +151,7 @@ import THandlerSelect from './components/popup/handler-select.vue'
 import TPartnerSelect from './components/popup/partner-select.vue'
 import TMainChargeSelect from './components/popup/maincharge-select.vue'
 import TManagerSelect from './components/popup/manager-select.vue'
+import TRecordSelect from './components/popup/record-select.vue'
 Vue.component('t-grid', TGrid)
 Vue.component('t-edit-grid', TEditGrid)
 Vue.component('t-edit-grid-column', TEditGridColumn)
@@ -172,6 +173,7 @@ Vue.component('t-handler-select', THandlerSelect)
 Vue.component('t-partner-select', TPartnerSelect)
 Vue.component('t-maincharge-select', TMainChargeSelect)
 Vue.component('t-manager-select', TManagerSelect)
+Vue.component('t-record-select', TRecordSelect)
 
 Vue.component('t-cascader', TCascader)
 Vue.component('t-tree', TTree)
