@@ -39,17 +39,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="province" label="项目地址:">
-            <el-row type="flex" justify="space-between">
-              <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province"
-                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
-              </el-col>
-              <el-col :span="12">
-                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city"
-                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
-              </el-col>
-            </el-row>
+          <el-form-item prop="region" label="所属地区" class="is-required">
+            <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -166,87 +157,95 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="甲方单位：">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="签订人：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
+      <el-row>
+        <el-form-item label="添加甲方：" class="is-required">
+          <el-col>
+            <t-edit-grid ref="firstPartyGrid" :options="firstPartyGridOptions" :readOnly="readOnly">
+              <template slot="columnDataHeader">
+                <t-edit-grid-column prop="updateuser" label="甲方单位" verify :maxLength="200" min-width="150" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.updateuser" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="签订人" idcard :maxLength="50" min-width="100">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="开户行名称" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="银行账户名称" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="银行账号" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="loanMoneyAmount" label="联系方式" verify min-width="80" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="地址" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+              </template>
+            </t-edit-grid>
+          </el-col>
+        </el-form-item>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="开户行名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账户名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账号：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="联系方式：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="地址：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="乙方单位：">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="签订人：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="开户行名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账户名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账号：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="联系方式：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="地址：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
+      <el-row>
+        <el-form-item label="添加乙方：" class="is-required">
+          <el-col>
+            <t-edit-grid ref="secondPartyGrid" :options="secondPartyGridOptions" :readOnly="readOnly">
+              <template slot="columnDataHeader">
+                <t-edit-grid-column prop="updateuser" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.updateuser" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="签订人" idcard :maxLength="50" min-width="100">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="开户行名称" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="银行账户名称" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="银行账号" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="loanMoneyAmount" label="联系方式" verify min-width="80" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
+                  </template>
+                </t-edit-grid-column>
+                <t-edit-grid-column prop="datastatus" label="地址" verify min-width="100" class-name="is-required">
+                  <template slot-scope="scope">
+                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
+                  </template>
+                </t-edit-grid-column>
+              </template>
+            </t-edit-grid>
+          </el-col>
+        </el-form-item>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -359,6 +358,7 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -386,7 +386,28 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          province: ''
+          province: '',
+          city: '',
+        },
+        firstPartyGridOptions: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            defaultSort: {
+              prop: 'id',
+              order: 'ascending'
+            }
+          }
+        },
+        secondPartyGridOptions: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            defaultSort: {
+              prop: 'id',
+              order: 'ascending'
+            }
+          }
         },
         dataRule: {
           bId: [
@@ -525,23 +546,33 @@
       doSave() {
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
-        Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
-          tapp.services.tContInfoApproval.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-            self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
-        }).catch(function (e) {
-          self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
-      }
+        console.log('this.firstPartyGridOptions', this.firstPartyGridOptions)
+        console.log('this.firstPartyGridOptions', this.firstPartyGridOptions)
+        let model = {...self.dataForm};
+        console.log('model', model)
+        // Promise.all(validPromises).then(resultList => {
+        //   let model = {...self.dataForm};
+        //   tapp.services.tContInfoApproval.save(model).then(function (result) {
+        //     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+        //     self.$notify.success({
+        //       title: "操作成功！",
+        //       message: "保存成功！",
+        //     });
+        //   });
+        // }).catch(function (e) {
+        //   self.$notify.error({
+        //     title: "错误",
+        //     message: "保存失败！"
+        //   });
+        //   return false;
+        // });
+      },
+      getProvince (province) {
+        this.dataForm.province = province
+      },
+      getCity (city) {
+        this.dataForm.city = city
+      },
     }
   }
 </script>

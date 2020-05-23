@@ -1,10 +1,9 @@
 <template>
-<el-table-column v-bind="$attrs" v-on="$listeners" :label="label">
-  <template slot-scope="scope">
-    <slot  :row="scope.row">
-    </slot>
-</template>
-</el-table-column>
+  <el-table-column v-bind="$attrs" v-on="$listeners" :label="label">
+    <template slot-scope="scope">
+      <slot  :row="scope.row"></slot>
+    </template>
+  </el-table-column>
 </template>
 
 <script>

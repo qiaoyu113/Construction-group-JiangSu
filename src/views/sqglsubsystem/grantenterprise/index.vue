@@ -78,7 +78,7 @@
           startDateRange: null,
           gridOptions: {
             dataSource: {
-              serviceInstance: tapp.services.tGrantContractApproval.getPagedList,
+              serviceInstance: tapp.services.tGrantEnterpriseApproval.getPagedList,
               serviceInstanceInputParameters: {
                 searchKey: null,
                 processDefinationKey: null,
