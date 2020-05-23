@@ -14,15 +14,15 @@
         <t-sub-title :title="'基本信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8" style="display: none">
-            <el-form-item prop="pcId" label="备案项目id：">
-              <el-input v-model="dataForm.pcId"></el-input>
+            <el-form-item prop="pcId" label="项目名称：">
+              <el-input v-model="dataForm.proName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <el-input v-model="dataForm.proName">
+              <t-record-select placeholder="选择一个备案项目" v-model="dataForm.pcId" @selectedRecord="getSelectedRecord">
                 <el-button v-if="haveOrNot === 'have'" slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-              </el-input>
+              </t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -50,7 +50,8 @@
             <el-form-item label="项目地址：" prop="pro_address">
               <el-row type="flex" justify="space-between">
                 <el-col :span="10">
-                  <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+                  <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity"
+                                   :readOnly="readOnly"></t-region-picker>
                 </el-col>
                 <el-col :span="13">
                   <el-form-item prop="proAddressDetail">
@@ -118,7 +119,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proManager" label="项目经理：">
-              <el-input v-model="dataForm.proManager"></el-input>
+              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.proManager" @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -601,6 +602,43 @@
             this.dataForm.proRegisterTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+      getSelectedRecord(record) {
+        console.log(record);
+        this.dataForm.proName = record.proName;
+        this.dataForm.proConstructCompanyAttr = record.proConstructCompanyAttr;
+        this.dataForm.proSubCompany = record.proSubCompany;
+        this.dataForm.proCode = record.proCode;
+        this.dataForm.proAddressProvince = record.proAddressProvince;
+        this.dataForm.proAddressCity = record.proAddressCity;
+        this.dataForm.proAddressDetail = record.proAddressDetail;
+        this.dataForm.proManager = record.proManager;
+        this.dataForm.proFundSource = record.proFundSource;
+        this.dataForm.proBusDept = record.proBusDept;
+        this.dataForm.proSubType = record.proSubType;
+        this.dataForm.proConstructCompany = record.proConstructCompany;
+        this.dataForm.proContractAttr = record.proContractAttr;
+        this.dataForm.proTotalInvestment = record.proTotalInvestment;
+        this.dataForm.proType = record.proType;
+        this.dataForm.proRunMode = record.proRunMode;
+        this.dataForm.proBuildArea = record.proBuildArea;
+        this.dataForm.proRealStartDate = record.proRealStartDate;
+        this.dataForm.proPlanEndDate = record.proPlanEndDate;
+        this.dataForm.proUnionCompanyMerate = record.proUnionCompanyMerate;
+        this.dataForm.proProfitRate = record.proProfitRate;
+        this.dataForm.proContacter = record.proContacter;
+        this.dataForm.proContactway = record.proContactway;
+        this.dataForm.proSpan = record.proSpan;
+        this.dataForm.proLayer = record.proLayer;
+        this.dataForm.proBlock = record.proBlock;
+        this.dataForm.proBasementArea = record.proBasementArea;
+        this.dataForm.proIsFitout = record.proIsFitout;
+        this.dataForm.proFitoutRate = record.proFitoutRate;
+        this.dataForm.proUnionCompany = record.proUnionCompany;
+        this.dataForm.proIsBim = record.proIsBim;
+      },
+      getSelectedManager(manager) {
+        console.log('current manager', manager)
       },
       // 表单提交
       doSave () {
