@@ -134,7 +134,7 @@
                 minWidth: 100
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'proContractAttr',
                 label: '合同模式',
                 minWidth: 100,
                 formatter: (row, column, cellValue) => {

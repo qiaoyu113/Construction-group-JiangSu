@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -112,12 +113,15 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'paoName',
+                prop: 'proName',
                 label: '项目名称'
               },
               {
                 prop: 'proType',
-                label: '工程类别'
+                label: '工程类别',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -128,8 +132,11 @@
                 label: '投资金额'
               },
               {
-                prop: 'proTotalInvestment',
-                label: '合同模式'
+                prop: 'proContractAttr',
+                label: '合同模式',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('contract_model', row.proContractAttr) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proTotalInvestment',
@@ -138,7 +145,10 @@
               {
                 prop: 'proRunModeO',
                 label: '经营方式(变更前)',
-                minWidth: 120
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conPorjectFund',
@@ -148,11 +158,17 @@
               {
                 prop: 'proRunMode',
                 label: '经营方式(变更后)',
-                minWidth: 120
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'approvalStatus',
-                label: '状态'
+                label: '状态',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'conPorjectFund',
