@@ -59,17 +59,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目地址:">
-            <el-row type="flex" justify="space-between">
-              <el-col :span="12">
-                <t-dic-dropdown-select dicType="base_region" v-model="dataForm.province"
-                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
-              </el-col>
-              <el-col :span="12">
-                <t-dic-dropdown-select :dataisgood="currentProvince" v-model="dataForm.city"
-                                       :readOnly="currentReadonly"></t-dic-dropdown-select>
-              </el-col>
-            </el-row>
+          <el-form-item prop="region" label="项目地址：" class="is-required">
+            <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -193,87 +184,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="甲方单位：">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="签订人：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
+      <el-row>
+        <t-first-party ref="firstParty" :readOnly="readOnly"></t-first-party>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="开户行名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账户名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账号：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="联系方式：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="地址：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="updateuser" label="乙方单位：">
-            <el-input v-model="dataForm.updateuser"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="签订人：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="开户行名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账户名称：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="银行账号：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="联系方式：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="datastatus" label="地址：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
+      <el-row>
+        <t-second-party ref="secondParty" :readOnly="readOnly"></t-second-party>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -351,6 +266,7 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           pId: '',
           cId: '',
@@ -370,7 +286,9 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          province: '',
+          city: '',
         },
         dataRule: {
           pId: [
@@ -442,29 +360,30 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tContBranchInfo.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.pId = result.tContBranchInfo.pId
-                this.dataForm.cId = result.tContBranchInfo.cId
-                this.dataForm.conCode = result.tContBranchInfo.conCode
-                this.dataForm.conName = result.tContBranchInfo.conName
-                this.dataForm.conModality = result.tContBranchInfo.conModality
-                this.dataForm.conStartDate = result.tContBranchInfo.conStartDate
-                this.dataForm.conEndDate = result.tContBranchInfo.conEndDate
-                this.dataForm.conSigningDate = result.tContBranchInfo.conSigningDate
-                this.dataForm.conPayWay = result.tContBranchInfo.conPayWay
-                this.dataForm.otherPayWay = result.tContBranchInfo.otherPayWay
-                this.dataForm.conTotal = result.tContBranchInfo.conTotal
-                this.dataForm.conSelfProportion = result.tContBranchInfo.conSelfProportion
-                this.dataForm.conOtherProportion = result.tContBranchInfo.conOtherProportion
-                this.dataForm.conPayStandard = result.tContBranchInfo.conPayStandard
-                this.dataForm.createtime = result.tContBranchInfo.createtime
-                this.dataForm.updatetime = result.tContBranchInfo.updatetime
-                this.dataForm.createuser = result.tContBranchInfo.createuser
-                this.dataForm.updateuser = result.tContBranchInfo.updateuser
-                this.dataForm.datastatus = result.tContBranchInfo.datastatus
+                self.dataForm.pId = result.pId
+                self.dataForm.cId = result.cId
+                self.dataForm.conCode = result.conCode
+                self.dataForm.conName = result.conName
+                self.dataForm.conModality = result.conModality
+                self.dataForm.conStartDate = result.conStartDate
+                self.dataForm.conEndDate = result.conEndDate
+                self.dataForm.conSigningDate = result.conSigningDate
+                self.dataForm.conPayWay = result.conPayWay
+                self.dataForm.otherPayWay = result.otherPayWay
+                self.dataForm.conTotal = result.conTotal
+                self.dataForm.conSelfProportion = result.conSelfProportion
+                self.dataForm.conOtherProportion = result.conOtherProportion
+                self.dataForm.conPayStandard = result.conPayStandard
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -477,9 +396,21 @@
       // 表单提交
       doSave() {
         let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
-        Promise.all(validPromises).then(resultList => {
+        let validPromises = self.$refs['ruleForm'].validate();
+        let firstPartyPromises = self.$refs['firstParty'].validate()
+        let secondPartyPromises = self.$refs['secondParty'].validate()
+        Promise.all([validPromises, firstPartyPromises, secondPartyPromises]).then(resultList => {
           let model = {...self.dataForm};
+          // 甲乙方数据
+          let firstPartyData = self.$refs['firstParty'].getData().list
+          firstPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
+          let secondPartyData = self.$refs['secondParty'].getData()
+          secondPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
+
+          // TODO firtPartyData 和 secondPartyData 怎么放在 model 里面，需要调整
+          // 举例 model.firstPartyData = firstPartyData
+          // 举例 model.secondPartyData = secondPartyData
+
           tapp.services.tContBranchInfo.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
