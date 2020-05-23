@@ -15,9 +15,8 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="所属地区">
-              <t-region-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
-                               @province="getProvince" @city="getCity" ></t-region-picker>
+            <el-form-item label="所属地区" prop="region">
+              <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" @province="getProvince" @city="getCity" :required="false"></t-region-picker>
             </el-form-item>
           </el-col>
 
@@ -186,6 +185,9 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.$refs.region.province = ''
+        this.doRefresh();
       },
       onStartExpirationDateChanged(val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
@@ -203,14 +205,10 @@
         this.$refs.searchReulstList.refresh();
       },
       getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.dataForm.province = province
+        this.gridOptions.dataSource.serviceInstanceInputParameters.province =province;
       },
       getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.dataForm.city = city
+        this.gridOptions.dataSource.serviceInstanceInputParameters.city =city;
       },
     }
   }
