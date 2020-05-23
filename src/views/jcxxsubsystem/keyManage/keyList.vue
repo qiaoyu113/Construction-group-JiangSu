@@ -14,12 +14,8 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="所属地区">
-              <t-dic-tree-select placeholder="请选择" dicType="base_region"
-                                 v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
-                                 :readOnly="readOnly"></t-dic-tree-select>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
+            <el-form-item label="所属地区" prop="region">
+              <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" @province="getProvince" @city="getCity" :required="false"></t-region-picker>
             </el-form-item>
           </el-col>
 
@@ -250,6 +246,9 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.$refs.region.province = ''
+        this.doRefresh();
       },
       doExportExcel() {
         // eslint-disable-next-line no-template-curly-in-string
@@ -257,7 +256,13 @@
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
-      }
+      },
+      getProvince (province) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.province =province;
+      },
+      getCity (city) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.city =city;
+      },
     }
   }
 </script>
