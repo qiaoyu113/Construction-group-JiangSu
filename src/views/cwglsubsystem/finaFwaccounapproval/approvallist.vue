@@ -34,24 +34,24 @@
               width: 120
             },
               {
-                prop: 'name',
+                prop: 'bankName',
                 label: '银行帐户名称',
                 fixed: 'left',
                 width: 120
               },
               {
-                prop: 'mobile',
+                prop: 'bankAccount',
                 label: '银行帐号',
                 minWidth: 120
               },
               {
-                prop: 'mobile',
+                prop: 'payoffMoney',
                 label: '发放金额（万元）',
                 minWidth: 120
               },
               {
-                prop: 'mobile',
-                label: '银行帐号',
+                prop: 'signTime',
+                label: '发放时间',
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.openTime, 'YYYY-MM-DD');
@@ -78,8 +78,8 @@
     },
     methods: {
       // 初始化
-      init(pId) {
-        console.log(pId)
+      init() {
+        this.$refs.approvallist.refresh();
       },
       doRefresh() {
         this.$refs.approvallist.refresh();

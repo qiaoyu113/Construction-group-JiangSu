@@ -143,7 +143,6 @@
         this.dialogTableVisible=true;//默认页面不显示为false,点击按钮将这个属性变成true
         if (row.pId) {
           this.pId = row.pId;
-          console.log(row.pId)
         }
       },
       // 获取码表值
@@ -167,7 +166,6 @@
         this.$refs.searchReulstList.refresh();
       },
       getPid(val) {
-        console.log(val)
       }
     }
   }
