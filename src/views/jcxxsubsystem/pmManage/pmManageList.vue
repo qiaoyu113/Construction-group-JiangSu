@@ -15,23 +15,21 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="姓名">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
-                        clearable></el-input>
+              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId"
+                                @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="建造师等级">
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
-                        clearable></el-input>
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="分公司">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder=""
-                        clearable></el-input>
+            <el-form-item prop="proSubCompany" label="分公司">
+              <t-partner-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyId"
+                                @selectedPartner="getSelectedPartner"></t-partner-select>
+
             </el-form-item>
           </el-col>
         </el-row>
@@ -39,9 +37,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button icon="el-icon-download" @click="doReset()">
-                <i class="fa fa-lg fa-level-down"></i>清空
-              </el-button>
+              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -66,9 +62,9 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              pcId: null,
+              constructorLevel: null,
+              proSubCompany: null
             }
           },
           grid: {
@@ -81,12 +77,12 @@
                 sortable: false
               },
               {
-                prop: 'constructorLevel',
+                prop: 'proSubCompany',
                 label: '所在公司',
                 sortable: false
               },
               {
-                prop: '',
+                prop: 'proContactway',
                 label: '联系方式',
                 sortable: false
               },
@@ -108,24 +104,24 @@
                 sortable: false
               },
               {
-                prop: 'remark',
+                prop: 'proStatue',
                 label: '是否在建',
                 sortable: false
               },
               {
-                prop: 'remark',
+                prop: '',
                 label: '在建项目个数',
                 sortable: false,
                 width: 120,
               },
               {
-                prop: 'remark',
+                prop: '',
                 label: '累计竣工项目个数',
                 sortable: false,
                 width: 150,
               },
               {
-                prop: 'remark',
+                prop: '',
                 label: '证书附件',
                 sortable: false
               },
@@ -162,7 +158,10 @@
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
-      }
+      },
+      getSelectedManager(manager) {
+        console.log('current charge', manager)
+      },
     }
   }
 </script>

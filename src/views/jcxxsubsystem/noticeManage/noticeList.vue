@@ -49,9 +49,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button icon="el-icon-download" @click="doReset()">
-                <i class="fa fa-lg fa-level-down"></i>清空
-              </el-button>
+              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>

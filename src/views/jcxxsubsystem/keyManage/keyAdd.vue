@@ -57,7 +57,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principalId" label="主要负责人">
-              <el-input v-model="dataForm.principalId"></el-input>
+              <t-maincharge-select v-model="dataForm.principalId" @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -165,7 +165,7 @@
             {required: true, message: '所属地区-省', trigger: 'blur'}
           ],
           city: [
-            {required: true, message: '所属地区-市', trigger: 'blur'}
+            {required: false, message: '所属地区-市', trigger: 'blur'}
           ],
           keyType: [
             {required: true, message: '类别名称', trigger: 'blur'}
@@ -251,6 +251,13 @@
       })
     },
     methods: {
+      getSelectedMainCharge(charge) {
+        console.log('current charge', charge)
+        // charge为从弹窗框列表带出来的那一行的数据
+        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
+        // 例如 this.dataForm.id = charge.id
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
@@ -303,7 +310,6 @@
       },
       // 表单提交
       doSave() {
-        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {

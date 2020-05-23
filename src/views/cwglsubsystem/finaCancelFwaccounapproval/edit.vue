@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="sign" label="经办人：">
+          <el-form-item prop="sign" :readonly="true" label="经办人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
@@ -160,7 +160,7 @@
       // 选择项目
       selectedData(data) {
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
-        this.dataForm.bId = data.id
+        this.dataForm.fwaId = data.id
         this.dataForm.pId = data.pId
         this.dataForm.bankName = data.bankName
         this.dataForm.proName = data.proName

@@ -8,6 +8,7 @@
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
+        
         <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
@@ -55,7 +56,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"></el-input>
+              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                                @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
@@ -71,9 +73,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button icon="el-icon-download" @click="doReset()">
-                <i class="fa fa-lg fa-level-down"></i>清空
-              </el-button>
+              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -109,6 +109,7 @@
               sign: null,
               keyType: null,
               province: null,
+              city: null,
               authCompany: null,
               keyStatus: null,
               dateRange1: '',
@@ -224,6 +225,9 @@
       this.loadCodeTableList();
     },
     methods: {
+      getSelectedUser(user) {
+        console.log('current user', user)
+      },
       // 获取码表值
       loadCodeTableList() {
         // 以下为示例
