@@ -71,7 +71,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同期间">
-              <t-datetime-range-picker v-model="dataForm.proCode"></t-datetime-range-picker>
+              <t-datetime-range-picker v-model="dataForm.startDateBegin" @change="onStartDateRangeChanged"></t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -184,6 +184,8 @@
           remark: '',
           sign: '',
           signTime: '',
+          startDateBegin: '',
+          startDateEnd: ''
         },
         dataRule: {
           sign: [
@@ -243,6 +245,11 @@
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+
+      onStartDateRangeChanged(val) {
+        this.dataFrom.startDateBegin = val[0];
+        this.dataFrom.startDateEnd = val[1];
       },
       // 表单提交
       doSave () {

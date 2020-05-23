@@ -28,6 +28,11 @@ export default {
       default: false,
       required: false
     },
+    required: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
   },
   data() {
     return {
@@ -57,12 +62,14 @@ export default {
   },
   methods: {
     isProvinceEmpty(rule, value, cb) {
+      if(!this.required) return cb()
       if(this.province == null || this.province.length == 0 || this.province == '') {
         return cb(new Error('省份不能为空')) 
       }
       return cb()
     },
     isCityEmpty(rule, value, cb) {
+      if(!this.required) return cb()
       if(this.currentProvince && this.currentProvince.items && this.currentProvince.items.length == 0) {
         return cb()
       }

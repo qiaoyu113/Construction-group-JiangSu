@@ -21,13 +21,13 @@
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
               <el-input v-model="dataForm.proName">
-                <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+                <el-button v-if="haveOrNot === 'have'" slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="投标流程：">
-              <t-dic-radio-select dicType="have_or_not" v-model="dataForm.haveOrNot" :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="have_or_not" v-model="haveOrNot" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -46,15 +46,18 @@
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="项目地址：" prop="pro_address" verify class="is-required">
-              <t-dic-tree-select dicType="base_region" v-model="dataForm.pro_address"
-                                 :readOnly="readOnly"></t-dic-tree-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="详细地址：" prop="pro_address_detail" verify class="is-required">
-              <el-input v-model="dataForm.proAddressDetail"></el-input>
+          <el-col :span="16">
+            <el-form-item label="项目地址：" prop="pro_address">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="10">
+                  <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+                </el-col>
+                <el-col :span="13">
+                  <el-form-item prop="proAddressDetail">
+                    <el-input v-model="dataForm.proAddressDetail"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -227,14 +230,14 @@
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary'" >
             <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
               <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary'">
             <el-form-item label="公司负责人：" prop="proCompanyHeader">
               <el-input v-model="dataForm.proCompanyHeader">
                 <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
@@ -242,86 +245,78 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
-              <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
-                <span slot="append">%</span>
-              </t-int-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="联营公司名称：" prop="proUnionCompany">
-              <el-input v-model="dataForm.proUnionCompany">
-                <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proContacter" label="联系人：">
-              <el-input v-model="dataForm.proContacter"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proContactway" label="联系方式：">
-              <el-input v-model="dataForm.proContactway"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
-              <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
-                <span slot="append">%</span>
-              </t-int-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
-              <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
-                <span slot="append">%</span>
-              </t-int-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="公司负责人：" prop="proCompanyHeader">
-              <el-input v-model="dataForm.proCompanyHeader" readonly>
-                <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="联营公司名称：" prop="proUnionCompany">
-              <el-input v-model="dataForm.proUnionCompany" readonly>
-                <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proContacter" label="联系人：">
-              <el-input v-model="dataForm.proContacter"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proContactway" label="联系方式：">
-              <el-input v-model="dataForm.proContactway"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <div v-if="dataForm.proRunMode === 'pool'">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
+                <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+                  <span slot="append">%</span>
+                </t-int-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="联营公司名称：" prop="proUnionCompany">
+                <el-input v-model="dataForm.proUnionCompany">
+                  <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proContacter" label="联系人：">
+                <el-input v-model="dataForm.proContacter"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proContactway" label="联系方式：">
+                <el-input v-model="dataForm.proContactway"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-if="dataForm.proRunMode === 'proprietary_pool'">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
+                <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+                  <span slot="append">%</span>
+                </t-int-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
+                <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
+                  <span slot="append">%</span>
+                </t-int-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="公司负责人：" prop="proCompanyHeader">
+                <el-input v-model="dataForm.proCompanyHeader" readonly>
+                  <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="联营公司名称：" prop="proUnionCompany">
+                <el-input v-model="dataForm.proUnionCompany" readonly>
+                  <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proContacter" label="联系人：">
+                <el-input v-model="dataForm.proContacter"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proContactway" label="联系方式：">
+                <el-input v-model="dataForm.proContactway"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
@@ -363,6 +358,8 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        // 是否有投标流程
+        haveOrNot: 'have',
         dataForm: {
           pcId: '',
           proCode: '',
@@ -398,7 +395,7 @@
           proIsFitout: '',
           proFitoutRate: '',
           proIsBim: '',
-          proRunMode: '',
+          proRunMode: 'proprietary', // 默认自营
           proProfitRate: '',
           proUnionCompanyMerate: '',
           proUnionCompany: '',
@@ -427,6 +424,9 @@
           ],
           proAddressProvince: [
             {required: true, message: '项目地址-省不能为空', trigger: 'blur'}
+          ],
+          proAddressDetail: [
+            {required: true, message: '详细地址不能为空', trigger: 'blur'}
           ],
           proTotalInvestment: [
             {required: true, message: '项目总投资不能为空', trigger: 'blur'}
@@ -622,7 +622,17 @@
           })
           return false
         })
-      }
+      },
+      getProvince (province) {
+        console.log('province', province)
+        // 赋值给实际页面的值
+        this.dataForm.proAddressProvince = province
+      },
+      getCity (city) {
+        console.log('city', city)
+        // 赋值给实际页面的值
+        this.dataForm.proAddressCity = city
+      },
     }
   }
 </script>

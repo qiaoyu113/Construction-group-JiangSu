@@ -40,12 +40,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目地址：" prop="proAddressCity" verify class="is-required">
+          <el-form-item label="项目地址：" prop="proAddressCity">
             <t-dic-tree-select dicType="base_region" v-model="dataForm.proAddressCity" :readOnly="readOnly"></t-dic-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="详细地址：" prop="proAddressDetail" verify class="is-required">
+          <el-form-item label="详细地址：" prop="proAddressDetail">
             <el-input v-model="dataForm.proAddressDetail"></el-input>
           </el-form-item>
         </el-col>
@@ -90,13 +90,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="实际开工日期：" prop="proRealStartDate" verify class="is-required">
+          <el-form-item label="实际开工日期：" prop="proRealStartDate">
             <t-datetime-picker v-model="dataForm.proRealStartDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="计划完工日期：" prop="proPlanEndDate" verify class="is-required">
+          <el-form-item label="计划完工日期：" prop="proPlanEndDate">
             <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" :readOnly="readOnly">
             </t-datetime-picker>
           </el-form-item>

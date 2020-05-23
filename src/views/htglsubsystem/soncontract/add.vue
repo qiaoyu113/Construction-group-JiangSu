@@ -213,6 +213,7 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -364,44 +365,45 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tContSubcontractApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tContSubcontractApproval.bId
-                this.dataForm.actTaskKey = result.tContSubcontractApproval.actTaskKey
-                this.dataForm.pId = result.tContSubcontractApproval.pId
-                this.dataForm.conCode = result.tContSubcontractApproval.conCode
-                this.dataForm.conName = result.tContSubcontractApproval.conName
-                this.dataForm.conModality = result.tContSubcontractApproval.conModality
-                this.dataForm.conType = result.tContSubcontractApproval.conType
-                this.dataForm.otherConType = result.tContSubcontractApproval.otherConType
-                this.dataForm.conStartDate = result.tContSubcontractApproval.conStartDate
-                this.dataForm.conEndDate = result.tContSubcontractApproval.conEndDate
-                this.dataForm.conSigningDate = result.tContSubcontractApproval.conSigningDate
-                this.dataForm.conPayWay = result.tContSubcontractApproval.conPayWay
-                this.dataForm.otherPayWay = result.tContSubcontractApproval.otherPayWay
-                this.dataForm.conTotal = result.tContSubcontractApproval.conTotal
-                this.dataForm.conPartya = result.tContSubcontractApproval.conPartya
-                this.dataForm.signatorya = result.tContSubcontractApproval.signatorya
-                this.dataForm.conPartyb = result.tContSubcontractApproval.conPartyb
-                this.dataForm.signatoryb = result.tContSubcontractApproval.signatoryb
-                this.dataForm.isExceedTotal = result.tContSubcontractApproval.isExceedTotal
-                this.dataForm.isExceed = result.tContSubcontractApproval.isExceed
-                this.dataForm.isRunProcedure = result.tContSubcontractApproval.isRunProcedure
-                this.dataForm.remarks = result.tContSubcontractApproval.remarks
-                this.dataForm.conPayStandard = result.tContSubcontractApproval.conPayStandard
-                this.dataForm.conStatus = result.tContSubcontractApproval.conStatus
-                this.dataForm.approvalStatus = result.tContSubcontractApproval.approvalStatus
-                this.dataForm.sign = result.tContSubcontractApproval.sign
-                this.dataForm.signTime = result.tContSubcontractApproval.signTime
-                this.dataForm.propose = result.tContSubcontractApproval.propose
-                this.dataForm.result = result.tContSubcontractApproval.result
-                this.dataForm.createtime = result.tContSubcontractApproval.createtime
-                this.dataForm.updatetime = result.tContSubcontractApproval.updatetime
-                this.dataForm.createuser = result.tContSubcontractApproval.createuser
-                this.dataForm.updateuser = result.tContSubcontractApproval.updateuser
-                this.dataForm.datastatus = result.tContSubcontractApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.conCode = result.conCode
+                self.dataForm.conName = result.conName
+                self.dataForm.conModality = result.conModality
+                self.dataForm.conType = result.conType
+                self.dataForm.otherConType = result.otherConType
+                self.dataForm.conStartDate = result.conStartDate
+                self.dataForm.conEndDate = result.conEndDate
+                self.dataForm.conSigningDate = result.conSigningDate
+                self.dataForm.conPayWay = result.conPayWay
+                self.dataForm.otherPayWay = result.otherPayWay
+                self.dataForm.conTotal = result.conTotal
+                self.dataForm.conPartya = result.conPartya
+                self.dataForm.signatorya = result.signatorya
+                self.dataForm.conPartyb = result.conPartyb
+                self.dataForm.signatoryb = result.signatoryb
+                self.dataForm.isExceedTotal = result.isExceedTotal
+                self.dataForm.isExceed = result.isExceed
+                self.dataForm.isRunProcedure = result.isRunProcedure
+                self.dataForm.remarks = result.remarks
+                self.dataForm.conPayStandard = result.conPayStandard
+                self.dataForm.conStatus = result.conStatus
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -415,8 +417,9 @@
       doSave() {
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
-        Promise.all(validPromises).then(resultList => {
+        Promise.all([validPromises]).then(resultList => {
           let model = {...self.dataForm};
+
           tapp.services.tContSubcontractApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
@@ -431,7 +434,13 @@
           });
           return false;
         });
-      }
+      },
+      getProvince (province) {
+        this.dataForm.province = province
+      },
+      getCity (city) {
+        this.dataForm.city = city
+      },
     }
   }
 </script>

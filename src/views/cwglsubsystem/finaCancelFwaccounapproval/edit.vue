@@ -176,22 +176,22 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
                         if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaCancelFwaccounapproval.pId
-                self.dataForm.fwaId = result.finaCancelFwaccounapproval.fwaId
-                self.dataForm.cancelTime = result.finaCancelFwaccounapproval.cancelTime
-                self.dataForm.approvalStatus = result.finaCancelFwaccounapproval.approvalStatus
-                self.dataForm.sign = result.finaCancelFwaccounapproval.sign
-                self.dataForm.signTime = result.finaCancelFwaccounapproval.signTime
-                self.dataForm.propose = result.finaCancelFwaccounapproval.propose
-                self.dataForm.result = result.finaCancelFwaccounapproval.result
-                self.dataForm.createtime = result.finaCancelFwaccounapproval.createtime
-                self.dataForm.updatetime = result.finaCancelFwaccounapproval.updatetime
-                self.dataForm.createuser = result.finaCancelFwaccounapproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.fwaId = result.fwaId
+                self.dataForm.cancelTime = result.cancelTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })

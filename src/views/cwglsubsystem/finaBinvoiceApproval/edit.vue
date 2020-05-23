@@ -71,7 +71,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同期间">
-            <t-datetime-range-picker :readonly="true" v-model="dataForm.cId"></t-datetime-range-picker>
+            <t-datetime-range-picker disabled v-model="dataForm.cId"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -122,7 +122,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="已开票金额">
-            <t-currency-input :readonly="true" v-model="dataForm.invoiceAmount">
+            <t-currency-input disabled v-model="dataForm.invoiceAmount">
               <span slot="append">元</span>
             </t-currency-input>
           </el-form-item>
@@ -141,7 +141,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="已抵扣分包金额">
-            <t-currency-input :readonly="true" v-model="dataForm.deductAmount">
+            <t-currency-input disabled v-model="dataForm.deductAmount">
               <span slot="append">元</span>
             </t-currency-input>
           </el-form-item>
