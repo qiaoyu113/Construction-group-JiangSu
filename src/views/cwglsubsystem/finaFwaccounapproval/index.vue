@@ -31,15 +31,20 @@
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
     </el-card>
+    <el-dialog title="工资发放信息" :visible.sync="dialogTableVisible" width="50%">
+      <approvalList :pId="pId" ref="approvalList"></approvalList>
+    </el-dialog>
   </div>
 </template>
 <script>
+  import approvalList from "./approvallist";
   import baseView from '@/base/baseView'
   export default {
     name: 'myTask',
     extends: baseView,
     data() {
       return {
+        dialogTableVisible: false,
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
@@ -104,7 +109,18 @@
               {
                 prop: 'payoffMoney',
                 label: '累计发放金额（万元）',
-                sortable: true
+                sortable: true,
+                render: (h, params) => {
+                  // params对象包含 column 当前列信息，row 当前行的数据
+                  var self = this;
+                  return (
+                    <div style="margin:0 auto; ">
+                    <a href="#" onClick={() => this.doSomething(params.row)}>
+                  {params.row.payoffMoney}
+                </a>
+                  </div>
+                );
+                }
               }
             ], // 需要展示的列
             defaultSort: {
@@ -115,11 +131,23 @@
         }
       }
     },
-    components: {},
+    components: {
+      approvalList
+    },
     created() {
       this.loadCodeTableList();
     },
     methods: {
+      doSomething(row){
+        debugger
+        this.dialogTableVisible=true;//默认页面不显示为false,点击按钮将这个属性变成true
+        if (row.pId) {
+          this.$refs.approvalList.pId = row.pId;
+          console.log(row.pId)
+          console.log(this.$refs.approvalList)
+          console.log(this.$refs.approvalList.pId)
+        }
+      },
       // 获取码表值
       loadCodeTableList() {
         // 以下为示例
