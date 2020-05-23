@@ -2,12 +2,12 @@
   <div class="region-picker">
     <el-col :span="12" style="padding-left: 0;padding-right: 2px;">
       <el-form-item prop="province" :rules="dataRules.province">
-        <t-dic-dropdown-select dicType="base_region" v-model="province" :readOnly="readOnly"></t-dic-dropdown-select>
+        <t-dic-dropdown-select dicType="base_region" v-model="province" :readOnly="readOnly" :disabled="disabled"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
     <el-col :span="12" style="padding-left: 0;padding-right: 0;">
       <el-form-item prop="city" :rules="dataRules.city">
-        <t-dic-dropdown-select :dataisgood="currentProvince.items" v-model="city" :readOnly="readOnly"></t-dic-dropdown-select>
+        <t-dic-dropdown-select :dataisgood="currentProvince.items" v-model="city" :readOnly="readOnly" :disabled="disabled"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
   </div>
@@ -23,6 +23,11 @@ export default {
       required: false
     },
     readOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    disabled: {
       type: Boolean,
       default: false,
       required: false

@@ -16,13 +16,13 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
               <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :readOnly="readOnly" :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -235,7 +235,7 @@
       this.$nextTick((_) => {
         if (this.routeChanged) {
           this.docId = this.$route.query.id
-          this.$util.ui.title(this.title)
+          // this.$util.ui.title(this.title)
           this.init(this.docId)
         }
       })
