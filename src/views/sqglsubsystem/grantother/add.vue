@@ -1,5 +1,27 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">其他授权申请</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
+    </el-row>
+<!--<template>
+  <div>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -12,7 +34,7 @@
       <el-col>
         <div class="title">其他授权申请</div>
       </el-col>
-    </el-row>
+    </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -25,62 +47,62 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+              <el-input  v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input readonly v-model="dataForm.proBusDept"></el-input>
+              <el-input v-model="dataForm.proBusDept"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input readonly v-model="dataForm.proConstructCompany"></el-input>
+              <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同模式：" prop="proContractAttr">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input readonly v-model="dataForm.proTotalInvestment"></el-input>
+              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模：">
-              <el-input readonly v-model="dataForm.proBuildArea"></el-input>
+              <el-input disabled v-model="dataForm.proBuildArea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="conName" label="合同名称：">
-            <el-input readonly v-model="dataForm.conName"></el-input>
+            <el-input disabled v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conStartDate" label="合同期间：">
-            <el-input readonly v-model="dataForm.conStartDate"></el-input>
+            <el-input disabled v-model="dataForm.conStartDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同金额">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
+            <el-input disabled v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,7 +125,7 @@
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
               <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -145,6 +167,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -182,7 +207,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -197,26 +231,27 @@
           this.$nextTick(() => {
             this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tGrantOtherApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tGrantOtherApproval.bId
-                this.dataForm.actTaskKey = result.tGrantOtherApproval.actTaskKey
-                this.dataForm.pId = result.tGrantOtherApproval.pId
-                this.dataForm.grantStarttime = result.tGrantOtherApproval.grantStarttime
-                this.dataForm.grantEndtime = result.tGrantOtherApproval.grantEndtime
-                this.dataForm.grantUser = result.tGrantOtherApproval.grantUser
-                this.dataForm.grantContent = result.tGrantOtherApproval.grantContent
-                this.dataForm.remark = result.tGrantOtherApproval.remark
-                this.dataForm.sign = result.tGrantOtherApproval.sign
-                this.dataForm.signTime = result.tGrantOtherApproval.signTime
-                this.dataForm.propose = result.tGrantOtherApproval.propose
-                this.dataForm.result = result.tGrantOtherApproval.result
-                this.dataForm.approvalStatus = result.tGrantOtherApproval.approvalStatus
-                this.dataForm.createtime = result.tGrantOtherApproval.createtime
-                this.dataForm.updatetime = result.tGrantOtherApproval.updatetime
-                this.dataForm.createuser = result.tGrantOtherApproval.createuser
-                this.dataForm.updateuser = result.tGrantOtherApproval.updateuser
-                this.dataForm.datastatus = result.tGrantOtherApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.grantStarttime = result.grantStarttime
+                self.dataForm.grantEndtime = result.grantEndtime
+                self.dataForm.grantUser = result.grantUser
+                self.dataForm.grantContent = result.grantContent
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })

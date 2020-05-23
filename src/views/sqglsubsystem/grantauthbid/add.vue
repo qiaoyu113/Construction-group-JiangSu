@@ -1,6 +1,26 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">投标授权申请</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_grant_key_authbid_approval"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
+    </el-row>
+    <!--<el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
@@ -12,7 +32,7 @@
       <el-col>
         <div class="title">投标授权申请</div>
       </el-col>
-    </el-row>
+    </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -20,22 +40,22 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+              <el-input  v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input readonly v-model="dataForm.proBusDept"></el-input>
+              <el-input  v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input readonly v-model="dataForm.proConstructCompany"></el-input>
+              <el-input  v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -46,13 +66,13 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input readonly v-model="dataForm.proTotalInvestment"></el-input>
+              <el-input :readOnly="readOnly" v-model="dataForm.proTotalInvestment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -63,7 +83,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模：">
-              <el-input readonly v-model="dataForm.proBuildArea"></el-input>
+              <el-input  v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -79,7 +99,7 @@
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
               <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -99,7 +119,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="sign" label="登记时间">
+            <el-form-item prop="signTime" label="登记时间">
               <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
@@ -130,7 +150,10 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        disabled: false,
+        showButton: true,
         readOnly: false,
+        dialogVisible: false,
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -162,7 +185,16 @@
       }
     },
     created() {
-       this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({

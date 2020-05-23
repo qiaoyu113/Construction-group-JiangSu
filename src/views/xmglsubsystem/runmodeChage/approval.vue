@@ -15,10 +15,8 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：" prop="proName">
-            <el-input v-model="dataForm.proName" readonly>
-              <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-            </el-input>
+          <el-form-item label="项目名称：" prop="pId">
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -275,6 +273,37 @@
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+      getSelectedProject(project) {
+        console.log('current project', project);
+        this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proCode = project.proCode;
+        this.dataForm.proAddressProvince = project.proAddressProvince;
+        this.dataForm.proAddressDetail = project.proAddressDetail;
+        this.dataForm.proManager = project.proManager;
+        this.dataForm.proFundSource = project.proFundSource;
+        this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proSubType = project.proSubType;
+        this.dataForm.proConstructCompany = project.proConstructCompany;
+        this.dataForm.proContractAttr = project.proContractAttr;
+        this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proType = project.proType;
+        this.dataForm.proRunMode = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.proRealStartDate = project.proRealStartDate;
+        this.dataForm.proPlanEndDate = project.proPlanEndDate;
+        this.dataForm.proUnionCompanyMerate = project.proUnionCompanyMerate;
+        this.dataForm.proProfitRate = project.proProfitRate;
+        this.dataForm.proContacter = project.proContacter;
+        this.dataForm.proContactway = project.proContactway;
+        this.dataForm.proSpan = project.proSpan;
+        this.dataForm.proLayer = project.proLayer;
+        this.dataForm.proBlock = project.proBlock;
+        this.dataForm.proBasementArea = project.proBasementArea;
+        this.dataForm.proIsFitout = project.proIsFitout;
+        this.dataForm.proFitoutRate = project.proFitoutRate;
+        this.dataForm.proUnionCompany = project.proUnionCompany;
+        this.dataForm.proIsBim = project.proIsBim;
       },
       // 表单提交
       doSave () {

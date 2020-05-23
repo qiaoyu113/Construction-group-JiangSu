@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="sign" label="经办人：">
+          <el-form-item prop="sign" :readonly="true" label="经办人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
@@ -160,7 +160,7 @@
       // 选择项目
       selectedData(data) {
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
-        this.dataForm.bId = data.id
+        this.dataForm.fwaId = data.id
         this.dataForm.pId = data.pId
         this.dataForm.bankName = data.bankName
         this.dataForm.proName = data.proName
@@ -176,22 +176,22 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
                         if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaCancelFwaccounapproval.pId
-                self.dataForm.fwaId = result.finaCancelFwaccounapproval.fwaId
-                self.dataForm.cancelTime = result.finaCancelFwaccounapproval.cancelTime
-                self.dataForm.approvalStatus = result.finaCancelFwaccounapproval.approvalStatus
-                self.dataForm.sign = result.finaCancelFwaccounapproval.sign
-                self.dataForm.signTime = result.finaCancelFwaccounapproval.signTime
-                self.dataForm.propose = result.finaCancelFwaccounapproval.propose
-                self.dataForm.result = result.finaCancelFwaccounapproval.result
-                self.dataForm.createtime = result.finaCancelFwaccounapproval.createtime
-                self.dataForm.updatetime = result.finaCancelFwaccounapproval.updatetime
-                self.dataForm.createuser = result.finaCancelFwaccounapproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.fwaId = result.fwaId
+                self.dataForm.cancelTime = result.cancelTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })
