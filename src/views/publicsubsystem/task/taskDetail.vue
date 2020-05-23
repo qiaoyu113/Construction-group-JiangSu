@@ -160,6 +160,7 @@
     mounted() {
       // console.log('this.$route111', this.$route)
       const currentQuery = this.$route.query
+      this.type = currentQuery.type ? currentQuery.type : this.type;
       this.init('', currentQuery.processDefinationKey, currentQuery.taskActId, currentQuery.taskId);
     },
     activated() {
