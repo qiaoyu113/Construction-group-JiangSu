@@ -51,9 +51,8 @@
         <el-col :span="12">
           <el-form-item>
             <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="el-icon-delete"></i>清空
-            </el-button>
+            <el-button type="primary" icon="el-icon-circle-close" @click="doReset()">清空</el-button>
+            <el-button type="info" @click="doEdit()">详情</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -87,6 +86,16 @@
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
+            operates: {
+              width: 60,
+              fixed: 'left',
+              list: [{
+                type: 'text',
+                show: true,
+                label: '查看',
+                method: this.doEdit
+              }]
+            }, // 列操作按钮
             columns: [
               /*              {
                               prop: 'bId',
@@ -210,7 +219,15 @@
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
-      }
+      },
+      doEdit (key, row) {
+        const id = row  ? (row.id ? row.id : '') : ''
+        let tpath = '/tbglsubsystem/TBidInformation/TBidInformationDetail?id=' + id
+
+        this.$router.push({
+          path: tpath
+        })
+      },
     }
   }
 </script>
