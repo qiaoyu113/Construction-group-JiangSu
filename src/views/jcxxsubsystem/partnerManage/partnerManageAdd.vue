@@ -52,7 +52,7 @@
         <el-card shadow="never">
           <t-sub-title :title="'合作方主要工程业绩'" extra="增加行" :readOnly="readOnly"
                        @extraClick="achievementDialogVisible = true"></t-sub-title>
-          <el-table :data="achievements" border style="width: 100%" max-height="220">
+          <el-table :data="dataForm.getPartnerAchievements" border style="width: 100%" max-height="220">
             <el-table-column prop="projectName" label="工程名称" min-width="180"></el-table-column>
             <el-table-column prop="projectScale" label="工程规模" width="180"></el-table-column>
             <el-table-column prop="buildStartDate" label="开工日期" width="180"></el-table-column>
@@ -65,41 +65,6 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-dialog title="添加业绩" :visible.sync="achievementDialogVisible" width="50%">
-            <el-form ref="achievementForm" :model="achievementForm" label-width="80px">
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item label="工程名称" prop="projectName">
-                    <t-input v-model="achievementForm.projectName"></t-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="工程规模" prop="projectScale">
-                    <t-input v-model="achievementForm.projectScale"></t-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="开工日期" prop="buildStartDate">
-                    <t-datetime-picker v-model="achievementForm.buildStartDate" type="date"></t-datetime-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="竣工日期" prop="buildEndDate">
-                    <t-datetime-picker v-model="achievementForm.buildEndDate" type="date"></t-datetime-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item label="建设单位" prop="buildCompany">
-                    <t-input v-model="achievementForm.buildCompany"></t-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-            <div slot="footer">
-              <el-button @click="achievementDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="addAchievement()">确 定</el-button>
-            </div>
-          </el-dialog>
         </el-card>
         <el-card shadow="never">
           <t-sub-title :title="'合作方资产情况'"></t-sub-title>
@@ -140,7 +105,7 @@
         <el-card shadow="never">
           <t-sub-title :title="'合作方主要管理人员情况'" extra="增加行" :readOnly="readOnly"
                        @extraClick="managerDialogVisible = true"></t-sub-title>
-          <el-table :data="managers" border style="width: 100%" max-height="220">
+          <el-table :data="dataForm.getPartnerStaffs" border style="width: 100%" max-height="220">
             <el-table-column prop="staffName" label="姓名" width="180"></el-table-column>
             <el-table-column prop="age" label="年龄" width="180"></el-table-column>
             <el-table-column prop="technicalTitle" label="职称及职业资格" min-width="180"></el-table-column>
@@ -152,36 +117,6 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-dialog title="添加管理人员" :visible.sync="managerDialogVisible" width="50%">
-            <el-form ref="managerForm" :model="managerForm" label-width="120px" label-position="right">
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item label="姓名" prop="staffName">
-                    <t-input v-model="managerForm.staffName"></t-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="年龄" prop="age">
-                    <t-int-input v-model="managerForm.age"></t-int-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item label="职称及职业资格" prop="technicalTitle">
-                    <t-input v-model="managerForm.technicalTitle"></t-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item label="主要管理业绩" prop="achievement">
-                    <t-input v-model="managerForm.achievement"></t-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-            <div slot="footer">
-              <el-button @click="managerDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="addManager()">确 定</el-button>
-            </div>
-          </el-dialog>
         </el-card>
         <el-card shadow="never">
           <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
@@ -221,6 +156,71 @@
         </el-card>
       </el-row>
     </el-form>
+    <el-dialog title="添加业绩" :visible.sync="achievementDialogVisible" width="50%">
+      <el-form ref="achievementForm" :model="achievementForm" label-width="80px">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="工程名称" prop="projectName">
+              <t-input v-model="achievementForm.projectName"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="工程规模" prop="projectScale">
+              <t-input v-model="achievementForm.projectScale"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="开工日期" prop="buildStartDate">
+              <t-datetime-picker v-model="achievementForm.buildStartDate" type="date"></t-datetime-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="竣工日期" prop="buildEndDate">
+              <t-datetime-picker v-model="achievementForm.buildEndDate" type="date"></t-datetime-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="建设单位" prop="buildCompany">
+              <t-input v-model="achievementForm.buildCompany"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="achievementDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addAchievement()">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="添加管理人员" :visible.sync="managerDialogVisible" width="50%">
+      <el-form ref="managerForm" :model="managerForm" label-width="120px" label-position="right">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="姓名" prop="staffName">
+              <t-input v-model="managerForm.staffName"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="年龄" prop="age">
+              <t-int-input v-model="managerForm.age"></t-int-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="职称及职业资格" prop="technicalTitle">
+              <t-input v-model="managerForm.technicalTitle"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="主要管理业绩" prop="achievement">
+              <t-input v-model="managerForm.achievement"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="managerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addManager()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 

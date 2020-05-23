@@ -8,7 +8,7 @@
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        
+
         <el-row :gutter="10" class="search-top-operate">
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
@@ -73,7 +73,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button type="primary" icon="el-icon-circle-close" @click="doReset">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -95,9 +95,9 @@
         type: Boolean,
         default: false,
         required: false
-      },
+      }
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -117,15 +117,25 @@
             }
           },
           grid: {
-            offsetHeight: 125, //125:查询部分高度
+            offsetHeight: 125, // 125:查询部分高度
             mutiSelect: false,
+            operates: {
+              width: 60,
+              fixed: 'left',
+              list: [{
+                type: 'text',
+                show: true,
+                label: '查看',
+                method: this.doEdit
+              } ]
+            }, // 列操作按钮
             columns: [
               {
                 prop: 'province',
                 label: '所属地区',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('base_region', row.province) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  return this.$util.getProvinceCityName(row.province, row.city)
                 }
               },
               {
@@ -157,7 +167,7 @@
                 label: '有效期至',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.expirationDate, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.expirationDate, 'YYYY-MM-DD')
                 }
               },
               {
@@ -175,7 +185,7 @@
                 label: '申请时间',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.applyforDate, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.applyforDate, 'YYYY-MM-DD')
                 }
               },
               {
@@ -186,17 +196,20 @@
               {
                 prop: '',
                 label: '领用单位',
-                sortable: false
+                sortable: false,
+                emptyText: '-'
               },
               {
                 prop: '',
                 label: '领用日期',
-                sortable: false
+                sortable: false,
+                emptyText: '-'
               },
               {
                 prop: '',
                 label: '归还日期',
-                sortable: false
+                sortable: false,
+                emptyText: '-'
               },
               {
                 prop: 'sign',
@@ -208,65 +221,84 @@
                 label: '经办时间',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
-              },
+              }
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
               order: 'descending'
-            },
+            }
           }
         }
       }
     },
     components: {},
-    created() {
-      this.loadCodeTableList();
-    },
+    created () {
+      this.loadCodeTableList()
+  },
     methods: {
-      getSelectedUser(user) {
+      getSelectedUser (user) {
         console.log('current user', user)
       },
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartExpirationDateChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1];
+      onStartExpirationDateChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1]
       },
-      onStartSignTimeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1];
-
+      onStartSignTimeChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1]
       },
-      onStartApplyforDateChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1];
+      onStartApplyforDateChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1]
       },
-      handleSelectionChange(val) {
-        this.checkededRows = val;
+      handleSelectionChange (val) {
+        this.checkededRows = val
       },
-      doReset() {
-        this.$refs.search.resetFields();
+      doReset () {
+        this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.$refs.region.province = ''
-        this.doRefresh();
+        this.doRefresh()
       },
-      doExportExcel() {
+      doExportExcel () {
         // eslint-disable-next-line no-template-curly-in-string
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('密钥列表')
       },
-      doRefresh() {
-        this.$refs.searchReulstList.refresh();
+      doRefresh () {
+        this.$refs.searchReulstList.refresh()
       },
       getProvince (province) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.province =province;
+        this.gridOptions.dataSource.serviceInstanceInputParameters.province = province
       },
       getCity (city) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.city =city;
+        this.gridOptions.dataSource.serviceInstanceInputParameters.city = city
       },
+      doEdit (key, row) {
+        let tpath = ''
+      // 根据秘钥领用状态，跳转到不同页面
+        if (row.keyStatus === 'can_recipients') { // 可领用
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else if (row.keyStatus === 'pending_approval') { // 领用审批中
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else if (row.keyStatus === 'process_approval') { // 办理审批中
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else if (row.keyStatus === 'recipients') { // 领用中
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else if (row.keyStatus === 'return_approval') { // 归还审批中
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else {
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        }
+        this.$router.push({
+          path: tpath
+        })
+      }
     }
   }
 </script>

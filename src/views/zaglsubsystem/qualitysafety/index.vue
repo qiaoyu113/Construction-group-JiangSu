@@ -1,48 +1,44 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"  :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出</el-button>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：">
-            <el-input></el-input>
+          <el-form-item label="项目名称：" prop="proName">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                       placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="工程类别：">
-            <el-input></el-input>
+          <el-form-item label="工程类别：" prop="proType">
+            <t-dic-dropdown-select dicType="engineering_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经营方式：">
-            <el-input></el-input>
+          <el-form-item label="经营方式：" prop="proRunMode">
+            <t-dic-dropdown-select dicType="business_type"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="审批状态：">
-            <el-select placeholder="请选择"
-                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name"
-                         :value="item.key"></el-option>
-            </el-select>
+          <el-form-item label="审批状态："  prop="approvalStatus">
+            <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办人：">
-            <el-input></el-input>
+          <el-form-item label="经办人：" prop="sign">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                       placeholder="经办人" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办日期：">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="请选择 "
-                      clearable></el-input>
+          <el-form-item label="经办日期"  prop="updatetime">
+            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -64,6 +60,7 @@
   </div>
 </template>
 <script>
+  import util from '@/util'
   import baseView from '@/base/baseView'
 
   export default {
@@ -76,7 +73,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-             serviceInstance: tapp.services.tQsSdfileApproval.getPagedList,
+            serviceInstance: tapp.services.tQsSdfileApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
@@ -89,70 +86,73 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'bId',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'actTaskKey',
+                prop: 'proType',
                 label: '项目类型',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'pId',
+                prop: 'proConstructCompany',
                 label: '建设单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'cId',
+                prop: 'proTotalInvestment',
                 label: '合同金额',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'grantStarttime',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.grantStarttime, 'YYYY-MM-DD');
-                }
               },
               {
-                prop: 'grantEndtime',
+                prop: 'proRunMode',
                 label: '经营方式',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.grantEndtime, 'YYYY-MM-DD');
+                  return util.dataDicFormat('business_type', row.proRunMode) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
               {
-                prop: 'grantUser',
+                prop: 'filePath',
                 label: '文件一览',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'grantContent',
+                prop: 'approvalStatus',
                 label: '审批状态',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('approval_status', row.approvalStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
-                prop: 'remark',
+                prop: 'sign',
                 label: '经办人',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'sign',
+                prop: 'signTime',
                 label: '经办日期',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD')
+                }
               }
             ], // 需要展示的列
             defaultSort: {
@@ -173,8 +173,8 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.starttime = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.endtime = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;

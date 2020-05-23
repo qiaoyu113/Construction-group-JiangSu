@@ -1,6 +1,8 @@
 import moment from 'moment'
 import accounting from 'accounting-js'
-import idcard from 'idcard' // https://www.npmjs.com/package/idcard
+import idcard from 'idcard'
+import find from 'lodash/find' // https://www.npmjs.com/package/idcard
+import isEmpty from 'lodash/isEmpty'
 
 let util = {
   ui: {
@@ -75,6 +77,31 @@ util.objectSetValue = function () { // extend 浅拷贝实现
 
     return localhostPaht
   }
+
+// 列表中展示 省份 / 市 信息
+util.getProvinceCityName = function (province, city) {
+  let currentProvince = {name: ''}
+  let currentProvinceName = ''
+  let currentCity = {name: ''}
+  let currentCityName = ''
+  if (province) {
+    currentProvince = find(tapp.data.base_datadictionary['base_region'], {id: province})
+    if (!isEmpty(currentProvince) && !isEmpty(city)) {
+      currentCity = find(currentProvince.items, {id: city})
+    }
+  }
+  if (isEmpty(currentProvince) || isEmpty(currentProvince.name)) {
+    currentProvinceName = ''
+  } else {
+    currentProvinceName = currentProvince.name
+  }
+  if (isEmpty(currentCity) || isEmpty(currentCity.name)) {
+    currentCityName = ''
+  } else {
+    currentCityName = currentCity.name
+  }
+  return currentProvinceName + ' / ' + currentCityName  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+}
 // 前端权限校验
 util.hasPermission = function (permission) {
   let vm = window.vue

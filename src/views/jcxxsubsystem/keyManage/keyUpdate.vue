@@ -9,6 +9,28 @@
       <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
+      <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <el-form ref="dialogForm" label-width="100px">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item prop="pType" label="用印类型：" class="is-required">
+                <!-- <t-dic-dropdown-select dict_type="" v-model=""></t-dic-dropdown-select> -->
+                <t-input v-model="pType" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="sealCount" label="用印数量：" class="is-required">
+                <t-input v-model="sealCount" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer">
+          <el-button type="primary" @click="submit">确定</el-button>
+          <el-button type="info" @click="submitDialogVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
       <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
@@ -124,13 +146,16 @@
   } from 'vuex'
 
   export default {
-    data() {
+    data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        submitDialogVisible: false,
+        pType: '',
+        sealCount: '',
         dataForm: {
           id: '',
           actTaskKey: '',
@@ -151,7 +176,7 @@
           password: '',
           isInput: '',
           sign: '',
-          signTime: '',
+          signTime: ''
         },
         dataRule: {
           bId: [
@@ -210,17 +235,17 @@
           ],
           signTime: [
             {required: false, message: '登记时间不能为空', trigger: 'blur'}
-          ],
+          ]
         }
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    activated() {
+    activated () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -228,18 +253,18 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              let self = this;
+              let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.id = result.id
@@ -268,29 +293,50 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
-          tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
-            self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+          this.submitDialogVisible = true;
+          // let model = {...self.dataForm};
+          // tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
+          //   self.$notify.success({
+          //     title: "操作成功！",
+          //     message: "保存成功！",
+          //   });
+          // });
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
+      },
+      submit()  {
+        let self = this
+        if(self.pType && self.sealCount) {
+          let model = {...self.dataForm}
+          tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
+            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
+          // 用印接口
+          this.submitDialogVisible = false;
+        } else {
+          self.$notify.error({
+            title: '错误',
+            message: '请输入必填信息'
+          })
+        }
       },
       getProvince (province) {
         console.log('province', province)
@@ -301,7 +347,7 @@
         console.log('city', city)
         // 赋值给实际页面的值
         this.dataForm.city = city
-      },
+      }
     }
   }
 </script>

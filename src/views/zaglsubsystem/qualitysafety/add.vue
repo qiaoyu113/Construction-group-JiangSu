@@ -1,5 +1,27 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">重大危险源文件审批列表</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_qs_key_sdfile_approval"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
+    </el-row>
+<!--<template>
+  <div>
     <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
           提交审批
@@ -12,7 +34,7 @@
         <el-col>
           <div class="title">投标授权申请</div>
         </el-col>
-      </el-row>
+      </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -104,6 +126,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -139,24 +164,25 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tQsSdfileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tQsSdfileApproval.bId
-                this.dataForm.actTaskKey = result.tQsSdfileApproval.actTaskKey
-                this.dataForm.pId = result.tQsSdfileApproval.pId
-                this.dataForm.remark = result.tQsSdfileApproval.remark
-                this.dataForm.sign = result.tQsSdfileApproval.sign
-                this.dataForm.signTime = result.tQsSdfileApproval.signTime
-                this.dataForm.approvalStatus = result.tQsSdfileApproval.approvalStatus
-                this.dataForm.propose = result.tQsSdfileApproval.propose
-                this.dataForm.result = result.tQsSdfileApproval.result
-                this.dataForm.createtime = result.tQsSdfileApproval.createtime
-                this.dataForm.updatetime = result.tQsSdfileApproval.updatetime
-                this.dataForm.createuser = result.tQsSdfileApproval.createuser
-                this.dataForm.updateuser = result.tQsSdfileApproval.updateuser
-                this.dataForm.datastatus = result.tQsSdfileApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -179,7 +205,8 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
-      },
+        this.dataForm.pId = project.id;
+        },
       // 表单提交
       doSave() {
         let self = this;

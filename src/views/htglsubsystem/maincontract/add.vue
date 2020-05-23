@@ -39,7 +39,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="region" label="所属地区" class="is-required">
+          <el-form-item prop="region" label="项目地址：" class="is-required">
             <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
@@ -158,94 +158,10 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-form-item label="添加甲方：" class="is-required">
-          <el-col>
-            <t-edit-grid ref="firstPartyGrid" :options="firstPartyGridOptions" :readOnly="readOnly">
-              <template slot="columnDataHeader">
-                <t-edit-grid-column prop="updateuser" label="甲方单位" verify :maxLength="200" min-width="150" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.updateuser" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="签订人" idcard :maxLength="50" min-width="100">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="开户行名称" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="银行账户名称" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="银行账号" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="loanMoneyAmount" label="联系方式" verify min-width="80" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="地址" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-              </template>
-            </t-edit-grid>
-          </el-col>
-        </el-form-item>
+        <t-first-party ref="firstParty" :readOnly="readOnly"></t-first-party>
       </el-row>
       <el-row>
-        <el-form-item label="添加乙方：" class="is-required">
-          <el-col>
-            <t-edit-grid ref="secondPartyGrid" :options="secondPartyGridOptions" :readOnly="readOnly">
-              <template slot="columnDataHeader">
-                <t-edit-grid-column prop="updateuser" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.updateuser" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="签订人" idcard :maxLength="50" min-width="100">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="开户行名称" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="银行账户名称" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="银行账号" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="loanMoneyAmount" label="联系方式" verify min-width="80" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>
-                  </template>
-                </t-edit-grid-column>
-                <t-edit-grid-column prop="datastatus" label="地址" verify min-width="100" class-name="is-required">
-                  <template slot-scope="scope">
-                    <t-input v-model="scope.row.datastatus" :readOnly="readOnly"></t-input>
-                  </template>
-                </t-edit-grid-column>
-              </template>
-            </t-edit-grid>
-          </el-col>
-        </el-form-item>
+        <t-second-party ref="secondParty" :readOnly="readOnly"></t-second-party>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
@@ -389,26 +305,6 @@
           province: '',
           city: '',
         },
-        firstPartyGridOptions: {
-          dataSource: [],
-          grid: {
-            offsetHeight: 36, // 36:查询部分高度
-            defaultSort: {
-              prop: 'id',
-              order: 'ascending'
-            }
-          }
-        },
-        secondPartyGridOptions: {
-          dataSource: [],
-          grid: {
-            offsetHeight: 36, // 36:查询部分高度
-            defaultSort: {
-              prop: 'id',
-              order: 'ascending'
-            }
-          }
-        },
         dataRule: {
           bId: [
             {required: true, message: '流程业务id不能为空', trigger: 'blur'}
@@ -503,36 +399,37 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tContInfoApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tContInfoApproval.bId
-                this.dataForm.actTaskKey = result.tContInfoApproval.actTaskKey
-                this.dataForm.pId = result.tContInfoApproval.pId
-                this.dataForm.conCode = result.tContInfoApproval.conCode
-                this.dataForm.conName = result.tContInfoApproval.conName
-                this.dataForm.conModality = result.tContInfoApproval.conModality
-                this.dataForm.conStartDate = result.tContInfoApproval.conStartDate
-                this.dataForm.conEndDate = result.tContInfoApproval.conEndDate
-                this.dataForm.conSigningDate = result.tContInfoApproval.conSigningDate
-                this.dataForm.conPayWay = result.tContInfoApproval.conPayWay
-                this.dataForm.otherPayWay = result.tContInfoApproval.otherPayWay
-                this.dataForm.conTotal = result.tContInfoApproval.conTotal
-                this.dataForm.conSelfProportion = result.tContInfoApproval.conSelfProportion
-                this.dataForm.conOtherProportion = result.tContInfoApproval.conOtherProportion
-                this.dataForm.conPayStandard = result.tContInfoApproval.conPayStandard
-                this.dataForm.conStatus = result.tContInfoApproval.conStatus
-                this.dataForm.approvalStatus = result.tContInfoApproval.approvalStatus
-                this.dataForm.sign = result.tContInfoApproval.sign
-                this.dataForm.signTime = result.tContInfoApproval.signTime
-                this.dataForm.propose = result.tContInfoApproval.propose
-                this.dataForm.result = result.tContInfoApproval.result
-                this.dataForm.createtime = result.tContInfoApproval.createtime
-                this.dataForm.updatetime = result.tContInfoApproval.updatetime
-                this.dataForm.createuser = result.tContInfoApproval.createuser
-                this.dataForm.updateuser = result.tContInfoApproval.updateuser
-                this.dataForm.datastatus = result.tContInfoApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.conCode = result.conCode
+                self.dataForm.conName = result.conName
+                self.dataForm.conModality = result.conModality
+                self.dataForm.conStartDate = result.conStartDate
+                self.dataForm.conEndDate = result.conEndDate
+                self.dataForm.conSigningDate = result.conSigningDate
+                self.dataForm.conPayWay = result.conPayWay
+                self.dataForm.otherPayWay = result.otherPayWay
+                self.dataForm.conTotal = result.conTotal
+                self.dataForm.conSelfProportion = result.conSelfProportion
+                self.dataForm.conOtherProportion = result.conOtherProportion
+                self.dataForm.conPayStandard = result.conPayStandard
+                self.dataForm.conStatus = result.conStatus
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -545,27 +442,35 @@
       // 表单提交
       doSave() {
         let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
-        console.log('this.firstPartyGridOptions', this.firstPartyGridOptions)
-        console.log('this.firstPartyGridOptions', this.firstPartyGridOptions)
-        let model = {...self.dataForm};
-        console.log('model', model)
-        // Promise.all(validPromises).then(resultList => {
-        //   let model = {...self.dataForm};
-        //   tapp.services.tContInfoApproval.save(model).then(function (result) {
-        //     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-        //     self.$notify.success({
-        //       title: "操作成功！",
-        //       message: "保存成功！",
-        //     });
-        //   });
-        // }).catch(function (e) {
-        //   self.$notify.error({
-        //     title: "错误",
-        //     message: "保存失败！"
-        //   });
-        //   return false;
-        // });
+        let validPromises = self.$refs['ruleForm'].validate();
+        let firstPartyPromises = self.$refs['firstParty'].validate()
+        let secondPartyPromises = self.$refs['secondParty'].validate()
+        Promise.all([validPromises, firstPartyPromises, secondPartyPromises]).then(resultList => {
+          let model = {...self.dataForm};
+          // 甲乙方数据
+          let firstPartyData = self.$refs['firstParty'].getData().list
+          firstPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
+          let secondPartyData = self.$refs['secondParty'].getData()
+          secondPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
+
+          // TODO firtPartyData 和 secondPartyData 怎么放在 model 里面，需要调整
+          // 举例 model.firstPartyData = firstPartyData
+          // 举例 model.secondPartyData = secondPartyData
+
+          tapp.services.tContInfoApproval.save(model).then(function (result) {
+            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function (e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
       },
       getProvince (province) {
         this.dataForm.province = province
