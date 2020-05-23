@@ -241,7 +241,7 @@
               docId: currentQuery.id,
               result: '审批通过',
               taskId: currentQuery.taskId,
-              taskRemark: '同意',
+              taskRemark: self.dataForm.suggestion,
               taskAssignee: self.dataForm.taskAssignee
             }
             tapp.services.wf_TaskAction.approve(model).then(function(result) {
@@ -270,7 +270,7 @@
           let model = {
             taskId: currentQuery.taskId,
             action: 'request',
-            taskRemark: '同意',
+            taskRemark: self.dataForm.suggestion,
             docId: currentQuery.id,
             result: '驳回提单人'
           };
@@ -295,7 +295,8 @@
             taskId: currentQuery.taskId,
             action: 'decline',
             docId: currentQuery.id,
-            result: '拒绝'
+            result: '拒绝',
+            taskRemark: self.dataForm.suggestion,
           };
           tapp.services.wf_TaskAction.decline(model).then(function(result) {
             self.formResult = 1;
