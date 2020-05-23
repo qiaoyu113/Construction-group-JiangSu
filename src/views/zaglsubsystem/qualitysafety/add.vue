@@ -1,5 +1,27 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">重大危险源文件审批列表</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_qs_key_sdfile_approval"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
+    </el-row>
+<!--<template>
+  <div>
     <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
           提交审批
@@ -12,7 +34,7 @@
         <el-col>
           <div class="title">投标授权申请</div>
         </el-col>
-      </el-row>
+      </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -104,7 +126,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
         readOnly: false,
+        dialogVisible: false,
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -181,7 +205,8 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
-      },
+        this.dataForm.pId = project.id;
+        },
       // 表单提交
       doSave() {
         let self = this;
