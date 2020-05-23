@@ -104,6 +104,7 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -139,24 +140,25 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tQsSdfileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tQsSdfileApproval.bId
-                this.dataForm.actTaskKey = result.tQsSdfileApproval.actTaskKey
-                this.dataForm.pId = result.tQsSdfileApproval.pId
-                this.dataForm.remark = result.tQsSdfileApproval.remark
-                this.dataForm.sign = result.tQsSdfileApproval.sign
-                this.dataForm.signTime = result.tQsSdfileApproval.signTime
-                this.dataForm.approvalStatus = result.tQsSdfileApproval.approvalStatus
-                this.dataForm.propose = result.tQsSdfileApproval.propose
-                this.dataForm.result = result.tQsSdfileApproval.result
-                this.dataForm.createtime = result.tQsSdfileApproval.createtime
-                this.dataForm.updatetime = result.tQsSdfileApproval.updatetime
-                this.dataForm.createuser = result.tQsSdfileApproval.createuser
-                this.dataForm.updateuser = result.tQsSdfileApproval.updateuser
-                this.dataForm.datastatus = result.tQsSdfileApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
