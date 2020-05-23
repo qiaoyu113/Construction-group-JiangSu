@@ -9,7 +9,7 @@
             <el-row :gutter="10">
               <el-col :span="24">
                 <el-form-item prop="suggestion" label="办理意见">
-                  <t-input type="textarea" :rows="3" v-model="dataForm.suggestion"></t-input>
+                  <t-input type="textarea" :rows="3" v-model="dataForm.suggestion"  :readOnly="type === 'CC'"></t-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -35,7 +35,7 @@
         </el-card>
       </el-tab-pane>
     </el-tabs>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="type === 'approval'" :gutter="10" class="search-top-operate">
       <div class="t-form-footer">
         <el-button type="primary" @click="doApprove()">同意</el-button>
         <el-button type="danger" @click="doGoOriginator()">退回</el-button>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import findIndex from 'lodash/findIndex'
   import isEmpty from 'lodash/isEmpty'
   export default {
@@ -57,6 +58,7 @@
         docId: '',
         component: '',
         processDefinationlist: [],
+        type: 'approval',
         userList: [],
         userRole: [],
         dataForm: {
@@ -157,7 +159,8 @@
     },
     mounted() {
       // console.log('this.$route111', this.$route)
-      this.init('', this.$route.query.processDefinationKey, this.$route.query.taskActId, this.$route.query.taskId);
+      const currentQuery = this.$route.query
+      this.init('', currentQuery.processDefinationKey, currentQuery.taskActId, currentQuery.taskId);
     },
     activated() {
       // console.log('this.$route222', this.$route)
