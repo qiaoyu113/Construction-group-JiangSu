@@ -92,7 +92,7 @@
 		computed: {},
 		methods: {
       getSelectedProject(project) {
-        console.log('current project', project)
+          console.log('current project', project)
         // project为从弹窗框列表带出来的那一行的数据
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的项目的值，从这里的project获取
