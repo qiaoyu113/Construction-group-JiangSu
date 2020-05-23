@@ -280,7 +280,7 @@
         this.gridOptions.dataSource.serviceInstanceInputParameters.city = city
       },
       doEdit (key, row) {
-        let tpath
+        let tpath = ''
       // 根据秘钥领用状态，跳转到不同页面
         if (row.keyStatus === 'can_recipients') { // 可领用
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
@@ -291,6 +291,8 @@
         } else if (row.keyStatus === 'recipients') { // 领用中
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
         } else if (row.keyStatus === 'return_approval') { // 归还审批中
+          tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
+        } else {
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
         }
         this.$router.push({
