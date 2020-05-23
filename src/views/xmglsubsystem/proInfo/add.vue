@@ -244,12 +244,6 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
             <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
               <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
                 <span slot="append">%</span>
@@ -277,12 +271,6 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="8">
             <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
               <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
