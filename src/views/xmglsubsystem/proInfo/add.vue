@@ -220,7 +220,7 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'经营方式'"></t-sub-title>
-        <el-row :gutter="20">
+        <el-row :gutter="20" class="zy">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
@@ -242,7 +242,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="20" class="ly" style="display: none">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
@@ -257,7 +257,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="ly" style="display: none">
           <el-col :span="8">
             <el-form-item label="联营公司名称：" prop="proUnionCompany">
               <el-input v-model="dataForm.proUnionCompany">
@@ -276,7 +276,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="20" class="zyly" style="display: none">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
