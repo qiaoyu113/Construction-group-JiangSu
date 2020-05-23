@@ -13,7 +13,7 @@
           <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
           </el-button>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="所属地区" prop="region">
               <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" @province="getProvince" @city="getCity" :required="false"></t-region-picker>
@@ -21,7 +21,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="密钥类别">
+            <el-form-item label="密钥类别" prop="keyType">
               <t-dic-dropdown-select dicType="key_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -49,7 +49,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button type="primary" icon="el-icon-circle-close" @click="doReset()">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -84,6 +84,7 @@
             serviceInstanceInputParameters: {
               keyType: null,
               province: null,
+              city: null,
               dateRange1: '',
               dateRange2: ''
             }
@@ -91,6 +92,16 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            operates: {
+              width: 60,
+              fixed: 'left',
+              list: [{
+                type: 'text',
+                show: true,
+                label: '查看',
+                method: this.doEdit
+              } ]
+            }, // 列操作按钮
             columns: [
               {
                 prop: 'province',
@@ -210,6 +221,13 @@
       getCity (city) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.city =city;
       },
+      doEdit (key, row) {
+        let tpath = '/jcxxsubsystem/keyManage/keyAdd?id=' + row.id
+
+        this.$router.push({
+          path: tpath
+        })
+      }
     }
   }
 </script>

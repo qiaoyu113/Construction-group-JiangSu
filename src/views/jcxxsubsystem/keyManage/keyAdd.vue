@@ -2,7 +2,8 @@
   <div>
     <el-row :gutter="20" class="page-title">
       <el-col>
-        <div class="title">密钥登记</div>
+        <div v-if="isEdit" class="title">密钥信息更新</div>
+        <div v-else class="title">密钥登记</div>
       </el-col>
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
@@ -15,13 +16,13 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
               <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :readOnly="readOnly" :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -113,15 +114,17 @@
 
 <script>
   import moment from 'moment'
-  import {
-    mapState
-  } from 'vuex'
+  import { mapState } from 'vuex'
+  import baseView from '@/base/baseView'
 
   export default {
-    data() {
+    extends: baseView,
+    data () {
       return {
+        title: '更新',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        isEdit: false, // 是否是编辑状态
         readOnly: false,
         dataForm: {
           bId: '',
@@ -147,12 +150,7 @@
           keyStatus: '',
           propose: '',
           result: '',
-          approvalStatus: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
+          approvalStatus: ''
         },
         dataRule: {
           bId: [
@@ -226,32 +224,29 @@
           ],
           approvalStatus: [
             {required: true, message: '审批状态不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
     },
-    created() {
-      this.init()
+    created () {
+
+    },
+    activated () {
+      this.$nextTick((_) => {
+        if (this.routeChanged) {
+          this.docId = this.$route.query.id
+          // this.$util.ui.title(this.title)
+          this.init(this.docId)
+        }
+      })
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
-      getSelectedMainCharge(charge) {
+      getSelectedMainCharge (charge) {
         console.log('current charge', charge)
         // charge为从弹窗框列表带出来的那一行的数据
         // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
@@ -259,19 +254,22 @@
         // 例如 this.dataForm.id = charge.id
       },
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              let self = this;
+              let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
+                self.isEdit = true
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.bId = result.bId
                 self.dataForm.actTaskKey = result.actTaskKey
                 self.dataForm.province = result.province
                 self.dataForm.city = result.city
+                self.$refs.regionPicker.province = result.province
+                self.$refs.regionPicker.city = result.city
                 self.dataForm.keyType = result.keyType
                 self.dataForm.authCompany = result.authCompany
                 self.dataForm.loginUsername = result.loginUsername
@@ -302,32 +300,33 @@
           })
         } else {
           this.$nextTick(() => {
+            this.dataForm.id = ''
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       },
       getProvince (province) {
         console.log('province', province)
@@ -338,7 +337,7 @@
         console.log('city', city)
         // 赋值给实际页面的值
         this.dataForm.city = city
-      },
+      }
     }
   }
 </script>
