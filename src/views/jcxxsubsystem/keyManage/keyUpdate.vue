@@ -124,7 +124,7 @@
   } from 'vuex'
 
   export default {
-    data() {
+    data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
@@ -151,7 +151,7 @@
           password: '',
           isInput: '',
           sign: '',
-          signTime: '',
+          signTime: ''
         },
         dataRule: {
           bId: [
@@ -210,17 +210,17 @@
           ],
           signTime: [
             {required: false, message: '登记时间不能为空', trigger: 'blur'}
-          ],
+          ]
         }
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    activated() {
+    activated () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -228,18 +228,18 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              let self = this;
+              let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.id = result.id
@@ -268,29 +268,29 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       },
       getProvince (province) {
         console.log('province', province)
@@ -301,7 +301,7 @@
         console.log('city', city)
         // 赋值给实际页面的值
         this.dataForm.city = city
-      },
+      }
     }
   }
 </script>
