@@ -2,11 +2,13 @@
   <div>
     <el-row :gutter="20" class="page-title">
       <el-col>
-        <div class="title">公告发布</div>
+        <div class="title">{{ title }}</div>
       </el-col>
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+      <el-button v-if="isEdit" type="primary" plain icon="el-icon-arrow-left" @click="closeCurrentTabNav">返回</el-button>
+      <el-button type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+      <el-button v-if="isEdit" type="primary" icon="el-icon-delete" @click="doDelete">删除</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
@@ -74,19 +76,33 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+  import baseView from '@/base/baseView'
 
   export default {
+    extends: baseView,
     props: {
       readOnly: {
         type: Boolean,
         default: false,
         required: false
-      },
+      }
     },
-    data() {
+    watch: {
+      isEdit: function (val) {
+        if (val) {
+          this.title = '公告更新'
+        } else {
+          this.title = '公告发布'
+        }
+        this.$util.ui.title(this.title)
+      }
+    },
+    data () {
       return {
+        title: '',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        isEdit: false, // 是否是编辑状态
         dataForm: {
           noticeType: '',
           fromDept: '',
@@ -118,85 +134,99 @@
           ],
           remark: [
             {required: false, message: '是否置顶不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: false, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: false, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: false, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: false, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: false, message: '更新时间不能为空', trigger: 'blur'}
           ]
         }
       }
     },
-    created() {
-      this.init()
+    created () {},
+    activated () {
+      this.$nextTick((_) => {
+        if (this.routeChanged) {
+          this.docId = this.$route.query.id
+          this.init(this.docId)
+        }
+      })
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              tapp.services.tBaseinfoNotice.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.noticeType = result.tBaseinfoNotice.noticeType
-                this.dataForm.fromDept = result.tBaseinfoNotice.fromDept
-                this.dataForm.noticeTitle = result.tBaseinfoNotice.noticeTitle
-                this.dataForm.noticeContent = result.tBaseinfoNotice.noticeContent
-                this.dataForm.timeLimit = result.tBaseinfoNotice.timeLimit
-                this.dataForm.remark = result.tBaseinfoNotice.remark
-                this.dataForm.createuser = result.tBaseinfoNotice.createuser
-                this.dataForm.updateuser = result.tBaseinfoNotice.updateuser
-                this.dataForm.datastatus = result.tBaseinfoNotice.datastatus
-                this.dataForm.createtime = result.tBaseinfoNotice.createtime
-                this.dataForm.updatetime = result.tBaseinfoNotice.updatetime
+              tapp.services.tBaseinfoNotice.get(id).then(result => {
+                this.isEdit = true
+                this.$util.deepObjectAssign({}, self.dataForm, result)
+                this.dataForm.noticeType = result.noticeType
+                this.dataForm.fromDept = result.fromDept
+                this.dataForm.noticeTitle = result.noticeTitle
+                this.dataForm.noticeContent = result.noticeContent
+                this.dataForm.timeLimit = result.timeLimit
+                this.dataForm.remark = result.remark
+                this.dataForm.createuser = result.createuser
+                this.dataForm.updateuser = result.updateuser
+                this.dataForm.datastatus = result.datastatus
+                this.dataForm.createtime = result.createtime
+                this.dataForm.updatetime = result.updatetime
               })
             }
           })
         } else {
           this.$nextTick(() => {
+            this.isEdit = false
             this.dataForm.createuser = this.currentUser.userDisplayName
             this.dataForm.createtime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
+            this.$refs['ruleForm'].resetFields()
           })
         }
       },
+      doDelete () {
+        let self = this
+        self.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          tapp.services.tBaseinfoNotice.delete(self.dataForm.id).then(function (result) {
+            self.closeCurrentTabNav()
+            self.$notify.success({
+              title: '系统成功',
+              message: '删除成功！'
+            })
+          })
+        })
+      },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBaseinfoNotice.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
+      },
+      // 关闭当前页面并跳转到新的页面
+      closeCurrentTabNav () {
+        this.$util.closeCurrentTabNav('noticeUpdate')
       }
     }
   }
