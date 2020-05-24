@@ -20,18 +20,18 @@
         <t-sub-title :title="'项目信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="16">
-            <el-form-item prop="pId" label="项目名称">
-              <el-input v-model="dataForm.pId"></el-input>
+            <el-form-item prop="proName" label="项目名称">
+              <t-project-select placeholder="选择项目信息" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="pId" label="项目编号">
-              <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+            <el-form-item prop="proCode" label="项目编号">
+              <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="pId" label="所属单位">
-              <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+            <el-form-item prop="proSubCompany" label="所属单位">
+              <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -65,14 +65,14 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="realAmount" label="确认借款额度">
+            <el-form-item label="确认借款额度">
               <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="borrowDate" label="借款日期">
+            <el-form-item label="借款日期">
               <el-input :readonly="true" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></el-input>
             </el-form-item>
           </el-col>
@@ -123,16 +123,18 @@
         dataForm: {
           bId: '',actTaskKey: '',pId: '',applyAmount: '',tiimeLimit: '',totalBorrowCount: '',totalBorrowAmount: '',
           realAmount: '',borrowDate: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
-          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '' ,proName:'',
+          proCode: '', proSubCompany: ''
+        },
         dataRule: {
-          bId: [
-            { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
+          proCode: [
+            { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
-          actTaskKey: [
-            { required: true, message: 'activiti执行任务key不能为空', trigger: 'blur' }
+          proName: [
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          pId: [
-            { required: true, message: '项目id不能为空', trigger: 'blur' }
+          proSubCompany: [
+            { required: true, message: '所属单位不能为空', trigger: 'blur' }
           ],
           applyAmount: [
             { required: true, message: '本次申请额度不能为空', trigger: 'blur' }
@@ -183,6 +185,28 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目到账信息
+      getSelectedProject(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.id
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.findMaxByProId(this.dataForm.pId)
+      },
+      // 获取累计信息
+      findMaxByProId(val){
+        let self = this
+        tapp.services.finaBorrowAmounapproval.findMaxByProId(val).then(function(result) {
+          if (result) {
+            self.dataForm.totalBorrowCount = result.totalBorrowCount + 1
+            self.dataForm.totalBorrowAmount = result.applyAmount + result.totalBorrowAmount
+          } else {
+            self.dataForm.totalBorrowCount = 0
+            self.dataForm.totalBorrowAmount = 0
+          }
+        });
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {

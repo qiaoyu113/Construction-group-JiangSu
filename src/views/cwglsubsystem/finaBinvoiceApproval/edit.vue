@@ -25,12 +25,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  label="所属公司">
+          <el-form-item  prop="proSubCompany"  label="所属公司">
             <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目地址">
+          <el-form-item prop="proAddress" label="项目地址">
             <el-input v-model="dataForm.proAddress"></el-input>
           </el-form-item>
         </el-col>
@@ -97,17 +97,17 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" >
-          <el-form-item label="适用税率或征收率" label-width="130px">
+          <el-form-item prop="levyRate" label="适用税率或征收率" label-width="130px">
             <el-input :readonly="readOnly"  v-model="dataForm.levyRate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="有无预征税款">
+          <el-form-item prop="isLevyTax" label="有无预征税款">
             <t-dic-radio-select dicType="have_or_not" v-model="dataForm.isLevyTax" :readonly="readOnly" ></t-dic-radio-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="预征税款完税凭证号码" label-width="160px">
+          <el-form-item prop="levyTaxNum" label="预征税款完税凭证号码" label-width="160px">
             <el-input v-model="dataForm.levyTaxNum" :readonly="readOnly" ></el-input>
           </el-form-item>
         </el-col>
@@ -322,6 +322,9 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      resetFields() {
+        this.$refs.ruleForm.resetFields();
+      },
       // 判断本次开票加以往开票是否超标
       exceedStandardFunc(){
         let conTotal = this.dataForm.conTotal * 100;
@@ -336,6 +339,8 @@
       },
       // 选择项目
       selectedData(data) {
+        debugger
+        this.resetFields()
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.pId = data.pId
         this.dataForm.cId = data.cId

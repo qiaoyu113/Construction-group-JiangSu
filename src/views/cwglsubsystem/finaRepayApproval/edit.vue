@@ -37,8 +37,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="所属单位">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proSubCompany" label="所属单位">
+            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -52,12 +52,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-        <el-form-item prop="getAmount" label="本次放款金额">
+        <el-form-item prop="getAmount" label="本次放款金额" >
           <el-input readonly v-model="dataForm.getAmount"></el-input>
         </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="timeLimit" label="本次放款期限（月）">
+          <el-form-item prop="timeLimit" label="本次放款期限（月）" label-width="140px">
             <el-input readonly v-model="dataForm.timeLimit"></el-input>
           </el-form-item>
         </el-col>
@@ -133,12 +133,6 @@
           proCode: [
             { required: true, message: '项目编号不能为空', trigger: 'blur' }
           ],
-          baId: [
-            { required: true, message: '借款合同编号不能为空', trigger: 'blur' }
-          ],
-          gId: [
-            { required: true, message: '放款申请信息不能为空', trigger: 'blur' }
-          ],
           getAmount: [
             { required: true, message: '本次还款金额不能为空', trigger: 'blur' }
           ],
@@ -148,7 +142,12 @@
           getCode: [
             { required: true, message: '本次累计未还金额不能为空', trigger: 'blur' }
           ],
-
+          proSubCompany: [
+            { required: true, message: '所属单位不能为空', trigger: 'blur' }
+          ],
+          realAmount: [
+            { required: true, message: '确认借款额度不能为空', trigger: 'blur' }
+          ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
