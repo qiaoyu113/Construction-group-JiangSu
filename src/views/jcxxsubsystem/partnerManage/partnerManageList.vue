@@ -50,6 +50,20 @@
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
+    <el-dialog title="合作项目列表" :visible.sync="dialogTableVisible">
+      <el-table :data="gridData">
+        <el-table-column property="index" label="序号" width="150"></el-table-column>
+        <el-table-column property="" label="项目编号" width="200"></el-table-column>
+        <el-table-column property="name" label="项目名称" width="200"></el-table-column>
+        <el-table-column property="" label="合同额"></el-table-column>
+        <el-table-column property="" label="合同开始日期"></el-table-column>
+        <el-table-column property="" label="合同结束日期"></el-table-column>
+        <el-table-column property="amountMoney" label="合同履约保证金"></el-table-column>
+        <el-table-column property="litigation" label="有无诉讼"></el-table-column>
+        <el-table-column property="depositType" label="有无房产或其他抵押"></el-table-column>
+      </el-table>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -67,6 +81,7 @@
     },
     data () {
       return {
+        dialogTableVisible: false,
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
@@ -83,6 +98,16 @@
           grid: {
             offsetHeight: 125, // 125:查询部分高度
             mutiSelect: false,
+            operates: {
+              width: 60,
+              fixed: 'left',
+              list: [{
+                type: 'text',
+                show: true,
+                label: '合作方项目查看',
+                method: this.openPartnerProjects
+              } ]
+            }, // 列操作按钮
             columns: [
 
               {
@@ -156,12 +181,18 @@
       },
       doReset () {
         this.$refs.search.resetFields()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh();
       },
       doExportExcel () {
         this.$refs.searchReulstList.exportCSV('合作方表')
       },
       doRefresh () {
         this.$refs.searchReulstList.refresh()
+      },
+      openPartnerProjects(row) {
+        this.dialogTableVisible = true
+        // 查询对应的项目信息
       }
     }
   }

@@ -148,9 +148,11 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('项目经理状态列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
