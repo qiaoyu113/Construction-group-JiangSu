@@ -1,8 +1,8 @@
 <template>
-  <div class="project-select">
-    <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
-    </t-input>
+  <div class="receive-accounapproval-select">
+    <!-- <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
+    </t-input> -->
+    <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
     <el-dialog title="到账信息选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
