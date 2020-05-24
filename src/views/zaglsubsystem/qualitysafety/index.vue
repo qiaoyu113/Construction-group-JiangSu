@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="经办日期"  prop="updatetime">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange" @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -50,9 +50,7 @@
         <el-col :span="12">
           <el-form-item>
             <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
+            <el-button type="primary" icon="el-icon-circle-close" @click="doReset()">清空</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,13 +72,16 @@
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
+        readOnly: false,
         gridOptions: {
           dataSource: {
             serviceInstance: tapp.services.tQsSdfileApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
-              dateRange: ''
+              dateRange: '',
+              starttime: '',
+              endtime: ''
             }
           },
           grid: {
@@ -115,6 +116,14 @@
                 label: '合同金额',
                 sortable: true,
                 minWidth: 120,
+                render: (h, params) => {
+                  var self = this
+                  return h('t-highlight-view', {
+                    props: {
+                      value: self.$util.moneyFormat(params.row.proTotalInvestment || 0)
+                    }
+                  })
+                }
               },
               {
                 prop: 'proSubCompany',
@@ -188,6 +197,8 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {};
+        this.doRefresh()
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('重大危险源文件表');
@@ -196,6 +207,7 @@
         this.$refs.searchReulstList.refresh();
       },
       getSummaries (param) {
+        console.log('param', param)
         const {
           columns,
           data,
@@ -204,12 +216,17 @@
 
         this.reduces = reduces || []
 
-        if (reduces == null) {
-          return []
-        }
+        // if (reduces == null) {
+        //   return []
+        // }
         const sums = []
         sums[1] = '合计'
-        sums[4] = util.moneyFormat(reduces.sumOriginalLoanMoneyAmount) || '--'
+        let sum = 0
+        data.map(item => {
+          sum += parseFloat(item.proTotalInvestment)
+        })
+        sums[4] = util.moneyFormat(sum) || '--'
+        
         return sums
       }
     }

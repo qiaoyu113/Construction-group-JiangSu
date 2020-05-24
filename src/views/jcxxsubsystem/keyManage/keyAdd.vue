@@ -235,7 +235,7 @@
     activated () {
       this.$nextTick((_) => {
         if (this.routeChanged) {
-          this.docId = this.$route.query.id
+          this.docId = this.$route.query.id || ''
           this.init(this.docId)
         }
       })
