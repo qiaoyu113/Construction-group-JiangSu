@@ -43,7 +43,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="unionCompany" label="所属单位">
-              <el-input readonly v-model="dataForm.unionCompany"></el-input>
+              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -88,15 +88,15 @@
             <el-form-item prop="sAmount" label="已支付预付款"></el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="sAmount" label="自营金额" label-width="80px">
-              <el-input readonly v-model="dataForm.sAmount">
+            <el-form-item prop="paidSAmount" label="自营金额" label-width="80px">
+              <el-input readonly v-model="dataForm.paidSAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="oAmount" label="联营金额">
-              <el-input readonly v-model="dataForm.oAmount">
+            <el-form-item prop="paidOAmount" label="联营金额">
+              <el-input readonly v-model="dataForm.paidOAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
@@ -232,14 +232,12 @@
           paidOAmount: [
             { required: true, message: '已支付预付款金额-联营不能为空', trigger: 'blur' }
           ],
-
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
-          ],
-
+          ]
         }
       }
     },
@@ -275,8 +273,24 @@
         this.dataForm.oAmount = data.oAmount
         this.dataForm.rType = data.rType
         this.dataForm.lNum = data.lNum
+        this.dataForm.proSubCompany = data.proSubCompany
         if (!data.lNum) {
           this.dataRule.lNum[0].required = false
+        }
+        if (!data.oAmount) {
+          this.dataRule.oAmount[0].required = false
+        }
+        if (!data.sAmount) {
+          this.dataRule.sAmount[0].required = false
+        }
+        if (data.rType == 'yfk') {
+          this.data.paidOAmount = data.oAmount
+          this.data.paidSAmount = data.sAmount
+          this.dataRule.paidOAmount[0].required = true
+          this.dataRule.paidSAmount[0].required = true
+        } else {
+          this.dataRule.paidOAmount[0].required = false
+          this.dataRule.paidSAmount[0].required = false
         }
       },
       // 初始化 编辑和新增 2种情况

@@ -26,7 +26,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营模式">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" @change="onProRunMode" ></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" disabled v-model="dataForm.proRunMode" @change="onProRunMode" ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -211,13 +211,13 @@
         let proRunMode = this.dataForm.proRunMode
         // 联营
         if (proRunMode == 'pool') {
-          this.dataForm.sAmount = this.dataForm.rAmount
+          this.dataForm.oAmount = this.dataForm.rAmount
           this.dataRule.oAmount[0].required = false
           this.dataRule.sAmount[0].required = true
         }
         // 自营
         if (proRunMode == 'proprietary') {
-          this.dataForm.oAmount = this.dataForm.rAmount
+          this.dataForm.sAmount = this.dataForm.rAmount
           this.dataRule.oAmount[0].required = true
           this.dataRule.sAmount[0].required = false
         }
