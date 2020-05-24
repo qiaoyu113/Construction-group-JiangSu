@@ -3,7 +3,7 @@
 <div>
   <el-tabs v-model="tabActive" @tab-click="handleTabClick" tab-position="right" class="fixed-header">
     <el-tab-pane label="客户资料" name="baseInfo">
-      <el-form :model="docEntity" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="160px">
+      <el-form :model="docEntity" ref="ruleForm" @submit.native.prevent label-width="160px">
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="切换只读">

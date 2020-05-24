@@ -1,7 +1,7 @@
 <template>
 <el-dialog :title="title" :close-on-click-modal="false" :visible.sync="visible">
   <div>
-    <t-form :model="model" ref="ruleForm"  @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px">
+    <t-form :model="model" ref="ruleForm"  @submit.native.prevent label-width="140px">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="id" prop="id">

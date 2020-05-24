@@ -1,6 +1,6 @@
 <template>
 <div>
-  <t-form :model="model" ref="ruleForm"  @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px">
+  <t-form :model="model" ref="ruleForm"  @submit.native.prevent label-width="140px">
     <el-row :gutter="20" v-if="showFieldList.includes('title')">
       <el-col :span="24">
         <el-form-item label="标题" prop="title" verify class="is-required" :maxLength="50">

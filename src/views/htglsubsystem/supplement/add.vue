@@ -8,7 +8,7 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="center">
       <el-card shadow="never">
       <t-sub-title :title="'主合同补充协议'"></t-sub-title>
@@ -26,7 +26,7 @@
       </el-row>
       </el-card>
     </el-form>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目基本信息'"></t-sub-title>
@@ -191,7 +191,7 @@
         </el-col>
       </el-row>
       </el-card>
-      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
                label-width="120px" label-position="right" readonly></el-form>
       <el-card shadow="never">
       <t-sub-title :title="'补充协议内容'"></t-sub-title>

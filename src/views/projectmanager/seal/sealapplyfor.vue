@@ -2,7 +2,7 @@
   <div>
     <el-button type="primary">提交审批</el-button>
     <el-button>审批流程图</el-button>
-    <el-form :model="seal" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="100px" label-position="right">
+    <el-form :model="seal" ref="ruleForm" @submit.native.prevent label-width="100px" label-position="right">
       <el-card class="box-card" :body-style="{ padding: '0 10px' }">
   <!--      <div slot="header" class="card-title">-->
   <!--        <span>项目刻章</span>-->
