@@ -8,20 +8,20 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="计税方式">
-            <t-dic-dropdown-select dicType="1260866411727818753"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+            <t-dic-dropdown-select dicType="tax_method"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.taxMethod"
                                    :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属公司">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="所属公司" clearable></el-input>
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" placeholder="所属公司" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -57,9 +57,9 @@
           dataSource: {
             serviceInstance: tapp.services.finaCtaxationApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              proName: null,
+              taxMethod: null,
+              proSubCompany: null
             }
           },
           grid: {
@@ -80,19 +80,19 @@
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'proPlanDate',
                 label: '工程起止时间',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'conName',
                 label: '合同名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'conTotal',
                 label: '合同金额（万元）',
                 sortable: true,
                 minWidth: 150,
@@ -103,27 +103,27 @@
                 sortable: true,
                 minWidth: 150,
               },
-              // {
-              //   prop: 'taxMethod',
-              //   label: '计税方式（字典表）',
-              //   sortable: true,
-              //   minWidth: 120,
-              // },
               {
-                prop: 'province',
+                prop: 'addressDetail',
                 label: '外出经营地',
+                sortable: true,
+                minWidth: 130,
+              },
+              {
+                prop: 'companyName',
+                label: '合同对方企业名称',
                 sortable: true,
                 minWidth: 130,
               },
               {
                 prop: 'taxMethod',
                 columnKey: 'taxMethod',
-                filters: util.getListDataDicFilters('1260866411727818753'),
+                filters: util.getListDataDicFilters('tax_method'),
                 label: '计税方式',
                 sortable: true,
                 width: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('1260866411727818753', row.taxMethod)
+                  return util.dataDicFormat('tax_method', row.taxMethod)
                 }
               },
               {
@@ -132,8 +132,14 @@
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.startDate, 'YYYY-MM-DD');
+                  return row.startDate.substring(0,10) + '~' + row.endDate.substring(0,10)
                 }
+              },
+              {
+                prop: 'proSubCompany',
+                label: '所属公司',
+                sortable: true,
+                minWidth: 120,
               },
               {
                 prop: 'sign',
@@ -142,27 +148,27 @@
                 minWidth: 120,
               },
               {
-                prop: 'sign',
+                prop: 'ctaxationStatus',
                 label: '状态',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'signTime',
+                prop: 'delayDate',
                 label: '延期日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.delayDate, 'YYYY-MM-DD');
                 }
               },
               {
-                prop: 'signTime',
+                prop: 'logoffDate',
                 label: '注销日期',
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.logoffDate, 'YYYY-MM-DD');
                 }
               }
             ], // 需要展示的列

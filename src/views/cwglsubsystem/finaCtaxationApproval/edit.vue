@@ -21,24 +21,24 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-            <el-input readonly v-model="dataForm.proName"></el-input>
+            <t-bank-project-select v-model="dataForm.proName" :readonly="true" @selectedData="selectedData"></t-bank-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="工程起止时间">
-            <el-date-picker type="datetime" readonly  v-model="dataForm.signTime"></el-date-picker>
+            <t-datetime-range-picker disabled type="datetime"  v-model="dataForm.proPlanDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="cId" label="合同名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+            <el-input readonly v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="cId" label="合同金额">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+            <el-input readonly v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -50,14 +50,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="cId" label="所属公司">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="tax_method" v-model="dataForm.taxMethod"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -89,12 +89,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="licenceCode" label="外经证号">
-              <el-input placeholder="申请通过后填写" v-model="dataForm.licenceCode"></el-input>
+              <el-input placeholder="申请通过后填写" readonly="true" v-model="dataForm.licenceCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="使用期限">
-            <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
+            <t-datetime-range-picker disabled v-model="dataForm.startDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -133,7 +133,7 @@
         dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',applyAmount: '',province: '',city: '',district: '',
-          address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: '',
+          address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: '',proPlanDate:'',
           propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',proName: ''                                                                                       },
         dataRule: {
           pId: [
@@ -187,6 +187,18 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目
+      selectedData(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        console.log(data)
+        this.dataForm.pId = data.pId
+        this.dataForm.cId = data.cId
+        this.dataForm.proName = data.proName
+        this.dataForm.conName = data.conName
+        this.dataForm.conTotal = data.conTotal
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.proPlanDate = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00'];
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
