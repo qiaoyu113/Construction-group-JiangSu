@@ -56,7 +56,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="经办日期"  prop="signTime">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+            <t-datetime-range-picker @change="onStartDateRangeChanged" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>

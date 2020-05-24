@@ -100,13 +100,16 @@
                   prop: 'creditCode',
                   label: '统一社会信用代码',
                   sortable: true,
-                  minWidth: 120,
+                  minWidth: 150,
                 },
                 {
                   prop: 'companyAttr',
                   label: '企业性质',
                   sortable: true,
                   minWidth: 120,
+                  formatter: (row, column, cellValue) => {
+                    return util.dataDicFormat('unit_nature', row.companyAttr) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  }
                 },
                 {
                   prop: 'companyAddress',

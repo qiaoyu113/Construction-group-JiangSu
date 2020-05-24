@@ -12,39 +12,37 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="姓名："  prop="proName">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+          <el-form-item label="姓名："  prop="proManager">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proManager"
                        placeholder="姓名" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="建造师等级："   prop="proType">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+          <el-form-item label="建造师等级："   prop="constructorLevel">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
                        placeholder="建造师等级" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="分公司："  prop="proConstructCompany">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+          <el-form-item label="分公司："  prop="proSubCompany">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="分公司" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目名称："  prop="useScenes">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.useScenes"
+          <el-form-item label="项目名称："  prop="proName">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="项目编号："  prop="proRunMode">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
+          <el-form-item label="项目编号："  prop="proCode">
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proCode"
                        placeholder="项目编号" clearable></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="审批状态："  prop="approvalStatus">
             <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
@@ -121,7 +119,7 @@
                 prop: 'constructorCode',
                 label: '建造师证书编号',
                 sortable: true,
-                minWidth: 120,
+                minWidth: 150,
               },
               {
                 prop: 'safeB',
@@ -146,9 +144,6 @@
                 label: '授权内容',
                 sortable: true,
                 minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
-                }
               },
               {
                 prop: 'approvalStatus',

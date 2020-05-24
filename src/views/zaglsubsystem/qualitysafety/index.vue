@@ -40,8 +40,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办日期"  prop="updatetime">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+          <el-form-item label="经办日期"  prop="conCode">
+            <t-datetime-range-picker @change="onStartDateRangeChanged" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>

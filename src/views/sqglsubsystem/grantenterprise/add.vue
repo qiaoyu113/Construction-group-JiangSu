@@ -72,7 +72,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBuildArea" label="项目规模：">
-            <el-input v-model="dataForm.proBuildArea"></el-input>
+            <el-input v-model="dataForm.proBuildArea" placeholder="请输入数字"></el-input>
+          <!--  <t-number-range-input v-model="dataForm.proBuildArea"></t-number-range-input>-->
           </el-form-item>
         </el-col>
         <el-col :span="8">

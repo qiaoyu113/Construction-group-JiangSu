@@ -27,7 +27,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+             <!-- <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>-->
+              <t-bank-project-select :readonly="true" @selectedData="selectedData"></t-bank-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -75,7 +76,7 @@
           </el-col>
         </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <!--<el-col :span="8">
           <el-form-item prop="conName" label="合同名称：">
             <el-input disabled v-model="dataForm.conName" disabled></el-input>
           </el-form-item>
@@ -88,6 +89,21 @@
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同金额">
             <el-input disabled v-model="dataForm.conTotal" disabled></el-input>
+          </el-form-item>
+        </el-col>-->
+        <el-col :span="8">
+          <el-form-item label="合同名称">
+            <el-input :readonly="true" v-model="dataForm.conName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="合同期间">
+            <t-datetime-range-picker disabled v-model="dataForm.conPeriod"></t-datetime-range-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="合同金额">
+            <el-input :readonly="true" v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,8 +119,11 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="grantStarttime" label="授权期限：">
+          <!--  <el-form-item prop="grantStarttime" label="授权期限：">
               <el-input v-model="dataForm.result"></el-input>
+            </el-form-item>-->
+            <el-form-item label="授权期限："  prop="conPeriod"  class="is-required">
+              <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -248,7 +267,7 @@
           })
         }
       },
-      getSelectedProject(project) {
+     /* getSelectedProject(project) {
         console.log('current project', project);
         this.dataForm.proSubCompany = project.proSubCompany;
         this.dataForm.proBusDept = project.proBusDept;
@@ -261,6 +280,31 @@
         this.dataForm.proName = project.proName;
         this.dataForm.pId = project.id;
         this.dataForm.conName = project.conName;
+      },*/
+      // 选择项目
+      selectedData(data) {
+        debugger
+        this.resetFields()
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.pId = data.pId
+        this.dataForm.cId = data.cId
+        this.dataForm.bankName = data.bankName
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.secompanyAddress = data.bankAccountName
+        this.dataForm.secompanyTel = data.contactInfo
+        this.dataForm.bankAccount = data.bankAccount
+        this.dataForm.conName = data.conName
+        this.dataForm.proAddress = data.proAddressProvince + data.proAddressCity + data.proAddressDetail
+        this.dataForm.conTotal = data.conTotal
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.secompanyName = data.companyName
+        this.dataForm.conPeriod = [data.conStartDate + ' 00:00:00', data.conEndDate + ' 00:00:00'];
+        this.findTotalSum();
+      },
+      onStartDateRangeChanged(val) {
+        this.dataForm.grantStarttime = val[0];
+        this.dataForm.grantEndtime= val[1];
       },
       // 表单提交
       doSave() {
