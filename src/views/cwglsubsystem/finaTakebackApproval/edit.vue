@@ -21,7 +21,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item prop="rId" label="到帐信息选择">
-              <el-input v-model="dataForm.rId"></el-input>
+              <t-receive-accounapproval-select placeholder="选择到帐信息" v-model="dataForm.rId" @selectedProject="getSelectedProject"></t-receive-accounapproval-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -38,7 +38,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营模式">
-              <el-input  v-model="dataForm.proRunMode"></el-input>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -48,7 +48,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item prop="rWay" label="到帐方式">
-              <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="account_way" v-model="dataForm.rWay" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -58,7 +58,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="rType" label="到帐类型">
-              <t-dic-dropdown-select dicType="1260866912477384705" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="account_type" v-model="dataForm.rType" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -190,8 +190,26 @@
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          rId: [
-            { required: true, message: '到帐标识id不能为空', trigger: 'blur' }
+          proRunMode: [
+            { required: true, message: '经营模式不能为空', trigger: 'blur' }
+          ],
+          unionCompany: [
+            { required: true, message: '联营单位标识不能为空', trigger: 'blur' }
+          ],
+          rAmount: [
+            { required: true, message: '到帐金额不能为空', trigger: 'blur' }
+          ],
+          rDatetime: [
+            { required: true, message: '到帐时间不能为空', trigger: 'blur' }
+          ],
+          rWay: [
+            { required: true, message: '到帐方式不能为空', trigger: 'blur' }
+          ],
+          lNum: [
+            { required: true, message: '票号不能为空', trigger: 'blur' }
+          ],
+          rType: [
+            { required: true, message: '到帐类型不能为空', trigger: 'blur' }
           ],
           mangementRatio: [
             { required: true, message: '总部管理费比例不能为空', trigger: 'blur' }
@@ -242,6 +260,25 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目到账信息
+      getSelectedProject(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.id
+        this.dataForm.unionCompany = data.proUnionCompany
+        this.dataForm.proRunMode = data.proRunMode
+        this.dataForm.rWay = data.rWay
+        this.dataForm.rAmount = data.rAmount
+        this.dataForm.rDatetime = data.rDatetime
+        this.dataForm.sAmount = data.sAmount
+        this.dataForm.oAmount = data.oAmount
+        this.dataForm.rType = data.rType
+        this.dataForm.lNum = data.lNum
+        if (!data.lNum) {
+          this.dataRule.lNum[0].required = false
+        }
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
