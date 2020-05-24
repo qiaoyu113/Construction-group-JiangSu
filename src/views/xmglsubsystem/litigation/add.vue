@@ -78,7 +78,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="冻结金额：" prop="freezingAmount" verify class="is-required">
+          <el-form-item label="冻结金额：" prop="freezingAmount">
             <t-currency-input v-model="dataForm.freezingAmount" :readOnly="readOnly">
               <span slot="append">元</span>
             </t-currency-input>
@@ -152,14 +152,8 @@
           datastatus: ''
         },
         dataRule: {
-          isLitigation: [
-            {required: true, message: '是否标记诉讼不能为空', trigger: 'blur'}
-          ],
-          owingtoUnionCompany: [
-            {required: true, message: '是否与联营单位有关不能为空', trigger: 'blur'}
-          ],
-          freezingAmount: [
-            {required: true, message: '冻结金额不能为空', trigger: 'blur'}
+          pId: [
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           remark: [
             {required: true, message: '说明不能为空', trigger: 'blur'}

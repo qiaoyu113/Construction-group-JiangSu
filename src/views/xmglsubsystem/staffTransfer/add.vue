@@ -144,7 +144,7 @@
           approvalStatus2: ''
         },
         dataRule: {
-          proName: [
+          pId: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           processBranch: [
