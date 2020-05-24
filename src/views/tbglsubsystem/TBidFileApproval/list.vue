@@ -6,96 +6,105 @@
       </el-col>
     </el-row>
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
-            :model="gridOptions.dataSource.serviceInstanceInputParameters">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+              :model="gridOptions.dataSource.serviceInstanceInputParameters">
 
-    <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="项目名称" prop="proName">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="工程类别">
-              <t-dic-dropdown-select dicType="engineering_type"
-                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="建设单位">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
-                        clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="所属分公司" >
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="合同模式">
-              <t-dic-dropdown-select dicType="contract_model"
-                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
-              ></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经营方式">
-              <t-dic-dropdown-select dicType="business_type"
-                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="审批状态">
-              <t-dic-dropdown-select dicType="approval_status"
-                                  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经办人">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="expirationDate">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
-                                       @change="onStartDateRangeChanged">
-              </t-datetime-range-picker>
-            </el-form-item>
-          </el-col>
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item label="项目名称" prop="proName">
+                <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                          v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="工程类别">
+                <t-dic-dropdown-select dicType="engineering_type"
+                                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                       :readOnly="readOnly"></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="建设单位">
+                <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                          v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                          clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="所属分公司">
+                <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                          v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="合同模式">
+                <t-dic-dropdown-select dicType="contract_model"
+                                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
+                ></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="经营方式">
+                <t-dic-dropdown-select dicType="business_type"
+                                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="审批状态">
+                <t-dic-dropdown-select dicType="approval_status"
+                                       v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="经办人">
+                <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                          v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" class="search-date-picker">
+              <el-form-item label="申请时间" prop="expirationDate">
+                <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
+                                         @change="onStartDateRangeChanged">
+                </t-datetime-range-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+            <el-col :span="12">
+              <el-form-item>
+                <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+                <el-button icon="el-icon-download" @click="doReset()">
+                  <i class="fa fa-lg fa-level-down"></i>清空
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
 <script>
+
   import baseView from '@/base/baseView'
   import util from '@/util'
+
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
     data() {
       return {
         checkededRows: [],
@@ -157,7 +166,7 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicsFormat('contract_model', row.proIntroduce)
+                  return util.dataDicsFormat('contract_model', row.proContractAttr)
                 }
               },
 
@@ -183,6 +192,9 @@
                 label: '文件类型',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('file_type', row.bidFileType)
+                }
               },
               {
                 prop: '',

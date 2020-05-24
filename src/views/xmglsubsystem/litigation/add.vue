@@ -12,57 +12,61 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="140px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="合同模式：">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="工程类别：" prop="proType">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="经营方式：" prop="proRunMode">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'项目信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="项目名称：" prop="pId">
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.pId"
+                                @selectedProject="getSelectedProject"></t-project-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属分公司：" prop="proSubCompany">
+              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属事业部：" prop="proBusDept">
+              <el-input v-model="dataForm.proBusDept" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="建设单位：" prop="proConstructCompany">
+              <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="合同模式：">
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="投资金额：" prop="proTotalInvestment">
+              <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="工程类别：" prop="proType">
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经营方式：" prop="proRunMode">
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="项目规模：" prop="proBuildArea">
+              <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'已有诉讼信息'"></t-sub-title>
+        <t-sub-title :title="'已有诉讼信息'"></t-sub-title>
         <el-table :data="litigationData" border style="width: 100%">
           <el-table-column prop="litigationCode" label="诉讼编号" min-width="100"></el-table-column>
           <el-table-column prop="freezingAmount" label="冻结金额"></el-table-column>
@@ -83,56 +87,60 @@
           <el-table-column align="center" min-width="100">
             <template slot-scope="scope">
               <!-- 标记中的状态才需要展示该按钮 -->
-              <el-button v-if="scope.row.litigationStatus === 'marking'" size="mini" type="danger" @click="cancelLitigation(scope.row)">取消诉讼</el-button>
+              <el-button v-if="scope.row.litigationStatus === 'marking'" size="mini" type="danger"
+                         @click="cancelLitigation(scope.row)">取消诉讼
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'新诉讼信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="isLitigation" label="标记诉讼：">
-            <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.isLitigation" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="owingtoUnionCompany" label="与联营单位有关：">
-            <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.owingtoUnionCompany" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="冻结金额：" prop="freezingAmount">
-            <t-currency-input v-model="dataForm.freezingAmount" :readOnly="readOnly">
-              <span slot="append">元</span>
-            </t-currency-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="标记人：">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="标记时间：">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24">
-          <el-form-item label="说明：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'新诉讼信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="isLitigation" label="标记诉讼：">
+              <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.isLitigation"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="owingtoUnionCompany" label="与联营单位有关：">
+              <t-dic-dropdown-select dicType="y_or_n" v-model="dataForm.owingtoUnionCompany"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="冻结金额：" prop="freezingAmount">
+              <t-currency-input v-model="dataForm.freezingAmount" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="标记人：">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="标记时间：">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="说明：" prop="remark">
+              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -140,7 +148,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     props: {
       readOnly: {
@@ -149,7 +158,7 @@
         required: false
       }
     },
-    data () {
+    data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
@@ -186,16 +195,17 @@
         litigationData: []
       }
     },
-    created () {
+    created() {
       this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user })
+        currentUser: state => state.app.user
+      })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init (id) {
+      init(id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -234,7 +244,7 @@
           })
         }
       },
-      getSelectedProject (project) {
+      getSelectedProject(project) {
         console.log('current project', project)
         this.dataForm.proSubCompany = project.proSubCompany
         this.dataForm.proBusDept = project.proBusDept
@@ -244,10 +254,10 @@
         this.dataForm.proType = project.proType
         this.dataForm.proRunMode = project.proRunMode
         this.dataForm.proBuildArea = project.proBuildArea
-        this.getLitigationList()
+        this.getLitigationList(project.id)
       },
       // 表单提交
-      doSave () {
+      doSave() {
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
@@ -268,17 +278,19 @@
         })
       },
       // 获取诉讼信息
-      getLitigationList () {
-        const params = {}
+      getLitigationList(value) {
+        const params = {
+          pId: value
+        };
         tapp.services.proLitigation.getList(params).then(res => {
-          console.log('获取诉讼信息', res)
+          console.log('获取诉讼信息', res);
           this.litigationData = res
         }).catch(err => {
           console.log('获取诉讼信息 错误', err)
         })
       },
       // 取消诉讼
-      cancelLitigation (row) {
+      cancelLitigation(row) {
         console.log('取消诉讼', row)
         // 如果是标记中状态，则可以取消
         if (row.litigationStatus === 'marking') {

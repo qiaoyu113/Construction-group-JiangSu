@@ -150,12 +150,12 @@
                 minWidth: 100
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'conBcxyTotal',
                 label: '合同金额',
                 minWidth: 100
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 minWidth: 110
               },
