@@ -124,7 +124,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proWinAmount" label="中标金额：">
-              <t-currency-input v-model="dataForm.proWinAmount"></t-currency-input>
+              <t-currency-input v-model="dataForm.proWinAmount" @change="moneyCapital"></t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -639,6 +639,11 @@
       },
       getSelectedManager(manager) {
         console.log('current manager', manager)
+      },
+      moneyCapital(value) {
+        if (value) {
+          this.dataForm.proWinAmountC = this.$util.moneyArabiaToChinese(value);
+        }
       },
       // 表单提交
       doSave () {
