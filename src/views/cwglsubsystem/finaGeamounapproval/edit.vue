@@ -20,8 +20,8 @@
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form-item  prop="baId" label="借款额度信息">
-            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
+          <el-form-item prop="baId" label="借款额度信息">
+            <t-borrow-amount-select :readonly="true" placeholder="选择项目信息"  v-model="dataForm.baId" @selectedProject="getSelectedProject"></t-borrow-amount-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -37,8 +37,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="pId" label="所属单位">
-            <el-input :readonly="true" v-model="dataForm.pId"></el-input>
+          <el-form-item prop="proSubCompany" label="所属单位">
+            <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -62,7 +62,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款金额">
-            <el-input v-model="dataForm.getAmount">
+            <el-input v-model="dataForm.getAmount" @change="onGetAmount">
               <span slot="append">万元</span>
             </el-input>
           </el-form-item>
@@ -76,7 +76,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="getCode" label="借款合同编号">
-            <el-input :readonly="true" v-model="dataForm.getCode"></el-input>
+            <el-input :readonly="true" v-model="dataForm.getCode" placeholder="审批完成后填写"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -154,13 +154,10 @@
             { required: true, message: '项目编号不能为空', trigger: 'blur' }
           ],
           getAmount: [
-            { required: true, message: '本次放款金额不能为空', trigger: 'blur' }
+            { required: true, message: '请输入数字，并且不能为空', trigger: 'blur' }
           ],
           timeLimit: [
             { required: true, message: '本次放款期限（月）不能为空', trigger: 'blur' }
-          ],
-          getCode: [
-            { required: true, message: '借款合同编号不能为空', trigger: 'blur' }
           ],
           totalBorrowAmount: [
             { required: true, message: '累计放款金额不能为空', trigger: 'blur' }
@@ -174,7 +171,15 @@
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-
+          proSubCompany: [
+            { required: true, message: '所属单位不能为空', trigger: 'blur' }
+          ],
+          tiimeLimit: [
+            { required: true, message: '确认借款期限不能为空', trigger: 'blur' }
+          ],
+          realAmount: [
+            { required: true, message: '本次借款额度不能为空', trigger: 'blur' }
+          ],
         }
       }
     },
@@ -195,6 +200,32 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      onGetAmount(){
+        if (!isNaN(this.dataForm.getAmount)) {
+          let amount = this.dataForm.realAmount - this.dataForm.getAmount - this.dataForm.totalBorrowAmount;
+          if (amount >= 0) {
+            this.dataForm.leftAmount = amount
+          } else {
+            this.dataForm.getAmount = 0
+            this.$notify.error({
+              title: "失败！",
+              message: "请重新输入！",
+            });
+          }
+        }
+      },
+      // 选择项目到账信息
+      getSelectedProject(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.pId
+        this.dataForm.baId = data.id
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.realAmount = data.realAmount
+        this.dataForm.tiimeLimit = data.tiimeLimit
+        this.dataForm.totalBorrowAmount = data.getAmount
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {

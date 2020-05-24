@@ -146,6 +146,7 @@ import TSubTitle from './components/sub-title/index.vue'
 import TRegionPicker from './components/regions/region-picker.vue'
 import TWorkflowMap from './components/workflow-map/index.vue'
 import TProjectSelect from './components/popup/project-select.vue'
+import TBorrowAmountSelect from './components/popup/borrow-amount-select.vue'
 import ReceiveAccounapprovalSelect from './components/popup/receive-accounapproval-select'
 import TBankSelect from './components/popup/bank-select.vue'
 import TBankProjectSelect from './components/popup/bank-project-select.vue'
@@ -173,6 +174,7 @@ Vue.component('t-sub-title', TSubTitle)
 Vue.component('t-region-picker', TRegionPicker)
 Vue.component('t-workflow-map', TWorkflowMap)
 Vue.component('t-project-select', TProjectSelect)
+Vue.component('t-borrow-amount-select', TBorrowAmountSelect)
 Vue.component('t-receive-accounapproval-select', ReceiveAccounapprovalSelect)
 Vue.component('t-bank-select', TBankSelect)
 Vue.component('t-bank-project-select', TBankProjectSelect)
