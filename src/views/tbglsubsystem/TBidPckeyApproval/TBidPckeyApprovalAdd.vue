@@ -268,9 +268,7 @@
         }
       }
     },
-    created() {
-      this.init()
-    },
+    created() {},
     activated () {
       this.$nextTick((_) => {
         if (this.routeChanged) {

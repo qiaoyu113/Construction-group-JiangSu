@@ -172,6 +172,8 @@
       },
       doReset () {
         this.$refs.search.resetFields()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh()
       },
       doExportExcel () {
         this.$refs.searchReulstList.exportCSV('公告列表')

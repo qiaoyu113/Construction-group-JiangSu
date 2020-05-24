@@ -152,6 +152,8 @@
       },
       doReset () {
         this.$refs.search.resetFields()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh();
       },
       doExportExcel () {
         this.$refs.searchReulstList.exportCSV('项目经理状态表')
