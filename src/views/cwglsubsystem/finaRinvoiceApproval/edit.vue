@@ -20,13 +20,13 @@
       <t-sub-title :title="'蓝字发票信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="biId" label="蓝字发票号码">
-            <el-input v-model="dataForm.biId"></el-input>
+          <el-form-item prop="fInvoiceNum" label="蓝字发票号码">
+            <el-input v-model="dataForm.fInvoiceNum" @change="getByInvoiceNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发票金额">
-            <el-input readonly v-model="dataForm.biId"></el-input>
+            <el-input readonly v-model="dataForm.fInvoiceAmount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -68,7 +68,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="发票日期">
-            <el-input readonly v-model="dataForm.invoiceDate"></el-input>
+            <el-date-picker readonly v-model="dataForm.fInvoiceDate"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -83,27 +83,27 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目地址">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input readonly v-model="dataForm.proAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司">
-            <el-input  v-model="dataForm.pId"></el-input>
+            <el-input  v-model="dataForm.proSubCompany" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <el-input  v-model="dataForm.pId"></el-input>
+            <el-input  v-model="dataForm.conName" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同期间">
-            <t-datetime-range-picker  v-model="dataForm.pId"></t-datetime-range-picker>
+            <t-datetime-range-picker  v-model="dataForm.conPeriod" disabled></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <el-input  v-model="dataForm.pId"></el-input>
+            <el-input  v-model="dataForm.conTotal" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -120,12 +120,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="开票日期">
-            <el-date-picker readonly type="date" placeholder="开票后由专人填入" v-model="dataForm.invoiceDate"></el-date-picker>
+            <el-date-picker readonly type="date" v-model="dataForm.invoiceDate"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发票号码">
-            <el-input readonly placeholder="开票后由专人填入" v-model="dataForm.invoiceNum"></el-input>
+            <el-input readonly v-model="dataForm.invoiceNum"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -179,12 +179,15 @@
         readOnly: false,
         dialogVisible: false,
         dataForm: {
-          bId: '',actTaskKey: '',pId: '',biId: '',invoiceAmount: '',reason: '',invoiceDate: '',
-          invoiceCode: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: '',propose: '',
-          result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          bId: '',actTaskKey: '',pId: '',biId: '',invoiceAmount: '',reason: '',invoiceDate: '',fInvoiceAmount:'',
+          invoiceCode: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: '',propose: '',fInvoiceNum: '',
+          result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '' ,
+          conPeriod: '',taxNo: '',secompanyTel: '',bankName: '', bankAccount:'',proName: '',proSubCompany:'',conName: '',
+          secompanyAddress: '',secompanyName: '',proAddress: '',  fInvoiceDate: ''
+        },
         dataRule: {
-          biId: [
-            { required: true, message: '蓝字发票标识id不能为空', trigger: 'blur' }
+          fInvoiceNum: [
+            { required: true, message: '蓝字发票信息不能为空', trigger: 'blur' }
           ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
@@ -209,6 +212,39 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 根据发票号码获取发票信息
+      getByInvoiceNum(val){
+        let self = this;
+        let model = { ...self.dataForm };
+        if (val) {
+          tapp.services.finaBinvoiceApproval.getByInvoiceNum(val).then(function(result) {
+            if (result) {
+              console.log(result)
+              self.dataForm.pId = result.pId
+              self.dataForm.biId = result.id
+              self.dataForm.bankName = result.bankName
+              self.dataForm.proName = result.proName
+              self.dataForm.proCode = result.proCode
+              self.dataForm.secompanyAddress = result.bankAccountName
+              self.dataForm.secompanyTel = result.contactInfo
+              self.dataForm.bankAccount = result.bankAccount
+              self.dataForm.conName = result.conName
+              self.dataForm.proAddress = result.proAddress
+              self.dataForm.conTotal = result.conTotal
+              self.dataForm.proSubCompany = result.proSubCompany
+              self.dataForm.secompanyName = result.secompanyName
+              self.dataForm.conPeriod = [result.conStartDate + ' 00:00:00', result.conEndDate + ' 00:00:00']
+              self.dataForm.fInvoiceAmount = result.invoiceAmount
+              self.dataForm.fInvoiceDate = result.invoiceDate
+            } else {
+              self.$notify.error({
+                title: "错误",
+                message: "系统不存在该蓝字发票，请重新输入！",
+              });
+            }
+          });
+        }
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {

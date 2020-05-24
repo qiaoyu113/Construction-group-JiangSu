@@ -17,37 +17,37 @@
           </el-col>
           <el-col :span="24">
             <el-form-item prop="proSubCompany" label="项目简介：">
-              <t-input type="textarea" v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input type="textarea" v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="项目地点：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="建设单位：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="投资金额：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="工程类别">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+            <el-form-item prop="proSubCompany" label="工程类别：">
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="项目规模">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+            <el-form-item prop="proSubCompany" label="项目规模：">
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
-            <el-form-item prop="proSubCompany" label="合同模式">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+            <el-form-item prop="proSubCompany" label="合同模式：">
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -82,47 +82,47 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="联营单位管理费：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="净利润承诺超：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="公司负责人">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="联营单位名称">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="useScenes" label="联系人">
-              <t-input v-model="dataForm.useScenes" readonly></t-input>
+              <t-input v-model="dataForm.useScenes" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="联系方式">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="联营单位名称">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="useScenes" label="联系人">
-              <t-input v-model="dataForm.useScenes" readonly></t-input>
+              <t-input v-model="dataForm.useScenes" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="联系方式">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -132,32 +132,32 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="投标次数：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="投标价格：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="预算价格：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="投标时间">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="existElectMark" label="投标结果：">
-              <t-dic-radio-select dicType="bid_result" v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="bid_result" v-model="dataForm.proSubCompany" disabled></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="投标保证金：">
-              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -167,15 +167,13 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="useScenes" label="备注：">
-              <t-input type="textarea" v-model="dataForm.useScenes"></t-input>
+              <t-input type="textarea" v-model="dataForm.useScenes" disabled></t-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-card>
       <el-card shadow="never">
-        <t-sub-title :title="'附件上传'"></t-sub-title>
-        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                   :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'投标项目审批信息'"></t-sub-title>
       </el-card>
     </el-form>
   </div>
@@ -190,7 +188,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
+          
           bId: '',
           actTaskKey: '',
           pcId: '',
