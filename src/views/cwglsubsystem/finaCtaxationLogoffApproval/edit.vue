@@ -18,88 +18,88 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'跨区域涉税事项报告信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item prop="licenceCode" label="外经证号">
-            <el-input v-model="dataForm.licenceCode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="startDate" label="使用期限">
-            <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item prop="proName" label="项目名称">
-            <el-input readonly v-model="dataForm.proName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="pId" label="工程起止时间">
-            <el-date-picker type="datetime"  v-model="dataForm.signTime"></el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item prop="cId" label="合同名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="cId" label="合同金额">
-            <el-input readonly v-model="dataForm.cId"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item prop="cId" label="合同对方企业名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="cId" label="所属公司">
-            <el-input readonly v-model="dataForm.cId"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item prop="taxMethod" label="计税方式">
-            <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="applyAmount" label="申请金额">
-            <el-input readonly v-model="dataForm.applyAmount"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-form-item prop="province" label="外出经营地">
-            <el-input readonly v-model="dataForm.province"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="city" label="">
-            <el-input readonly v-model="dataForm.city"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="district" label="">
-            <el-input readonly v-model="dataForm.district"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="address" label="">
-            <el-input readonly v-model="dataForm.address"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="licenceCode" label="外经证号">
+              <t-projcet-ctaxa-select v-model="dataForm.licenceCode" @selectedData="selectedData"></t-projcet-ctaxa-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item  label="使用期限">
+              <t-datetime-range-picker disabled v-model="dataForm.startDate"></t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="proName" label="项目名称">
+              <el-input readonly v-model="dataForm.proName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="proPlanDate" label="工程起止时间">
+              <t-datetime-range-picker disabled v-model="dataForm.proPlanDate"></t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="conName" label="合同名称">
+              <el-input readonly v-model="dataForm.conName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="conTotal" label="合同金额">
+              <el-input readonly v-model="dataForm.conTotal"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="companyName" label="合同对方企业名称" label-width="140px">
+              <el-input readonly v-model="dataForm.companyName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="proSubCompany" label="所属公司">
+              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="taxMethod" label="计税方式">
+              <t-dic-dropdown-select dicType="tax_method" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="applyAmount" label="申请金额">
+              <el-input readonly v-model="dataForm.applyAmount"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item prop="province" label="外出经营地">
+              <el-input readonly v-model="dataForm.province"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="city" label="">
+              <el-input readonly v-model="dataForm.city"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item prop="district" label="">
+              <el-input readonly v-model="dataForm.district"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="address" label="">
+              <el-input readonly v-model="dataForm.address"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'注销申请'"></t-sub-title>
@@ -154,30 +154,48 @@
           approvalStatus: '',sign: '',
           signTime: '',propose: '',result: '',
           createtime: '',updatetime: '',createuser: '',
-          updateuser: '',datastatus: '',proName: ''
+          updateuser: '',datastatus: '',proName: '',
+          licenceCode: '' ,conName:'',conTotal: '',companyName:'',proSubCompany:'',proPlanDate:''
         },
         dataRule: {
+          companyName: [
+            { required: true, message: '合同对方企业名称', trigger: 'blur' }
+          ],
+          proSubCompany: [
+            { required: true, message: '所属公司', trigger: 'blur' }
+          ],
+          conName: [
+            { required: true, message: '合同名称不能为空', trigger: 'blur' }
+          ],
+          conTotal: [
+            { required: true, message: '合同金额不能为空', trigger: 'blur' }
+          ],
           licenceCode: [
             { required: true, message: '外经证号不能为空', trigger: 'blur' }
           ],
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          lId: [
-            { required: true, message: '外经证号标识id不能为空', trigger: 'blur' }
+          applyAmount: [
+            { required: true, message: '申请金额不能为空', trigger: 'blur' }
           ],
-          logoffDate: [
-            { required: true, message: '注销日期不能为空', trigger: 'blur' }
+          taxMethod: [
+            { required: true, message: '计税方式不能为空', trigger: 'blur' }
           ],
-
+          delayDate: [
+            { required: true, message: '申请延期使不能为空', trigger: 'blur' }
+          ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-          remark: [
-            { required: true, message: '注销原因不能为空', trigger: 'blur' }
+          proPlanDate: [
+            { required: true, message: '工程起止时间不能为空', trigger: 'blur' }
+          ]
+          ,province: [
+            { required: true, message: '外出经营地不能为空', trigger: 'blur' }
           ],
 
         }
@@ -200,6 +218,27 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目
+      selectedData(data) {
+        debugger
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.pId = data.pId
+        this.dataForm.lId = data.id
+        this.dataForm.licenceCode = data.licenceCode
+        this.dataForm.proName = data.proName
+        this.dataForm.conName = data.conName
+        this.dataForm.conTotal = data.conTotal
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.taxMethod = data.taxMethod
+        this.dataForm.applyAmount = data.applyAmount
+        this.dataForm.address = data.address
+        this.dataForm.district = data.district
+        this.dataForm.city = data.city
+        this.dataForm.province = data.province
+        this.dataForm.companyName = data.companyName
+        this.dataForm.proPlanDate = [data.proPlanStartDate + ' 00:00:00',data.proPlanEndDate + ' 00:00:00']
+        this.dataForm.startDate = [data.startDate,data.endDate]
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
@@ -238,6 +277,8 @@
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
+          model.endDate = model.startDate[1]
+          model.startDate = model.startDate[0]
           tapp.services.finaCtaxationLogoffApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({

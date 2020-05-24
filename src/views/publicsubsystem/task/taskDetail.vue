@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
-        <el-card shadow="never">
+        <el-card shadow="never" v-if="type === 'approval'">
           <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="200px">
             <t-sub-title :title="'办理意见'"></t-sub-title>
             <el-row :gutter="10">
@@ -160,6 +160,7 @@
     mounted() {
       // console.log('this.$route111', this.$route)
       const currentQuery = this.$route.query
+      this.type = currentQuery.type ? currentQuery.type : this.type;
       this.init('', currentQuery.processDefinationKey, currentQuery.taskActId, currentQuery.taskId);
     },
     activated() {

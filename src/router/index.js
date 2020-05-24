@@ -5,7 +5,7 @@ Vue.use(Router)
 
 const appRouters = [{
   path: '/',
-    name: 'home',
+    name: 'gl_home',
     title: '首页',
     component: () =>
       import ('@/views/Home'),

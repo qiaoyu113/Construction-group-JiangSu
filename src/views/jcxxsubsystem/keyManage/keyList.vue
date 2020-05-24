@@ -56,7 +56,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="经办人">
+            <el-form-item label="经办人" prop="sign">
               <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
                                 @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
@@ -263,8 +263,16 @@
       },
       doReset () {
         this.$refs.search.resetFields()
-        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
-        this.$refs.region.province = ''
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          sign: null,
+          keyType: null,
+          province: null,
+          city: null,
+          authCompany: null,
+          keyStatus: null,
+          dateRange1: '',
+          dateRange2: ''
+        }
         this.doRefresh()
       },
       doExportExcel () {

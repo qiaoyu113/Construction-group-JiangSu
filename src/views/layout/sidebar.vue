@@ -115,9 +115,7 @@ export default {
       }
     },
 
-    handleOpen(key, keyPath) {
-      // console.log('key, path', key, keyPath);
-    },
+    handleOpen(key, keyPath) {},
     handleCollsapse() {
       if(!this.$store.state.ui.sidebarSpread) {
         this.defaultOpends = this.menuIds

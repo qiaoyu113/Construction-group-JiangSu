@@ -310,6 +310,7 @@
           })
         } else {
           this.$nextTick(() => {
+            this.isEdit = false
             this.dataForm.id = ''
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
@@ -364,6 +365,7 @@
         // 赋值给实际页面的值
         this.dataForm.city = city
       },
+      // 关闭当前页面并跳转到新的页面
       closeCurrentTabNav () {
         this.$util.closeCurrentTabNav('key_update')
       }

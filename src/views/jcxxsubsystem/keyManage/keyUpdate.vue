@@ -88,7 +88,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principalId" label="主要负责人">
-              <t-input v-model="dataForm.principalId" :readOnly="readOnly"></t-input>
+              <t-maincharge-select v-model="dataForm.principalId"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
