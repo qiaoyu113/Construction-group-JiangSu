@@ -1,19 +1,18 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">资格审查列表</div>
-      </el-col>
-    </el-row>
-    <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+            :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
+          <i class="fa fa-lg fa-level-down"></i>导出
+        </el-button>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="项目名称">
-            <el-input></el-input>
+          <el-form-item label="项目名称" prop="proName">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -24,42 +23,47 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="建设单位">
-            <el-input></el-input>
+          <el-form-item label="建设单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input></el-input>
+          <el-form-item label="所属分公司">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proContractAttr" label="合同模式">
-            <t-dic-dropdown-select dicType="contract_model" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          <el-form-item label="合同模式">
+            <t-dic-dropdown-select dicType="contract_model"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
+            ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <t-dic-dropdown-select dicType="business_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+          <el-form-item label="经营方式">
+            <t-dic-dropdown-select dicType="business_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="审查状态">
+          <el-form-item label="审批状态">
             <t-dic-dropdown-select dicType="approval_status"
-                                v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                                :readOnly="readOnly"></t-dic-dropdown-select>
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="经办人">
-            <el-input></el-input>
+          <el-form-item label="经办人">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime"
+          <el-form-item label="申请时间" prop="expirationDate">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
@@ -78,7 +82,6 @@
     </t-form>
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
-    </el-card>
   </div>
 </template>
 <script>
@@ -96,12 +99,9 @@
           dataSource: {
             serviceInstance: tapp.services.tBidQualApproval.getPagedList,
             serviceInstanceInputParameters: {
-              signTime: null,
-              proSubCompany: null,
-              pcId: null,
-              existElectMark: null,
-              proSubCompany: null,
-
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
             }
           },
           grid: {
@@ -110,71 +110,109 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'pcId',
-                label: '项目名称',
-                sortable: false,
+                prop: 'bId',
+                label: '流程业务id',
+                sortable: true,
                 minWidth: 120,
               },
-
+              {
+                prop: 'actTaskKey',
+                label: 'activiti执行任务key',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'pcId',
+                label: '项目备案id',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'amount',
+                label: '金额-元',
+                sortable: true,
+                minWidth: 120,
+              },
               {
                 prop: 'existElectMark',
-                label: '工程类别',
-                sortable: false,
+                label: '是否使用电子章（字典表）',
+                sortable: true,
                 minWidth: 120,
-              },
-              {
-                prop: 'proSubCompany',
-                label: '建设单位',
-                sortable: false
-              },
-              {
-                prop: 'pcId',
-                label: '投资金额',
-                sortable: false
-              },
-              {
-                prop: 'pcId',
-                label: '合同模式',
-                sortable: false
               },
               {
                 prop: 'remark',
-                label: '分公司',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pcId',
-                label: '经营方式',
-                sortable: false
-              },
-
-              {
-                prop: 'amount',
-                label: '金额',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'approvalStatus',
-                label: '审查状态',
-                sortable: false,
+                label: '备注',
+                sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'sign',
-                label: '经办人',
-                sortable: false,
+                label: '执行人',
+                sortable: true,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '经办时间',
-                sortable: false,
+                label: '执行时间',
+                sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
+              },
+              {
+                prop: 'approvalStatus',
+                label: '审批状态（字典表）',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'propose',
+                label: '审核意见',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'result',
+                label: '审核结果',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'createtime',
+                label: '创建时间',
+                sortable: true,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
+                }
+              },
+              {
+                prop: 'updatetime',
+                label: '更新时间',
+                sortable: true,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
+                }
+              },
+              {
+                prop: 'createuser',
+                label: '创建人',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'updateuser',
+                label: '更新人',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'datastatus',
+                label: '数据有效性 1有效 0无效',
+                sortable: true,
+                minWidth: 120,
               },
             ], // 需要展示的列
             defaultSort: {

@@ -39,7 +39,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="计划合同模式">
+            <el-form-item prop="proContractAttr" label="  合同模式">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
                                      readonly></t-dic-dropdown-select>
             </el-form-item>
@@ -56,7 +56,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proRunMode" label="计划经营方式">
+            <el-form-item prop="proRunMode" label="经营方式">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>

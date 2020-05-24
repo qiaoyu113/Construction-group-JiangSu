@@ -103,18 +103,10 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
-  import baseView from "../../../base/baseView";
+  import baseView from '@/base/baseView'
 
   export default {
-    name: 'myTask',
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data() {
       return {
         readOnly: false,
