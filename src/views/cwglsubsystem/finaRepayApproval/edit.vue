@@ -142,7 +142,9 @@
         dataForm: {
           bId: '',actTaskKey: '',pId: '',gId: '',getAmount: '',tiimeLimit: '',getCode: '',approvalStatus: '',
           sign: '',signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',
-          updateuser: '',datastatus: '',arrearAmount:'',totalAmount:'',returnAmount:'' ,remark: ''                                                                                  },
+          updateuser: '',datastatus: '',arrearAmount:'',totalAmount:'',returnAmount:'' ,remark: '',
+          proName:'',proCode:'',proSubCompany:'',applyAmount:'',timeLimit:''
+        },
         dataRule: {
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
@@ -230,7 +232,11 @@
         this.dataForm.applyAmount = data.applyAmount // 借款申请金额
         this.dataForm.tiimeLimit = data.tiimeLimit // 借款期限
         this.dataForm.borrowDate = data.borrowDate // 借款日期
-        this.dataForm.totalAmount = data.returnAmount // 借款日期
+        if (!data.returnAmount) {
+          this.dataForm.totalAmount = 0 // 累计还款
+        } else {
+          this.dataForm.totalAmount = data.returnAmount // 累计还款
+        }
         this.dataForm.arrearAmount = data.getAmount - data.returnAmount
       },
       // 初始化 编辑和新增 2种情况

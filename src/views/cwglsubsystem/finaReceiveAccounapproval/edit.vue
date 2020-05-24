@@ -212,14 +212,14 @@
         // 联营
         if (proRunMode == 'pool') {
           this.dataForm.oAmount = this.dataForm.rAmount
-          this.dataRule.oAmount[0].required = false
-          this.dataRule.sAmount[0].required = true
+          this.dataRule.oAmount[0].required = true
+          this.dataRule.sAmount[0].required = false
         }
         // 自营
         if (proRunMode == 'proprietary') {
           this.dataForm.sAmount = this.dataForm.rAmount
-          this.dataRule.oAmount[0].required = true
-          this.dataRule.sAmount[0].required = false
+          this.dataRule.oAmount[0].required = false
+          this.dataRule.sAmount[0].required = true
         }
         if (proRunMode == 'proprietary_pool') {
           this.dataForm.sAmount = ''
