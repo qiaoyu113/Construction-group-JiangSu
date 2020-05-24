@@ -316,12 +316,17 @@ input[readonly="readonly"] {
     transform: rotate(-90deg);
   }
 }
-.project-select, .handler-select, .partner-select, .manager-select, .maincharge-select, .srecord-select {
+.project-select, .handler-select, .partner-select, .manager-select, .maincharge-select, .srecord-select, .receive-accounapproval-select {
   .el-input.is-disabled .el-input__inner, .el-input.is-disabled .el-input__icon {
     cursor: pointer;
   }
   .el-input__inner, .el-input__inner:focus, .el-textarea__inner, .el-textarea__inner:focus {
     border-color: #DCDFE6 !important;
+  }
+}
+.receive-accounapproval-select {
+  .el-icon-search:before {
+    font-size: 20px;
   }
 }
 .region-picker {
@@ -337,4 +342,11 @@ input[readonly="readonly"] {
       padding-bottom: 0;
     }
   }
+}
+
+.site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item.is-active {
+  background-color: rgba(238,242,246,0.69) !important;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  margin-right: 15px;
 }

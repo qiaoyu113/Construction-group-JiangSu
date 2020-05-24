@@ -16,7 +16,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="所属地区" prop="region">
-              <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" @province="getProvince" @city="getCity" :required="false"></t-region-picker>
+              <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
+                               @province="getProvince" @city="getCity" :required="false"></t-region-picker>
             </el-form-item>
           </el-col>
 
@@ -307,7 +308,7 @@
           path: tpath
         })
       }
-    }
+    }``
   }
 </script>
 

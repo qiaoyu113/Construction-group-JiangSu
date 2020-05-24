@@ -120,7 +120,7 @@
                 }
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'proSubCompany',
                 label: '分公司'
               },
               {

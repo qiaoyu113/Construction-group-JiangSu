@@ -94,7 +94,7 @@ export default {
               minWidth: 100,
             },
             {
-              prop: 'origiator',
+              prop: 'departmentName',
               label: '发起部门',
               sortable: true,
               width: 110,

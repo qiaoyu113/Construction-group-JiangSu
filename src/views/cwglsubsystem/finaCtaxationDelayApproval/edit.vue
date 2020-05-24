@@ -21,12 +21,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="licenceCode" label="外经证号">
-            <el-input v-model="dataForm.licenceCode"></el-input>
+            <t-projcet-ctaxa-select v-model="dataForm.licenceCode" @selectedData="selectedData"></t-projcet-ctaxa-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="startDate" label="使用期限">
-            <t-datetime-range-picker v-model="dataForm.startDate"></t-datetime-range-picker>
+          <el-form-item  label="使用期限">
+            <t-datetime-range-picker disabled v-model="dataForm.startDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -37,39 +37,39 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="工程起止时间">
-            <el-date-picker type="datetime" readonly v-model="dataForm.signTime"></el-date-picker>
+          <el-form-item prop="proPlanDate" label="工程起止时间">
+            <t-datetime-range-picker disabled v-model="dataForm.proPlanDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="cId" label="合同名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+          <el-form-item prop="conName" label="合同名称">
+            <el-input readonly v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="cId" label="合同金额">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+          <el-form-item prop="conTotal" label="合同金额">
+            <el-input readonly v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="cId" label="合同对方企业名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+          <el-form-item prop="companyName" label="合同对方企业名称" label-width="140px">
+            <el-input readonly v-model="dataForm.companyName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="cId" label="所属公司">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+          <el-form-item prop="proSubCompany" label="所属公司">
+            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <t-dic-dropdown-select dicType="1260866411727818753" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="tax_method" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -106,7 +106,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="signTime" label="申请延期使用至">
-            <el-date-picker type="datetime"  v-model="dataForm.signTime"></el-date-picker>
+            <t-datetime-picker type="date" v-model="dataForm.delayDate"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -151,9 +151,21 @@
         dataForm: {
           bId: '',actTaskKey: '',pId: '',lId: '',delayDate: '',approvalStatus: '',sign: '',signTime: '',
           propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '' ,
-          licenceCode: '' ,
+          licenceCode: '' ,conName:'',conTotal: '',companyName:'',proSubCompany:'',proPlanDate:'',
           proName: ''},
         dataRule: {
+          companyName: [
+            { required: true, message: '合同对方企业名称', trigger: 'blur' }
+          ],
+          proSubCompany: [
+            { required: true, message: '所属公司', trigger: 'blur' }
+          ],
+          conName: [
+            { required: true, message: '合同名称不能为空', trigger: 'blur' }
+          ],
+          conTotal: [
+            { required: true, message: '合同金额不能为空', trigger: 'blur' }
+          ],
           licenceCode: [
             { required: true, message: '外经证号不能为空', trigger: 'blur' }
           ],
@@ -174,6 +186,12 @@
           ],
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
+          ],
+          proPlanDate: [
+            { required: true, message: '工程起止时间不能为空', trigger: 'blur' }
+          ]
+          ,province: [
+            { required: true, message: '外出经营地不能为空', trigger: 'blur' }
           ],
 
         }
@@ -196,6 +214,26 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择项目
+      selectedData(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.pId = data.pId
+        this.dataForm.lId = data.id
+        this.dataForm.licenceCode = data.licenceCode
+        this.dataForm.proName = data.proName
+        this.dataForm.conName = data.conName
+        this.dataForm.conTotal = data.conTotal
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.taxMethod = data.taxMethod
+        this.dataForm.applyAmount = data.applyAmount
+        this.dataForm.address = data.address
+        this.dataForm.district = data.district
+        this.dataForm.city = data.city
+        this.dataForm.province = data.province
+        this.dataForm.companyName = data.companyName
+        this.dataForm.proPlanDate = [data.proPlanStartDate + ' 00:00:00',data.proPlanEndDate + ' 00:00:00']
+        this.dataForm.startDate = [data.startDate,data.endDate]
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
@@ -234,6 +272,8 @@
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
+          model.endDate = model.startDate[1]
+          model.startDate = model.startDate[0]
           tapp.services.finaCtaxationDelayApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({

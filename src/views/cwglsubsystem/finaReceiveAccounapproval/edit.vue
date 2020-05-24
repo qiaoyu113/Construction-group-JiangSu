@@ -21,12 +21,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proName" label="项目名称">
-            <el-input v-model="dataForm.proName"></el-input>
+            <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营模式">
-            <el-input  v-model="dataForm.proRunMode"></el-input>
+            <t-dic-dropdown-select dicType="business_type" disabled v-model="dataForm.proRunMode" @change="onProRunMode" ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -36,39 +36,41 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rAmount" label="到帐金额">
-            <el-input v-model="dataForm.rAmount"></el-input>
+            <el-input v-model="dataForm.rAmount" @change="onRAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rDatetime" label="到帐时间">
-            <el-date-picker type="date" v-model="dataForm.rDatetime"></el-date-picker>
+            <t-datetime-picker type="date" v-model="dataForm.rDatetime"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="rWay" label="到帐方式">
-            <t-dic-dropdown-select dicType="1260866780805599234" v-model="dataForm.rWay" :readOnly="false"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="account_way" v-model="dataForm.rWay" @change="onLNumFlag" :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="lNum" label="票号">
-            <el-input v-model="dataForm.lNum"></el-input>
+            <el-input :readonly="lNumflag" v-model="dataForm.lNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rType" label="到帐类型">
-            <t-dic-dropdown-select dicType="1260866912477384705" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="account_type" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="sAmount" label="自营">
-            <el-input v-model="dataForm.sAmount">
+            <el-input v-model="dataForm.sAmount" @change="onAmount" :readonly="sAmount">
               <span slot="append">万元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item prop="oAmount" label="联营">
-            <el-input v-model="dataForm.oAmount">
+            <el-input v-model="dataForm.oAmount" @change="onAmount" :readonly="oAmount">
               <span slot="append">万元</span>
             </el-input>
           </el-form-item>
@@ -114,6 +116,9 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        oAmount: true,
+        sAmount: true,
+        lNumflag: true,
         showButton: true,
         readOnly: false,
         dialogVisible: false,
@@ -179,6 +184,75 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      onAmount(){
+        let self = this
+        if (isNaN(this.dataForm.sAmount)) {
+          this.dataForm.sAmount = ''
+          return
+        }
+        if (isNaN(this.dataForm.oAmount)) {
+          this.dataForm.oAmount = ''
+          return
+        }
+        let proRunMode = this.dataForm.proRunMode
+        if (proRunMode == 'proprietary_pool') {
+          let total = this.dataForm.sAmount + this.dataForm.oAmount;
+          if (total > this.dataForm.rAmount) {
+            this.dataForm.sAmount = ''
+            this.dataForm.oAmount = ''
+            this.$notify.error({
+              title: '错误',
+              message: '自营金额加联营金额，不能超过到账金额！'
+            });
+          }
+        }
+      },
+      onRAmount(){
+        let proRunMode = this.dataForm.proRunMode
+        // 联营
+        if (proRunMode == 'pool') {
+          this.dataForm.oAmount = this.dataForm.rAmount
+          this.dataRule.oAmount[0].required = false
+          this.dataRule.sAmount[0].required = true
+        }
+        // 自营
+        if (proRunMode == 'proprietary') {
+          this.dataForm.sAmount = this.dataForm.rAmount
+          this.dataRule.oAmount[0].required = true
+          this.dataRule.sAmount[0].required = false
+        }
+        if (proRunMode == 'proprietary_pool') {
+          this.dataForm.sAmount = ''
+          this.dataForm.oAmount = ''
+          this.dataRule.oAmount[0].required = true
+          this.dataRule.sAmount[0].required = true
+        }
+      },
+      onProRunMode(){
+        let proRunMode = this.dataForm.proRunMode
+
+        // 自营 + 联营
+        if (proRunMode == 'proprietary_pool') {
+          this.sAmount = false
+          this.oAmount = false
+        }
+      },
+      onLNumFlag(){
+        if (this.dataForm.rWay == 'promise_draft') {
+          this.lNumflag = false
+        } else {
+          this.lNumflag = true
+        }
+      },
+
+      // 选择项目
+      getSelectedProject(project) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = project.proName
+        this.dataForm.pId = project.id
+        this.dataForm.unionCompany = project.proUnionCompany
+        this.dataForm.proRunMode = project.proRunMode
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
