@@ -19,8 +19,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="proName">
-              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"></t-record-select>
+            <el-form-item label="项目名称" prop="pcId">
+              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -40,7 +40,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式">
-              <t-input v-model="dataForm.proContractAttr" readonly></t-input>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     readonly></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -50,12 +51,14 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别">
-              <t-input v-model="dataForm.proType" readonly></t-input>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     readonly></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式">
-              <t-input v-model="dataForm.proRunMode" readonly></t-input>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     readonly></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -100,15 +103,24 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+  import baseView from "../../../base/baseView";
 
   export default {
-    data () {
+    name: 'myTask',
+    extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
+    data() {
       return {
         readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
-          proContractAttr: '',
           bId: '',
           actTaskKey: '',
           pcId: '',
@@ -175,16 +187,16 @@
         }
       }
     },
-    created () {
+    created() {
       this.init()
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
-      getSelectedRecord (pcId) {
+      getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
         this.dataForm.proSubCompany = pcId.proSubCompany
@@ -198,7 +210,7 @@
 
       },
       // 初始化 编辑和新增 2种情况
-      init (id) {
+      init(id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -234,7 +246,7 @@
         }
       },
       // 表单提交
-      doSave () {
+      doSave() {
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {

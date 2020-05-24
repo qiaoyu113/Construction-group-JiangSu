@@ -6,8 +6,10 @@
       </el-col>
     </el-row>
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="10" class="search-top-operate">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+            :model="gridOptions.dataSource.serviceInstanceInputParameters">
+
+    <el-row :gutter="10" class="search-top-operate">
         <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -34,29 +36,27 @@
           <el-col :span="8">
             <el-form-item label="所属分公司" >
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="合同模式">
+            <el-form-item label="合同模式">
               <t-dic-dropdown-select dicType="contract_model"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+              ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式">
               <t-dic-dropdown-select dicType="business_type"
-                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="审批状态">
               <t-dic-dropdown-select dicType="approval_status"
-                                  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
-                                  :readOnly="readOnly"></t-dic-dropdown-select>
+                                  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -106,7 +106,7 @@
             serviceInstance: tapp.services.tBidFileApproval.getPagedList,
             serviceInstanceInputParameters: {
               expirationDate: null,
-              proContractAttrnull: null,
+              proContractAttr: null,
               proName: null,
               proAddressProvince: null,
               proConstructCompany: null,
@@ -152,7 +152,7 @@
 
 
               {
-                prop: 'proIntroduce',
+                prop: 'proContractAttr',
                 label: '合同模式',
                 sortable: false,
                 minWidth: 120,

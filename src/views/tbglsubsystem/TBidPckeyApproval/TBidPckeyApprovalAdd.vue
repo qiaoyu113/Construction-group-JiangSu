@@ -19,8 +19,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="pcId" label="项目名称">
-              <el-input v-model="dataForm.pcId"></el-input>
+            <el-form-item label="项目名称" prop="pcId">
+              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -29,38 +29,41 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属事业部">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proBusDept" label="所属事业部">
+              <el-input v-model="dataForm.proBusDept" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="建设单位">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proConstructCompany" label="建设单位">
+              <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="合同模式">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proContractAttr" label="计划合同模式">
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     readonly></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="投资金额">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proTotalInvestment" label="投资金额">
+              <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="工程类别">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proType" label="工程类别">
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     readonly></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="经营方式">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proRunMode" label="计划经营方式">
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="计划项目规模">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="proBuildArea" label="计划项目规模">
+              <el-input v-model="dataForm.proBuildArea" readonly></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -69,39 +72,40 @@
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属地区">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="province" label="所属地区">
+              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item prop="keyType" label="密钥类别">
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
+                                     :readOnly="readOnly" :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="keyId" label="密钥类别">
-              <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            <el-form-item prop="authCompany" label="批准单位">
+              <el-input v-model="dataForm.authCompany" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="批准单位">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="loginUsername" label="登录网名">
+              <el-input v-model="dataForm.loginUsername" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="登录网名">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="loginUrl" label="登录网址">
+              <el-input v-model="dataForm.loginUrl" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="登录网址">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="有效期至">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="expirationDate" label="有效期至">
+              <el-input v-model="dataForm.expirationDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="useScenes" label="用途">
-              <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" readonly></t-input>
+            <el-form-item  label="用途">
+              <t-input type="textarea" :rows="3"readonly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -115,13 +119,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="主要负责人">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="principalId" label="主要负责人">
+              <el-input v-model="dataForm.principalId" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="密钥颜色">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-form-item prop="keyColor" label="密钥颜色">
+              <el-input v-model="dataForm.keyColor" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -131,7 +135,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="办理单位">
+            <el-form-item prop="" label="办理单位">
               <el-input v-model="dataForm.proSubCompany" readonly></el-input>
             </el-form-item>
           </el-col>
@@ -286,6 +290,25 @@
     },
 
     methods: {
+      getSelectedRecord(pcId) {
+        console.log('current proName', pcId)
+        this.dataForm.proName = pcId.proName
+        this.dataForm.proSubCompany = pcId.proSubCompany
+        this.dataForm.proBusDept = pcId.proBusDept
+        this.dataForm.proConstructCompany = pcId.proConstructCompany
+        this.dataForm.proContractAttr = pcId.proContractAttr
+        this.dataForm.proTotalInvestment = pcId.proTotalInvestment
+        this.dataForm.proType = pcId.proType
+        this.dataForm.proRunMode = pcId.proRunMode
+        this.dataForm.proBuildArea = pcId.proBuildArea
+        this.dataForm.authCompany = pcId.authCompany
+
+
+
+
+
+
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
