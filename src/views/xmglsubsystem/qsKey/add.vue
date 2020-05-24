@@ -7,8 +7,21 @@
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">审批流程图</el-button>
+      <el-button type="primary" plain @click="dialogVisible = true">
+                    <span style="display: flex;align-items:center;">
+                      <v-icon name="sitemap"></v-icon>
+                      <span style="margin-left: 5px;">审批流程图</span>
+                    </span>
+      </el-button>
     </el-row>
+    <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
+    <el-dialog title="密钥领用流程图" :visible.sync="dialogVisible" width="60%" center>
+      <!-- businessKey为当前流程的key值 -->
+      <t-workflow-map businessKey="t_qs_key_approval_process"></t-workflow-map>
+      <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+    </el-dialog>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -132,6 +145,7 @@
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        dialogVisible: false,
         docId: '',
         dataForm: {
           bId: '',

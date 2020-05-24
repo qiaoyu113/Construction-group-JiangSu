@@ -11,7 +11,7 @@
         <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" >
+            <el-form-item label="项目名称" prop="proName">
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
                         v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
               </el-input>
@@ -103,7 +103,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBidProcaseApproval.getPagedList,
+            serviceInstance: tapp.services.tBidFileApproval.getPagedList,
             serviceInstanceInputParameters: {
               expirationDate: null,
               proContractAttrnull: null,
@@ -179,7 +179,7 @@
               },
 
               {
-                prop: 'proTracker',
+                prop: 'bidFileType',
                 label: '文件类型',
                 sortable: false,
                 minWidth: 120,
@@ -192,7 +192,7 @@
               },
 
               {
-                prop: 'sign',
+                prop: 'approvalStatus',
                 label: '审批状态',
                 sortable: false,
                 minWidth: 120,
