@@ -35,7 +35,7 @@
         <div class="title">项目经理授权申请</div>
       </el-col>
     </el-row>-->
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'项目信息'"></t-sub-title>

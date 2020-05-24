@@ -1,7 +1,7 @@
 <template>
 <el-dialog :title="title" :close-on-click-modal="false" :visible.sync="visible" width="70%">
   <div>
-    <t-form :model="model" ref="ruleForm"  @submit.native.prevent @keyup.enter.native="doSave()" label-width="140px">
+    <t-form :model="model" ref="ruleForm"  @submit.native.prevent label-width="140px">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="被授权人" prop="attorney" verify class="is-required" :maxLength="50">

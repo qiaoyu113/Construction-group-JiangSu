@@ -15,7 +15,7 @@
         </div>
       </el-dialog>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-card shadow="never">
         <el-row :gutter="20">

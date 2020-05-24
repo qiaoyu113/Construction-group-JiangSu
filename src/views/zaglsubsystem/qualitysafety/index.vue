@@ -30,10 +30,13 @@
             <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办人：" prop="sign">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
-                       placeholder="经办人" clearable></el-input>
+        <el-col :span="8" >
+          <el-form-item label="经办人：" prop="sign"  :maxLength="50">
+            <base-user-select role-category="base_rolecategory_trackingpersoninfomr"
+                              v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                              :text="gridOptions.dataSource.serviceInstanceInputParameters.trackingPersonInfoMRName"
+                              placeholder="请选择" :readOnly="readOnly">
+            </base-user-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -83,6 +86,7 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            reduceMethod: this.getSummaries,
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
@@ -96,6 +100,9 @@
                 label: '项目类型',
                 sortable: true,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('engineering_type', row.proType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: 'proConstructCompany',
@@ -183,10 +190,27 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('重大危险源文件表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
+      },
+      getSummaries (param) {
+        const {
+          columns,
+          data,
+          reduces
+        } = param
+
+        this.reduces = reduces || []
+
+        if (reduces == null) {
+          return []
+        }
+        const sums = []
+        sums[1] = '合计'
+        sums[4] = util.moneyFormat(reduces.sumOriginalLoanMoneyAmount) || '--'
+        return sums
       }
     }
   }

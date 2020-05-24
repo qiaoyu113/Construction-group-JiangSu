@@ -8,12 +8,12 @@
         审批流程图
       </el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="16">
           <el-form-item prop="proName" label="项目名称：">
             <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
@@ -37,11 +37,6 @@
         </el-col>
         </el-row>
         <el-row :gutter="20">
-       <!-- <el-col :span="8">
-          <el-form-item label="项目地址：" prop="proAddressCity" verify class="is-required">
-            <t-dic-tree-select dicType="base_region" v-model="dataForm.proAddressCity" disabled></t-dic-tree-select>
-          </el-form-item>
-        </el-col>-->
           <el-col :span="16">
             <el-form-item label="项目地址：" prop="pro_address">
               <el-row type="flex" justify="space-between">
@@ -86,8 +81,6 @@
             </t-datetime-picker>
           </el-form-item>
         </el-col>
-        </el-row>
-        <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="计划完工日期：" prop="proPlanEndDate">
             <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" disabled>
@@ -99,34 +92,38 @@
             <el-input v-model="dataForm.proLimitTime" disabled></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+        </el-row>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'主合同基本信息'"></t-sub-title>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="主合同名称：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item prop="conName" label="主合同名称：">
+             <el-input v-model="dataForm.conName" disabled></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
            <el-form-item prop="bId" label="主合同编号：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <el-input v-model="dataForm.bId" disabled></el-input>
            </el-form-item>
          </el-col>
+        </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="合同开始日期：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <el-input v-model="dataForm.bId" disabled></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
            <el-form-item prop="bId" label="合同结束日期：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <el-input v-model="dataForm.bId" disabled></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="总合同额：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item prop="bId" label="总合同额">
+             <el-input v-model="dataForm.bId">
+               <span slot="append">万元</span>
+             </el-input>
            </el-form-item>
          </el-col>
        </el-row>
@@ -141,24 +138,32 @@
          </el-col>
          <el-col :span="8">
            <el-form-item prop="bId" label="子合同类型：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <!--<el-input v-model="dataForm.bId"></el-input>-->
+             <t-dic-dropdown-select dicType="con_type" v-model="dataForm.bId"
+                                    disabled></t-dic-dropdown-select>
            </el-form-item>
          </el-col>
+       </el-row>
+         <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="子合同编号 ：">
              <el-input v-model="dataForm.bId"></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="合同开始日期：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item label="合同开始日期：" prop="proPlanStartDate" verify class="is-required">
+             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+             </t-datetime-picker>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="合同结束日期：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item label="合同结束日期：" prop="proPlanStartDate" verify class="is-required">
+             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+             </t-datetime-picker>
            </el-form-item>
          </el-col>
+         </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="甲方单位：">
              <el-input v-model="dataForm.bId"></el-input>
@@ -169,6 +174,8 @@
              <el-input v-model="dataForm.bId"></el-input>
            </el-form-item>
          </el-col>
+        </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="乙方单位：">
              <el-input v-model="dataForm.bId"></el-input>
@@ -179,50 +186,75 @@
              <el-input v-model="dataForm.bId"></el-input>
            </el-form-item>
          </el-col>
+        </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="子合同形式：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <t-dic-dropdown-select dicType="con_modality" v-model="dataForm.bId"
+                                    disabled></t-dic-dropdown-select>
            </el-form-item>
          </el-col>
          <el-col :span="8">
            <el-form-item prop="bId" label="付款方式：">
-             <el-input v-model="dataForm.bId"></el-input>
+             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.bId"
+                                    disabled></t-dic-dropdown-select>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="签订日期：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item label="签订日期：" prop="proPlanStartDate" verify class="is-required">
+             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+             </t-datetime-picker>
            </el-form-item>
          </el-col>
+        </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="子合同额：">
-             <el-input v-model="dataForm.bId"></el-input>万元  金额大写： 自动转换为大写金额
+           <el-form-item prop="bId" label="子合同额">
+             <el-input v-model="dataForm.bId">
+               <span slot="append">万元</span>
+             </el-input>
            </el-form-item>
          </el-col>
+          <el-col :span="8">
+          <el-form-item prop="bId" label="金额大写：">
+            <span>{{$util.moneyArabiaToChinese(dataForm.bId)}}</span>
+          </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="合同价格审核：">
-             <el-input v-model="dataForm.bId"></el-input>万元  金额大写： 自动转换为大写金额
+           <el-form-item prop="bId" label="子合同额">
+             <el-input v-model="dataForm.bId">
+               <span slot="append">万元</span>
+             </el-input>
            </el-form-item>
+          <!-- <el-form-item prop="bId" label="子合同额">
+             <span slot="append">金额大写： 自动转换为大写金额</span>
+           </el-form-item>-->
          </el-col>
+        </el-row>
+          <el-row :gutter="20">
          <el-col :span="8">
            <el-form-item prop="bId" label="是否经招标程序：">
-             <el-input v-model="dataForm.bId"></el-input>万元  金额大写： 自动转换为大写金额
+             <t-dic-radio-select dicType="y_or_n" v-model="dataForm.bId"></t-dic-radio-select>
            </el-form-item>
          </el-col>
-         <el-col :span="8">
-           <el-form-item prop="bId" label="备注：">
-             <el-input v-model="dataForm.bId"></el-input>万元  金额大写： 自动转换为大写金额
-           </el-form-item>
+        </el-row>
+        <el-row :gutter="20">
+           <el-col :span="24">
+             <el-form-item label="备注：" prop="remark">
+               <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+             </el-form-item>
          </el-col>
        </el-row>
       </el-card>
       <el-card shadow="never">
        <t-sub-title :title="'付款条件'"></t-sub-title>
-       <el-row :gutter="20">
-         <el-col :span="8">
-             <el-input></el-input>
-         </el-col>
-       </el-row>
+        <el-col :span="24">
+          <el-form-item  prop="remark">
+            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+          </el-form-item>
+        </el-col>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -430,6 +462,7 @@
                 self.dataForm.createuser = result.createuser
                 self.dataForm.updateuser = result.updateuser
                 self.dataForm.datastatus = result.datastatus
+                self.dataForm.conName = result.conName
               })
             }
           })
