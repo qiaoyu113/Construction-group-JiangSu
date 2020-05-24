@@ -126,11 +126,11 @@
                 label: '建设单位'
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'conBcxyTotal',
                 label: '合同金额'
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'proSubCompany',
                 label: '所属分公司'
               },
               {

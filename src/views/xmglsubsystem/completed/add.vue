@@ -98,7 +98,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同总金额(含补充协议)：" prop="proTotalInvestment" label-width="200px">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            <el-input v-model="dataForm.conTotal" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -370,6 +370,7 @@
         this.dataForm.proFitoutRate = project.proFitoutRate;
         this.dataForm.proUnionCompany = project.proUnionCompany;
         this.dataForm.proIsBim = project.proIsBim;
+        this.dataForm.conTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {
