@@ -125,13 +125,13 @@ export default {
               minWidth: 120
             },
             {
-              prop: "rTiimeLimit",
+              prop: "totalAmount",
               label: "累计已还款金额（万元）",
               sortable: true,
               minWidth: 120
             },
             {
-              prop: "getCode",
+              prop: "arrearAmount",
               label: "累计未还款金额（万元）",
               sortable: true,
               minWidth: 120

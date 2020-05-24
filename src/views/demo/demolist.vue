@@ -440,6 +440,7 @@ export default {
       sums[1] = '合计'
       sums[7] = util.moneyFormat(reduces.sumOriginalLoanMoneyAmount) || '--'
       sums[8] = (util.moneyFormat(reduces.sumFinanceFamilyTotalAsset) || '--') + '万'
+      console.log('sums111', sums)
       return sums
     }
 

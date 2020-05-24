@@ -8,19 +8,19 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="searchKey">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="项目名称：" prop="searchKey">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="借款日期：" prop="searchKey">
-            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.borrowDate"
                                type="date" :readOnly="false">
             </t-datetime-picker>
           </el-form-item>
@@ -57,9 +57,9 @@
           dataSource: {
             serviceInstance: tapp.services.finaBorrowAmounapproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              proName: null,
+              proSubCompany: null,
+              borrowDate: ''
             }
           },
           grid: {
@@ -74,19 +74,19 @@
                 minWidth: 120,
               },
               {
-                prop: 'proName',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'totalBorrowCount',
+                prop: 'realAmount',
                 label: '确认借款额度（万元',
                 sortable: true,
                 minWidth: 150,
               },
               {
-                prop: 'totalBorrowAmount',
+                prop: 'borrowDate',
                 label: '借款日期',
                 sortable: true,
                 minWidth: 120,
@@ -95,31 +95,31 @@
                 }
               },
               {
-                prop: 'realAmount',
+                prop: 'tiimeLimit',
                 label: '借款额度期限',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'realAmount',
+                prop: 'getCode',
                 label: '借款合同编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'realAmount',
+                prop: 'getAmount',
                 label: '放款金额（万元）',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'realAmount',
+                prop: 'timeLimit',
                 label: '放款期限',
                 sortable: true,
                 minWidth: 80,
               },
               {
-                prop: 'borrowDate',
+                prop: 'gSignTime',
                 label: '放款日期',
                 sortable: true,
                 minWidth: 100,
@@ -128,13 +128,13 @@
                 }
               },
               {
-                prop: 'realAmount',
+                prop: 'gTotalBorrowAmount',
                 label: '累计放款款金额（万元）',
                 sortable: true,
                 minWidth: 200,
               },
               {
-                prop: 'realAmount',
+                prop: 'leftAmount',
                 label: '剩余可用额度（万元）',
                 sortable: true,
                 minWidth: 150,

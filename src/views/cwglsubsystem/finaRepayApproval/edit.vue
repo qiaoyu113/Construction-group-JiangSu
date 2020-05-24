@@ -20,8 +20,8 @@
       <t-sub-title :title="'项目放款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="baId" label="借款合同编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+          <el-form-item prop="getCode" label="借款合同编号">
+            <t-get-amount-select :readonly="true" placeholder="选择项目信息"  v-model="dataForm.getCode" @selectedProject="getSelectedData"></t-get-amount-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -42,23 +42,33 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input readonly v-model="dataForm.realAmount"></el-input>
+          <el-form-item prop="applyAmount" label="确认借款额度">
+            <el-input readonly v-model="dataForm.applyAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="借款期限（月）">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
+          <el-form-item prop="tiimeLimit" label="借款期限">
+            <el-input readonly v-model="dataForm.tiimeLimit">
+              <span slot="append">月</span>
+            </el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8">
         <el-form-item prop="getAmount" label="本次放款金额" >
-          <el-input readonly v-model="dataForm.getAmount"></el-input>
+          <el-input readonly v-model="dataForm.getAmount">
+            <span slot="append">万元</span>
+          </el-input>
         </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="timeLimit" label="本次放款期限（月）" label-width="140px">
-            <el-input readonly v-model="dataForm.timeLimit"></el-input>
+          <el-form-item prop="timeLimit" label="本次放款期限">
+            <el-input readonly v-model="dataForm.timeLimit">
+              <span slot="append">月</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -66,18 +76,24 @@
       <el-card shadow="never">
         <t-sub-title :title="'项目还款信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="getAmount" label="本次还款金额">
-            <el-input v-model="dataForm.getAmount"></el-input>
+          <el-form-item prop="returnAmount" label="本次还款金额">
+            <el-input v-model="dataForm.returnAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="tiimeLimit" label="本次累计已还金额">
-            <el-input readonly v-model="dataForm.tiimeLimit"></el-input>
+          <el-form-item prop="totalAmount" label="本次累计已还金额" label-width="140px">
+            <el-input readonly v-model="dataForm.totalAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="getCode" label="本次累计未还金额">
-            <el-input readonly v-model="dataForm.getCode"></el-input>
+          <el-form-item prop="arrearAmount" label="本次累计未还金额" label-width="140px">
+            <el-input readonly v-model="dataForm.arrearAmount">
+              <span slot="append">万元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-card>
@@ -125,7 +141,10 @@
         dialogVisible: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',gId: '',getAmount: '',tiimeLimit: '',getCode: '',approvalStatus: '',
-          sign: '',signTime: new Date(),propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          sign: '',signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',
+          updateuser: '',datastatus: '',arrearAmount:'',totalAmount:'',returnAmount:'' ,remark: '',
+          proName:'',proCode:'',proSubCompany:'',applyAmount:'',timeLimit:''
+        },
         dataRule: {
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
@@ -145,7 +164,7 @@
           proSubCompany: [
             { required: true, message: '所属单位不能为空', trigger: 'blur' }
           ],
-          realAmount: [
+          applyAmount: [
             { required: true, message: '确认借款额度不能为空', trigger: 'blur' }
           ],
           sign: [
@@ -154,7 +173,16 @@
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-
+          timeLimit: [
+            { required: true, message: '本次放款不能为空', trigger: 'blur' }
+          ],
+          arrearAmount: [
+            { required: true, message: '本次累计未还金额不能为空', trigger: 'blur' }
+          ],
+          totalAmount: [
+            { required: true, message: '本次累计已还金额不能为空', trigger: 'blur' }
+          ],
+          returnAmount: [{validator: this.isNumber, trigger: 'change'}],
         }
       }
     },
@@ -175,6 +203,42 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      isNumber (rule, value, cb) {
+        if (!this.dataForm.getCode) {
+          this.dataForm.returnAmount = ''
+          return cb(new Error('请先选择借款信息！'))
+        }
+        if (!this.$util.verifyNumber(value)) {
+          return cb(new Error('请输入数字！'))
+        }
+        if (value <= 0) {
+          return cb(new Error('金额需要大于0！'))
+        }
+        if ((this.dataForm.arrearAmount - this.dataForm.returnAmount) < 0) {
+          return cb(new Error('不能超过未还款金额！'))
+        }
+        return cb()
+      },
+      // 选择到账信息
+      getSelectedData(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.pId
+        this.dataForm.gId = data.id
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.getAmount = data.getAmount
+        this.dataForm.timeLimit = data.timeLimit
+        this.dataForm.applyAmount = data.applyAmount // 借款申请金额
+        this.dataForm.tiimeLimit = data.tiimeLimit // 借款期限
+        this.dataForm.borrowDate = data.borrowDate // 借款日期
+        if (!data.returnAmount) {
+          this.dataForm.totalAmount = 0 // 累计还款
+        } else {
+          this.dataForm.totalAmount = data.returnAmount // 累计还款
+        }
+        this.dataForm.arrearAmount = data.getAmount - data.returnAmount
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {

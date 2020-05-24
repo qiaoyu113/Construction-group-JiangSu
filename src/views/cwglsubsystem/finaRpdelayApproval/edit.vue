@@ -16,12 +16,12 @@
       </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
-      <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-card shadow="never">
+        <t-sub-title :title="'项目借款信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="baId" label="借款合同编号">
-              <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-form-item prop="getCode" label="借款合同编号">
+              <t-get-amount-select :readonly="true" placeholder="选择项目信息"  v-model="dataForm.getCode" @selectedProject="getSelectedData"></t-get-amount-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -37,28 +37,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="pId" label="所属单位">
-              <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-form-item prop="proSubCompany" label="所属单位">
+              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="realAmount" label="确认借款额度">
-              <el-input readonly v-model="dataForm.realAmount">
+            <el-form-item prop="applyAmount" label="确认借款额度">
+              <el-input readonly v-model="dataForm.applyAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="tiimeLimit" label="借款期限">
-              <t-int-input readonly v-model="dataForm.tiimeLimit">
+              <el-input readonly v-model="dataForm.tiimeLimit">
                 <span slot="append">月</span>
-              </t-int-input>
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="getAmount" label="本次放款金额">
+            <el-form-item prop="getAmount" label="本次放款金额" >
               <el-input readonly v-model="dataForm.getAmount">
                 <span slot="append">万元</span>
               </el-input>
@@ -66,41 +66,53 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="timeLimit" label="本次放款期限">
-              <t-int-input readonly v-model="dataForm.timeLimit">
+              <el-input readonly v-model="dataForm.timeLimit">
                 <span slot="append">月</span>
-              </t-int-input>
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-card shadow="never">
-          <t-sub-title :title="'已延期信息'"></t-sub-title>
-        </el-card>
-        <el-card shadow="never">
-          <t-sub-title :title="'延期申请'"></t-sub-title>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'已延期信息'"></t-sub-title>
+<!--        <div v-for="(index, item) in dataForm.rpdelapList" :key="item.id">-->
+        <div v-for="(item, index) in  dataForm.rpdelapList">
           <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item prop="getAmount" label="本次放款累计已还金额" label-width="200px">
-                <el-input readonly v-model="dataForm.getAmount">
-                  <span slot="append">万元</span>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="tiimeLimit" label="本次放款累计未还金额" label-width="200px">
-                <el-input readonly v-model="dataForm.tiimeLimit">
-                  <span slot="append">万元</span>
-                </el-input>
-              </el-form-item>
-            </el-col>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span style="text-decoration: underline;font-size: 16px">
+            第{{index + 1}}次延期：&nbsp;&nbsp;&nbsp;&nbsp;已还金额：{{item.totalAmount}}万元
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未还金额：{{item.arrearAmount}}万元
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请延期还款日：{{item.delayDate}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请人：{{item.sign}}
+          </span>
           </el-row>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item prop="getCode" label="申请延期还款日" label-width="200px">
-                <el-input v-model="dataForm.getCode"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-card>
+        </div>
+      </el-card>
+      <el-card shadow="never">
+        <t-sub-title :title="'延期申请'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="totalAmount" label="本次放款累计已还金额" label-width="200px">
+              <el-input readonly v-model="dataForm.totalAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="arrearAmount" label="本次放款累计未还金额" label-width="200px">
+              <el-input readonly v-model="dataForm.arrearAmount">
+                <span slot="append">万元</span>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="delayDate" label="申请延期还款日" label-width="200px">
+              <t-datetime-picker type="date" v-model="dataForm.delayDate"></t-datetime-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
@@ -160,25 +172,46 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          proName: '',
+          arrearAmount:'',
+          totalAmount:'',
+          returnAmount:'' ,
+          remark: '',
+          rpdelapList:[]
         },
         dataRule: {
-          baId: [
-            { required: true, message: '借款合同编号', trigger: 'blur' }
-          ],
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          proCode: [
-            { required: true, message: '项目编码不能为空', trigger: 'blur' }
-          ],
-          getAmount: [
-            { required: true, message: '本次放款累计已还金额不能为空', trigger: 'blur' }
+          timeLimit: [
+            { required: true, message: '本次放款期限不能为空', trigger: 'blur' }
           ],
           tiimeLimit: [
+            { required: true, message: '借款期限不能为空', trigger: 'blur' }
+          ],
+          getAmount: [
+            { required: true, message: '本次放款金额不能为空', trigger: 'blur' }
+          ],
+          proCode: [
+            { required: true, message: '项目编号不能为空', trigger: 'blur' }
+          ],
+          proSubCompany: [
+            { required: true, message: '所属单位不能为空', trigger: 'blur' }
+          ],
+          applyAmount: [
+            { required: true, message: '确认借款额度不能为空', trigger: 'blur' }
+          ],
+          totalAmount: [
+            { required: true, message: '本次放款累计已还金额不能为空', trigger: 'blur' }
+          ],
+          arrearAmount: [
             { required: true, message: '本次放款累计未还金额不能为空', trigger: 'blur' }
           ],
           getCode: [
+            { required: true, message: '借款合同编号不能为空', trigger: 'blur' }
+          ],
+          delayDate: [
             { required: true, message: '申请延期还款日不能为空', trigger: 'blur' }
           ],
           sign: [
@@ -211,6 +244,35 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 选择到账信息
+      getSelectedData(data) {
+        this.dataForm.rpdelapList = []
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.pId
+        this.dataForm.gId = data.id
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.getAmount = data.getAmount
+        this.dataForm.timeLimit = data.timeLimit
+        this.dataForm.applyAmount = data.applyAmount // 借款申请金额
+        this.dataForm.tiimeLimit = data.tiimeLimit // 借款期限
+        this.dataForm.borrowDate = data.borrowDate // 借款日期
+        this.dataForm.totalAmount = data.returnAmount // 借款日期
+        this.dataForm.arrearAmount = data.getAmount - data.returnAmount
+
+        this.getRpdelayApprovalList(data.pId, data.id)
+      },
+      // 获取未还款信息
+      getRpdelayApprovalList(pId, gId) {
+        if (pId && gId) {
+          let self = this;
+          let model = {'pId': pId, 'gId' : gId}
+          tapp.services.finaRpdelayApproval.getList(model).then(function(result) {
+            self.dataForm.rpdelapList = result
+          })
+        }
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {

@@ -8,19 +8,19 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="所属分公司：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"
                        placeholder="所属分公司" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="项目名称：">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                        placeholder="项目名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="放款日期：">
-            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey"
+            <t-datetime-picker @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.borrowDate"
                                type="date" :readOnly="false">
             </t-datetime-picker>
           </el-form-item>
@@ -54,11 +54,11 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.finaRepayApproval.getPagedList,
+            serviceInstance: tapp.services.finaRepayApproval.getPagedGetList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
-              dateRange: ''
+              proName: null,
+              proSubCompany: null,
+              borrowDate: ''
             }
           },
           grid: {
@@ -67,37 +67,37 @@
             fit: true, // 列的宽度是否自撑开
             columns: [
               {
-                prop: 'getAmount',
+                prop: 'gGetCode',
                 label: '借款合同编号',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'tiimeLimit',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'getCode',
+                prop: 'proSubCompany',
                 label: '所属单位',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'approvalStatus',
+                prop: 'gGetAmount',
                 label: '放款金额（万元）',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'sign',
+                prop: 'timeLimit',
                 label: '放款期限',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'signTime',
+                prop: 'gSignTime',
                 label: '放款日期',
                 sortable: true,
                 minWidth: 120,
@@ -106,7 +106,7 @@
                 }
               },
               {
-                prop: 'propose',
+                prop: 'returnAmount',
                 label: '还款金额（万元）',
                 sortable: true,
                 minWidth: 120,
@@ -121,19 +121,19 @@
                 }
               },
               {
-                prop: 'result',
+                prop: 'arrearAmount',
                 label: '累计未还款金额（万元）',
                 sortable: true,
                 minWidth: 150,
               },
               {
-                prop: 'result',
+                prop: 'rpdelayNum',
                 label: '延期次数',
                 sortable: true,
                 minWidth: 120,
               },
               {
-                prop: 'result',
+                prop: 'tiimeLimitDate',
                 label: '最后延期还款日期',
                 sortable: true,
                 minWidth: 120,
@@ -167,7 +167,7 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('项目还款列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
