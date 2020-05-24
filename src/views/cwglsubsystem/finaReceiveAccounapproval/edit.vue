@@ -28,7 +28,7 @@
           <el-form-item prop="proRunMode" label="经营模式">
             <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" @change="onProRunMode" ></t-dic-dropdown-select>
           </el-form-item>
-        </el-col>finaHeadPaymentApproval
+        </el-col>
         <el-col :span="8">
           <el-form-item prop="unionCompany" label="所属单位">
             <el-input readonly v-model="dataForm.unionCompany"></el-input>
