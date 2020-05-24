@@ -433,6 +433,10 @@
             self.dataForm.principalId = b.principalId
             self.dataForm.keyColor = b.keyColor
             self.dataForm.proSubCompany = b.proSubCompany
+            self.dataForm.account = b.account
+            // tapp.services.roleService.getRoleCategoryUsers(self.dataForm.principalId, self.dataForm.proSubCompany).then(_result => {
+            //   console.log(_result)
+            // })
             if(b.keyStatus !== 'can_recipients') {
               self.hint = '此密钥被'+ self.dataForm.proSubCompany +'单位领用！'
               self.dialogVisible = true
