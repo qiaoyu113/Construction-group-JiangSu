@@ -20,21 +20,6 @@
         </div>
       </el-dialog>
     </el-row>
-<!--<template>
-  <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
-        审批流程图
-      </el-button>
-    </el-row>
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">其他授权申请</div>
-      </el-col>
-    </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -47,17 +32,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input  v-model="dataForm.proSubCompany"></el-input>
+              <el-input  v-model="dataForm.proSubCompany" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input v-model="dataForm.proBusDept"></el-input>
+              <el-input v-model="dataForm.proBusDept" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
+              <el-input disabled v-model="dataForm.proConstructCompany" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -68,7 +53,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
+              <el-input disabled v-model="dataForm.proTotalInvestment" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -85,24 +70,24 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模：">
-              <el-input disabled v-model="dataForm.proBuildArea"></el-input>
+              <el-input disabled v-model="dataForm.proBuildArea" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="conName" label="合同名称：">
-            <el-input disabled v-model="dataForm.conName"></el-input>
+            <el-input disabled v-model="dataForm.conName" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conStartDate" label="合同期间：">
-            <el-input disabled v-model="dataForm.conStartDate"></el-input>
+            <el-input disabled v-model="dataForm.conStartDate" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同金额">
-            <el-input disabled v-model="dataForm.conTotal"></el-input>
+            <el-input disabled v-model="dataForm.conTotal" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
