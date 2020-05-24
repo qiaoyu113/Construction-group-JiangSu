@@ -90,52 +90,7 @@
                 label: '姓名',
                 sortable: true,
                 fixed: 'left',
-                width: 100
-              },
-              {
-                prop: 'email',
-                label: '邮箱',
-                sortable: true,
-                minWidth: 120
-              },
-              {
-                prop: 'mobile',
-                label: '电话',
-                sortable: true,
-                minWidth: 120
-              },
-              {
-                prop: 'activited',
-                columnKey: 'activited',
-                label: '是否启用',
-                width: 100,
-                filters: [
-                  { text: '是', value: 1 }, 
-                  { text: '否', value: 0 }
-                ],
-                formatter: (row, column, cellValue) => {
-                  return row.activited === 0 ? '否' : '是';
-                },
-                render: (h, params) => {
-                  return h('el-tag', {
-                    props: { type: params.row.activited === true ? 'success' : 'info' } // 组件的props
-                  }, params.row.activited === true ? '是' : '否')
-                }
-              },
-              {
-                prop: 'lastLoginTime',
-                label: '最后登陆时间',
-                sortable: true,
-                width: 170,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.datetimeFormat(row.lastLoginTime);
-                }
-              },
-              {
-                prop: 'departmentNames',
-                label: '所属门店',
-                minWidth: 150,
-                sortable: false,
+                minWidth: 100
               },
 
             ], // 需要展示的列
