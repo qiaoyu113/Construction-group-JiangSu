@@ -37,7 +37,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button @click="doReset" type="primary" icon="el-icon-circle-close">清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,7 +53,7 @@
   export default {
     name: 'myTask',
     extends: baseView,
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -68,7 +68,7 @@
             }
           },
           grid: {
-            offsetHeight: 125, //125:查询部分高度
+            offsetHeight: 125, // 125:查询部分高度
             mutiSelect: false,
             columns: [
               {
@@ -90,7 +90,7 @@
                 prop: 'constructorLevel',
                 label: '建造师等级',
                 sortable: false,
-                width: 100,
+                width: 100
               },
               {
                 prop: 'constructorCode',
@@ -112,56 +112,58 @@
                 prop: '',
                 label: '在建项目个数',
                 sortable: false,
-                width: 120,
+                width: 120
               },
               {
                 prop: '',
                 label: '累计竣工项目个数',
                 sortable: false,
-                width: 150,
+                width: 150
               },
               {
                 prop: '',
                 label: '证书附件',
                 sortable: false
-              },
+              }
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
               order: 'descending'
-            },
+            }
           }
         }
       }
     },
     components: {},
-    created() {
-      this.loadCodeTableList();
-    },
+    created () {
+      this.loadCodeTableList()
+  },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      onStartDateRangeChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
-        this.checkededRows = val;
+      handleSelectionChange (val) {
+        this.checkededRows = val
       },
-      doReset() {
-        this.$refs.search.resetFields();
+      doReset () {
+        this.$refs.search.resetFields()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh();
       },
-      doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+      doExportExcel () {
+        this.$refs.searchReulstList.exportCSV('项目经理状态表')
       },
-      doRefresh() {
-        this.$refs.searchReulstList.refresh();
+      doRefresh () {
+        this.$refs.searchReulstList.refresh()
       },
-      getSelectedManager(manager) {
+      getSelectedManager (manager) {
         console.log('current charge', manager)
-      },
+      }
     }
   }
 </script>

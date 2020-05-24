@@ -19,8 +19,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="pcId">
-              <t-project-select v-model="dataForm.pcId" @selectedProject="getSelectedProject"></t-project-select>
+            <el-form-item label="项目名称" prop="proName">
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -184,8 +184,9 @@
       })
     },
     methods: {
-      getSelectedProject (pcId) {
-        console.log('current project', pcId)
+      getSelectedRecord (pcId) {
+        console.log('current proName', pcId)
+        this.dataForm.proName = pcId.proName
         this.dataForm.proSubCompany = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
@@ -206,7 +207,6 @@
               let self = this
               tapp.services.tBidFileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-
                 self.dataForm.bId = result.bId
                 self.dataForm.actTaskKey = result.actTaskKey
                 self.dataForm.pcId = result.pcId

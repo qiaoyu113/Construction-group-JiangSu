@@ -8,12 +8,23 @@
     <el-form-item label="名称" prop="name" verify :maxLength="255" class="is-required">
       <el-input v-model="model.name"></el-input>
     </el-form-item>
+    <el-form-item label="流程路径" prop="procInstStartUrl" verify :maxLength="200" class="is-required">
+      <el-input v-model="model.procInstStartUrl"></el-input>
+    </el-form-item>
+    <el-form-item label="业务路由" prop="procInstRouteUrl" verify :maxLength="200" class="is-required">
+      <el-input v-model="model.procInstRouteUrl"></el-input>
+    </el-form-item>
+    <el-form-item label="表单路由" prop="procInstViewUrl" verify :maxLength="200" class="is-required">
+      <el-input v-model="model.procInstViewUrl"></el-input>
+    </el-form-item>
+    <el-form-item label="发起权限" prop="procInstStartRequiredPermissionId" can-be-empty verify :maxLength="200">
+      <el-input v-model="model.procInstStartRequiredPermissionId"></el-input>
+    </el-form-item>
     <el-form-item label="描述" prop="desc" verify can-be-empty :maxLength="200">
       <el-input type="textarea" v-model="model.desc"></el-input>
     </el-form-item>
-
-  </t-form>
-  <span slot="footer" class="dialog-footer">
+    </t-form>
+    <span slot="footer" class="dialog-footer">
       <el-button  type="primary" @click="dataFormSubmit()">确定</el-button>
       <el-button  @click="visible = false">取消</el-button>
     </span>
@@ -34,6 +45,10 @@ export default {
         "name": null,
         "desc": null,
         "gmtVersion": -1,
+        "procInstStartUrl": null,
+        "procInstRouteUrl": null,
+        "procInstViewUrl": null,
+        "procInstStartRequiredPermissionId": null,
       },
     };
   },

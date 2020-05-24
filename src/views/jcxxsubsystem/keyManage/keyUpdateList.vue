@@ -62,8 +62,9 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+  import find from 'lodash/find'
 
-  export default {
+export default {
     name: 'myTask',
     extends: baseView,
     props: {
@@ -71,9 +72,9 @@
         type: Boolean,
         default: false,
         required: false
-      },
+      }
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -90,7 +91,7 @@
             }
           },
           grid: {
-            offsetHeight: 125, //125:查询部分高度
+            offsetHeight: 125, // 125:查询部分高度
             mutiSelect: false,
             operates: {
               width: 60,
@@ -108,7 +109,7 @@
                 label: '所属地区',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('base_region', row.province) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  return this.$util.getProvinceCityName(row.province, row.city)
                 }
               },
               {
@@ -140,7 +141,7 @@
                 label: '有效期至',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.expirationDate, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.expirationDate, 'YYYY-MM-DD')
                 }
               },
               {
@@ -153,7 +154,7 @@
                 label: '申请时间',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.applyforDate, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.applyforDate, 'YYYY-MM-DD')
                 }
               },
               {
@@ -166,60 +167,59 @@
                 label: '登记时间',
                 sortable: false,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
-              },
+              }
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
               order: 'descending'
-            },
+            }
           }
         }
       }
     },
     components: {},
-    created() {
-      this.loadCodeTableList();
-    },
+    created () {
+      this.loadCodeTableList()
+  },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      onStartDateRangeChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
-        this.checkededRows = val;
+      handleSelectionChange (val) {
+        this.checkededRows = val
       },
-      doReset() {
-        this.$refs.search.resetFields();
+      doReset () {
+        this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
-        this.$refs.region.province = ''
-        this.doRefresh();
+        this.doRefresh()
       },
-      onStartExpirationDateChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1];
+      onStartExpirationDateChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1]
       },
-      onStartApplyforDateChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1];
+      onStartApplyforDateChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1]
       },
-      doExportExcel() {
+      doExportExcel () {
         // eslint-disable-next-line no-template-curly-in-string
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('密钥信息更新列表')
       },
-      doRefresh() {
-        this.$refs.searchReulstList.refresh();
+      doRefresh () {
+        this.$refs.searchReulstList.refresh()
       },
       getProvince (province) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.province =province;
+        this.gridOptions.dataSource.serviceInstanceInputParameters.province = province
       },
       getCity (city) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.city =city;
+        this.gridOptions.dataSource.serviceInstanceInputParameters.city = city
       },
       doEdit (key, row) {
         let tpath = '/jcxxsubsystem/keyManage/keyAdd?id=' + row.id

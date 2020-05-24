@@ -7,8 +7,43 @@
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">审批流程图</el-button>
+      <el-button type="primary" plain @click="dialogVisible = true">
+                    <span style="display: flex;align-items:center;">
+                      <v-icon name="sitemap"></v-icon>
+                      <span style="margin-left: 5px;">审批流程图</span>
+                    </span>
+      </el-button>
+      <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <el-form ref="dialogForm" label-width="100px">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item prop="pType" label="用印类型：" class="is-required">
+                <!-- <t-dic-dropdown-select dict_type="" v-model=""></t-dic-dropdown-select> -->
+                <t-input v-model="pType" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="sealCount" label="用印数量：" class="is-required">
+                <t-input v-model="sealCount" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer">
+          <el-button type="primary" @click="submit">确定</el-button>
+          <el-button type="info" @click="submitDialogVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
     </el-row>
+    <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
+    <el-dialog title="项目刻章流程图" :visible.sync="dialogVisible" width="60%" center>
+      <!-- businessKey为当前流程的key值 -->
+      <t-workflow-map businessKey="t_pro_seal_approval_process"></t-workflow-map>
+      <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+    </el-dialog>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -122,6 +157,10 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        dialogVisible: false,
+        submitDialogVisible: false,
+        pType: '',
+        sealCount: '',
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -218,6 +257,26 @@
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
+          this.submitDialogVisible = true;
+          // let model = {...self.dataForm}
+          // tapp.services.proSealApproval.save(model).then(function (result) {
+          //   self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+          //   self.$notify.success({
+          //     title: '操作成功！',
+          //     message: '保存成功！',
+          //   })
+          // })
+        }).catch(function (e) {
+          self.$notify.error({
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
+      },
+      submit()  {
+        let self = this
+        if(self.pType && self.sealCount) {
           let model = {...self.dataForm}
           tapp.services.proSealApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
@@ -226,14 +285,15 @@
               message: '保存成功！',
             })
           })
-        }).catch(function (e) {
+          // 用印接口
+          this.submitDialogVisible = false;
+        } else {
           self.$notify.error({
             title: '错误',
-            message: '保存失败！'
+            message: '请输入必填信息'
           })
-          return false
-        })
-      }
+        }
+      },
     }
   }
 </script>

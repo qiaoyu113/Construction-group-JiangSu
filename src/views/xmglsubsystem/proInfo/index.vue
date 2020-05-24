@@ -200,7 +200,7 @@
                 }
               },
               {
-                prop: 'proRunMode',
+                prop: 'conBcxyTotal',
                 label: '合同总金额',
                 minWidth: 100
               },
@@ -227,7 +227,7 @@
                 }
               },
               {
-                prop: 'proManager',
+                prop: 'glfTotal',
                 label: '累计已收管理费',
                 minWidth: 120
               },

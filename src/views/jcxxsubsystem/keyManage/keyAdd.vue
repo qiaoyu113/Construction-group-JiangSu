@@ -2,12 +2,13 @@
   <div>
     <el-row :gutter="20" class="page-title">
       <el-col>
-        <div v-if="isEdit" class="title">密钥信息更新</div>
-        <div v-else class="title">密钥登记</div>
+        <div class="title">{{ title }}</div>
       </el-col>
     </el-row>
     <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+      <el-button v-if="isEdit" type="primary" plain icon="el-icon-arrow-left" @click="closeCurrentTabNav">返回</el-button>
+      <el-button type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+      <el-button v-if="isEdit" type="primary" icon="el-icon-delete" @click="doDelete">删除</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
              label-width="120px" label-position="right">
@@ -121,7 +122,7 @@
     extends: baseView,
     data () {
       return {
-        title: '更新',
+        title: '',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         isEdit: false, // 是否是编辑状态
@@ -235,10 +236,19 @@
       this.$nextTick((_) => {
         if (this.routeChanged) {
           this.docId = this.$route.query.id
-          // this.$util.ui.title(this.title)
           this.init(this.docId)
         }
       })
+    },
+    watch: {
+      isEdit: function (val) {
+        if (val) {
+          this.title = '密钥信息更新'
+        } else {
+          this.title = '密钥登记'
+        }
+        this.$util.ui.title(this.title)
+      }
     },
     computed: {
       ...mapState({
@@ -300,12 +310,29 @@
           })
         } else {
           this.$nextTick(() => {
+            this.isEdit = false
             this.dataForm.id = ''
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate()
           })
         }
+      },
+      doDelete () {
+        let self = this
+        self.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          tapp.services.tBaseinfoKeyApproval.delete(self.dataForm.id).then(function (result) {
+            self.closeCurrentTabNav()
+            self.$notify.success({
+              title: '系统成功',
+              message: '删除成功！'
+            })
+          })
+        })
       },
       // 表单提交
       doSave () {
@@ -337,6 +364,10 @@
         console.log('city', city)
         // 赋值给实际页面的值
         this.dataForm.city = city
+      },
+      // 关闭当前页面并跳转到新的页面
+      closeCurrentTabNav () {
+        this.$util.closeCurrentTabNav('key_update')
       }
     }
   }
