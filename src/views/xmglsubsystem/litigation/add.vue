@@ -63,6 +63,30 @@
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'已有诉讼信息'"></t-sub-title>
+        <el-table :data="litigationData" border style="width: 100%">
+          <el-table-column prop="litigationCode" label="诉讼编号" min-width="100"></el-table-column>
+          <el-table-column prop="freezingAmount" label="冻结金额"></el-table-column>
+          <el-table-column prop="sign" label="标记人"></el-table-column>
+          <el-table-column prop="signTime" label="标记时间" width="180"></el-table-column>
+          <el-table-column prop="owingtoUnionCompany" label="是否与联营单位有关" min-width="160">
+            <template slot-scope="scope">
+              <span>{{ $util.dataDicFormat('yes_or_no', scope.row.owingtoUnionCompany) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="remark" label="说明"></el-table-column>
+          <el-table-column prop="litigationStatus" label="当前状态" min-width="100">
+            <template slot-scope="scope">
+              <span>{{ $util.dataDicFormat('litigation_status', scope.row.litigationStatus) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="cancelTime" label="取消时间" min-width="160"></el-table-column>
+          <el-table-column align="center" min-width="100">
+            <template slot-scope="scope">
+              <!-- 标记中的状态才需要展示该按钮 -->
+              <el-button v-if="scope.row.litigationStatus === 'marking'" size="mini" type="danger" @click="cancelLitigation(scope.row)">取消诉讼</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'新诉讼信息'"></t-sub-title>
@@ -123,7 +147,7 @@
         type: Boolean,
         default: false,
         required: false
-      },
+      }
     },
     data () {
       return {
@@ -158,7 +182,8 @@
           remark: [
             {required: true, message: '说明不能为空', trigger: 'blur'}
           ]
-        }
+        },
+        litigationData: []
       }
     },
     created () {
@@ -166,7 +191,7 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user })
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -209,16 +234,17 @@
           })
         }
       },
-      getSelectedProject(project) {
-        console.log('current project', project);
-        this.dataForm.proSubCompany = project.proSubCompany;
-        this.dataForm.proBusDept = project.proBusDept;
-        this.dataForm.proConstructCompany = project.proConstructCompany;
-        this.dataForm.proContractAttr = project.proContractAttr;
-        this.dataForm.proTotalInvestment = project.proTotalInvestment;
-        this.dataForm.proType = project.proType;
-        this.dataForm.proRunMode = project.proRunMode;
-        this.dataForm.proBuildArea = project.proBuildArea;
+      getSelectedProject (project) {
+        console.log('current project', project)
+        this.dataForm.proSubCompany = project.proSubCompany
+        this.dataForm.proBusDept = project.proBusDept
+        this.dataForm.proConstructCompany = project.proConstructCompany
+        this.dataForm.proContractAttr = project.proContractAttr
+        this.dataForm.proTotalInvestment = project.proTotalInvestment
+        this.dataForm.proType = project.proType
+        this.dataForm.proRunMode = project.proRunMode
+        this.dataForm.proBuildArea = project.proBuildArea
+        this.getLitigationList()
       },
       // 表单提交
       doSave () {
@@ -230,7 +256,7 @@
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: '操作成功！',
-              message: '保存成功！',
+              message: '保存成功！'
             })
           })
         }).catch(function (e) {
@@ -240,6 +266,24 @@
           })
           return false
         })
+      },
+      // 获取诉讼信息
+      getLitigationList () {
+        const params = {}
+        tapp.services.proLitigation.getList(params).then(res => {
+          console.log('获取诉讼信息', res)
+          this.litigationData = res
+        }).catch(err => {
+          console.log('获取诉讼信息 错误', err)
+        })
+      },
+      // 取消诉讼
+      cancelLitigation (row) {
+        console.log('取消诉讼', row)
+        // 如果是标记中状态，则可以取消
+        if (row.litigationStatus === 'marking') {
+
+        }
       }
     }
   }
