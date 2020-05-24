@@ -4,7 +4,7 @@
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
         <el-card shadow="never" v-if="type === 'approval'">
-          <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="200px">
+          <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="200px">
             <t-sub-title :title="'办理意见'"></t-sub-title>
             <el-row :gutter="10">
               <el-col :span="24">

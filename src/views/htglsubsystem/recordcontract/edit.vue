@@ -3,7 +3,7 @@
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-edit-outline">修改</el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'备案合同登记'"></t-sub-title>
@@ -28,7 +28,7 @@
       </el-row>
       </el-card>
     </el-form>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目基本信息'"></t-sub-title>
@@ -239,7 +239,7 @@
         </el-col>
       </el-row>
       </el-card>
-      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
                label-width="120px" label-position="right"></el-form>
       <el-card shadow="never">
         <t-sub-title :title="'合同保收款条件'"></t-sub-title>

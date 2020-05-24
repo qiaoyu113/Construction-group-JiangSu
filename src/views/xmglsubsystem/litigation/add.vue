@@ -9,7 +9,7 @@
       <el-button class="demo-button" type="primary" icon="el-icon-bell" @click="doSave()">保存并通知</el-button>
       <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="">通知流程图</el-button>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="140px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'项目信息'"></t-sub-title>

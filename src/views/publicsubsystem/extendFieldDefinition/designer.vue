@@ -7,7 +7,7 @@
 
   <span slot="footer" class="dialog-footer">
 
-  <t-form :model="model" :inline="true" ref="ruleForm"  @submit.native.prevent @keyup.enter.native="doSave()" label-width="100px">
+  <t-form :model="model" :inline="true" ref="ruleForm"  @submit.native.prevent label-width="100px">
     <el-form-item label="名称" prop="name" verify class="is-required" :maxLength="50">
       <el-input v-model="model.name"></el-input>
     </el-form-item>

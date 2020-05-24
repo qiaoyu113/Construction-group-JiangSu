@@ -5,7 +5,7 @@
         <div class="title">弹出框模板</div>
       </el-col>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRules" ref="ruleForm" @submit.native.prevent @keyup.enter.native="doSave()" label-width="110px">
+    <el-form :model="dataForm" :rules="dataRules" ref="ruleForm" @submit.native.prevent label-width="110px">
       <el-card shadow="never">
         <div slot="header">
           <t-sub-title :title="'弹出框'"></t-sub-title>
