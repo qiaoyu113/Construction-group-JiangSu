@@ -149,6 +149,7 @@ import TProjectSelect from './components/popup/project-select.vue'
 import TBorrowAmountSelect from './components/popup/borrow-amount-select.vue'
 import ReceiveAccounapprovalSelect from './components/popup/receive-accounapproval-select'
 import TBankSelect from './components/popup/bank-select.vue'
+import TGetAmountSelect from './components/popup/get-amount-select.vue'
 import TBankProjectSelect from './components/popup/bank-project-select.vue'
 import TProjectCtaxaApproval from './components/popup/projcet-ctaxa-approval'
 import THandlerSelect from './components/popup/handler-select.vue'
@@ -177,6 +178,7 @@ Vue.component('t-project-select', TProjectSelect)
 Vue.component('t-borrow-amount-select', TBorrowAmountSelect)
 Vue.component('t-receive-accounapproval-select', ReceiveAccounapprovalSelect)
 Vue.component('t-bank-select', TBankSelect)
+Vue.component('t-get-amount-select', TGetAmountSelect)
 Vue.component('t-bank-project-select', TBankProjectSelect)
 Vue.component('t-projcet-ctaxa-select', TProjectCtaxaApproval)
 Vue.component('t-handler-select', THandlerSelect)

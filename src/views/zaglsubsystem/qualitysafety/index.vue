@@ -30,10 +30,10 @@
             <t-dic-dropdown-select dicType="approval_status"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="7" class="search-date-picker">
-          <el-form-item label="人员弹出选择" prop="trackingPersonInfoMRId" verify :maxLength="50">
+        <el-col :span="8" >
+          <el-form-item label="经办人：" prop="sign"  :maxLength="50">
             <base-user-select role-category="base_rolecategory_trackingpersoninfomr"
-                              v-model="gridOptions.dataSource.serviceInstanceInputParameters.trackingPersonInfoMRId"
+                              v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
                               :text="gridOptions.dataSource.serviceInstanceInputParameters.trackingPersonInfoMRName"
                               placeholder="请选择" :readOnly="readOnly">
             </base-user-select>
