@@ -188,6 +188,7 @@
           this.$nextTick(() => {
             let self = this;
             tapp.services.wf_TaskAction.getTaskAssignee(taskId).then(function(result) {
+              if(!result || (result.length && result.length === 0)) return
               let userList = result[0].userList
               let userRole = result[0].userRole
               userList.map(item => {
