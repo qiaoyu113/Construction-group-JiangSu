@@ -345,6 +345,17 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          proName: null,
+          proType: null,
+          proConstructCompany: null,
+          keyId: null,
+          proSubCompany: null,
+          dateRange: '',
+          /*keyStatus: null,*/
+          sign: null,
+          dateRange1: ''
+        }
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表');

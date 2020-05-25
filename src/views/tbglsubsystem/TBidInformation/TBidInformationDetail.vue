@@ -41,11 +41,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-          <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="项目规模：">
-              <t-input v-model="dataForm.proSubCompany" disabled></t-input>
-            </el-form-item>
-          </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proSubCompany" label="项目规模：">
+                <t-input v-model="dataForm.proSubCompany" disabled></t-input>
+              </el-form-item>
+            </el-col>
             <el-form-item prop="proSubCompany" label="合同模式：">
               <t-input v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
@@ -57,7 +57,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="keyId" label="经营方式：">
-              <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="1260860565488799746" v-model="dataForm.keyId"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -190,7 +191,7 @@
         docId: '',
         readOnly: false,
         dataForm: {
-          
+
           bId: '',
           actTaskKey: '',
           pcId: '',

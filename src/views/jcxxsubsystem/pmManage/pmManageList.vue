@@ -21,8 +21,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="建造师等级">
-              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"></el-input>
+              <t-dic-dropdown-select dicType="constructor_level" v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">

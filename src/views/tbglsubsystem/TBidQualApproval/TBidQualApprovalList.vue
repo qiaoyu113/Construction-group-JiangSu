@@ -62,8 +62,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="申请时间" prop="expirationDate">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
+          <el-form-item label="经办日期" prop="dateRange">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
@@ -86,10 +86,18 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+  import util from '@/util'
 
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
     data() {
       return {
         checkededRows: [],
@@ -109,7 +117,7 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-              {
+              /*{
                 prop: 'bId',
                 label: '流程业务id',
                 sortable: true,
@@ -126,14 +134,77 @@
                 label: '项目备案id',
                 sortable: true,
                 minWidth: 120,
+              },*/
+              {
+                prop: 'proName',
+                label: '项目名称',
+                sortable: false,
+                minWidth: 120,
+              },
+
+              {
+                prop: 'proType',
+                label: '工程类别',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('engineering_type', row.proType)
+                }
               },
               {
-                prop: 'amount',
-                label: '金额-元',
-                sortable: true,
+                prop: 'proConstructCompany',
+                label: '建设单位',
+                sortable: false,
                 minWidth: 120,
               },
               {
+                prop: 'proTotalInvestment',
+                label: '投资金额',
+                sortable: false,
+                minWidth: 120,
+              },
+
+
+              {
+                prop: 'proContractAttr',
+                label: '合同模式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('contract_model', row.proContractAttr)
+                }
+              },
+
+              {
+                prop: 'proAddressProvince',
+                label: '分公司',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proRunMode',
+                label: '经营方式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('business_type', row.proRunMode)
+                }
+              },
+
+              {
+                prop: 'amount',
+                label: '金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'approvalStatus',
+                label: '审查状态',
+                sortable: false,
+                minWidth: 120,
+              },
+              /*{
                 prop: 'existElectMark',
                 label: '是否使用电子章（字典表）',
                 sortable: true,
@@ -144,29 +215,24 @@
                 label: '备注',
                 sortable: true,
                 minWidth: 120,
-              },
+              },*/
               {
                 prop: 'sign',
-                label: '执行人',
-                sortable: true,
+                label: '经办人',
+                sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '执行时间',
-                sortable: true,
+                label: '经办时间',
+                sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
               },
-              {
-                prop: 'approvalStatus',
-                label: '审批状态（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
+
+              /*{
                 prop: 'propose',
                 label: '审核意见',
                 sortable: true,
@@ -213,7 +279,7 @@
                 label: '数据有效性 1有效 0无效',
                 sortable: true,
                 minWidth: 120,
-              },
+              },*/
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
@@ -241,6 +307,17 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          proName: null,
+          proType: null,
+          proConstructCompany: null,
+          proSubCompany: null,
+          proContractAttr: null,
+          proRunMode: null,
+          approvalStatus: null,
+          sign: null,
+          dateRange: ''
+        }
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表');

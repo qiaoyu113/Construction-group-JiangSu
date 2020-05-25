@@ -1,56 +1,65 @@
 <template>
   <div class="mod-role">
     <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="项目名称">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="建设单位">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="useScenes" label="经营方式">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="项目阶段">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="el-icon-delete"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="项目名称" prop="proName">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="工程类别">
+              <t-dic-dropdown-select dicType="engineering_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="建设单位">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属分公司">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经营方式">
+              <t-dic-dropdown-select dicType="business_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="项目阶段">
+              <t-dic-dropdown-select dicType="pro_stage"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button icon="el-icon-download" @click="doReset()">
+                <i class="el-icon-delete"></i>清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
     </el-card>
   </div>
 </template>
@@ -67,7 +76,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBidPletterApproval.getPagedList,
+            serviceInstance: tapp.services.tBidProbidApproval.getPagedList,
             serviceInstanceInputParameters: {
               pcId: null,
               proSubCompany: null,
@@ -78,79 +87,87 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-              /*              {
-                              prop: 'bId',
-                              label: '流程业务id',
-                              sortable: true,
-                              minWidth: 120,
-                            },
-                            {
-                              prop: 'actTaskKey',
-                              label: 'activiti执行任务key',
-                              sortable: true,
-                              minWidth: 120,
-                            },*/
               {
-                prop: 'pcId',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: false,
                 minWidth: 120,
               },
+
               {
-                prop: 'pId',
+                prop: 'proType',
                 label: '工程类别',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('engineering_type', row.proType)
+                }
               },
               {
-                prop: 'pId',
+                prop: 'proContractAttr',
                 label: '合同模式',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('contract_model', row.proContractAttr)
+                }
               },
               {
-                prop: 'pId',
+                prop: 'proConstructCompany',
                 label: '建设单位',
                 sortable: false,
                 minWidth: 120,
               },
               {
-                prop: 'pId',
+                prop: 'proAddressProvince',
                 label: '分公司',
                 sortable: false,
                 minWidth: 120,
               },
               {
-                prop: 'pId',
+                prop: 'proRunMode',
                 label: '经营方式',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('business_type', row.proRunMode)
+                }
               },
               {
-                prop: 'pId',
-                label: '投标金额',
+                prop: 'bidAmount',
+                label: '投资金额',
                 sortable: false,
                 minWidth: 120,
               },
               {
-                prop: 'pId',
+                prop: 'approvalStatus',
                 label: '项目审批阶段',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('pro_stage', row.approvalStatus)
+                }
               },
               {
-                prop: 'pId',
+                prop: 'bidResult',
                 label: '投标结果',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('bid_result', row.bidResult)
+                }
               },
-
               {
                 prop: 'sign',
                 label: '经办人',
                 sortable: false,
                 minWidth: 120,
               },
+
+
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',

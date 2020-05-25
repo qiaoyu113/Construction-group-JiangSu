@@ -54,8 +54,8 @@
             </el-form-item>
           </el-col>
           <!--<el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="备案单位">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"></el-input>
+            <el-form-item prop="proSubCompany" label="备案单位">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"></el-input>
             </el-form-item>
           </el-col>-->
         </el-row>
@@ -248,6 +248,18 @@
       doReset() {
         this.$refs.search.resetFields();
         this.doRefresh()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          proName: null,
+          proAddressProvince: null,
+          proConstructCompany: null,
+          proType: null,
+          proRunMode: null,
+          approvalStatus:null,
+/*
+          proSubCompany: null,
+*/
+          sign: null,
+        }
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表');

@@ -11,113 +11,119 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="项目名称">
-            <el-input v-model="dataForm.pcId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="所属分公司">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="所属事业部">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="建设单位">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="合同模式">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
+        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="项目名称" prop="pcId">
+              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属分公司">
+              <t-input v-model="dataForm.proSubCompany" readonly></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBusDept" label="所属事业部">
+              <t-input v-model="dataForm.proBusDept" readonly></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proConstructCompany" label="建设单位">
+              <t-input v-model="dataForm.proConstructCompany" readonly></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proContractAttr" label="合同模式">
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     readonly></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proTotalInvestment" label="投资金额">
+              <t-input v-model="dataForm.proTotalInvestment" readonly></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proType" label="工程类别">
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     readonly></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proRunMode" label="经营方式">
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     readonly></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBuildArea" label="计划规模项目">
+              <t-input v-model="dataForm.proBuildArea" readonly></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <el-col :span="8">
-          <el-form-item prop="amount" label="投资金额">
-            <el-input readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="工程类别">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="经营方式">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pcId" label="计划项目规模">
-            <el-input reanonly></el-input>
-          </el-form-item>
-        </el-col>
         <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="投标保函申请">
-            <t-dic-radio-select dicType="y_or_n" v-model="dataForm.pId"
-                                :readOnly="readOnly"></t-dic-radio-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="amount" label="金额">
-            <el-input v-model="dataForm.amount" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="isCash" label="是否现金缴纳">
-            <el-input v-model="dataForm.isCash"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="generateBank" label="开立银行">
-            <el-input v-model="dataForm.generateBank" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="generateTime" label="开立时间">
-            <el-input v-model="dataForm.generateTime" readonly></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="invalidTime" label="到期时间">
-            <el-input v-model="dataForm.invalidTime"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="plCode" label="保函编号">
-            <el-input v-model="dataForm.plCode" readonly></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="pId" label="保证金(保函)退回" label-width="180px">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.pId"
+                                  :readOnly="readOnly"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="amount" label="金额">
+              <el-input v-model="dataForm.amount" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="isCash" label="是否现金缴纳">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash"
+                                  readonly></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="generateBank" label="开立银行">
+              <el-input v-model="dataForm.generateBank" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="generateTime" label="开立时间">
+              <el-input v-model="dataForm.generateTime" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="invalidTime" label="到期时间">
+              <el-input v-model="dataForm.invalidTime"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="plCode" label="保函编号">
+              <el-input v-model="dataForm.plCode" readonly></el-input>
+            </el-form-item>
+          </el-col>
 
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="signTime" label="经办时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="remark" label="备注">
-            <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
-                 :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -125,7 +131,8 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+
   export default {
     data() {
       return {
@@ -151,31 +158,35 @@
         },
         dataRule: {
           bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
+            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           actTaskKey: [
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
+          amount: [
+            {required: true, message: '金额不能为空', trigger: 'blur'}
+          ],
+
           pcId: [
-            {required: true, message: '项目备案id不能为空', trigger: 'blur'}
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           pId: [
-            {required: true, message: '投标保证金（保函）申请id不能为空', trigger: 'blur'}
+            {required: false, message: '投标保证金申请不能为空', trigger: 'blur'}
           ],
           prId: [
-            {required: true, message: '投标保证金（保函）退回id不能为空', trigger: 'blur'}
+            {required: true, message: '投标保证金不能为空', trigger: 'blur'}
           ],
           remark: [
-            {required: true, message: '备注不能为空', trigger: 'blur'}
+            {required: false, message: '备注不能为空', trigger: 'blur'}
           ],
           sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
+            {required: false, message: '执行人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+            {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: false, message: '审批状态不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: true, message: '审核意见不能为空', trigger: 'blur'}
@@ -202,14 +213,28 @@
       }
     },
     created() {
-       this.init()
+      this.init()
     },
 
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user,
+      })
     },
     methods: {
+      getSelectedRecord(pcId) {
+        console.log('current proName', pcId)
+        this.dataForm.proName = pcId.proName
+        this.dataForm.proSubCompany = pcId.proSubCompany
+        this.dataForm.proBusDept = pcId.proBusDept
+        this.dataForm.proConstructCompany = pcId.proConstructCompany
+        this.dataForm.proContractAttr = pcId.proContractAttr
+        this.dataForm.proTotalInvestment = pcId.proTotalInvestment
+        this.dataForm.proType = pcId.proType
+        this.dataForm.proRunMode = pcId.proRunMode
+        this.dataForm.proBuildArea = pcId.proBuildArea
+
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
