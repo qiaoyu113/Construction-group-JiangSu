@@ -85,12 +85,11 @@
               <span>未还金额：{{item.arrearAmount}}万元</span>
             </el-col>
             <el-col :span="6">
-              <span>申请延期还款日：{{item.delayDate}}</span>
+              <span>申请延期还款日：{{item.delayDate.substring(0,10)}}</span>
             </el-col>
             <el-col :span="4">
               <span>申请人：{{item.sign}}</span>
             </el-col>
-          </span>
           </el-row>
         </div>
       </el-card>
