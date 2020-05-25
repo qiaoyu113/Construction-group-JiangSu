@@ -408,20 +408,17 @@
       },
       // 表单提交
       doSave() {
-        debugger;
         let self = this;
         let validPromises = self.$refs['ruleForm'].validate();
         let firstPartyPromises = self.$refs['firstParty'].validate()
         let secondPartyPromises = self.$refs['secondParty'].validate()
         Promise.all([validPromises, firstPartyPromises, secondPartyPromises]).then(resultList => {
-          debugger;
           let model = {...self.dataForm};
           // 甲乙方数据
           let firstPartyData = self.$refs['firstParty'].getData().list
           firstPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
-          let secondPartyData = self.$refs['secondParty'].getData()
+          let secondPartyData = self.$refs['secondParty'].getData().list
           secondPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
-          debugger;
           // TODO firtPartyData 和 secondPartyData 怎么放在 model 里面，需要调整
           // 举例 model.firstPartyData = firstPartyData
           // 举例 model.secondPartyData = secondPartyData

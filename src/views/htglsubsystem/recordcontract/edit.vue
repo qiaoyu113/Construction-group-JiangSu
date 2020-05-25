@@ -404,7 +404,7 @@
           // 甲乙方数据
           let firstPartyData = self.$refs['firstParty'].getData().list
           firstPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
-          let secondPartyData = self.$refs['secondParty'].getData()
+          let secondPartyData = self.$refs['secondParty'].getData().list
           secondPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
 
           // TODO firtPartyData 和 secondPartyData 怎么放在 model 里面，需要调整

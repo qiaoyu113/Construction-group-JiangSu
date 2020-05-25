@@ -1,63 +1,75 @@
 <template>
   <div class="mod-role">
-    <el-card shadow="never">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+            :model="gridOptions.dataSource.serviceInstanceInputParameters">
       <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
+          <i class="fa fa-lg fa-level-down"></i>导出
+        </el-button>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="项目名称">
-            <el-input></el-input>
+          <el-form-item label="项目名称" prop="proName">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input></el-input>
+          <el-form-item label="工程类别">
+            <t-dic-dropdown-select dicType="engineering_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="建设单位">
-            <el-input></el-input>
+          <el-form-item label="建设单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input></el-input>
+          <el-form-item label="所属分公司">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="经营方式">
-            <el-input></el-input>
+          <el-form-item label="经营方式">
+            <t-dic-dropdown-select dicType="promise_way"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="保证方式">
-            <el-input></el-input>
+          <el-form-item label="保证方式">
+            <t-dic-dropdown-select dicType="promise_way"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所处阶段">
-            <el-input></el-input>
+          <el-form-item label="所处阶段">
+            <t-dic-dropdown-select dicType="guarantee_stage"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.bondStage"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="状态">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col >
-          <el-form-item  label="">
+          <el-form-item label="状态">
+            <t-dic-dropdown-select dicType="approval_status"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="经办人">
-            <el-input></el-input>
+          <el-form-item label="经办人">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.signTime"
+          <el-form-item label="经办时间" prop="expirationDate">
+            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
@@ -76,15 +88,22 @@
     </t-form>
     <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>
-    </el-card>
   </div>
 </template>
 <script>
   import baseView from '@/base/baseView'
+  import util from '@/util'
 
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
     data() {
       return {
         checkededRows: [],
@@ -92,10 +111,12 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBidPletterApproval.getPagedList,
+            serviceInstance: tapp.services.tBidPromiseApproval.getPagedList,
             serviceInstanceInputParameters: {
-              proSubCompany: null,
-              pcId: null,
+              bondStage: null,
+              searchKey: null,
+              processDefinationKey: null,
+              dateRange: ''
             }
           },
           grid: {
@@ -103,7 +124,7 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-/*              {
+              /*{
                 prop: 'bId',
                 label: '流程业务id',
                 sortable: true,
@@ -114,84 +135,109 @@
                 label: 'activiti执行任务key',
                 sortable: true,
                 minWidth: 120,
-              },*/
+              },
               {
                 prop: 'pcId',
+                label: '项目备案id',
+                sortable: true,
+                minWidth: 120,
+              },*/
+              {
+                prop: 'proName',
                 label: '项目名称',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '工程类别',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '建设单位',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '投资金额',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '合同模式',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '分公司',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '经营方式',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '投标金额',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '保证方式',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '保证金额',
-                sortable: false,
-                minWidth: 120,
-              },
-              {
-                prop: 'pId',
-                label: '所处阶段',
                 sortable: false,
                 minWidth: 120,
               },
 
               {
+                prop: 'proType',
+                label: '工程类别',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('engineering_type', row.proType)
+                }
+              },
+              {
+                prop: 'proConstructCompany',
+                label: '建设单位',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proTotalInvestment',
+                label: '投资金额',
+                sortable: false,
+                minWidth: 120,
+              },
+
+
+              {
+                prop: 'proContractAttr',
+                label: '合同模式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('contract_model', row.proContractAttr)
+                }
+              },
+
+              {
+                prop: 'proAddressProvince',
+                label: '分公司',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proRunMode',
+                label: '经营方式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('business_type', row.proRunMode)
+                }
+              },
+              {
+                prop: 'bidAmount',
+                label: '投标金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'promiseWay',
+                label: '保证方式',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'amount',
+                label: '金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'bondStage',
+                label: '所处阶段',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'approvalStatus',
+                label: '状态',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
                 prop: 'sign',
-                label: '经办人人',
+                label: '经办人',
                 sortable: false,
                 minWidth: 120,
               },
               {
                 prop: 'signTime',
-                label: '经办日期',
-                sortable: false,
+                label: '经办时间',
+                sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');

@@ -15,17 +15,19 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="pmId" label="姓名">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId" ></el-input>
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="constructorLevel" label="建造师等级">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel" ></el-input>
+              <t-dic-dropdown-select dicType="constructor_level"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="分公司">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany" ></el-input>
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

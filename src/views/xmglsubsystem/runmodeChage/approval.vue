@@ -69,79 +69,78 @@
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunModeO" :readOnly="readOnly" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="自营：" prop="conSelfRateO">
               <t-int-input v-model="dataForm.conSelfRateO" :readOnly="readOnly" disabled>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="联营：" prop="conUnionCompanyRateO">
               <t-int-input v-model="dataForm.conUnionCompanyRateO" :readOnly="readOnly" disabled>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="净利润承诺超：" prop="proProfitRateO">
               <t-int-input v-model="dataForm.proProfitRateO" :readOnly="readOnly" disabled>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proUnionCompanyContacterO" label="公司负责人：">
               <el-input v-model="dataForm.proUnionCompanyContacterO" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="有无借款：" prop="isBorrowing">
+          <el-col :span="8"  v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
+            <el-form-item label="管理费" prop="conDepositO">
+              <t-int-input v-model="dataForm.conDepositO" :readOnly="readOnly" disabled>
+                <span slot="append">%</span>
+              </t-int-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="有无借款：" prop="isBorrowing" v-if="dataForm.proRunModeO === 'proprietary'">
               <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrowing" :readOnly="readOnly" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary'">
             <el-form-item prop="proContacter" label="">
               <a>借还款信息</a>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联营单位名称：" prop="proUnionCompanyO">
-              <el-input v-model="dataForm.proUnionCompanyO" readonly>
+            <el-form-item label="联营单位名称：" prop="proUnionCompanyO" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
+              <el-input v-model="dataForm.proUnionCompanyO" disabled>
                 <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true" disabled></el-button>
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proContacterO" label="联系人：">
               <el-input v-model="dataForm.proContacterO" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proContactwayO" label="联系方式：">
               <el-input v-model="dataForm.proContactwayO" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item prop="conPorjectFundO" label="待确认工程款：">
-              <el-input v-model="dataForm.conPorjectFundO" disabled></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="conDepositO" label="合同履约保证金：">
-              <el-input v-model="dataForm.conDepositO" disabled></el-input>
+              <el-input v-model="dataForm.conDepositO" disabled>
+                <span slot="append"><a>详细</a></span>
+              </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item prop="conDepositO" label="">
-              <a>详细</a>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="管理费" prop="conDepositO">
-              <t-int-input v-model="dataForm.conDepositO" :readOnly="readOnly" disabled>
-                <span slot="append">%</span>
-              </t-int-input>
+          <el-col :span="8" v-if="dataForm.proRunModeO === 'pool'|| dataForm.proRunModeO === 'proprietary_pool'">
+            <el-form-item prop="conPorjectFund" label="待确认工程款：">
+              <el-input v-model="dataForm.conPorjectFund" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -214,7 +213,8 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          conPorjectFundO:''
+          conPorjectFundO:'',
+          proRunModeO:  'proprietary' // 默认自营
         },
         dataRule: {
           pId: [

@@ -1,20 +1,12 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">项目备案信息列表</div>
-      </el-col>
-    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称" placeholder="匹配项目名称、简介、备注查询">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"></el-input>
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"  placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -47,7 +39,7 @@
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button icon="el-icon-download" @click="doReset()"><i class="fa fa-lg fa-level-down"></i>清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -60,6 +52,7 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -70,7 +63,7 @@
         required: false
       },
     },
-    data () {
+    data() {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -221,6 +214,15 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          proName: null,/*项目名称*/
+          proAddressProvince: null,/*项目地址*/
+          proConstructCompany: null,/*建设单位*/
+          proType: null,/*工程类别*/
+          proRunMode: null,/*经营方式*/
+          approvalStatus: null/*审批状态*/
+        }
+        this.doRefresh()
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表');

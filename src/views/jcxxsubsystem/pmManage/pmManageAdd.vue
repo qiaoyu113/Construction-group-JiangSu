@@ -15,7 +15,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="pmId" label="项目经理">
-              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmId" @selectedManager="getSelectedManager"></t-manager-select>
+              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmId"
+                                @selectedManager="getSelectedManager"></t-manager-select>
 
             </el-form-item>
           </el-col>
@@ -30,8 +31,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="constructorLevel" label="建造师登记">
-              <el-input v-model="dataForm.constructorLevel"></el-input>
+            <el-form-item prop="constructorLevel" label="建造师等级">
+              <t-dic-dropdown-select dicType="constructor_level" v-model="dataForm.constructorLevel"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">

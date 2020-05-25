@@ -23,7 +23,7 @@
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
               <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
-                                     :readOnly="readOnly" :disabled="isEdit"></t-dic-dropdown-select>
+                                      :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -43,7 +43,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly">
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
@@ -68,8 +68,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
-              <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly">
+            <el-form-item label="申请时间" prop="applyforDate" >
+              <t-datetime-picker v-model="dataForm.applyforDate" type="date"  >
               </t-datetime-picker>
             </el-form-item>
           </el-col>
@@ -99,7 +99,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记时间">
+          <el-form-item prop="signTime" label="登记时间">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -155,13 +155,13 @@
         },
         dataRule: {
           bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
+            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
+            {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           province: [
-            {required: true, message: '所属地区-省', trigger: 'blur'}
+            {required: true, message: '省', trigger: 'blur'}
           ],
           city: [
             {required: false, message: '所属地区-市', trigger: 'blur'}
@@ -179,7 +179,7 @@
             {required: true, message: '登陆网址不能为空', trigger: 'blur'}
           ],
           expirationDate: [
-            {required: true, message: '有效期至不能为空', trigger: 'blur'}
+            {required: true, message: '有效期不能为空', trigger: 'blur'}
           ],
           account: [
             {required: true, message: '用户名不能为空', trigger: 'blur'}

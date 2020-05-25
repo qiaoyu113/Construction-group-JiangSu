@@ -55,7 +55,7 @@
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="createuser" label="发布人">
-            <span>{{dataForm.createuser}}</span>
+            <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">

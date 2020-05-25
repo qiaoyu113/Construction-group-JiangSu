@@ -7,43 +7,56 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="项目名称">
-            <el-input></el-input>
+          <el-form-item label="项目名称" prop="proName">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="工程类别">
-            <el-input></el-input>
+          <el-form-item label="工程类别">
+            <t-dic-dropdown-select dicType="engineering_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="建设单位">
-            <el-input></el-input>
+          <el-form-item label="建设单位">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                      clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input></el-input>
+          <el-form-item label="所属分公司">
+            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+            </el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="8">
+          <el-form-item label="经营方式">
+            <t-dic-dropdown-select dicType="business_type"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="useScenes" label="经营方式">
-            <el-input></el-input>
+          <el-form-item label="项目阶段">
+            <t-dic-dropdown-select dicType="pro_stage"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="项目阶段">
-            <el-input></el-input>
+          <el-form-item label="投标结果">
+            <t-dic-dropdown-select  dicType="bid_result"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.bidResult"
+            ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="投标结果">
-            <el-input></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="经办人">
-            <el-input></el-input>
+          <el-form-item label="经办人" prop="sign">
+            <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -64,10 +77,18 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+  import util from '@/util'
 
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
     data() {
       return {
         checkededRows: [],
@@ -75,7 +96,7 @@
         startDateRange: null,
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.tBidPletterApproval.getPagedList,
+            serviceInstance: tapp.services.tBidProbidApproval.getPagedList,
             serviceInstanceInputParameters: {
               searchKey: null,
               processDefinationKey: null,
@@ -97,18 +118,106 @@
               }]
             }, // 列操作按钮
             columns: [
-              /*              {
-                              prop: 'bId',
-                              label: '流程业务id',
-                              sortable: true,
-                              minWidth: 120,
-                            },
-                            {
-                              prop: 'actTaskKey',
-                              label: 'activiti执行任务key',
-                              sortable: true,
-                              minWidth: 120,
-                            },*/
+              {
+                prop: 'proName',
+                label: '项目名称',
+                sortable: false,
+                minWidth: 120,
+              },
+
+              {
+                prop: 'proSubCompany',
+                label: '分公司',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proType',
+                label: '工程类别',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('engineering_type', row.proType)
+                }
+              },
+              {
+                prop: 'proConstructCompany',
+                label: '建设单位',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proTotalInvestment',
+                label: '投资金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'proAddressProvince',	/*city,detail*/
+                label: '项目地址',
+                sortable: false,
+                minWidth: 120,
+              },
+
+
+              {
+                prop: 'proContractAttr',
+                label: '合同模式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicsFormat('contract_model', row.proContractAttr)
+                }
+              },
+              {
+                prop: 'proRunMode',
+                label: '经营方式',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('business_type', row.proRunMode)
+                }
+              },
+              {
+                prop: 'bidAmount',
+                label: '投标金额',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'bidCount',
+                label: '投标次数',
+                sortable: false,
+                minWidth: 120,
+              },
+
+              {
+                prop: 'approvalStatus',
+                label: '项目审批阶段',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('pro_stage', row.approvalStatus)
+                }
+              },
+              {
+                prop: 'bidResult',
+                label: '投标结果',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值，此处注意cell值需要为一个数组
+                  return util.dataDicsFormat('bid_result', row.bidResult)
+                }
+              },
+              {
+                prop: 'sign',
+                label: '经办人',
+                sortable: false,
+                minWidth: 120,
+              },
               {
                 prop: 'pcId',
                 label: '项目名称',
@@ -200,6 +309,13 @@
       this.loadCodeTableList();
     },
     methods: {
+      getSelectedUser(user) {
+        console.log('current user', user)
+        // user为从弹窗框列表带出来的那一行的数据
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的user的其他值，从这里的user获取
+        // 例如 this.dataForm.id = user.id
+      },
       // 获取码表值
       loadCodeTableList() {
         // 以下为示例
