@@ -228,6 +228,9 @@
       })
     },
     methods: {
+      resetFields() {
+        this.$refs.ruleForm.resetFields();
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
@@ -267,20 +270,6 @@
           })
         }
       },
-     /* getSelectedProject(project) {
-        console.log('current project', project);
-        this.dataForm.proSubCompany = project.proSubCompany;
-        this.dataForm.proBusDept = project.proBusDept;
-        this.dataForm.proConstructCompany = project.proConstructCompany;
-        this.dataForm.proContractAttr = project.proContractAttr;
-        this.dataForm.proTotalInvestment = project.proTotalInvestment;
-        this.dataForm.proType = project.proType;
-        this.dataForm.proRunMode = project.proRunMode;
-        this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proName = project.proName;
-        this.dataForm.pId = project.id;
-        this.dataForm.conName = project.conName;
-      },*/
       // 选择项目
       selectedData(data) {
         debugger
