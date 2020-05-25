@@ -54,6 +54,7 @@
 </template>
 <script>
 import baseView from '@/base/baseView'
+import { mapMutations } from 'vuex'
 // import lo
 export default {
   name: 'myTask',
@@ -177,12 +178,14 @@ export default {
         const taskFormKey = row.taskFormKey.substr(1)
         if(column.property == 'processDefinationName') {
           let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey+'&taskActId='+row.taskActId
+          this.UPDATE_CONTENT_TABS_ACTIVE_NAME({ name: 'lcgl_detail_'+taskFormKey })
           this.$router.push({
             path: tpath,
           })
         }
       }
     },
+    ...mapMutations(['UPDATE_CONTENT_TABS_ACTIVE_NAME'])
   }
 }
 </script>
