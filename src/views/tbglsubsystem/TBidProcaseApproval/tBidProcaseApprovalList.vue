@@ -1,20 +1,15 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">项目备案信息列表</div>
-      </el-col>
-    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">导出</el-button>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"></el-input>
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"  placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -50,20 +45,20 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="sign" label="备案人">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"></el-input>
+              <t-handler-select label="备案人"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
-          <!--<el-col :span="8">
+          <el-col :span="8">
             <el-form-item prop="proSubCompany" label="备案单位">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"></el-input>
             </el-form-item>
-          </el-col>-->
+          </el-col>
         </el-row>
         <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
           <el-col :span="12">
             <el-form-item>
               <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-              <el-button type="primary" icon="el-icon-circle-close">清空</el-button>
+              <el-button icon="el-icon-download" @click="doReset()"><i class="fa fa-lg fa-level-down"></i>清空</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -234,6 +229,13 @@
       this.loadCodeTableList();
     },
     methods: {
+      getSelectedUser(user) {
+        console.log('current user', user)
+        // user为从弹窗框列表带出来的那一行的数据
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的user的其他值，从这里的user获取
+        // 例如 this.dataForm.id = user.id
+      },
       // 获取码表值
       loadCodeTableList() {
         // 以下为示例
@@ -254,11 +256,9 @@
           proConstructCompany: null,
           proType: null,
           proRunMode: null,
-          approvalStatus:null,
-/*
+          approvalStatus: null,
           proSubCompany: null,
-*/
-          sign: null,
+          sign: null
         }
       },
       doExportExcel() {

@@ -108,17 +108,10 @@
   import baseView from "../../../base/baseView";
 
   export default {
-    name: 'myTask',
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data() {
       return {
+        readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {

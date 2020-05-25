@@ -67,35 +67,34 @@
             </el-form-item>
           </el-col>
         </el-row>
-          <t-sub-title :title="'办理信息'"></t-sub-title>
-          <el-row :gutter="20" class="page-title">
-            <el-col :span="8">
-              <el-form-item prop="amount" label="金额">
-                <el-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item prop="existElectMark" label="是否使用电子章">
-                <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
-                                    :readOnly="readOnly"></t-dic-radio-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="sign" label="经办人">
-                <span>{{dataForm.sign}}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item prop="signTime" label="经办时间">
-                <span>{{dataForm.signTime}}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item prop="remark" label="备注">
-                <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="amount" label="金额">
+              <el-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item prop="existElectMark" label="是否使用电子章">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="signTime" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -115,6 +114,7 @@
     extends: baseView,
     data() {
       return {
+        readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
@@ -129,19 +129,8 @@
           approvalStatus: '',
           propose: '',
           result: '',
-          createtime: '',
-          updatetime: '',
-          createuser: '',
-          updateuser: '',
-          datastatus: ''
         },
         dataRule: {
-          bId: [
-            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
           pcId: [
             {required: true, message: '项目名称能为空', trigger: 'blur'}
           ],
@@ -149,7 +138,7 @@
             {required: true, message: '金额不能为空', trigger: 'blur'}
           ],
           existElectMark: [
-            {required: false, message: '是否使用电子章（字典表）不能为空', trigger: 'blur'}
+            {required: true, message: '是否使用电子章不能为空', trigger: 'blur'}
           ],
           remark: [
             {required: false, message: '备注不能为空', trigger: 'blur'}
@@ -161,7 +150,7 @@
             {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: false, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: false, message: '审批状态不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: false, message: '审核意见不能为空', trigger: 'blur'}
