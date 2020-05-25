@@ -535,7 +535,17 @@ util.closeTabNav = function (fromName, toName) {
     let routerObj = newTabs.find(p => {
       return p.name == toName
     })
-
+    if(!routerObj) {
+      let _routerObj = vm.$router.options.routes.find(troute =>  { return troute.name == toName})
+      routerObj = {
+        id: _routerObj.id,
+        show: _routerObj.show,
+        name: _routerObj.name,
+        url: _routerObj.path,
+        title: _routerObj.title,
+        type: (window.SITE_CONFIG.nestIframeRouteNameList || []).indexOf(_routerObj.name) !== -1 ? 'iframe' : 'module',
+      }
+    }
     vm.$router.push({
       // 'name': routerObj.name
       path: routerObj.url

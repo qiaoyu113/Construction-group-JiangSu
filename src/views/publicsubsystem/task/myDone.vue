@@ -25,7 +25,7 @@
         <el-col :span="8">
           <el-form-item label="流程类别" prop="processDefinationKey">
             <el-select placeholder="请选择流程类别" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-              <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
+              <el-option v-for="(item, index) in processDefinationlist" :key='item.id' :label="item.name" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -78,22 +78,22 @@ export default {
           //     method: this.doView,
           //   }, ]
           // }, // 列操作按钮
-          columns: [{
+          columns: [
+            {
              fixed: 'left',
+              prop: 'id',
+              label: '流程编号',
+              sortable: true,
+              width: 200,
+            },
+            {
               prop: 'processDefinationName',
               label: '流程名称',
               sortable: true,
               width: 200,
             },
             {
-               fixed: 'left',
-              prop: 'origiatorName',
-              label: '提单人',
-              sortable: true,
-              width: 100,
-            },
-            {
-              prop: 'startDate',
+              prop: 'projectName',
               label: '项目名称',
               sortable: true,
               width: 110,
@@ -102,7 +102,7 @@ export default {
               }
             },
               {
-              prop: 'endDate',
+              prop: 'departmentName',
               label: '发起部门',
               sortable: true,
               width: 110,
@@ -111,25 +111,25 @@ export default {
               }
             },
             {
-              prop: 'folio',
+              prop: 'origiatorName',
               label: '发起人',
               sortable: true,
               minWidth: 120,
             },
             {
-              prop: 'folio',
+              prop: 'startDate',
               label: '发起时间',
               sortable: true,
               minWidth: 120,
             },
             {
-              prop: 'folio',
+              prop: 'taskActName',
               label: '当前节点',
               sortable: true,
               minWidth: 120,
             },
             {
-              prop: 'folio',
+              prop: 'taskActUserName',
               label: '当前办理人',
               sortable: true,
               minWidth: 120,

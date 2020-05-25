@@ -89,8 +89,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proManager" label="称职：">
-            <el-input disabled v-model="dataForm.proManager"></el-input>
+          <el-form-item prop="constructorLevel" label="称职：">
+            <el-input disabled v-model="dataForm.constructorLevel"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -244,7 +244,7 @@
         this.dataForm.proName = project.proName;
         this.dataForm.pId = project.id;
         this.dataForm.proManager = project.proManager;
-
+        this.dataForm.constructorLevel = project.constructorLevel;
       },
       // 表单提交
       doSave() {

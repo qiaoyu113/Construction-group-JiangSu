@@ -19,8 +19,7 @@
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="建造师等级："   prop="constructorLevel">
-            <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
-                       placeholder="建造师等级" clearable></el-input>
+            <t-dic-dropdown-select dicType="constructor_level"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
@@ -198,7 +197,7 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('项目经理授权列表数据');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();

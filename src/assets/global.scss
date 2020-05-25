@@ -280,10 +280,13 @@ input[readonly="readonly"] {
   border-radius: 15px;
 }
 
-.page-title .title {
-  font-weight: 500;
-  font-size: 18px;
-  padding: 20px 0;
+.page-title {
+  display: none;
+  .title {
+    font-weight: 500;
+    font-size: 18px;
+    padding: 20px 0;
+  }
 }
 
 .sidebar-search {
@@ -345,8 +348,8 @@ input[readonly="readonly"] {
 }
 
 .site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item.is-active {
-  background-color: rgba(238,242,246,0.69) !important;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   margin-right: 15px;
+  background-color: rgba(238,242,246,0.69) !important;
 }

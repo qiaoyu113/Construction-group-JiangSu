@@ -105,7 +105,7 @@ sRouters[index].children = []
 // console.log('sRouters[index]', sRouters[index])
 sRouters.map((node) => {
   if(node.name !== 'lcgl_detail') {
-    sRouters[index].children.push({path: '_'+node.componentName, component: () => import ('@/views/'+node.componentName)})
+    sRouters[index].children.push({path: '_'+node.componentName, name: 'lcgl_detail_' + node.componentName, component: () => import ('@/views/'+node.componentName), meta: {isTab: true, title: '流程办理详情', show: 0, id: 'lcgl_detail_' + node.componentName}})
   }
 })
 // console.log('sRouters', sRouters)

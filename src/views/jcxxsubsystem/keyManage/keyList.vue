@@ -57,8 +57,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="sign">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
-                                @selectedUser="getSelectedUser"></t-handler-select>
+              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
@@ -234,7 +233,6 @@
         }
       }
     },
-    components: {},
     created () {
       this.loadCodeTableList()
   },
@@ -304,9 +302,10 @@
         } else {
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
         }
-        this.$router.push({
-          path: tpath
-        })
+        // this.$router.replace({
+        //   path: tpath
+        // })
+        util.closeCurrentTabNav('TBidPckeyApprovalAdd')
       }
     }
   }

@@ -19,7 +19,7 @@
       <el-col :span="8">
         <el-form-item label="流程类别" prop="processDefinationKey">
           <el-select placeholder="请选择流程类别" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
-            <el-option v-for="(item, index) in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
+            <el-option v-for="(item, index) in processDefinationlist" :key='item.id' :label="item.name" :value="item.key"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -39,10 +39,10 @@
       </el-col>
     </el-row>
     <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-      <el-col :span="14">
+      <el-col :span="14" style="text-align: right;">
         <el-form-item>
-          <el-button  @click="doRefresh()" icon="el-icon-search">查询</el-button>
-          <el-button  icon="el-icon-delete" @click="doReset()">清空</el-button>
+          <el-button type="primary" plain @click="doRefresh()" icon="el-icon-search">查询</el-button>
+          <el-button  type="primary" icon="el-icon-delete" @click="doReset()">清空</el-button>
         </el-form-item>
       </el-col>
     </el-row>
@@ -79,7 +79,7 @@ export default {
               prop: 'processInstId',
               label: '流程编号',
               sortable: true,
-              width: 200,
+              width: 100,
             },
             {
               prop: 'processDefinationName',
@@ -88,7 +88,7 @@ export default {
               width: 200,
             },
             {
-              prop: 'origiator',
+              prop: 'projectName',
               label: '项目名称',
               sortable: true,
               minWidth: 100,
@@ -172,7 +172,7 @@ export default {
       this.$refs.searchReulstList.refresh();
     },
     handleCellClick(row, column, cell, event) {
-      console.log('row', row)
+      // console.log('row', row)
       if(row.taskFormKey) {
         const taskFormKey = row.taskFormKey.substr(1)
         if(column.property == 'processDefinationName') {
