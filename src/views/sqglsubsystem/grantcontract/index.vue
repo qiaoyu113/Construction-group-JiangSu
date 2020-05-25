@@ -57,7 +57,7 @@
         </el-col>
         <el-col :span="8" class="search-date-picker">
           <el-form-item label="经办日期："  prop="conCode">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+            <t-datetime-range-picker @change="onStartDateRangeChanged" v-model="gridOptions.dataSource.serviceInstanceInputParameters.conCode"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -207,7 +207,7 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('合同备案授权列表数据');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();

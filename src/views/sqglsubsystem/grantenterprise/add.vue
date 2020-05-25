@@ -129,6 +129,7 @@
           signTime: ''
         },
         dataRule: {
+          proBuildArea: [{validator: this.isNumber, trigger: 'change'}]
         }
       }
     },
@@ -150,6 +151,12 @@
       })
     },
     methods: {
+      isNumber (rule, value, cb) {
+        if (!this.$util.verifyNumber(value)) {
+          return cb(new Error('请输入数字！'))
+        }
+        return cb()
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
