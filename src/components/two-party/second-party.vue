@@ -3,39 +3,39 @@
     <el-col>
       <t-edit-grid ref="secondPartyGrid" :options="secondPartyGridOptions" :readOnly="readOnly" >
         <template slot="columnDataHeader">
-          <t-edit-grid-column prop="updateuser" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
+          <t-edit-grid-column prop="subjectType" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.updateuser" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.subjectType" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="datastatus" label="签订人" idcard :maxLength="50" min-width="100" >
+          <t-edit-grid-column prop="sgnatory" label="签订人" idcard :maxLength="50" min-width="100" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.datastatus" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.sgnatory" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="datastatus" label="开户行名称" verify min-width="100" class-name="is-required" >
+          <t-edit-grid-column prop="bankName" label="开户行名称" verify min-width="100" class-name="is-required" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.datastatus" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.bankName" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="datastatus" label="银行账户名称" verify min-width="100" class-name="is-required" >
+          <t-edit-grid-column prop="bankAccountName" label="银行账户名称" verify min-width="100" class-name="is-required" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.datastatus" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.bankAccountName" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="datastatus" label="银行账号" verify min-width="100" class-name="is-required" >
+          <t-edit-grid-column prop="bankAccount" label="银行账号" verify min-width="100" class-name="is-required" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.datastatus" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.bankAccount" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="loanMoneyAmount" label="联系方式" verify min-width="80" class-name="is-required" >
+          <t-edit-grid-column prop="contactInfo" label="联系方式" verify min-width="80" class-name="is-required" >
             <template slot-scope="scope">
-              <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly" ></t-number-input>
+              <t-number-input v-model="scope.row.contactInfo" :readOnly="readOnly" ></t-number-input>
             </template>
           </t-edit-grid-column>
-          <t-edit-grid-column prop="datastatus" label="地址" verify min-width="100" class-name="is-required" >
+          <t-edit-grid-column prop="address" label="地址" verify min-width="100" class-name="is-required" >
             <template slot-scope="scope">
-              <t-input v-model="scope.row.datastatus" :readOnly="readOnly" ></t-input>
+              <t-input v-model="scope.row.address" :readOnly="readOnly" ></t-input>
             </template>
           </t-edit-grid-column>
         </template>
