@@ -88,7 +88,7 @@ export default {
               width: 200,
             },
             {
-              prop: 'origiator',
+              prop: 'projectName',
               label: '项目名称',
               sortable: true,
               minWidth: 100,

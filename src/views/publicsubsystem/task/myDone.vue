@@ -93,7 +93,7 @@ export default {
               width: 200,
             },
             {
-              prop: 'proName',
+              prop: 'projectName',
               label: '项目名称',
               sortable: true,
               width: 110,
