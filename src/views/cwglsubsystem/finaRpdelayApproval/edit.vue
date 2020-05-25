@@ -77,13 +77,19 @@
         <t-sub-title :title="'已延期信息'"></t-sub-title>
 <!--        <div v-for="(index, item) in dataForm.rpdelapList" :key="item.id">-->
         <div v-for="(item, index) in  dataForm.rpdelapList">
-          <el-row :gutter="20">
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <span style="text-decoration: underline;font-size: 16px">
-            第{{index + 1}}次延期：&nbsp;&nbsp;&nbsp;&nbsp;已还金额：{{item.totalAmount}}万元
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未还金额：{{item.arrearAmount}}万元
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请延期还款日：{{item.delayDate}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请人：{{item.sign}}
+          <el-row justify="space-around" type="flex"  style="border-bottom: 0.5px solid #eee;margin-right: 15px;padding-bottom: 12px;">
+            <el-col :span="5">
+              <span>第{{index + 1}}次延期：已还金额：{{item.totalAmount}}万元</span>
+            </el-col>
+            <el-col :span="4">
+              <span>未还金额：{{item.arrearAmount}}万元</span>
+            </el-col>
+            <el-col :span="6">
+              <span>申请延期还款日：{{item.delayDate}}</span>
+            </el-col>
+            <el-col :span="4">
+              <span>申请人：{{item.sign}}</span>
+            </el-col>
           </span>
           </el-row>
         </div>
@@ -178,7 +184,9 @@
           totalAmount:'',
           returnAmount:'' ,
           remark: '',
-          rpdelapList:[]
+          rpdelapList:[
+            {totalAmount: '0', arrearAmount: 800, delayDate: '2019-10-29', sign: 'XXXXXXXX'}
+          ]
         },
         dataRule: {
           proName: [
