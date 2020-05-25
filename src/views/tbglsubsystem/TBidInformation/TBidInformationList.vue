@@ -77,10 +77,18 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+  import util from '@/util'
 
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
     data() {
       return {
         checkededRows: [],
@@ -301,6 +309,13 @@
       this.loadCodeTableList();
     },
     methods: {
+      getSelectedUser(user) {
+        console.log('current user', user)
+        // user为从弹窗框列表带出来的那一行的数据
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的user的其他值，从这里的user获取
+        // 例如 this.dataForm.id = user.id
+      },
       // 获取码表值
       loadCodeTableList() {
         // 以下为示例

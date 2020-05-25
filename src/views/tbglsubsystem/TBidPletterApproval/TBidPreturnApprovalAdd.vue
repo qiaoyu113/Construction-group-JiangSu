@@ -134,6 +134,7 @@
   export default {
     data() {
       return {
+        readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {

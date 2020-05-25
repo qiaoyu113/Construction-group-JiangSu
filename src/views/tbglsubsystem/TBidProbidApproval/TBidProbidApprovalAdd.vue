@@ -192,6 +192,7 @@
   export default {
     data() {
       return {
+        readOnly: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
@@ -333,6 +334,25 @@
       })
     },
     methods: {
+      getSelectedMainCharge(charge) {
+        console.log('current charge', charge)
+        //获取主要负责人
+
+        // charge为从弹窗框列表带出来的那一行的数据
+        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
+        // 例如 this.dataForm.id = charge.id
+      },
+      getSelectedManager(manager) {
+        console.log('current manager', manager)
+        //获取项目经理
+
+
+        // manager为从弹窗框列表带出来的那一行的数据
+        // 项目经理id 已从从组件里已经带出来，这里定义为 dataForm.managerId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的manager的其他值，从这里的manager获取
+        // 例如 this.dataForm.id = manager.id
+      },
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proNameA = pcId.proName
