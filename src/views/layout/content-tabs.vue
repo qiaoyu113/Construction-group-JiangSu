@@ -54,10 +54,10 @@ export default {
     '$store.state.ui.contentTabs' (tabs) {
       if (tabs.length <= 0) {
         this.UPDATE_MENU_NAV_ACTIVE_NAME({
-          name: ''
+          name: 'gl_home'
         })
         this.$router.push({
-          name: 'home'
+          name: 'gl_home'
         })
       }
     }

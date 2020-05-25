@@ -302,9 +302,10 @@
         } else {
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
         }
-        this.$router.push({
-          path: tpath
-        })
+        // this.$router.replace({
+        //   path: tpath
+        // })
+        util.closeCurrentTabNav('TBidPckeyApprovalAdd')
       }
     }
   }
