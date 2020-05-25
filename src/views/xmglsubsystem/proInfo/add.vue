@@ -13,12 +13,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'基本信息'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="8" style="display: none">
-            <el-form-item prop="pcId" label="项目名称：">
+          <el-col :span="8" v-if="haveOrNot === 'not'">
+            <el-form-item prop="pcId" label="项目名称：" verify class="is-required">
               <el-input v-model="dataForm.proName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="haveOrNot === 'have'">
             <el-form-item label="项目名称：" prop="proName">
               <t-record-select placeholder="选择一个备案项目" v-model="dataForm.pcId" @selectedRecord="getSelectedRecord">
                 <el-button v-if="haveOrNot === 'have'" slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
@@ -225,20 +225,27 @@
       <el-card shadow="never">
         <t-sub-title :title="'经营方式'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="5">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary'" >
+          <el-col :span="5" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
+            <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
+              <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
+                <span slot="append">%</span>
+              </t-int-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" v-if="dataForm.proRunMode === 'proprietary' || dataForm.proRunMode === 'proprietary_pool'" >
             <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
               <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary'">
+          <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary' || dataForm.proRunMode === 'proprietary_pool'">
             <el-form-item label="公司负责人：" prop="proCompanyHeader">
               <el-input v-model="dataForm.proCompanyHeader">
                 <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
@@ -247,15 +254,6 @@
           </el-col>
         </el-row>
         <div v-if="dataForm.proRunMode === 'pool'">
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
-                <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
-                  <span slot="append">%</span>
-                </t-int-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="联营公司名称：" prop="proUnionCompany">
@@ -278,27 +276,6 @@
         </div>
         <div v-if="dataForm.proRunMode === 'proprietary_pool'">
           <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item label="联营单位管理费：" prop="proUnionCompanyMerate" verify class="is-required">
-                <t-int-input v-model="dataForm.proUnionCompanyMerate" :readOnly="readOnly">
-                  <span slot="append">%</span>
-                </t-int-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="项目净利润承诺超：" prop="proProfitRate" verify class="is-required">
-                <t-int-input v-model="dataForm.proProfitRate" :readOnly="readOnly">
-                  <span slot="append">%</span>
-                </t-int-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="公司负责人：" prop="proCompanyHeader">
-                <el-input v-model="dataForm.proCompanyHeader" readonly>
-                  <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
-                </el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="8">
               <el-form-item label="联营公司名称：" prop="proUnionCompany">
                 <el-input v-model="dataForm.proUnionCompany" readonly>
