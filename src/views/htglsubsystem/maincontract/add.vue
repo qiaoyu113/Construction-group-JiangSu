@@ -324,87 +324,6 @@
           city: '',
         },
         dataRule: {
-          bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
-          pId: [
-            {required: true, message: '项目id不能为空', trigger: 'blur'}
-          ],
-          conCode: [
-            {required: true, message: '合同编号不能为空', trigger: 'blur'}
-          ],
-          conName: [
-            {required: true, message: '合同名称不能为空', trigger: 'blur'}
-          ],
-          conModality: [
-            {required: true, message: '合同形式（字典表）不能为空', trigger: 'blur'}
-          ],
-          conStartDate: [
-            {required: true, message: '合同开始日期不能为空', trigger: 'blur'}
-          ],
-          conEndDate: [
-            {required: true, message: '合同结束日期不能为空', trigger: 'blur'}
-          ],
-          conSigningDate: [
-            {required: true, message: '签订日期不能为空', trigger: 'blur'}
-          ],
-          conPayWay: [
-            {required: true, message: '付款方式（字典表）不能为空', trigger: 'blur'}
-          ],
-          otherPayWay: [
-            {required: true, message: '其他付款方式不能为空', trigger: 'blur'}
-          ],
-          conTotal: [
-            {required: true, message: '合同总额不能为空', trigger: 'blur'}
-          ],
-          conSelfProportion: [
-            {required: true, message: '自营占比不能为空', trigger: 'blur'}
-          ],
-          conOtherProportion: [
-            {required: true, message: '联营占比不能为空', trigger: 'blur'}
-          ],
-          conPayStandard: [
-            {required: true, message: '合同收款条件不能为空', trigger: 'blur'}
-          ],
-          conStatus: [
-            {required: true, message: '合同状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ],
-          province: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ]
         }
       }
     },
@@ -489,22 +408,25 @@
       },
       // 表单提交
       doSave() {
+        debugger;
         let self = this;
         let validPromises = self.$refs['ruleForm'].validate();
         let firstPartyPromises = self.$refs['firstParty'].validate()
         let secondPartyPromises = self.$refs['secondParty'].validate()
         Promise.all([validPromises, firstPartyPromises, secondPartyPromises]).then(resultList => {
+          debugger;
           let model = {...self.dataForm};
           // 甲乙方数据
           let firstPartyData = self.$refs['firstParty'].getData().list
           firstPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
           let secondPartyData = self.$refs['secondParty'].getData()
           secondPartyData.map(item => { delete item.errorMessage;delete item.entityStatus;delete item.hasError;delete item.id;return; })
-
+          debugger;
           // TODO firtPartyData 和 secondPartyData 怎么放在 model 里面，需要调整
           // 举例 model.firstPartyData = firstPartyData
           // 举例 model.secondPartyData = secondPartyData
-
+          model.firstPartyData = firstPartyData;
+          model.secondPartyData = secondPartyData;
           tapp.services.tContInfoApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
