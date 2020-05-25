@@ -50,9 +50,7 @@
         <el-col :span="12">
           <el-form-item>
             <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="fa fa-lg fa-level-down"></i>清空
-            </el-button>
+            <el-button type="primary" icon="el-icon-circle-close" @click="doReset()">清空</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,6 +72,7 @@
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
+        readOnly: false,
         gridOptions: {
           dataSource: {
             serviceInstance: tapp.services.tQsSdfileApproval.getPagedList,
@@ -115,6 +114,14 @@
                 label: '合同金额',
                 sortable: true,
                 minWidth: 120,
+                render: (h, params) => {
+                  var self = this
+                  return h('t-highlight-view', {
+                    props: {
+                      value: self.$util.moneyFormat(params.row.proTotalInvestment || 0)
+                    }
+                  })
+                }
               },
               {
                 prop: 'proSubCompany',
@@ -188,6 +195,8 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh()
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('重大危险源文件表');
@@ -201,15 +210,17 @@
           data,
           reduces
         } = param
-
         this.reduces = reduces || []
 
-        if (reduces == null) {
-          return []
-        }
+        // 自行计算
+        let _sum = 0
+        data.map(item => {
+          _sum += parseFloat(item.proTotalInvestment)
+        })
+
         const sums = []
         sums[1] = '合计'
-        sums[4] = util.moneyFormat(reduces.sumOriginalLoanMoneyAmount) || '--'
+        sums[4] = util.moneyFormat(_sum) || '--'
         return sums
       }
     }
