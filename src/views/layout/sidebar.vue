@@ -74,13 +74,13 @@ export default {
           } = response
         self.menuNavList = authoritiyNavigationTree || []
         self.menuNavList.map((item) => {
-          self.menuIds.push(item.self.id)
+          self.menuIds.push(item.self.name)
           if(item.hasChildren) {
             item.items.map(_item => {
-              self.menuIds.push(_item.self.id)
+              self.menuIds.push(_item.self.name)
               if(_item.hasChildren) {
                 _item.items.map(__item => {
-                  self.menuIds.push(__item.self.id)
+                  self.menuIds.push(__item.self.name)
                 })
               }
             })
