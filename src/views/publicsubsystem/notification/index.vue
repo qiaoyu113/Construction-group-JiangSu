@@ -1,21 +1,23 @@
 <template>
 <div class="mod-role">
-  <t-form :inline="true">
-    <el-form-item>
-      <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="标题" clearable></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button  @click="doRefresh()">查询</el-button>
-      <el-button  @click="doRead()" :disabled="selectedRows.length <= 0">标为已读</el-button>
-      <el-button  type="primary" v-if="$util.hasPermission('gl_notification_send')" @click="doSend()"><i class="fa fa-send" style="margin-right: 15px"></i>发送系统消息
-      </el-button>
-    </el-form-item>
-  </t-form>
-  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @data-change="handleDataChange">
-  </t-grid>
-  <div style="text-align: left">
-    <send-form v-if="sendFormVisible" ref="sendForm" @change="doRefresh"></send-form>
-  </div>
+  <el-card shadow="never">
+    <t-form :inline="true">
+      <el-form-item>
+        <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="标题" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button  @click="doRefresh()">查询</el-button>
+        <el-button  @click="doRead()" :disabled="selectedRows.length <= 0">标为已读</el-button>
+        <el-button  type="primary" v-if="$util.hasPermission('gl_notification_send')" @click="doSend()"><i class="fa fa-send" style="margin-right: 15px"></i>发送系统消息
+        </el-button>
+      </el-form-item>
+    </t-form>
+    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @data-change="handleDataChange">
+    </t-grid>
+    <div style="text-align: left">
+      <send-form v-if="sendFormVisible" ref="sendForm" @change="doRefresh"></send-form>
+    </div>
+  </el-card>
 </div>
 </template>
 <script>

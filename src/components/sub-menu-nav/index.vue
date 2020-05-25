@@ -8,7 +8,7 @@
   </el-submenu>
   <el-menu-item :class="{'t-sub-menu-item':menuNav.level>1}" v-else :index="menuNav.self.name" :data-idx="menuNav.self.id + ''" :id="menuNav.self.id + ''" @click="gotoRouteHandle(menuNav)">
     <icon-svg :name="menuNav.self.icon" class="site-sidebar__menu-icon" v-if="menuNav.self.icon"></icon-svg>
-    <span :style="{'padding-left':menuNav.self.icon? '0': '14px'}">{{ menuNav.self.title }}</span>
+    <span :style="{'padding-left':menuNav.self.icon? '0': '8px'}">{{ menuNav.self.title }}</span>
   </el-menu-item>
 </template>
 
