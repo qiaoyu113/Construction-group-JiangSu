@@ -280,10 +280,13 @@ input[readonly="readonly"] {
   border-radius: 15px;
 }
 
-.page-title .title {
-  font-weight: 500;
-  font-size: 18px;
-  padding: 20px 0;
+.page-title {
+  display: none;
+  .title {
+    font-weight: 500;
+    font-size: 18px;
+    padding: 20px 0;
+  }
 }
 
 .sidebar-search {
