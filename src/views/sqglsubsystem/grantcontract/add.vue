@@ -79,21 +79,6 @@
       <el-card shadow="never">
       <t-sub-title :title="'合同信息'"></t-sub-title>
       <el-row :gutter="20">
-       <!-- <el-col :span="8">
-          <el-form-item prop="conName" label="合同名称：">
-            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conStartDate" label="合同期间：">
-            <el-input readonly v-model="dataForm.actTaskKey"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conTotal" label="合同金额：">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
-          </el-form-item>
-        </el-col>-->
         <el-col :span="8">
           <el-form-item label="合同名称">
             <el-input :readonly="true" v-model="dataForm.conName"></el-input>
@@ -228,6 +213,9 @@
       })
     },
     methods: {
+      resetFields() {
+        this.$refs.ruleForm.resetFields();
+      },
       // 初始化 编辑和新增 2种情况
       init(id) {
         if (id) {
@@ -268,20 +256,6 @@
           })
         }
       },
-      /*getSelectedProject(project) {
-        console.log('current project', project);
-        this.dataForm.proSubCompany = project.proSubCompany;
-        this.dataForm.proBusDept = project.proBusDept;
-        this.dataForm.proConstructCompany = project.proConstructCompany;
-        this.dataForm.proContractAttr = project.proContractAttr;
-        this.dataForm.proTotalInvestment = project.proTotalInvestment;
-        this.dataForm.proType = project.proType;
-        this.dataForm.proRunMode = project.proRunMode;
-        this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proName = project.proName;
-        this.dataForm.pId = project.id;
-        this.dataForm.conName = project.conName;
-      },*/
       // 选择项目
       selectedData(data) {
         debugger
