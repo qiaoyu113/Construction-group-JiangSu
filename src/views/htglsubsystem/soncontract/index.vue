@@ -188,7 +188,7 @@
         this.$refs.search.resetFields();
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('子合同列表数据');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
