@@ -184,9 +184,7 @@
           totalAmount:'',
           returnAmount:'' ,
           remark: '',
-          rpdelapList:[
-            {totalAmount: '0', arrearAmount: 800, delayDate: '2019-10-29', sign: 'XXXXXXXX'}
-          ]
+          rpdelapList:[]
         },
         dataRule: {
           proName: [
