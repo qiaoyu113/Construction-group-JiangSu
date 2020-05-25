@@ -4,7 +4,7 @@
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
         <el-card shadow="never" v-if="type === 'approval'">
-          <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="200px">
+          <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="150px">
             <t-sub-title :title="'办理意见'"></t-sub-title>
             <el-row :gutter="10">
               <el-col :span="24">
@@ -82,62 +82,62 @@
             mutiSelect: false,
             columns: [
               {
-                prop: 'customerCode',
+                prop: 'proName',
                 label: '项目名称',
                 sortable: true,
                 fixed: 'left',
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'processDefinationName',
                 label: '业务类型',
                 sortable: true,
                 width: 120,
               },
               {
-                prop: 'customerCode',
+                prop: 'origiatorName',
                 label: '发起人',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'startDate',
                 label: '发起时间',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'taskActName',
                 label: '流程节点',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'taskActUserName',
                 label: '办理人',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'taskResult',
                 label: '办理结果',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'taskRemark',
                 label: '办理意见',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'customerCode',
+                prop: 'taskEndDate',
                 label: '办理信息',
                 sortable: true,
                 width: 120
               },
               {
-                prop: 'startDate',
+                prop: 'taskEndDate',
                 label: '办理时间',
                 sortable: true,
                 minWidth: 120,
@@ -188,17 +188,19 @@
           this.$nextTick(() => {
             let self = this;
             tapp.services.wf_TaskAction.getTaskAssignee(taskId).then(function(result) {
-              if(!result || (result.length && result.length === 0)) return
-              let userList = result[0].userList
-              let userRole = result[0].userRole
-              userList.map(item => {
-                self.userList.push({value: item.key, label: item.value})
-              })
-              if(!isEmpty(userRole)) {
-                self.userRole.push({value: userRole.key, label: userRole.value})
-                self.dataForm.userRole = userRole.key;
-              } else {
-                self.userRole = []
+              if(!result || (result && result.length === 0)) return;
+              else {
+                let userList = result[0].userList
+                let userRole = result[0].userRole
+                userList.map(item => {
+                  self.userList.push({value: item.key, label: item.value})
+                })
+                if(!isEmpty(userRole)) {
+                  self.userRole.push({value: userRole.key, label: userRole.value})
+                  self.dataForm.userRole = userRole.key;
+                } else {
+                  self.userRole = []
+                }
               }
             })
           })
