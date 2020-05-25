@@ -146,7 +146,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proLimitTime" label="工程工期：">
-              <el-input v-model="dataForm.proLimitTime"></el-input>
+              <t-int-input v-model="dataForm.proLimitTime"></t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
