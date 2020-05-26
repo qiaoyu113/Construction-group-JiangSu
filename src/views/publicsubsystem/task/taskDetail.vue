@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="task-detail">
     <el-tabs v-model="activeName">
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
@@ -19,7 +19,7 @@
                   <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" v-model="dataForm.userRole" :readOnly="true"></t-dic-dropdown-select>
                 </el-col>
                 <el-col :span="8">
-                  <t-dic-dropdown-select :data="userList" placeholder="请选择审批人" v-model="dataForm.taskAssignee"></t-dic-dropdown-select>
+                  <t-dic-dropdown-select :data="userList" placeholder="请选择审批人" :multiple="true" v-model="dataForm.taskAssignee"></t-dic-dropdown-select>
                 </el-col>
               </el-form-item>
             </el-row>
@@ -40,9 +40,42 @@
         <el-button type="primary" @click="doApprove()">同意</el-button>
         <el-button type="danger" @click="doGoOriginator()">退回</el-button>
         <el-button type="danger" @click="doDecline()">拒绝</el-button>
-        <el-button type="info" @click="">转交</el-button>
+        <el-button type="info" @click="dialogFormVisible = true">转交</el-button>
       </div>
     </el-row>
+    <el-dialog title="转交人选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button type="primary" @click="doRedirect()">
+            确定
+          </el-button>
+          <el-button type="info" @click="dialogFormVisible = false">
+            取消
+          </el-button>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="用户名" prop="name" style="margin-bottom: 15px;">
+              <t-input  v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" clearable></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
+          <el-col :span="8">
+            <el-form-item label="选择的用户" prop="selectedName" style="margin-bottom: 15px;">
+              <t-input v-model="selectedUser.name" :readOnly="true" placeholder="还未选择用户"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item style="margin-bottom: 15px;">
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button @click="doReset()" icon="el-icon-circle-close">清空</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+      <t-grid ref="searchReulstList" :options="usersOptions" @cell-click="handleCellClick"></t-grid>
+    </el-dialog>
   </div>
 </template>
 
@@ -61,6 +94,7 @@
         type: 'approval',
         userList: [],
         userRole: [],
+        dialogFormVisible: false,
         dataForm: {
           time: '',
           suggestion: '',
@@ -69,6 +103,88 @@
         },
         dataRule: {
           
+        },
+        selectedUser: {
+          name: ''
+        },
+        usersOptions: {
+          dataSource: {
+            serviceInstance: tapp.services.base_User.getAllUsers,
+            serviceInstanceInputParameters: {
+              searchKey: null, 
+            }
+          },
+          grid: {
+            offsetHeight: 36, //36:查询部分高度
+            mutiSelect: false,
+            maxHeight: 350,
+            columns: [
+              // {
+              //   prop: 'loginId',
+              //   label: '登陆名',
+              //   sortable: true,
+              //   fixed: 'left',
+              //   width: 100
+              // },
+              {
+                prop: 'name',
+                label: '姓名',
+                sortable: true,
+                fixed: 'left',
+                width: 100
+              },
+              {
+                prop: 'email',
+                label: '邮箱',
+                sortable: true,
+                minWidth: 120
+              },
+              {
+                prop: 'mobile',
+                label: '电话',
+                sortable: true,
+                minWidth: 120
+              },
+              {
+                prop: 'activited',
+                columnKey: 'activited',
+                label: '是否启用',
+                width: 100,
+                filters: [
+                  { text: '是', value: 1 }, 
+                  { text: '否', value: 0 }
+                ],
+                formatter: (row, column, cellValue) => {
+                  return row.activited === 0 ? '否' : '是';
+                },
+                render: (h, params) => {
+                  return h('el-tag', {
+                    props: { type: params.row.activited === true ? 'success' : 'info' } // 组件的props
+                  }, params.row.activited === true ? '是' : '否')
+                }
+              },
+              {
+                prop: 'lastLoginTime',
+                label: '最后登陆时间',
+                sortable: true,
+                width: 170,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.datetimeFormat(row.lastLoginTime);
+                }
+              },
+              {
+                prop: 'departmentNames',
+                label: '所属门店',
+                minWidth: 150,
+                sortable: false,
+              },
+
+            ], // 需要展示的列
+            defaultSort: {
+              prop: 'id',
+              order: 'descending'
+            },
+          }
         },
         gridOptions: {
           dataSource: {
@@ -213,6 +329,23 @@
           self.processDefinationlist = result;
         })
       },
+      clearValidate() {
+				this.$nextTick((_) => {
+					this.$refs.ruleForm.clearValidate()
+				})
+      },
+      doRefresh() {
+        this.$refs.searchReulstList.refresh();
+      },
+      doReset() {
+        this.$refs.search.resetFields()
+        this.selectedUser = { name: '' }
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+        this.doRefresh();
+      },
+      handleCellClick(row, value, cell, event) {
+        this.selectedUser = row;
+      },
       // 表单提交
       doSave () {
         let self = this;
@@ -246,7 +379,7 @@
               result: '审批通过',
               taskId: currentQuery.taskId,
               taskRemark: self.dataForm.suggestion,
-              taskAssignee: self.dataForm.taskAssignee
+              multiTaskAssignee: self.dataForm.taskAssignee
             }
             tapp.services.wf_TaskAction.approve(model).then(function(result) {
               self.$notify.success({
@@ -310,6 +443,29 @@
             });
           })
         });
+      },
+      doRedirect() {
+        let self = this;
+        const currentQuery = this.$route.query
+        self.$confirm('此操作将转交该审批, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let model = {
+            taskId: currentQuery.taskId,
+            taskRemark: self.dataForm.suggestion,
+            taskAssignee: this.selectedUser.id
+          };
+          tapp.services.wf_TaskAction.redirect(model).then(function(result) {
+            self.formResult = 1;
+            self.$notify.success({
+              title: '系统转交成功',
+              message: '转交成功！'
+            });
+          })
+        });
+        
       }
     }
   }

@@ -439,3 +439,11 @@ input[readonly="readonly"] {
 .site-sidebar--dark {
   background-color: #20335D;
 }
+.task-detail {
+  .el-tabs__item {
+    font-size: 12px;
+  }
+  .el-tabs__header {
+    margin: 0 0 15px 15px;
+  }
+}
