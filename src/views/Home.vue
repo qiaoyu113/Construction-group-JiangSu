@@ -22,7 +22,7 @@
           </div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 9px"></icon-svg></div>
+            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="1" showTag :list="list"></home-list>
@@ -51,7 +51,7 @@
         <div class="title">公告栏</div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 9px"></icon-svg></div>
+            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="3" :notifications="notifications"></home-list>
@@ -65,7 +65,7 @@
             <div class="header-line" @click="handleMore('4')">
               <div style="color: #333;margin-right: 15px;display: flex;align-items:center;"><div class="doing"></div>审批中</div>
               <div style="color: #333;margin-right: 40px;display: flex;align-items:center;"><div class="done"></div>已审批</div>
-              更多<icon-svg name="more" style="width: 9px"></icon-svg>
+              更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg>
             </div>
           </div>
           <div>
