@@ -16,7 +16,7 @@
           >
             {{ item.title }}
           </div>
-          <div class="list-item-brief margin-left-15">{{ item.brief }}</div>
+          <div class="list-item-brief margin-left-20">{{ item.brief }}</div>
         </div>
         <el-divider></el-divider>
       </div>
@@ -32,7 +32,7 @@
           <div class="list-notifications-item-title margin-left-15">
             {{ item.title }}
           </div>
-          <div class="list-notifications-item-time margin-left-15">
+          <div class="list-notifications-item-time margin-left-20">
             {{ item.time }}
           </div>
         </div>
@@ -106,13 +106,17 @@ export default {
   color: #333;
 }
 .margin-left-15 {
-  margin-left: 15px;
+  margin-left: 14px;
+}
+.margin-left-20 {
+  margin-left: 20px;
 }
 .list-item {
   width: 100%;
   display: flex;
   align-items: center;
   height: 24px;
+  font-size: 11px;
   &-title {
     font-weight: 500;
     width: fit-content;
@@ -123,6 +127,11 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .el-tag--small {
+    font-size: 6px;
+    transform: scale(0.8);
+    transform-origin: center;
+  }
 }
 .list-notifications-item {
   width: 100%;
@@ -130,12 +139,13 @@ export default {
   align-items: center;
   height: 24px;
   justify-content: flex-start;
+  font-size: 11px;
   &-img {
-    width: 24px;
-    height: 24px;
+    width: 14px;
+    height: 14px;
     img {
-      width: 24px;
-      height: 24px;
+      width: 14px;
+      height: 14px;
     }
   }
   &-title {
@@ -155,7 +165,7 @@ export default {
   // background-color: #707070;
   opacity: 0.67;
   height: 0.5px;
-  margin: 12px 0;
+  margin: 5px 0 8px 0;
 }
 .el-tag {
   border-radius: 25px;

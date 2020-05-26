@@ -296,8 +296,7 @@ input[readonly="readonly"] {
   align-items: center;
   justify-content: space-around;
   .el-input {
-    // width: 90%;
-    margin: 0 5%;
+    min-width: 220px;
   }
   .icon {
     cursor: pointer;
@@ -336,10 +335,13 @@ input[readonly="readonly"] {
 }
 .home {
   .el-card {
-    margin: 0 10px 12px;
+    margin: 0 13px 13px;
     .el-card__header {
       height: 50px;
       padding-bottom: 0;
+    }
+    .el-card__body {
+      padding: 10px 20px 16px 20px;
     }
   }
 }
@@ -430,4 +432,7 @@ input[readonly="readonly"] {
 }
 .el-select .el-input {
   min-width: 105px;
+}
+.site-sidebar--dark {
+  background-color: #20335D;
 }
