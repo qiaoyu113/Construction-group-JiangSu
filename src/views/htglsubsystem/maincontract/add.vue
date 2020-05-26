@@ -241,7 +241,7 @@
         </el-col>
       </el-row>
       </el-card>
-      <el-card shadow="never">
+      <el-card shadow="never" v-if="showDepositInfo">
       <t-sub-title :title="'合同保证金信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="14">
@@ -307,6 +307,7 @@
         readOnly: false,
         showOtherWay: false,
         showProprietaryPool: false,
+        showDepositInfo: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -361,52 +362,46 @@
           } else {
             this.showOtherWay = false
           }
-        }
-      },
-      'dataForm.proRunMode': {
-        handler: function(val) {
-          if(val == 'proprietary_pool') {
-            this.showProprietaryPool = true
-          } else {
-            this.showProprietaryPool = false
-          }
-        }
+        },
+        deep: true
       },
     },
     methods: {
       getSelectedProject(project) {
-        this.dataForm.proCode = project.proCode;
-        this.dataForm.proSubCompany = project.proSubCompany;
-        this.dataForm.proBusDept = project.proBusDept;
-        this.dataForm.proConstructCompany = project.proConstructCompany;
-        this.dataForm.proConstructCompanyAttr = project.proConstructCompanyAttr;
-        this.dataForm.proAddressCity = project.proAddressCity;
-        this.dataForm.proAddressDetail = project.proAddressDetail;
-        this.dataForm.proAddressProvince = project.proAddressProvince;
-        this.dataForm.proRunMode = project.proRunMode;
-        this.dataForm.proPlanStartDate = project.proPlanStartDate;
-        this.dataForm.proPlanEndDate = project.proPlanEndDate;
-        this.dataForm.proLimitTime = project.proLimitTime;
-        this.dataForm.proUnionCompanyMerate = project.proUnionCompanyMerate;
-        this.dataForm.proProfitRate = project.proProfitRate;
-        this.dataForm.proCompanyHeader = project.proCompanyHeader;
-        this.dataForm.proContacter = project.proContacter;
-        this.dataForm.proContactway = project.proContactway;
-        this.dataForm.proDriveSubject = project.proDriveSubject;
-        this.dataForm.proContractAttr = project.proContractAttr;
-        this.dataForm.proTotalInvestment = project.proTotalInvestment;
-        this.dataForm.proUnionCompany = project.proUnionCompany;
-        this.dataForm.proType = project.proType;
-        this.dataForm.proRunMode = project.proRunMode;
-        this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proName = project.proName;
-        this.dataForm.pcId = project.pcId;
-
         this.$nextTick(() => {
+          this.dataForm.proCode = project.proCode;
+          this.dataForm.proSubCompany = project.proSubCompany;
+          this.dataForm.proBusDept = project.proBusDept;
+          this.dataForm.proConstructCompany = project.proConstructCompany;
+          this.dataForm.proConstructCompanyAttr = project.proConstructCompanyAttr;
+          this.dataForm.proAddressCity = project.proAddressCity;
+          this.dataForm.proAddressDetail = project.proAddressDetail;
+          this.dataForm.proAddressProvince = project.proAddressProvince;
+          this.dataForm.proRunMode = project.proRunMode;
+          this.dataForm.proPlanStartDate = project.proPlanStartDate;
+          this.dataForm.proPlanEndDate = project.proPlanEndDate;
+          this.dataForm.proLimitTime = project.proLimitTime;
+          this.dataForm.proUnionCompanyMerate = project.proUnionCompanyMerate;
+          this.dataForm.proProfitRate = project.proProfitRate;
+          this.dataForm.proCompanyHeader = project.proCompanyHeader;
+          this.dataForm.proContacter = project.proContacter;
+          this.dataForm.proContactway = project.proContactway;
+          this.dataForm.proDriveSubject = project.proDriveSubject;
+          this.dataForm.proContractAttr = project.proContractAttr;
+          this.dataForm.proTotalInvestment = project.proTotalInvestment;
+          this.dataForm.proUnionCompany = project.proUnionCompany;
+          this.dataForm.proType = project.proType;
+          this.dataForm.proBuildArea = project.proBuildArea;
+          this.dataForm.proName = project.proName;
+          this.dataForm.pcId = project.pcId;
+
+          this.showProprietaryPool = this.dataForm.proRunMode == 'proprietary_pool' ? true : false
+          this.showDepositInfo = (this.dataForm.proRunMode == 'proprietary_pool' || this.dataForm.proRunMode == 'pool') ? true : false
+
           let self = this;
-            tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
-              self.dataForm.companyName = result.companyName;
-            })
+          tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
+            self.dataForm.companyName = result.companyName;
+          })
         })
       },
       getSelectedProject2(project) {
