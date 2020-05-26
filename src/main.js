@@ -144,6 +144,7 @@ import SJUpload from './components/SJupload.vue'
 import TTextInput from './components/text-input/index.vue'
 import TSubTitle from './components/sub-title/index.vue'
 import TRegionPicker from './components/regions/region-picker.vue'
+import TRegionSPicker from './components/regions/region-s-picker.vue'
 import TWorkflowMap from './components/workflow-map/index.vue'
 import TProjectSelect from './components/popup/project-select.vue'
 import TBorrowAmountSelect from './components/popup/borrow-amount-select.vue'
@@ -174,6 +175,7 @@ Vue.component('sj-upload', SJUpload)
 Vue.component('t-text-input', TTextInput)
 Vue.component('t-sub-title', TSubTitle)
 Vue.component('t-region-picker', TRegionPicker)
+Vue.component('t-region-s-picker', TRegionSPicker)
 Vue.component('t-workflow-map', TWorkflowMap)
 Vue.component('t-project-select', TProjectSelect)
 Vue.component('t-borrow-amount-select', TBorrowAmountSelect)

@@ -132,6 +132,11 @@ export default {
   justify-content: flex-start;
   &-img {
     width: 24px;
+    height: 24px;
+    img {
+      width: 24px;
+      height: 24px;
+    }
   }
   &-title {
     font-weight: 500;
