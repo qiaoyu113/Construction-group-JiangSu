@@ -33,7 +33,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-            <el-input readonly v-model="dataForm.proName"></el-input>
+            <el-input readonly disabled v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -45,58 +45,49 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="conName" label="合同名称">
-            <el-input readonly v-model="dataForm.conName"></el-input>
+            <el-input readonly disabled v-model="dataForm.conName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="conTotal" label="合同金额">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
+            <el-input readonly disabled v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="companyName" label="合同对方企业名称" label-width="140px">
-            <el-input readonly v-model="dataForm.companyName"></el-input>
+            <el-input readonly disabled v-model="dataForm.companyName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proSubCompany" label="所属公司">
-            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+            <el-input readonly disabled v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <t-dic-dropdown-select dicType="tax_method" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-dropdown-select>
+            <t-dic-dropdown-select disabled dicType="tax_method" v-model="dataForm.taxMethod" :readOnly="false"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="applyAmount" label="申请金额">
-            <el-input readonly v-model="dataForm.applyAmount"></el-input>
+            <el-input readonly disabled v-model="dataForm.applyAmount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="4">
+        <el-col :span="12">
           <el-form-item prop="province" label="外出经营地">
-            <el-input readonly v-model="dataForm.province"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="city" label="">
-            <el-input readonly v-model="dataForm.city"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="district" label="">
-            <el-input readonly v-model="dataForm.district"></el-input>
+            <t-region-picker disabled :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
+                             :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="address" label="">
-            <el-input readonly v-model="dataForm.address"></el-input>
+          <el-form-item prop="address" label="详细地址">
+            <el-input disabled v-model="dataForm.address"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

@@ -21,7 +21,9 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="amount" label="划款金额">
-            <el-input v-model="dataForm.amount"></el-input>
+            <t-number-input v-model="dataForm.amount">
+              <span slot="append">元</span>
+            </t-number-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -58,55 +60,84 @@
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="所属分公司">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="所属事业部">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="建设单位">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="合同模式">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="投资金额">
-            <el-input readonly v-model="dataForm.pId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="pId" label="工程类别">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.paymentType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="unionCompany" label="项目规模">
-            <el-input v-model="dataForm.unionCompany"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="8">
+            <el-form-item label="项目名称：" prop="proName">
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" disabled></t-project-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属分公司：">
+              <el-input  v-model="dataForm.proSubCompany" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBusDept" label="所属事业部：">
+              <el-input  v-model="dataForm.proBusDept" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
+              <el-input  v-model="dataForm.proConstructCompany" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="合同模式：" prop="proContractAttr">
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     disabled></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proTotalInvestment" label="投资金额：">
+              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="工程类别：" prop="proType">
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     disabled></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经营方式：" prop="proRunMode">
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     disabled></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
+              <el-input  v-model="dataForm.proBuildArea" disabled></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'诉讼信息'"></t-sub-title>
+        <t-sub-title :title="'诉讼信息'"></t-sub-title>
+        <el-table :data="litigationData" border style="width: 100%">
+          <el-table-column prop="litigationCode" label="诉讼编号" min-width="100"></el-table-column>
+          <el-table-column prop="freezingAmount" label="冻结金额"></el-table-column>
+          <el-table-column prop="sign" label="标记人"></el-table-column>
+          <el-table-column prop="signTime" label="标记时间" width="180"></el-table-column>
+          <el-table-column prop="owingtoUnionCompany" label="是否与联营单位有关" min-width="160">
+            <template slot-scope="scope">
+              <span>{{ $util.dataDicFormat('yes_or_no', scope.row.owingtoUnionCompany) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="remark" label="说明"></el-table-column>
+          <el-table-column prop="litigationStatus" label="当前状态" min-width="100">
+            <template slot-scope="scope">
+              <span>{{ $util.dataDicFormat('litigation_status', scope.row.litigationStatus) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="cancelTime" label="取消时间" min-width="160"></el-table-column>
+<!--          <el-table-column align="center" min-width="100">-->
+<!--            <template slot-scope="scope">-->
+<!--              &lt;!&ndash; 标记中的状态才需要展示该按钮 &ndash;&gt;-->
+<!--              <el-button v-if="scope.row.litigationStatus === 'marking'" size="mini" type="danger"-->
+<!--                         @click="cancelLitigation(scope.row)">取消诉讼-->
+<!--              </el-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+        </el-table>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'附件上传'"></t-sub-title>
@@ -128,10 +159,38 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        litigationData: [],
         dataForm: {
-          bId: '',pId: '',proRunMode: '',unionCompany: '',amount: '',bankName: '',accountNum: '',sign: '',signTime: new Date(),
-          propose: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          bId: '',pId: '',proRunMode: '',unionCompany: '',amount: '',bankName: '',accountNum: '',sign: '',signTime: '',
+          propose: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',  proSubCompany:'',
+          pcId:'',proName:'',proBuildArea:'',proType:'',proTotalInvestment:'',proContractAttr:'',proConstructCompany:'',
+          proBusDept:''
+        },
         dataRule: {
+          proBuildArea:[
+            { required: true, message: '计划项目规模不能为空', trigger: 'blur' }
+          ],
+          proContractAttr:[
+            { required: true, message: '合同模式不能为空', trigger: 'blur' }
+          ],
+          proConstructCompany:[
+            { required: true, message: '建设单位不能为空', trigger: 'blur' }
+          ],
+          proTotalInvestment:[
+            { required: true, message: '投资金额不能为空', trigger: 'blur' }
+          ],
+          proBusDept:[
+            { required: true, message: '所属事业部不能为空', trigger: 'blur' }
+          ],
+          proSubCompany:[
+            { required: true, message: '所属分公司不能为空', trigger: 'blur' }
+          ],
+          proType:[
+            { required: true, message: '工程类别不能为空', trigger: 'blur' }
+          ],
+          proName:[
+            { required: true, message: '项目名称不能为空', trigger: 'blur' }
+          ],
           bId: [
             { required: true, message: '业务id用于和一个流程实例绑定不能为空', trigger: 'blur' }
           ],
@@ -197,6 +256,20 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      getSelectedProject(project) {
+        console.log('current project', project)
+        this.dataForm.proSubCompany = project.proSubCompany
+        this.dataForm.proBusDept = project.proBusDept
+        this.dataForm.proConstructCompany = project.proConstructCompany
+        this.dataForm.proContractAttr = project.proContractAttr
+        this.dataForm.proTotalInvestment = project.proTotalInvestment
+        this.dataForm.proType = project.proType
+        this.dataForm.proRunMode = project.proRunMode
+        this.dataForm.proBuildArea = project.proBuildArea
+        this.dataForm.proName = project.proName
+        this.dataForm.pId = project.id
+        this.getLitigationList(this.dataForm.pId)
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
@@ -230,6 +303,18 @@
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })
         }
+      },
+      // 获取诉讼信息
+      getLitigationList(value) {
+        const params = {
+          pId: value
+        };
+        tapp.services.proLitigation.getList(params).then(res => {
+          console.log('获取诉讼信息', res);
+          this.litigationData = res
+        }).catch(err => {
+          console.log('获取诉讼信息 错误', err)
+        })
       },
       // 表单提交
       doSave () {

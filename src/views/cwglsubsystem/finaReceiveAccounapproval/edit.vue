@@ -240,8 +240,10 @@
       onLNumFlag(){
         if (this.dataForm.rWay == 'promise_draft') {
           this.lNumflag = false
+          this.dataRule.lNum[0].required = true
         } else {
           this.lNumflag = true
+          this.dataRule.lNum[0].required = false
         }
       },
 
