@@ -110,18 +110,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="8"  v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
-          <el-form-item label="管理费" prop="conDepositO">
-            <t-int-input v-model="dataForm.conDepositO" :readOnly="readOnly" disabled>
+          <el-form-item label="管理费" prop="proUnionCompanyMerateO">
+            <t-int-input v-model="dataForm.proUnionCompanyMerateO" :readOnly="readOnly" disabled>
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item label="有无借款：" prop="isBorrowing" v-if="dataForm.proRunModeO === 'proprietary'">
-            <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrowing" :readOnly="readOnly" disabled></t-dic-dropdown-select>
+        <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary'">
+          <el-form-item label="有无借款：" prop="isBorrow">
+            <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrow" :readOnly="readOnly" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary'">
+        <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary' && dataForm.isBorrow === 'have'">
           <el-form-item prop="proContacter" label="">
             <a>借还款信息</a>
           </el-form-item>
@@ -189,8 +189,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary' || dataForm.proRunMode === 'proprietary_pool'">
-          <el-form-item prop="proUnionCompanyContacterO" label="公司负责人：">
-            <el-input v-model="dataForm.proUnionCompanyContacterO"></el-input>
+          <el-form-item prop="proUnionCompanyContacter" label="公司负责人：">
+            <el-input v-model="dataForm.proUnionCompanyContacter"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
@@ -223,8 +223,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
-          <el-form-item prop="conDepositO" label="本合同履约保证金：">
-            <el-input v-model="dataForm.conDepositO"></el-input>
+          <el-form-item prop="conDeposit" label="本合同履约保证金：">
+            <el-input v-model="dataForm.conDeposit"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -312,7 +312,14 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          isBorrowing:''
+          isBorrow:'',
+          conDepositInfoList:[], //合同履约保证金
+          cashDepositTotal:'',
+          otherConTotal:'',
+          otherHzTotal:'',
+          propertyTotal:'',
+          getAmountTotal:'',
+          returnAmountTotal:''
         },
         dataRule: {
           pId: [
@@ -406,7 +413,6 @@
                 this.dataForm.createuser = result.proRunmodeChageApproval.createuser;
                 this.dataForm.updateuser = result.proRunmodeChageApproval.updateuser;
                 this.dataForm.datastatus = result.proRunmodeChageApproval.datastatus;
-                this.dataForm.isBorrowing = result.proRunmodeChageApproval.isBorrowing
               })
             }
           })
@@ -448,8 +454,18 @@
         this.dataForm.proFitoutRate = project.proFitoutRate;
         this.dataForm.proUnionCompanyO = project.proUnionCompany;
         this.dataForm.proIsBim = project.proIsBim;
-        this.dataForm.isBorrowing = project.isBorrowing;
+        this.dataForm.isBorrow = project.isBorrow;
         this.dataForm.proUnionCompanyContacterO = project.proCompanyHeader;
+        this.dataForm.conSelfRateO = project.conSelfProportion;
+        this.dataForm.conUnionCompanyRateO = project.conOtherProportion;
+        this.dataForm.conDepositO = project.conDeposit;
+        this.dataForm.conDepositInfoList = project.conDepositInfoList;
+        this.dataForm.cashDepositTotal = project.cashDepositTotal;
+        this.dataForm.otherConTotal = project.otherConTotal;
+        this.dataForm.otherHzTotal = project.otherHzTotal;
+        this.dataForm.propertyTotal = project.propertyTotal;
+        this.dataForm.getAmountTotal = project.getAmountTotal;
+        this.dataForm.returnAmountTotal = project.returnAmountTotal;
       },
       // 表单提交
       doSave () {
