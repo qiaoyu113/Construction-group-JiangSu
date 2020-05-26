@@ -5,7 +5,7 @@
         <t-dic-dropdown-select ref="province" dicType="base_region" v-model="_province" :readOnly="readOnly" :disabled="disabled" @input="provinceChange"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
-    <el-col :span="8" style="padding-left: 0;padding-right: 0;">
+    <el-col :span="8" style="padding-left: 0;padding-right: 2px;">
       <el-form-item prop="city" :rules="dataRules.city">
         <t-dic-dropdown-select ref="cityPicker" :dataisgood="currentProvince.items" v-model="_city" :readOnly="readOnly" :disabled="disabled" @input="cityChange"></t-dic-dropdown-select>
       </el-form-item>
