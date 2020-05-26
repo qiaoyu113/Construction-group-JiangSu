@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="task-detail">
     <el-tabs v-model="activeName">
       <el-tab-pane label="详细信息" name="first">
         <router-view></router-view>
