@@ -16,7 +16,7 @@
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="所属地区" prop="region">
-              <t-region-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province" :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city" :district.sync="gridOptions.dataSource.serviceInstanceInputParameters.district"  :required="false"></t-region-picker>
+              <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province" :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city" :required="false"></t-region-s-picker>
             </el-form-item>
           </el-col>
 
@@ -86,7 +86,6 @@ export default {
               keyType: null,
               province: null,
               city: null,
-              district: null,
               dateRange1: '',
               dateRange2: ''
             }

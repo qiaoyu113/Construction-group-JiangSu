@@ -48,7 +48,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -161,7 +161,6 @@
           actTaskKey: '',
           province: '',
           city: '',
-          district: '',
           keyType: '',
           authCompany: '',
           loginUsername: '',

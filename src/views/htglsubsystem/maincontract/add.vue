@@ -41,8 +41,8 @@
         <el-col :span="16">
           <el-form-item label="项目地址：" prop="pro_address">
             <el-row type="flex" justify="space-between">
-              <el-col :span="16">
-                <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
+              <el-col :span="8">
+                <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
               </el-col>
               <el-col :span="8">
                 <el-form-item prop="proAddressDetail">
@@ -325,7 +325,6 @@
           datastatus: '',
           province: '',
           city: '',
-          district: '',
         },
         dataRule: {
         }
