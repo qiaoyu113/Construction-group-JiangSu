@@ -58,9 +58,9 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="16">
+        <el-col :span="8">
           <el-form-item prop="region" label="项目地址：" class="is-required">
-            <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
+            <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -289,7 +289,6 @@
           datastatus: '',
           province: '',
           city: '',
-          district: ''
         },
         dataRule: {
           pId: [

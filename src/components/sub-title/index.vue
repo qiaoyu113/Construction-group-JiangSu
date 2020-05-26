@@ -45,7 +45,7 @@ export default {
 @import '../../assets/scss/_variables.scss';
 .sub-title .title {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 11px;
   color: #333;
   padding: 0 0 12px 0;
   z-index: 100;
@@ -55,11 +55,11 @@ export default {
 .sub-title .title:after {
   content: '';
   background: #5E98F8;
-  height: 7px;
+  height: 5px;
   position: relative;
   display: block;
   border-radius:8px;
-  transform: translate(20px, -6px);
+  transform: translate(10px, -3px);
   opacity: 0.7;
   z-index: 1;
 }
@@ -67,7 +67,7 @@ export default {
   margin-top: 0;
 }
 .sub-title .extra {
-  font-size: 14px;
+  font-size: 11px;
   color: #5E98F8;
   margin-left: 25px;
   padding-top: 2px;

@@ -11,81 +11,81 @@
       <el-button v-if="isEdit" type="primary" icon="el-icon-delete" @click="doDelete">删除</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="90px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item prop="province" label="所属地区">
-              <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
+          <el-col :span="8">
+            <el-form-item prop="province" label="所属地区：" class="is-required">
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="keyType" label="类别名称">
+            <el-form-item prop="keyType" label="类别名称：">
               <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
                                       :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="authCompany" label="批准单位">
+            <el-form-item prop="authCompany" label="批准单位：">
               <el-input v-model="dataForm.authCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="loginUsername" label="登陆网名">
+            <el-form-item prop="loginUsername" label="登陆网名：">
               <el-input v-model="dataForm.loginUsername"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="loginUrl" label="登陆网址">
+            <el-form-item prop="loginUrl" label="登陆网址：">
               <el-input v-model="dataForm.loginUrl"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
+            <el-form-item label="有效期至：" prop="expirationDate" verify class="is-required">
               <t-datetime-picker v-model="dataForm.expirationDate" type="date">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="account" label="用户名">
+            <el-form-item prop="account" label="用户名：">
               <el-input v-model="dataForm.account" placeholder="如无用户名，请填无"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="password" label="密码">
+            <el-form-item prop="password" label="密码：">
               <el-input v-model="dataForm.password" placeholder="如无密码，请填无"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="principalId" label="主要负责人">
+            <el-form-item prop="principalId" label="主要负责人：">
               <t-maincharge-select v-model="dataForm.principalId" @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="useScenes" label="用途">
+            <el-form-item prop="useScenes" label="用途：">
               <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申请时间" prop="applyforDate" >
+            <el-form-item label="申请时间：" prop="applyforDate" >
               <t-datetime-picker v-model="dataForm.applyforDate" type="date"  >
               </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="keyColor" label="密匙颜色">
+            <el-form-item prop="keyColor" label="密匙颜色：">
               <el-input v-model="dataForm.keyColor"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
+            <el-form-item prop="existElectMark" label="是否有电子签章功能：" label-width="180px">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
                                   :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -94,12 +94,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
+          <el-form-item prop="sign" label="登记人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="登记时间">
+          <el-form-item prop="signTime" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -132,7 +132,6 @@
           actTaskKey: '',
           province: '',
           city: '',
-          district: '',
           keyType: '',
           authCompany: '',
           loginUsername: '',

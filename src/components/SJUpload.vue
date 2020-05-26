@@ -18,34 +18,16 @@
         <div slot="header" class="clearfix" v-if="disabled==false">
           <!-- <span>{{selectedCategoryItemName}}</span> -->
           <div style="float: left; padding: 3px 0">
-            <div class="btns " style="float:left; width:88px;height:56px;">
+            <div class="btns " style="float:left;border-radius: 6px;width:88px;height:27px;">
             </div>
-            <div style="float:left;width:88px;height:56px;">
-              <el-button  type="primary" @click="handleGlobalPreview()" style="
-                  padding: 10px;
-                  border-radius:2px;
-                  width:86px;
-                  line-height: 1px;
-                  height: 36px;
-              ">文件预览</el-button>
+            <div style="float:left;width:88px;">
+              <el-button  type="primary" @click="handleGlobalPreview()" >文件预览</el-button>
             </div>
-            <div style="float:left;width:88px;height:56px;">
-              <el-button  type="primary" @click="switchItemViewModel()" style="
-                  padding: 10px;
-                  border-radius:2px;
-                  width:86px;
-                  line-height: 1px;
-                  height: 36px;
-              ">{{switchItemViewModelButtonText}}</el-button>
+            <div style="float:left;width:88px;">
+              <el-button  type="primary" @click="switchItemViewModel()">{{switchItemViewModelButtonText}}</el-button>
             </div>
-            <div style="float:left;width:88px;height:56px;">
-              <el-button  type="danger" @click="doItemBatchDelete()" :disabled="selectedItemRows.length <= 0" style="
-                  padding: 10px;
-                  border-radius:2px;
-                  width:86px;
-                  line-height: 1px;
-                  height: 36px;
-              ">批量删除</el-button>
+            <div style="float:left;width:88px;">
+              <el-button  type="danger" @click="doItemBatchDelete()" :disabled="selectedItemRows.length <= 0" >批量删除</el-button>
             </div>
 
           </div>

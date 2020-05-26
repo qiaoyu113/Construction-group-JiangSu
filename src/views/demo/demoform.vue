@@ -229,10 +229,17 @@
               </el-row>
               <el-row :gutter="0">
                 <el-col :span="16">
-                  <el-form-item label="所属地区" prop="region" class="is-required">
+                  <el-form-item label="所属地区" prop="region1" class="is-required">
                     <!-- v-model 请绑定当前页面的对应值 -->
                     <t-region-picker :province.sync="docEntity.province" :city.sync="docEntity.city" :district.sync="docEntity.district"
                                      :readOnly="readOnly"></t-region-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="所属地区" prop="region2" class="is-required">
+                    <!-- v-model 请绑定当前页面的对应值 -->
+                    <t-region-s-picker :province.sync="docEntity.province2" :city.sync="docEntity.city2"
+                                     :readOnly="readOnly"></t-region-s-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -542,7 +549,9 @@
           customerCardNOAddress: null,
           province: '',
           city: '',
-          district: ''
+          district: '',
+          province2: '',
+          city2: '',
         },
         input: '',
         formInfo: '',

@@ -41,8 +41,8 @@
         <el-col :span="16">
           <el-form-item label="项目地址：" prop="pro_address">
             <el-row type="flex" justify="space-between">
-              <el-col :span="16">
-                <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
+              <el-col :span="8">
+                <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
               </el-col>
               <el-col :span="8">
                 <el-form-item prop="proAddressDetail">
@@ -188,45 +188,47 @@
           <el-form-item prop="conPayWay" label="付款方式：">
             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
           </el-form-item>
+          <el-form-item prop="conPayWay" label="付款方式：">
+            <el-input v-model="dataForm.conTotal"></el-input>
+          </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同额">
-            <t-number-input v-model="dataForm.conTotal" @change="onStartDateRangeChangedallAmount">
+            <el-input v-model="dataForm.conTotal">
               <span slot="append">万元</span>
-            </t-number-input>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="10">
+      <el-row :gutter="20">
         <el-col :span="4">
           <el-form-item prop="conTotal" label="金额大写：">
-           <span>{{$util.moneyArabiaToChinese(dataForm.conTotal)}}</span>
+            <span>{{$util.moneyArabiaToChinese(dataForm.conTotal)}}</span>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item prop="conSelfProportion" label="自营占比：">
-            <t-int-input v-model="dataForm.	conSelfProportion" @change="onStartDateRangeChangedselfAmount">
+        <el-col :span="5">
+          <el-form-item prop="	conSelfProportion" label="自营占比：">
+            <t-int-input v-model="dataForm.	conSelfProportion">
               <span slot="append">%</span></t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item prop="selfAmount" label="合同额：">
-            <t-number-input v-model="dataForm.selfAmount" :readOnly="readOnly" disabled>
-              <span slot="append">万元</span></t-number-input>
-            <!--<span>{{moneyProprietaryTransformation(dataForm.conSelfProportion)}}</span>-->
+        <el-col :span="5">
+          <el-form-item prop="datastatus" label="合同额：">
+            <t-int-input v-model="dataForm.datastatus" :readOnly="readOnly" disabled>
+              <span slot="append">万元</span></t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item prop="conOtherProportion" label="联营占比：" >
-            <t-int-input v-model="dataForm.conOtherProportion" @change="onStartDateRangeChangedjointAamount">
+        <el-col :span="5">
+          <el-form-item prop="conOtherProportion" label="联营占比：">
+            <t-int-input v-model="dataForm.conOtherProportion">
               <span slot="append">%</span>
             </t-int-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item prop="jointAamount" label="合同额：">
-            <t-number-input v-model="dataForm.jointAamount" :readOnly="readOnly" disabled>
-              <span slot="append">万元</span></t-number-input>
+        <el-col :span="5">
+          <el-form-item prop="datastatus" label="合同额：">
+            <t-int-input v-model="dataForm.datastatus" :readOnly="readOnly" disabled>
+              <span slot="append">万元</span></t-int-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -236,8 +238,7 @@
       <el-row :gutter="20">
         <el-col :span="14">
           <el-form-item prop="datastatus" label="联营公司名称：">
-           <!-- <el-input v-model="dataForm.datastatus" ></el-input>-->
-            <t-contin-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-contin-select>
+            <el-input v-model="dataForm.datastatus" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -324,9 +325,6 @@
           datastatus: '',
           province: '',
           city: '',
-          selfAmount: '',
-          jointAamount: '',
-          district: '',
         },
         dataRule: {
         }
@@ -379,25 +377,6 @@
               this.dataForm.companyName = result.companyName;
             })
         })
-      },
-      getSelectedProject2(project) {
-
-      },
-      onStartDateRangeChangedallAmount(val) {
-        debugger;
-        let conSelfProportion=this.dataForm.conSelfProportion;
-        let conOtherProportion=this.dataForm.conOtherProportion;
-        if(conSelfProportion>0){
-          this.dataForm.selfAmount = conSelfProportion/100 * val;
-        }if(conOtherProportion>0){
-          this.dataForm.jointAamount = conOtherProportion/100 * val;
-        }
-      },
-      onStartDateRangeChangedselfAmount(val) {
-        this.dataForm.selfAmount = this.dataForm.conTotal * val/100;
-      },
-      onStartDateRangeChangedjointAamount(val) {
-        this.dataForm.jointAamount = this.dataForm.conTotal * val/100;
       },
       // 初始化 编辑和新增 2种情况
       init(id) {

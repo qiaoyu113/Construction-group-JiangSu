@@ -50,8 +50,8 @@
             <el-form-item label="项目地址：" prop="pro_address">
               <el-row type="flex" justify="space-between">
                 <el-col :span="10">
-                  <t-region-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :district.sync="dataForm.proAddressDistrict"
-                                   :readOnly="readOnly"></t-region-picker>
+                  <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity"
+                                   :readOnly="readOnly"></t-region-s-picker>
                 </el-col>
                 <el-col :span="13">
                   <el-form-item prop="proAddressDetail">
@@ -346,7 +346,6 @@
           proConstructCompanyAttr: '',
           proAddressProvince: '',
           proAddressCity: '',
-          proAddressDistrict: '',
           proAddressDetail: '',
           proTotalInvestment: '',
           proSubCompany: '',

@@ -45,7 +45,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proAddressProvince" label="项目地点">
-              <t-region-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :district.sync="dataForm.proAddressDistrict" ></t-region-picker>
+              <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -172,7 +172,6 @@
           proIntroduce: '',
           proAddressProvince: '',
           proAddressCity: '',
-          proAddressDistrict: '',
           proAddressDetail: '',
           proConstructCompany: '',
           proConstructCompanyAttr: '',
@@ -343,16 +342,6 @@
           });
           return false;
         });
-      },
-      getProvince (proAddressProvince) {
-        console.log('proAddressProvince', proAddressProvince)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressProvince = proAddressProvince
-      },
-      getCity (proAddressCity) {
-        console.log('proAddressCity', proAddressCity)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressCity = proAddressCity
       },
     }
   }
