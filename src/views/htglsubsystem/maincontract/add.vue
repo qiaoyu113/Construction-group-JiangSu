@@ -324,12 +324,9 @@
           datastatus: '',
           province: '',
           city: '',
-<<<<<<< HEAD
           selfAmount: '',
           jointAamount: '',
           district: '',
-=======
->>>>>>> origin/master
         },
         dataRule: {
         }
