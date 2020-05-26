@@ -20,47 +20,48 @@
       <t-sub-title :title="'付款申请信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="pId" label="项目名称">
-            <el-input v-model="dataForm.pId" :readonly="true"></el-input>
+          <el-form-item prop="proName" label="项目名称">
+            <t-bank-project-select placeholder="选择项目信息" v-model="dataForm.proName" @selectedData="getSelectedProject"></t-bank-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proRunMode" label="经营模式">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" @change="onProRunMode"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="proRunMode" label="项目合同额">
-            <el-input v-model="dataForm.proRunMode" :readonly="true"></el-input>
+          <el-form-item prop="conTotal" label="项目合同额">
+            <el-input v-model="dataForm.conTotal" :readonly="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
       <el-col :span="8">
           <el-form-item prop="fundPurpose" label="资金用途">
-            <t-dic-dropdown-select dicType="money_source" v-model="dataForm.fundPurpose"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="user_funds" :disabled="fundPurposeDisabled" v-model="dataForm.fundPurpose"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="paymentType" label="本次付款类型">
-            <t-dic-dropdown-select dicType="1260907717166501889" v-model="dataForm.paymentType"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="payment_type" v-model="dataForm.paymentType" @change="onPaymentAmount"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="scId" label="子合同名称">
-            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
+        <el-col :span="8" :hidden="scConNameFlag">
+          <el-form-item prop="scConName" label="子合同名称">
+            <t-cont-subcontract-spproval v-model="dataForm.scConName" @selectedData="getSelected">
+            </t-cont-subcontract-spproval>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="scId" label="子合同编号">
-            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
+        <el-col :span="8" :hidden="scConCodeFlag">
+          <el-form-item prop="scConCode" label="子合同编号">
+            <el-input :readonly="true" v-model="dataForm.scConCode"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item prop="scId" label="子合同金额">
-            <el-input :readonly="true" v-model="dataForm.scId"></el-input>
+        <el-col :span="8" :hidden="scConTotalFlag">
+          <el-form-item prop="scConTotal" label="子合同金额">
+            <el-input :readonly="true" v-model="dataForm.scConTotal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -99,17 +100,17 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="8" :hidden="scTotalReceivedFlag">
           <el-form-item prop="scTotalReceived" label="当前子合同累计已付款" label-width="180px">
             <el-input :readonly="true" v-model="dataForm.scTotalReceived"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :hidden="scTotalReceivedRatioFlag">
           <el-form-item prop="scTotalReceivedRatio" label="当前子合同累计已付款比例" label-width="200px">
             <el-input :readonly="true" v-model="dataForm.scTotalReceivedRatio"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" :hidden="afterThisRatioFlag">
           <el-form-item prop="afterThisRatio" label="累计付款比例">
             <el-input :readonly="true" v-model="dataForm.afterThisRatio"></el-input>
           </el-form-item>
@@ -145,7 +146,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item prop="remark" label="备注">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            <el-input type="textarea"  v-model="dataForm.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -153,32 +154,32 @@
       <el-card shadow="never">
       <t-sub-title :title="'收款单位信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="12" :hidden="receiveCompanyFlag">
           <el-form-item prop="receiveCompany" label="收款单位">
             <el-input v-model="dataForm.receiveCompany"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :hidden="bankNameFlag">
           <el-form-item prop="bankName" label="开户行名称">
             <el-input v-model="dataForm.bankName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :hidden="bankAccountNameFlag">
           <el-form-item prop="bankAccountName" label="银行帐户名称">
             <el-input v-model="dataForm.bankAccountName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :hidden="bankAccountFlag">
           <el-form-item prop="bankAccount" label="银行帐号">
             <el-input v-model="dataForm.bankAccount"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :hidden="contacterFlag">
           <el-form-item prop="contacter" label="联系人">
             <el-input v-model="dataForm.contacter"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :hidden="contacterTelFlag">
           <el-form-item prop="contacterTel" label="联系电话">
             <el-input v-model="dataForm.contacterTel"></el-input>
           </el-form-item>
@@ -201,18 +202,49 @@
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        afterThisRatioFlag: true,
+        scTotalReceivedRatioFlag: true,
+        scTotalReceivedFlag: true,
+        scConTotalFlag: false,
+        scConCodeFlag: false,
+        scConNameFlag: false,
+        contacterTelFlag: false,
+        contacterFlag: false,
+        bankAccountFlag: false,
+        bankAccountNameFlag: false,
+        bankNameFlag: false,
+        receiveCompanyFlag: false,
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        fundPurposeDisabled: false,
+        conNameFlag:true,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',scId: '',paymentType: '',
           fundPurpose: '',processBranch: '',paymentWay: '',totalReceived: '',
           totalReceivedRatio: '',totalPayment: '',scTotalReceived: '',scTotalReceivedRatio: '',
           paymentAmount: '',afterThisRatio: '',leftoverAmount: '',leftoverAmountRatio: '',receiveCompany: '',
           bankName: '',bankAccountName: '',bankAccount: '',contacter: '',contacterTel: '',approvalStatus: '',sign: '',
-          signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',
+          conCode:'',conName:'',scConTotal:'',scConCode:'',scConName:''
+        },
         dataRule: {
+          scConTotal: [
+            { required: true, message: '子合同金额不能为空', trigger: 'blur' }
+          ],
+          scConCode: [
+            { required: true, message: '子合同编码不能为空', trigger: 'blur' }
+          ],
+          scConName: [
+            { required: true, message: '子合同名称不能为空', trigger: 'blur' }
+          ],
+          conCode: [
+            { required: true, message: '合同编码不能为空', trigger: 'blur' }
+          ],
+          conName: [
+            { required: true, message: '合同名称不能为空', trigger: 'blur' }
+          ],
           pId: [
             { required: true, message: '项目不能为空', trigger: 'blur' }
           ],
@@ -285,7 +317,6 @@
           contacterTel: [
             { required: true, message: '联系电话不能为空', trigger: 'blur' }
           ],
-
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -313,6 +344,69 @@
         currentUser: state => state.app.user,  })
     },
     methods: {
+      // 本次付款类型事件
+      onPaymentAmount(){
+        this.scConNameFlag = false
+        this.scConCodeFlag = false
+        this.scConTotalFlag = false
+        this.contacterTelFlag = false
+        this.contacterFlag = false
+        this.bankAccountFlag = false
+        this.bankAccountNameFlag = false
+        this.bankNameFlag = false
+        this.receiveCompanyFlag = false
+        this.afterThisRatioFlag = true
+        this.scTotalReceivedRatioFlag = true
+        this.scTotalReceivedFlag = true
+        // alert(this.dataForm.paymentType)
+        if ('other_payment' == this.dataForm.paymentType || 'cnhpglf' == this.dataForm.paymentType) {
+          if ('cnhpglf' == this.dataForm.paymentType) {
+            this.scConNameFlag = true
+            this.scConCodeFlag = true
+            this.scConTotalFlag = true
+            this.afterThisRatioFlag = true
+            this.scTotalReceivedRatioFlag = true
+            this.scTotalReceivedFlag = true
+          }
+          this.contacterFlag = true
+          this.bankAccountFlag = true
+          this.bankAccountNameFlag = true
+          this.bankNameFlag = true
+          this.receiveCompanyFlag = true
+        }
+      },
+      // 经营模式
+      onProRunMode(){
+        if (this.dataForm.proRunMode == 'pool' || this.dataForm.proRunMode == 'proprietary') {
+          this.dataForm.fundPurpose = 'user_' + this.dataForm.proRunMode
+          this.fundPurposeDisabled = true
+        } else {
+          this.dataForm.fundPurpose = ''
+          this.fundPurposeDisabled = false
+        }
+      },
+      // 选择项目到账信息
+      getSelectedProject(data) {
+        // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
+        this.dataForm.proName = data.proName
+        this.dataForm.proCode = data.proCode
+        this.dataForm.pId = data.pId
+        this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.proRunMode = data.proRunMode
+        this.dataForm.conTotal = data.conTotal
+        this.conNameFlag = false
+        this.onProRunMode()
+      },
+      // 选择自合同信息
+      getSelected(data){
+        this.dataForm.scId = data.id
+        this.dataForm.scConName = data.conName
+        this.dataForm.scConCode = data.conCode
+        this.dataForm.scConTotal = data.conTotal
+        this.afterThisRatioFlag = false
+        this.scTotalReceivedRatioFlag = false
+        this.scTotalReceivedFlag = false
+      },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
