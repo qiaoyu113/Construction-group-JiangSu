@@ -244,15 +244,19 @@
       <el-card shadow="never" v-if="showDepositInfo">
       <t-sub-title :title="'合同保证金信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="14">
-          <el-form-item prop="datastatus" label="联营公司名称：">
-           <!-- <el-input v-model="dataForm.datastatus" ></el-input>-->
-            <!--<t-contin-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-contin-select>-->
+        <el-col :span="8">
+          <el-form-item prop="companyName" label="联营公司名称：">
+           <el-input v-model="dataForm.companyName" :disabled="true"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="datastatus" label="本合同保证金额：" label-width="130px">
-            <el-input v-model="dataForm.datastatus" readOnly></el-input>
+          <el-form-item>
+            <div>已交总保证金额：{{depositTotal}}万元</div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="currentDeposit" label="本合同保证金额：" label-width="130px">
+            <el-input v-model="currentDeposit" readOnly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,6 +312,8 @@
         showOtherWay: false,
         showProprietaryPool: false,
         showDepositInfo: false,
+        depositTotal: 0,
+        currentDeposit: 0,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -342,6 +348,8 @@
           district: '',
           companyName: '',
           otherPayWay: '',
+          condeposiinfoData: {
+          },
         },
         dataRule: {
           otherPayWay: [{validator: this.isOtherPayWayEmpty, trigger: 'blur'}],
@@ -400,7 +408,9 @@
 
           let self = this;
           tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
+            console.log('result',result)
             self.dataForm.companyName = result.companyName;
+            self.dataForm.unionCompany = result.id;
           })
         })
       },
