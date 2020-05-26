@@ -19,8 +19,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conCode" label="项目编号：">
-            <el-input v-model="dataForm.conCode" readonly></el-input>
+          <el-form-item prop="proCode" label="项目编号：">
+            <el-input v-model="dataForm.proCode" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,8 +124,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="approvalStatus" label="联营公司名称：">
-            <el-input v-model="dataForm.approvalStatus" readonly></el-input>
+          <el-form-item prop="companyName" label="联营公司名称：">
+            <el-input v-model="dataForm.companyName" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -150,7 +150,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conCode" label="合同编号：">
-            <el-input v-model="dataForm.conCode"></el-input>
+            <el-input v-model="dataForm.conCode" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -187,6 +187,9 @@
         <el-col :span="8">
           <el-form-item prop="conPayWay" label="付款方式：">
             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
+          </el-form-item>
+          <el-form-item prop="conPayWay" label="付款方式：">
+            <el-input v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -273,7 +276,7 @@
       <t-sub-title :title="'合同收款条件'"></t-sub-title>
       <el-row :gutter="20">
           <el-form-item prop="datastatus" verify can-be-empty :maxLength="200">
-            <el-input type="textarea"></el-input>
+            <el-input type="textarea" v-model="dataForm.datastatus" readOnly></el-input>
           </el-form-item>
       </el-row>
       </el-card>
@@ -333,9 +336,7 @@
     },
     methods: {
       getSelectedProject(project) {
-        console.log('=====',project.proCode);
-        console.log('current project', project);
-        this.dataForm.conCode = project.proCode;
+        this.dataForm.proCode = project.proCode;
         this.dataForm.proSubCompany = project.proSubCompany;
         this.dataForm.proBusDept = project.proBusDept;
         this.dataForm.proConstructCompany = project.proConstructCompany;
@@ -355,11 +356,28 @@
         this.dataForm.proDriveSubject = project.proDriveSubject;
         this.dataForm.proContractAttr = project.proContractAttr;
         this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proUnionCompany = project.proUnionCompany;
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
         this.dataForm.pcId = project.pcId;
+       /* let self = this;
+        tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
+          console.log('====',result);
+          console.log('====',result.companyName);
+          self.dataForm.companyName = result.companyName;
+        });*/
+
+        this.$nextTick(() => {
+          //let self = this;
+            tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
+              //self.$util.deepObjectAssign({}, self.dataForm, result)
+              console.log('====',result);
+              console.log('====',result.companyName);
+              this.dataForm.companyName = result.companyName;
+            })
+        })
       },
       // 初始化 编辑和新增 2种情况
       init(id) {
