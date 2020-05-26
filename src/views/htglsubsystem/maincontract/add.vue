@@ -41,10 +41,10 @@
         <el-col :span="16">
           <el-form-item label="项目地址：" prop="pro_address">
             <el-row type="flex" justify="space-between">
-              <el-col :span="8">
+              <el-col :span="9">
                 <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="14">
                 <el-form-item prop="proAddressDetail">
                   <el-input v-model="dataForm.proAddressDetail"></el-input>
                 </el-form-item>
@@ -188,7 +188,7 @@
           <el-form-item prop="conPayWay" label="付款方式：">
             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
           </el-form-item>
-          <el-form-item prop="conPayWay" label="付款方式：">
+          <el-form-item v-if="showOtherWay" prop="conPayWay" label="其他付款方式：">
             <el-input v-model="dataForm.conTotal"></el-input>
           </el-form-item>
         </el-col>
@@ -296,6 +296,7 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         readOnly: false,
+        showOtherWay: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -327,11 +328,24 @@
           city: '',
         },
         dataRule: {
+          conPayWay: [
+            {required: true, message: '付款方式不能为空',triger: 'blur'},
+          ]
         }
       }
     },
     created() {
       // this.init()
+    },
+    watch: {
+      'dataForm.conPayWay': {
+        handler: function(val) {
+          console.log('val', val);
+          if(val == 'other_pay_way') {
+            this.showOtherWay = true;
+          }
+        }
+      }
     },
     methods: {
       getSelectedProject(project) {
@@ -369,12 +383,12 @@
         });*/
 
         this.$nextTick(() => {
-          //let self = this;
+          let self = this;
             tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
               //self.$util.deepObjectAssign({}, self.dataForm, result)
               console.log('====',result);
               console.log('====',result.companyName);
-              this.dataForm.companyName = result.companyName;
+              self.dataForm.companyName = result.companyName;
             })
         })
       },
