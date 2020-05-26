@@ -116,7 +116,7 @@
 					grid: {
 						offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
-            maxHeight: '500px',
+            maxHeight: 350,
 						columns: [{
 								prop: 'proCode',
 								label: '项目编号',
