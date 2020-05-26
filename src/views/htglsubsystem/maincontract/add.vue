@@ -19,8 +19,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conCode" label="项目编号：">
-            <el-input v-model="dataForm.conCode" readonly></el-input>
+          <el-form-item prop="proCode" label="项目编号：">
+            <el-input v-model="dataForm.proCode" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -150,7 +150,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conCode" label="合同编号：">
-            <el-input v-model="dataForm.conCode"></el-input>
+            <el-input v-model="dataForm.conCode" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -234,8 +234,8 @@
       <t-sub-title :title="'合同保证金信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="14">
-          <el-form-item prop="datastatus" label="联营公司名称：">
-            <el-input v-model="dataForm.datastatus" disabled></el-input>
+          <el-form-item prop="companyName" label="联营公司名称：">
+            <el-input v-model="dataForm.companyName" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -273,7 +273,7 @@
       <t-sub-title :title="'合同收款条件'"></t-sub-title>
       <el-row :gutter="20">
           <el-form-item prop="datastatus" verify can-be-empty :maxLength="200">
-            <el-input type="textarea"></el-input>
+            <el-input type="textarea" v-model="dataForm.datastatus" readOnly></el-input>
           </el-form-item>
       </el-row>
       </el-card>
@@ -332,9 +332,7 @@
     },
     methods: {
       getSelectedProject(project) {
-        console.log('=====',project.proCode);
-        console.log('current project', project);
-        this.dataForm.conCode = project.proCode;
+        this.dataForm.proCode = project.proCode;
         this.dataForm.proSubCompany = project.proSubCompany;
         this.dataForm.proBusDept = project.proBusDept;
         this.dataForm.proConstructCompany = project.proConstructCompany;
@@ -397,6 +395,9 @@
                 self.dataForm.updateuser = result.updateuser
                 self.dataForm.datastatus = result.datastatus
                 self.dataForm.proBusDept = result.proBusDept
+                tapp.services.tContInfoApproval.get(id).then(function (result) {
+                  
+                });
               })
             }
           })
