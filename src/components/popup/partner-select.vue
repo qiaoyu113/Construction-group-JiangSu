@@ -97,6 +97,7 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            maxHeight: '350px',
             columns: [
               {
                 prop: 'companyName',

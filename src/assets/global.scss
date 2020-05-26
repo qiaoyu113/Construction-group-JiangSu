@@ -344,6 +344,9 @@ input[readonly="readonly"] {
       padding: 10px 20px 16px 20px;
     }
   }
+  .first-card .el-badge__content.is-fixed {
+    right: -10px;
+  }
 }
 
 .site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item.is-active {

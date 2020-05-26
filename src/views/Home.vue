@@ -16,13 +16,13 @@
     <el-row :gutter="0">
       <el-col :span="12">
           <div class="title">
-            <el-badge :value="12" class="item">
+            <el-badge :value="12" class="item first-card">
               我的待办
             </el-badge>
           </div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('1')">更多<v-icon name="angle-double-right"></v-icon></div>
+            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 9px"></icon-svg></div>
           </div>
           <div>
             <home-list type="1" showTag :list="list"></home-list>
@@ -51,7 +51,7 @@
         <div class="title">公告栏</div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('3')">更多<v-icon name="angle-double-right"></v-icon></div>
+            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 9px"></icon-svg></div>
           </div>
           <div>
             <home-list type="3" :notifications="notifications"></home-list>
@@ -65,7 +65,7 @@
             <div class="header-line" @click="handleMore('4')">
               <div style="color: #333;margin-right: 15px;display: flex;align-items:center;"><div class="doing"></div>审批中</div>
               <div style="color: #333;margin-right: 40px;display: flex;align-items:center;"><div class="done"></div>已审批</div>
-              更多<v-icon name="angle-double-right"></v-icon>
+              更多<icon-svg name="more" style="width: 9px"></icon-svg>
             </div>
           </div>
           <div>
@@ -84,7 +84,6 @@ export default {
   components: {HomeList},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       showTag: true,
       list: [
         { id: '1', type: '项目备案管理', title: '重大危险源文件审批', brief: 'xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人'},
@@ -157,6 +156,7 @@ export default {
     margin-left: 5px;
     z-index: 100;
     position: relative;
+    font-weight: 500;
   }
   .el-icon-message:before {
     font-size: 20px;
