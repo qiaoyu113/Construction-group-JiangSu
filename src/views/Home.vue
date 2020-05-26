@@ -16,13 +16,13 @@
     <el-row :gutter="0">
       <el-col :span="12">
           <div class="title">
-            <el-badge :value="12" class="item">
+            <el-badge :value="12" class="item first-card">
               我的待办
             </el-badge>
           </div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('1')">更多<v-icon name="angle-double-right"></v-icon></div>
+            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="1" showTag :list="list"></home-list>
@@ -34,7 +34,10 @@
         <el-card shadow="never">
           <div slot="header">
             <div class="header-line" @click="handleMessage()">
-              <el-badge :value="12" class="item"><i class="el-icon-message" width="30"></i></el-badge>
+              <el-badge :value="12" class="item">
+                <!-- <i class="el-icon-message" width="30"></i> -->
+                <icon-svg name="mail" style="width: 26px;"></icon-svg>
+              </el-badge>
             </div>
           </div>
           <div>
@@ -48,7 +51,7 @@
         <div class="title">公告栏</div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('3')">更多<v-icon name="angle-double-right"></v-icon></div>
+            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="3" :notifications="notifications"></home-list>
@@ -62,7 +65,7 @@
             <div class="header-line" @click="handleMore('4')">
               <div style="color: #333;margin-right: 15px;display: flex;align-items:center;"><div class="doing"></div>审批中</div>
               <div style="color: #333;margin-right: 40px;display: flex;align-items:center;"><div class="done"></div>已审批</div>
-              更多<v-icon name="angle-double-right"></v-icon>
+              更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg>
             </div>
           </div>
           <div>
@@ -81,7 +84,6 @@ export default {
   components: {HomeList},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       showTag: true,
       list: [
         { id: '1', type: '项目备案管理', title: '重大危险源文件审批', brief: 'xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人xxxxx项目-发起部门-发起时间-发起人'},
@@ -129,46 +131,50 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.header-line {
-  width: 100%;
-  color: #357EF7;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.title {
-  background: #357EF7 url("~@/assets/img/wave.png");
-  background-size: cover;
-  padding: 16px 32px;
-  height: fit-content;
-  width: fit-content;
-  color: #fff;
-  font-size: 16px;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow:0px 8px 6px rgba(0,0,0,0.16);
-  margin-bottom: -45px;
-  margin-left: 5px;
-  z-index: 100;
-  position: relative;
-}
-.el-icon-message:before {
-  font-size: 20px;
-}
-.done {
-  width:10px;
-  height:10px;
-  background:rgba(248,178,132,0.98);
-  border-radius:50%;
-  margin: 0 5px;
-}
-.doing {
-  width:10px;
-  height:10px;
-  background:rgba(41,146,69,0.67);
-  border-radius:50%;
-  margin: 0 5px;
+.home {
+  .header-line {
+    width: 100%;
+    color: #357EF7;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 11px;
+  }
+  .title {
+    background: #357EF7 url("~@/assets/img/wave.png");
+    background-size: cover;
+    padding: 10px 20px;
+    height: fit-content;
+    width: fit-content;
+    color: #fff;
+    font-size: 14px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow:0px 8px 6px rgba(0,0,0,0.16);
+    margin-bottom: -30px;
+    margin-left: 5px;
+    z-index: 100;
+    position: relative;
+    font-weight: 500;
+  }
+  .el-icon-message:before {
+    font-size: 20px;
+  }
+  .done {
+    width:10px;
+    height:10px;
+    background:rgba(248,178,132,0.98);
+    border-radius:50%;
+    margin: 0 5px;
+  }
+  .doing {
+    width:10px;
+    height:10px;
+    background:rgba(41,146,69,0.67);
+    border-radius:50%;
+    margin: 0 5px;
+  }
 }
 </style>
 

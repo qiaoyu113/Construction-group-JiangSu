@@ -58,10 +58,10 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="region" label="项目地址：" class="is-required">
-            <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+            <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="8">
           <el-form-item prop="conModality" label="项目总投资：">
             <el-input v-model="dataForm.conModality" readonly></el-input>
           </el-form-item>
@@ -403,12 +403,6 @@
           });
           return false;
         });
-      },
-      getProvince (province) {
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        this.dataForm.city = city
       },
     }
   }

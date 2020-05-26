@@ -16,7 +16,7 @@
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="所属地区" prop="region">
-              <t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province" @province="getProvince" @city="getCity" :required="false"></t-region-picker>
+              <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province" :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city" :required="false"></t-region-s-picker>
             </el-form-item>
           </el-col>
 
@@ -214,12 +214,6 @@ export default {
       },
       doRefresh () {
         this.$refs.searchReulstList.refresh()
-      },
-      getProvince (province) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.province = province
-      },
-      getCity (city) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.city = city
       },
       doEdit (key, row) {
         let tpath = '/jcxxsubsystem/keyManage/keyAdd?id=' + row.id

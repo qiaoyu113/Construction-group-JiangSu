@@ -73,7 +73,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
 
@@ -298,8 +298,6 @@
     watch: {
       'dataForm.province': {
         handler: function (val) {
-          console.log('province', val)
-          console.log('this', this)
           // 820000 810000 500000 310000 110000 120000 710000
           this.dataForm.city = ''
           if((this.municipality.indexOf(val) >= 0 && this.dataForm.keyType)) {
@@ -320,7 +318,6 @@
           if((this.dataForm.province && this.municipality.indexOf(this.dataForm.province) >= 0) ||  (this.dataForm.province && this.dataForm.city)) {
             this.getPkey({province: this.dataForm.province, city: this.dataForm.city, keyType: val})
           }
-          console.log('keyType', val)
         },
       },
     },

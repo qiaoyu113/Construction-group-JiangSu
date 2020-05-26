@@ -48,7 +48,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -182,12 +182,6 @@
           bId: [
             {required: true, message: '流程业务id不能为空', trigger: 'blur'}
           ],
-          province: [
-            {required: true, message: '所属地区-省', trigger: 'blur'}
-          ],
-          city: [
-            {required: true, message: '所属地区-市', trigger: 'blur'}
-          ],
           keyType: [
             {required: true, message: '类别名称', trigger: 'blur'}
           ],
@@ -270,6 +264,7 @@
                 self.dataForm.id = result.id
                 self.dataForm.province = result.province
                 self.dataForm.city = result.city
+                self.dataForm.district = result.district
                 self.dataForm.keyType = result.keyType
                 self.dataForm.authCompany = result.authCompany
                 self.dataForm.loginUsername = result.loginUsername
@@ -338,16 +333,6 @@
           })
         }
       },
-      getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.dataForm.city = city
-      }
     }
   }
 </script>
