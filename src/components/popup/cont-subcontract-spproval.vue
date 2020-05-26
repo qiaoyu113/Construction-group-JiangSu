@@ -86,7 +86,7 @@
           ],
         },
         selectProject: {
-          proCode: ''
+          scConName: ''
         },
         currentValue: '',
         gridOptions: {
@@ -180,7 +180,7 @@
       },
       doReset() {
         this.$refs.search.resetFields()
-        this.selectProject = { conName: '' }
+        this.selectProject = { scConName: '' }
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
@@ -190,7 +190,7 @@
       proChoose() {
         //传送到父组件
         this.currentValue = this.selectProject.proName;
-        this.$emit('selectedProject', this.selectProject);
+        this.$emit('selectedCon', this.selectProject);
         this.$emit('input', this.selectProject.id);
         this.doReset();
         this.dialogFormVisible = false
