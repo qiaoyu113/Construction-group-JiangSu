@@ -9,7 +9,7 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="130px" label-position="right">
+             label-width="100px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目基本信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -40,11 +40,11 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item label="项目地址：" prop="pro_address">
-            <el-row type="flex" justify="space-between">
+            <el-row type="flex" justify="space-between" :gutter="2">
               <el-col :span="8">
-                <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
+                <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :disabled="true"></t-region-s-picker>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="16">
                 <el-form-item prop="proAddressDetail">
                   <el-input v-model="dataForm.proAddressDetail"></el-input>
                 </el-form-item>
@@ -98,8 +98,7 @@
       <el-row :gutter="25">
         <el-col :span="6">
           <el-form-item prop="proRunMode" label="经营方式：">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="true"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="5">
@@ -185,9 +184,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="conPayWay" label="付款方式：">
-            <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
-          </el-form-item>
+          <el-row>
+            <el-col :span="showOtherWay ? 8 : 24">
+              <el-form-item prop="conPayWay" label="付款方式：">
+                <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
+            <el-col v-if="showOtherWay" :span="16" sytle="padding-left: 2px;">
+              <el-form-item prop="otherPayWay" label="其他付款方式：">
+                <el-input v-model="dataForm.otherPayWay"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同额">
@@ -198,26 +206,28 @@
         </el-col>
       </el-row>
       <el-row :gutter="10">
-        <el-col :span="4">
+        <el-col :span="24">
           <el-form-item prop="conTotal" label="金额大写：">
-           <span>{{$util.moneyArabiaToChinese(dataForm.conTotal)}}</span>
+           <span>{{$util.moneyArabiaToChinese(parseFloat(dataForm.conTotal))}}</span>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item prop="conSelfProportion" label="自营占比：">
-            <t-int-input v-model="dataForm.	conSelfProportion" @change="onStartDateRangeChangedselfAmount">
+      </el-row>
+      <el-row :gutter="10" v-if="showProprietaryPool">
+        <el-col :span="6">
+          <el-form-item prop="conSelfProportion" label="自营占比：" class="is-required">
+            <t-int-input v-model="dataForm.conSelfProportion" @change="onStartDateRangeChangedselfAmount">
               <span slot="append">%</span></t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item prop="selfAmount" label="合同额：">
-            <t-number-input v-model="dataForm.selfAmount" :readOnly="readOnly" disabled>
+            <t-number-input v-model="dataForm.selfAmount" :readOnly="readOnly" :disabled="true">
               <span slot="append">万元</span></t-number-input>
             <!--<span>{{moneyProprietaryTransformation(dataForm.conSelfProportion)}}</span>-->
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item prop="conOtherProportion" label="联营占比：" >
+        <el-col :span="6">
+          <el-form-item prop="conOtherProportion" label="联营占比：" class="is-required">
             <t-int-input v-model="dataForm.conOtherProportion" @change="onStartDateRangeChangedjointAamount">
               <span slot="append">%</span>
             </t-int-input>
@@ -225,7 +235,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item prop="jointAamount" label="合同额：">
-            <t-number-input v-model="dataForm.jointAamount" :readOnly="readOnly" disabled>
+            <t-number-input v-model="dataForm.jointAamount" :readOnly="readOnly" :disabled="true">
               <span slot="append">万元</span></t-number-input>
           </el-form-item>
         </el-col>
@@ -241,7 +251,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="datastatus" label="本合同保证金额：">
+          <el-form-item prop="datastatus" label="本合同保证金额：" label-width="130px">
             <el-input v-model="dataForm.datastatus" readOnly></el-input>
           </el-form-item>
         </el-col>
@@ -258,7 +268,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="5">
-          <el-form-item prop="datastatus" label="其他合作协议的履约担保：">
+          <el-form-item prop="datastatus" label="其他合作协议的履约担保：" label-width="150px">
             <el-input v-model="dataForm.datastatus"></el-input>
           </el-form-item>
         </el-col>
@@ -295,6 +305,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         readOnly: false,
+        showOtherWay: false,
+        showProprietaryPool: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -322,18 +334,44 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          province: '',
-          city: '',
+          proAddressCity: '',
+          proAddressProvince: '',
           selfAmount: '',
           jointAamount: '',
           district: '',
+          companyName: '',
+          otherPayWay: '',
         },
         dataRule: {
+          otherPayWay: [{validator: this.isOtherPayWayEmpty, trigger: 'blur'}],
+          conSelfProportion: [{validator: this.isConSelfProportionEmpty, trigger: 'blur'}],
+          conOtherProportion: [{validator: this.isConOtherProportionEmpty, trigger: 'blur'}],
+          conPayWay: [{required: true, message: '付款方式不能为空', trigger: 'change'}],
         }
       }
     },
     created() {
       // this.init()
+    },
+    watch: {
+      'dataForm.conPayWay': {
+        handler: function(val) {
+          if(val == 'other_pay_way') {
+            this.showOtherWay = true
+          } else {
+            this.showOtherWay = false
+          }
+        }
+      },
+      'dataForm.proRunMode': {
+        handler: function(val) {
+          if(val == 'proprietary_pool') {
+            this.showProprietaryPool = true
+          } else {
+            this.showProprietaryPool = false
+          }
+        }
+      },
     },
     methods: {
       getSelectedProject(project) {
@@ -363,20 +401,11 @@
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
         this.dataForm.pcId = project.pcId;
-       /* let self = this;
-        tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
-          console.log('====',result);
-          console.log('====',result.companyName);
-          self.dataForm.companyName = result.companyName;
-        });*/
 
         this.$nextTick(() => {
-          //let self = this;
+          let self = this;
             tapp.services.tBaseinfoPartnerApproval.get(project.proUnionCompany).then(function (result) {
-              //self.$util.deepObjectAssign({}, self.dataForm, result)
-              console.log('====',result);
-              console.log('====',result.companyName);
-              this.dataForm.companyName = result.companyName;
+              self.dataForm.companyName = result.companyName;
             })
         })
       },
@@ -384,7 +413,6 @@
 
       },
       onStartDateRangeChangedallAmount(val) {
-        debugger;
         let conSelfProportion=this.dataForm.conSelfProportion;
         let conOtherProportion=this.dataForm.conOtherProportion;
         if(conSelfProportion>0){
@@ -477,6 +505,34 @@
           });
           return false;
         });
+      },
+
+      isOtherPayWayEmpty (rule, value, cb) {
+        if(!this.dataForm.conPayWay || (this.dataForm.conPayWay && this.dataForm.conPayWay !== 'other_pay_way')) return cb()
+        if(this.dataForm.conPayWay && this.dataForm.conPayWay === 'other_pay_way') {
+          if (this.dataForm.otherPayWay == null || this.dataForm.otherPayWay.length == 0 || this.dataForm.otherPayWay == '') {
+            return cb(new Error('其他付款方式不能为空'))
+          }
+        }
+        return cb()
+      },
+      isConSelfProportionEmpty (rule, value, cb) {
+        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
+        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
+          if (this.dataForm.conSelfProportion == null || this.dataForm.conSelfProportion.length == 0 || this.dataForm.conSelfProportion == '') {
+            return cb(new Error('自营占比不能为空'))
+          }
+        }
+        return cb()
+      },
+      isConOtherProportionEmpty (rule, value, cb) {
+        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
+        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
+          if (this.dataForm.conOtherProportion == null || this.dataForm.conOtherProportion.length == 0 || this.dataForm.conOtherProportion == '') {
+            return cb(new Error('联营占比不能为空'))
+          }
+        }
+        return cb()
       },
     }
   }
