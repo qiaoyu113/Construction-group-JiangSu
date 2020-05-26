@@ -5,13 +5,13 @@
         <div class="title">项目信息列表</div>
       </el-col>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
+    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-          </el-button>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目编号：" prop="proCode">
@@ -79,7 +79,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有无借款：" prop="isBorrowing">
+            <el-form-item label="有无借款：" prop="isBorrow">
               <t-dic-dropdown-select dicType="have_or_not"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.isBorrow"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
