@@ -41,10 +41,10 @@
         <el-col :span="16">
           <el-form-item label="项目地址：" prop="pro_address">
             <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+              <el-col :span="16">
+                <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
               </el-col>
-              <el-col :span="13">
+              <el-col :span="8">
                 <el-form-item prop="proAddressDetail">
                   <el-input v-model="dataForm.proAddressDetail"></el-input>
                 </el-form-item>
@@ -322,6 +322,7 @@
           datastatus: '',
           province: '',
           city: '',
+          district: '',
         },
         dataRule: {
         }
@@ -439,12 +440,6 @@
           });
           return false;
         });
-      },
-      getProvince (province) {
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        this.dataForm.city = city
       },
     }
   }

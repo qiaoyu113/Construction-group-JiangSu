@@ -58,12 +58,12 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="16">
           <el-form-item prop="region" label="项目地址：" class="is-required">
-            <t-region-picker v-model="dataForm.province" @province="getProvince" @city="getCity" :readOnly="readOnly"></t-region-picker>
+            <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="8">
           <el-form-item prop="pId" label="项目总投资：">
             <el-input v-model="dataForm.conModality" readonly></el-input>
           </el-form-item>
@@ -289,6 +289,7 @@
           datastatus: '',
           province: '',
           city: '',
+          district: ''
         },
         dataRule: {
           pId: [

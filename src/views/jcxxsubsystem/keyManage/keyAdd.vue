@@ -15,9 +15,9 @@
       <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="16">
             <el-form-item prop="province" label="所属地区">
-              <t-region-picker ref="regionPicker" @province="getProvince" @city="getCity" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
+              <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district" :disabled="isEdit" :readOnly="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -132,6 +132,7 @@
           actTaskKey: '',
           province: '',
           city: '',
+          district: '',
           keyType: '',
           authCompany: '',
           loginUsername: '',
@@ -159,12 +160,6 @@
           ],
           actTaskKey: [
             {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
-          province: [
-            {required: true, message: '省', trigger: 'blur'}
-          ],
-          city: [
-            {required: false, message: '所属地区-市', trigger: 'blur'}
           ],
           keyType: [
             {required: true, message: '类别名称', trigger: 'blur'}
@@ -278,8 +273,6 @@
                 self.dataForm.actTaskKey = result.actTaskKey
                 self.dataForm.province = result.province
                 self.dataForm.city = result.city
-                self.$refs.regionPicker.province = result.province
-                self.$refs.regionPicker.city = result.city
                 self.dataForm.keyType = result.keyType
                 self.dataForm.authCompany = result.authCompany
                 self.dataForm.loginUsername = result.loginUsername
@@ -354,16 +347,6 @@
           })
           return false
         })
-      },
-      getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.dataForm.city = city
       },
       // 关闭当前页面并跳转到新的页面
       closeCurrentTabNav () {
