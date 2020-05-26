@@ -188,6 +188,9 @@
           <el-form-item prop="conPayWay" label="付款方式：">
             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
           </el-form-item>
+          <el-form-item prop="conPayWay" label="付款方式：">
+            <el-input v-model="dataForm.conTotal"></el-input>
+          </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="conTotal" label="合同额">
