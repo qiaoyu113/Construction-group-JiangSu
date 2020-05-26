@@ -46,8 +46,11 @@
 
   export default {
     extends: baseView,
-    pId: '-1',
     props: {
+      pId: {
+        type: String,
+        default: '-1'
+      },
       value: {
         type: String,
         default: '-1'

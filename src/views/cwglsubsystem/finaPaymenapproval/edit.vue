@@ -15,18 +15,21 @@
         </div>
       </el-dialog>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="150px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="150px"
+             label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'付款申请信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <t-bank-project-select placeholder="选择项目信息" v-model="dataForm.proName" @selectedData="getSelectedProject"></t-bank-project-select>
+              <t-bank-project-select placeholder="选择项目信息" v-model="dataForm.proName"
+                                     @selectedData="getSelectedProject"></t-bank-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营模式">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" @change="onProRunMode"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     @change="onProRunMode"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -38,12 +41,14 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="fundPurpose" label="资金用途">
-              <t-dic-dropdown-select dicType="user_funds" :disabled="fundPurposeDisabled" v-model="dataForm.fundPurpose"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="user_funds" :disabled="fundPurposeDisabled"
+                                     v-model="dataForm.fundPurpose"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="paymentType" label="本次付款类型">
-              <t-dic-dropdown-select dicType="payment_type" v-model="dataForm.paymentType" @change="onPaymentAmount"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="payment_type" v-model="dataForm.paymentType"
+                                     @change="onPaymentAmount"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" :hidden="lNumFlag">
@@ -55,7 +60,7 @@
         <el-row :gutter="20">
           <el-col :span="8" :hidden="scConNameFlag">
             <el-form-item prop="scConName" label="子合同名称">
-              <t-cont-subcontract-spproval v-model="dataForm.scConName" @selectedCon="getSelected">
+              <t-cont-subcontract-spproval :pId="dataForm.pId" v-model="dataForm.scConName" @selectedCon="getSelected">
               </t-cont-subcontract-spproval>
             </el-form-item>
           </el-col>
@@ -84,42 +89,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-<!--        <el-row :gutter="20">-->
-<!--          <el-col>-->
-<!--            <t-edit-grid ref="customerRelationGrid" :options="customerRelationGridOptions" :readOnly="readOnly">-->
-<!--              <template slot="columnDataHeader">-->
-<!--                <t-edit-grid-column prop="customerName" label="文本输入" verify :maxLength="50" width="25%"-->
-<!--                                    class-name="is-required">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <t-input v-model="scope.row.customerName" :readOnly="readOnly"></t-input>-->
+        <!-- 承兑汇票 -->
+        <acceptance-bill-table :searchData="acceptanceSearchData" @selectedData="getAcceptanceSelectedData"></acceptance-bill-table>
 
-<!--                  </template>-->
-<!--                </t-edit-grid-column>-->
-<!--                <t-edit-grid-column prop="customerCardNO" label="身份证号" width="25%" :maxLength="50" width="100"-->
-<!--                                    class-name="is-required">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <t-input v-model="scope.row.customerCardNO" :readOnly="readOnly"></t-input>-->
+        <!-- 预付款 -->
+        <prepay-table :searchData="prepaySearchData" @selectedData="getPrepaySelectedData"></prepay-table>
 
-<!--                  </template>-->
-<!--                </t-edit-grid-column>-->
-<!--                <t-edit-grid-column prop="loanTermCount" label="整形输入" verify width="160" class-name="is-required">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <t-int-input v-model="scope.row.loanTermCount" :readOnly="readOnly">-->
-<!--                      <span slot="append">月</span>-->
-<!--                    </t-int-input>-->
-<!--                  </template>-->
-<!--                </t-edit-grid-column>-->
+        <!-- 项目借款 -->
+        <project-loan-table :searchData="prepaySearchData" @selectedData="getPrepaySelectedData"></project-loan-table>
 
-<!--                <t-edit-grid-column prop="loanMoneyAmount" label="数字输入" verify width="200"-->
-<!--                                    class-name="is-required">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <t-number-input v-model="scope.row.loanMoneyAmount" :readOnly="readOnly"></t-number-input>-->
-<!--                  </template>-->
-<!--                </t-edit-grid-column>-->
-<!--              </template>-->
-<!--            </t-edit-grid>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'累计付款信息'"></t-sub-title>
@@ -187,7 +165,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="remark" label="备注">
-              <el-input type="textarea"  v-model="dataForm.remark"></el-input>
+              <el-input type="textarea" v-model="dataForm.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -229,17 +207,26 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'附件上传'"></t-sub-title>
-        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
 </template>
 
 <script>
-  import moment from "moment";
-  import {mapState} from "vuex";
+  import moment from 'moment'
+  import acceptanceBillTable from './components/acceptance-bill-table'
+  import prepayTable from './components/prepay-table'
+  import projectLoanTable from './components/project-loan-table'
+  import {mapState} from 'vuex'
 
   export default {
+    components: {
+      acceptanceBillTable,
+      prepayTable,
+      projectLoanTable
+    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -271,133 +258,173 @@
         readOnly: false,
         dialogVisible: false,
         fundPurposeDisabled: false,
-        conNameFlag:true,
+        conNameFlag: true,
         dataForm: {
-          bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',scId: '',paymentType: '',
-          fundPurpose: '',processBranch: '',paymentWay: '',totalReceived: '',
-          totalReceivedRatio: '',totalPayment: '',scTotalReceived: '',scTotalReceivedRatio: '',
-          paymentAmount: '',afterThisRatio: '',leftoverAmount: '',leftoverAmountRatio: '',receiveCompany: '',
-          bankName: '',bankAccountName: '',bankAccount: '',contacter: '',contacterTel: '',approvalStatus: '',sign: '',
-          signTime: '',propose: '',result: '',createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',
-          conCode:'',conName:'',scConTotal:'',scConCode:'',scConName:''
+          bId: '',
+          actTaskKey: '',
+          pId: '',
+          proRunMode: '',
+          unionCompany: '',
+          scId: '',
+          paymentType: '',
+          fundPurpose: '',
+          processBranch: '',
+          paymentWay: '',
+          totalReceived: '',
+          totalReceivedRatio: '',
+          totalPayment: '',
+          scTotalReceived: '',
+          scTotalReceivedRatio: '',
+          paymentAmount: '',
+          afterThisRatio: '',
+          leftoverAmount: '',
+          leftoverAmountRatio: '',
+          receiveCompany: '',
+          bankName: '',
+          bankAccountName: '',
+          bankAccount: '',
+          contacter: '',
+          contacterTel: '',
+          approvalStatus: '',
+          sign: '',
+          signTime: '',
+          propose: '',
+          result: '',
+          createtime: '',
+          updatetime: '',
+          createuser: '',
+          updateuser: '',
+          datastatus: '',
+          conCode: '',
+          conName: '',
+          scConTotal: '',
+          scConCode: '',
+          scConName: ''
         },
         dataRule: {
           scConTotal: [
-            { required: true, message: '子合同金额不能为空', trigger: 'blur' }
+            {required: true, message: '子合同金额不能为空', trigger: 'blur'}
           ],
           scConCode: [
-            { required: true, message: '子合同编码不能为空', trigger: 'blur' }
+            {required: true, message: '子合同编码不能为空', trigger: 'blur'}
           ],
           scConName: [
-            { required: true, message: '子合同名称不能为空', trigger: 'blur' }
+            {required: true, message: '子合同名称不能为空', trigger: 'blur'}
           ],
           conCode: [
-            { required: true, message: '合同编码不能为空', trigger: 'blur' }
+            {required: true, message: '合同编码不能为空', trigger: 'blur'}
           ],
           conName: [
-            { required: true, message: '合同名称不能为空', trigger: 'blur' }
+            {required: true, message: '合同名称不能为空', trigger: 'blur'}
           ],
           pId: [
-            { required: true, message: '项目不能为空', trigger: 'blur' }
+            {required: true, message: '项目不能为空', trigger: 'blur'}
           ],
           proRunMode: [
-            { required: true, message: '经营方式不能为空', trigger: 'blur' }
+            {required: true, message: '经营方式不能为空', trigger: 'blur'}
           ],
           unionCompany: [
-            { required: true, message: '联营单位标识不能为空', trigger: 'blur' }
+            {required: true, message: '联营单位标识不能为空', trigger: 'blur'}
           ],
           scId: [
-            { required: true, message: '子合同不能为空', trigger: 'blur' }
+            {required: true, message: '子合同不能为空', trigger: 'blur'}
           ],
           paymentType: [
-            { required: true, message: '本次付款类型不能为空', trigger: 'blur' }
+            {required: true, message: '本次付款类型不能为空', trigger: 'blur'}
           ],
           fundPurpose: [
-            { required: true, message: '资金用途不能为空', trigger: 'blur' }
+            {required: true, message: '资金用途不能为空', trigger: 'blur'}
           ],
           processBranch: [
-            { required: true, message: '流程审批不能为空', trigger: 'blur' }
+            {required: true, message: '流程审批不能为空', trigger: 'blur'}
           ],
           paymentWay: [
-            { required: true, message: '付款方式不能为空', trigger: 'blur' }
+            {required: true, message: '付款方式不能为空', trigger: 'blur'}
           ],
           rId: [
-            { required: true, message: '到账标识不能为空', trigger: 'blur' }
+            {required: true, message: '到账标识不能为空', trigger: 'blur'}
           ],
           totalReceived: [
-            { required: true, message: '本项目累计已收款不能为空', trigger: 'blur' }
+            {required: true, message: '本项目累计已收款不能为空', trigger: 'blur'}
           ],
           totalReceivedRatio: [
-            { required: true, message: '已收款比例不能为空', trigger: 'blur' }
+            {required: true, message: '已收款比例不能为空', trigger: 'blur'}
           ],
           totalPayment: [
-            { required: true, message: '本项目累计已付款不能为空', trigger: 'blur' }
+            {required: true, message: '本项目累计已付款不能为空', trigger: 'blur'}
           ],
           scTotalReceived: [
-            { required: true, message: '当前子合同累计已付款不能为空', trigger: 'blur' }
+            {required: true, message: '当前子合同累计已付款不能为空', trigger: 'blur'}
           ],
           scTotalReceivedRatio: [
-            { required: true, message: '当前子合同累计已付款比例不能为空', trigger: 'blur' }
+            {required: true, message: '当前子合同累计已付款比例不能为空', trigger: 'blur'}
           ],
           paymentAmount: [
-            { required: true, message: '本次付款金额不能为空', trigger: 'blur' }
+            {required: true, message: '本次付款金额不能为空', trigger: 'blur'}
           ],
           afterThisRatio: [
-            { required: true, message: '累计付款比例不能为空', trigger: 'blur' }
+            {required: true, message: '累计付款比例不能为空', trigger: 'blur'}
           ],
           leftoverAmount: [
-            { required: true, message: '本项目余款不能为空', trigger: 'blur' }
+            {required: true, message: '本项目余款不能为空', trigger: 'blur'}
           ],
           leftoverAmountRatio: [
-            { required: true, message: '项目余款比例不能为空', trigger: 'blur' }
+            {required: true, message: '项目余款比例不能为空', trigger: 'blur'}
           ],
           receiveCompany: [
-            { required: true, message: '收款单位不能为空', trigger: 'blur' }
+            {required: true, message: '收款单位不能为空', trigger: 'blur'}
           ],
           bankName: [
-            { required: true, message: '开户行名称不能为空', trigger: 'blur' }
+            {required: true, message: '开户行名称不能为空', trigger: 'blur'}
           ],
           bankAccountName: [
-            { required: true, message: '银行帐户名称不能为空', trigger: 'blur' }
+            {required: true, message: '银行帐户名称不能为空', trigger: 'blur'}
           ],
           bankAccount: [
-            { required: true, message: '银行帐号不能为空', trigger: 'blur' }
+            {required: true, message: '银行帐号不能为空', trigger: 'blur'}
           ],
           contacter: [
-            { required: true, message: '联系人不能为空', trigger: 'blur' }
+            {required: true, message: '联系人不能为空', trigger: 'blur'}
           ],
           contacterTel: [
-            { required: true, message: '联系电话不能为空', trigger: 'blur' }
+            {required: true, message: '联系电话不能为空', trigger: 'blur'}
           ],
           sign: [
-            { required: true, message: '执行人不能为空', trigger: 'blur' }
+            {required: true, message: '执行人不能为空', trigger: 'blur'}
           ],
           signTime: [
-            { required: true, message: '执行时间不能为空', trigger: 'blur' }
-          ],
+            {required: true, message: '执行时间不能为空', trigger: 'blur'}
+          ]
 
-        }
+        },
+        // 承兑汇票传入查询信息
+        acceptanceSearchData: {},
+        // 预付款传入查询信息
+        prepaySearchData: {},
+        // 项目借款传入查询信息
+        projectLoanSearchData: {}
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
-      this.showButton = !(currentQuery.readonly == 'true')
+      this.readOnly = (currentQuery.readonly === 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly === 'true')
       this.init(currentQuery.businessId)
     },
-    activated() {
+    activated () {
       const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
-      this.showButton = !(currentQuery.readonly == 'true')
+      this.readOnly = (currentQuery.readonly === 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly === 'true')
       this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,  })
+        currentUser: state => state.app.user
+      })
     },
     methods: {
       // 本次付款类型事件
-      onPaymentAmount(){
+      onPaymentAmount () {
         this.scConNameFlag = false
         this.scConCodeFlag = false
         this.scConTotalFlag = false
@@ -412,8 +439,8 @@
         this.scTotalReceivedFlag = true
         this.lNumFlag = true
         // alert(this.dataForm.paymentType)
-        if ('other_payment' == this.dataForm.paymentType || 'cnhpglf' == this.dataForm.paymentType) {
-          if ('cnhpglf' == this.dataForm.paymentType) {
+        if (this.dataForm.paymentType === 'other_payment' || this.dataForm.paymentType === 'cnhpglf') {
+          if (this.dataForm.paymentType === 'cnhpglf') {
             this.scConNameFlag = true
             this.scConCodeFlag = true
             this.scConTotalFlag = true
@@ -430,8 +457,8 @@
         }
       },
       // 经营模式
-      onProRunMode(){
-        if (this.dataForm.proRunMode == 'pool' || this.dataForm.proRunMode == 'proprietary') {
+      onProRunMode () {
+        if (this.dataForm.proRunMode === 'pool' || this.dataForm.proRunMode === 'proprietary') {
           this.dataForm.fundPurpose = 'user_' + this.dataForm.proRunMode
           this.fundPurposeDisabled = true
         } else {
@@ -440,7 +467,7 @@
         }
       },
       // 选择项目到账信息
-      getSelectedProject(data) {
+      getSelectedProject (data) {
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.proName = data.proName
         this.dataForm.proCode = data.proCode
@@ -452,7 +479,7 @@
         this.onProRunMode()
       },
       // 选择自合同信息
-      getSelected(data){
+      getSelected (data) {
         debugger
         this.dataForm.scId = data.id
         this.dataForm.scConName = data.conName
@@ -464,13 +491,13 @@
       },
       // 初始化 编辑和新增 2种情况
       init (id) {
-        if(id) {
+        if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs['dataForm'].resetFields()
             if (this.dataForm.id) {
-              let self = this;
-              tapp.services.finaPaymenapproval.get(id).then(function(result) {
+              let self = this
+              tapp.services.finaPaymenapproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.pId = result.finaPaymenapproval.pId
                 self.dataForm.proRunMode = result.finaPaymenapproval.proRunMode
@@ -517,25 +544,41 @@
       },
       // 表单提交
       doSave () {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = { ...self.dataForm };
-          tapp.services.finaPaymenapproval.save(model).then(function(result) {
+          let model = {...self.dataForm}
+          tapp.services.finaPaymenapproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
-        }).catch(function(e) {
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
+        }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return true;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return true
+        })
+      },
+
+      // 承兑汇票
+      getAcceptanceSelectedData (val) {
+        console.log('getAcceptanceSelectedData 承兑汇票获取到的选中的数据', val)
+      },
+      // 预付款
+      getPrepaySelectedData (val) {
+        console.log('getPrepaySelectedData 预付款获取到的选中的数据', val)
       }
     }
   }
 </script>
+<style type="text/css" scoped>
+  .fina-function-button {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+</style>
