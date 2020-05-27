@@ -45,7 +45,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="contactNum" label="联系电话">
-              <t-input v-model="dataForm.contactNum" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.contactNum" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
         </el-card>
@@ -70,22 +70,22 @@
           <t-sub-title :title="'合作方资产情况'"></t-sub-title>
           <el-col :span="12">
             <el-form-item prop="fixedAssets" label="固定资产">
-              <t-input v-model="dataForm.fixedAssets" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.fixedAssets" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="fluidCapital" label="流动资金">
-              <t-input v-model="dataForm.fluidCapital" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.fluidCapital" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="chargeAccount" label="应收账款">
-              <t-input v-model="dataForm.chargeAccount" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.chargeAccount" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item prop="liabilities" label="负债">
-              <t-input v-model="dataForm.liabilities" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.liabilities" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
         </el-card>
@@ -132,7 +132,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="bankAccount" label="银行帐号">
-              <t-input v-model="dataForm.bankAccount" :readOnly="readOnly"></t-input>
+              <t-int-input v-model="dataForm.bankAccount" :readOnly="readOnly"></t-int-input>
             </el-form-item>
           </el-col>
         </el-card>
