@@ -317,8 +317,21 @@
         } else {
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
+            this.getUserWithDepartments()
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate();
+          })
+        }
+      },
+      getUserWithDepartments() {
+        if(this.currentUser && this.currentUser.userId) {
+          let self = this;
+          tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
+            if(result) {
+              // console.log('result', result)
+              self.dataForm.proSubCompany = result.grouplist[0].value
+              self.dataForm.proBusDept = result.departmentlist[0].value
+            }
           })
         }
       },

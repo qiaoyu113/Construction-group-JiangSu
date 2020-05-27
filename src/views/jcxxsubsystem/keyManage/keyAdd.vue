@@ -99,6 +99,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="sign" label="办理单位">
+            <span>{{subCompany}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item prop="signTime" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
@@ -127,6 +132,7 @@
         docId: '',
         isEdit: false, // 是否是编辑状态
         readOnly: false,
+        subCompany: '',
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -306,8 +312,20 @@
             this.isEdit = false
             this.dataForm.id = ''
             this.dataForm.sign = this.currentUser.userDisplayName
+            this.getUserWithDepartments()
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate()
+          })
+        }
+      },
+      getUserWithDepartments() {
+        if(this.currentUser && this.currentUser.userId) {
+          let self = this;
+          tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
+            if(result) {
+              // console.log('result', result)
+              self.subCompany = result.grouplist[0].value
+            }
           })
         }
       },
