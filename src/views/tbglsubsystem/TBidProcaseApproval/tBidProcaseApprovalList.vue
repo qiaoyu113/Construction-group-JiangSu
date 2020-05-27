@@ -1,15 +1,17 @@
 <template>
   <div class="mod-role">
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
+    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">导出</el-button>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"  placeholder="匹配项目名称、简介、备注查询"></el-input>
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                        placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -44,8 +46,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="sign" label="备案人">
-              <t-handler-select label="备案人"  v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
+            <el-form-item label="备案人" prop="sign">
+              <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                                @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -93,12 +96,14 @@
             serviceInstanceInputParameters: {
               proName: null,
               proAddressProvince: null,
+              proAddressCity: null,
+              proAddressDetail: null,
               proConstructCompany: null,
               proType: null,
               proRunMode: null,
               sign: null,
-              approvalStatus: null
-              /* recordCompany: null,*/ //备案单位
+              approvalStatus: null,
+              recordCompany: null
             }
           },
           grid: {
@@ -155,11 +160,10 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('base_region', row.proAddressProvince) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
-
-
               {
                 prop: 'proRunMode',
                 label: '经营方式',
@@ -262,7 +266,7 @@
         }
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('项目备案信息列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();

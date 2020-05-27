@@ -1,16 +1,14 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">投标准备文件审批列表</div>
-      </el-col>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
     </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
 
         <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
           <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item label="项目名称" prop="proName">
@@ -61,13 +59,14 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="经办人" prop="sign">
-                <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                <t-handler-select label="经办人" placeholder="选择一个经办人"
+                                  v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
                                   @selectedUser="getSelectedUser"></t-handler-select>
               </el-form-item>
             </el-col>
             <el-col :span="8" class="search-date-picker">
-              <el-form-item label="申请时间" prop="expirationDate">
-                <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
+              <el-form-item label="经办日期" prop="dateRange">
+                <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                          @change="onStartDateRangeChanged">
                 </t-datetime-range-picker>
               </el-form-item>
@@ -77,9 +76,7 @@
             <el-col :span="12">
               <el-form-item>
                 <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-                <el-button icon="el-icon-download" @click="doReset()">
-                  <i class="fa fa-lg fa-level-down"></i>清空
-                </el-button>
+                <el-button icon="el-icon-download" @click="doReset()"><i class="fa fa-lg fa-level-down"></i>清空</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -114,6 +111,7 @@
           dataSource: {
             serviceInstance: tapp.services.tBidFileApproval.getPagedList,
             serviceInstanceInputParameters: {
+              dateRange:'',
               expirationDate: null,
               proContractAttr: null,
               proName: null,
@@ -122,8 +120,7 @@
               proType: null,
               proRunMode: null,
               approvalStatus: null,
-              sign: null,
-              signTime: null,
+              sign: '',
             }
           },
           grid: {
@@ -171,7 +168,7 @@
               },
 
               {
-                prop: 'proAddressProvince',
+                prop: 'proSubCompany',
                 label: '分公司',
                 sortable: false,
                 minWidth: 120,
@@ -250,14 +247,26 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.doRefresh()
+        this.gridOptions.dataSource.serviceInstanceInputParameters = {
+          proName: null,//工程名称
+          proContractAttr: null,//合同模式
+          proConstructCompany: null,//建设单位
+          proType: null,//工程类别
+          proRunMode: null,//经营方式
+          approvalStatus: null,//审批状态
+          proSubCompany: null,//分公司
+          sign: null, //经办人
+          signTime:null //经办日期
+        }
       },
       doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表');
