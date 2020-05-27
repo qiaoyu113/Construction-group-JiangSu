@@ -49,10 +49,18 @@
 </template>
 <script>
   import baseView from '@/base/baseView'
+  import util from '@/util'
 
   export default {
     name: 'myTask',
     extends: baseView,
+    props: {
+      readOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
+    },
     data () {
       return {
         checkededRows: [],
@@ -142,6 +150,13 @@
       // 获取码表值
       loadCodeTableList () {
         // 以下为示例
+      },
+      getSelectedPartner(company) {
+        console.log('current company', company)
+        // company为从弹窗框列表带出来的那一行的数据
+        // 公司id 已从从组件里已经带出来，这里定义为 dataForm.companyId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的company的其他值，从这里的company获取
+        // 例如 this.dataForm.creditCode = company.creditCode
       },
       onStartDateRangeChanged (val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
