@@ -14,7 +14,7 @@
               </el-col>
             </el-row>
             <el-row :gutter="10" v-if="userRole.length > 0">
-              <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
+              <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required" :rules="dataRule.taskAssignee">
                 <el-col :span="8">
                   <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" v-model="dataForm.userRole" :readOnly="true"></t-dic-dropdown-select>
                 </el-col>
@@ -85,6 +85,10 @@
   import isEmpty from 'lodash/isEmpty'
   export default {
     data () {
+      var checkTaskAssignee = (rule, value, callback) => {
+        if (!this.dataForm.taskAssignee || this.dataForm.taskAssignee.length == 0 || this.dataForm.taskAssignee == '') callback(new Error('请选择下一节点审批人'));
+        else callback();
+      };
       return {
         activeName: 'first',
         assetCategoryClassifications: ['pl_loanapplyInput'], // 附件的分类标识 此处为示例
@@ -102,7 +106,7 @@
           taskAssignee: ''
         },
         dataRule: {
-          
+          taskAssignee: [{validator: checkTaskAssignee, trigger: 'blur'}]
         },
         selectedUser: {
           name: ''

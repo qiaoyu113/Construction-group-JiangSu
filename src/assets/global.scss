@@ -446,4 +446,13 @@ input[readonly="readonly"] {
   .el-tabs__header {
     margin: 0 0 15px 15px;
   }
+  .el-tabs__content {
+    margin-bottom: 35px;
+  }
+}
+.el-form-item__error {
+  padding-top: 0;
+}
+.site-navbar__brand-lg {
+  font-size: 21px;
 }
