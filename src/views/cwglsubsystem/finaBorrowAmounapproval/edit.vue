@@ -15,6 +15,9 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="140px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'项目信息'"></t-sub-title>
@@ -26,38 +29,38 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="项目编号">
-              <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
+              <t-input :readonly="true" v-model="dataForm.proCode"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属单位">
-              <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
+              <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="totalBorrowCount" label="累计借款次数">
-              <el-input :readonly="true" v-model="dataForm.totalBorrowCount"></el-input>
+              <t-input :readonly="true" v-model="dataForm.totalBorrowCount"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-              <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <t-input :readonly="true" v-model="dataForm.totalBorrowAmount">
                 <span slot="append">万元</span>
-              </el-input>
+              </t-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="applyAmount" label="本次申请额度">
-              <el-input v-model="dataForm.applyAmount">
+              <t-input :readonly="readOnly" v-model="dataForm.applyAmount">
                 <span slot="append">万元</span>
-              </el-input>
+              </t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="tiimeLimit" label="本次借款额度期限">
-              <t-int-input :readonly="true" v-model="dataForm.tiimeLimit">
+              <t-int-input :readonly="readOnly" v-model="dataForm.tiimeLimit">
                 <span slot="append">月</span>
               </t-int-input>
             </el-form-item>
@@ -65,15 +68,15 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="确认借款额度">
-              <el-input :readonly="true" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
+            <el-form-item label="确认借款额度" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" placeholder="审批完成后填写确认可借款额度" v-model="dataForm.realAmount">
                 <span slot="append">万元</span>
-              </el-input>
+              </t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="借款日期">
-              <el-input :readonly="true" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></el-input>
+            <el-form-item label="借款日期" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" placeholder="审批完成后填写" v-model="dataForm.borrowDate"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -83,7 +86,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="sign" label="经办人">
-              <el-input v-model="dataForm.sign"></el-input>
+              <span>{{dataForm.sign}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -95,7 +98,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="remark" label="借款原因">
-              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+              <t-input type="textarea" v-model="dataForm.remark"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -114,12 +117,21 @@
 
   export default {
     data () {
+      var checkRealAmount = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.realAmount == '' || this.dataForm.realAmount == undefined)) callback(new Error('确认借款额度不能为空'));
+        else callback();
+      };
+      var checkBorrowDate = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.borrowDate == '' || this.dataForm.borrowDate == undefined)) callback(new Error('借款日期不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',applyAmount: '',tiimeLimit: '',totalBorrowCount: '',totalBorrowAmount: '',
           realAmount: '',borrowDate: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
@@ -148,13 +160,8 @@
           totalBorrowAmount: [
             { required: true, message: '累计借款金额不能为空', trigger: 'blur' }
           ],
-          realAmount: [
-            { required: true, message: '确认借款额度不能为空', trigger: 'blur' }
-          ],
-          borrowDate: [
-            { required: true, message: '借款日期不能为空', trigger: 'blur' }
-          ],
-
+          realAmount: [{validator: checkRealAmount, trigger: 'blur'}],
+          borrowDate: [{validator: checkBorrowDate, trigger: 'blur'}],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -172,12 +179,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -212,7 +221,7 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaBorrowAmounapproval.get(id).then(function(result) {
@@ -251,6 +260,26 @@
           let model = { ...self.dataForm };
           tapp.services.finaBorrowAmounapproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 回填保存
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.finaBorrowAmounapproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

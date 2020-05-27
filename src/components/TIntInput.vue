@@ -1,5 +1,5 @@
 <template>
-<number-input ref="input" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" v-model="currentValue" currency="" :precision="0" :disabled="disabled" :readOnly="readOnly">
+<number-input ref="input" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" v-model="currentValue" currency="" :precision="0" :disabled="disabled" :readOnly="readOnly" :readonly="readonly">
   <template slot="prepend" v-if="$slots.prepend">
     <slot name="prepend">
     </slot>
@@ -32,6 +32,11 @@ export default {
     },
     value: null,
     readOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    readonly: {
       type: Boolean,
       default: false,
       required: false

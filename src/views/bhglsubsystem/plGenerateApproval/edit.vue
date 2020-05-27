@@ -15,28 +15,31 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proName" label="项目名称">
-            <el-input v-model="dataForm.proName"></el-input>
+            <t-input v-model="dataForm.proName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proCode" label="所属分公司">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -46,7 +49,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -61,12 +64,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -76,7 +79,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <el-input readonly v-model="dataForm.proCode"></el-input>
+            <t-input readonly v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,36 +94,36 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="plAmount" label="保函金额">
-            <el-input v-model="dataForm.plAmount"></el-input>
+            <t-input v-model="dataForm.plAmount"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="plAmount" label="现金金额">
-            <el-input v-model="dataForm.plAmount"></el-input>
+            <t-input v-model="dataForm.plAmount"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="bankName" label="开立银行">
-            <el-input readonly v-model="dataForm.bankName"></el-input>
+          <el-form-item prop="bankName" label="开立银行" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.bankName" placeholder="保函开立员回填"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="generateTime" label="开立时间">
-            <el-input readonly v-model="dataForm.generateTime"></el-input>
+          <el-form-item prop="generateTime" label="开立时间" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.generateTime" placeholder="保函开立员回填"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="expireTime" label="到期时间">
-            <el-input readonly v-model="dataForm.expireTime"></el-input>
+          <el-form-item prop="expireTime" label="到期时间" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.expireTime" placeholder="保函开立员回填"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="plCode" label="保函编号">
-            <el-input readonly v-model="dataForm.plCode"></el-input>
+          <el-form-item prop="plCode" label="保函编号" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.plCode" placeholder="保函开立员回填"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -137,7 +140,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item prop="remark" label="备注">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" v-model="dataForm.remark"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -156,12 +159,29 @@
 
   export default {
     data () {
+      var checkBankName = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.bankName == '' || this.dataForm.bankName == undefined)) callback(new Error('开立银行不能为空'));
+        else callback();
+      };
+      var checkGenerateTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.generateTime == '' || this.dataForm.generateTime == undefined)) callback(new Error('开立时间不能为空'));
+        else callback();
+      };
+      var checkExpireTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.expireTime == '' || this.dataForm.expireTime == undefined)) callback(new Error('到期时间不能为空'));
+        else callback();
+      };
+      var checkPlCode = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.plCode == '' || this.dataForm.plCode == undefined)) callback(new Error('保函编号不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           id: 0,
           pId: '',
@@ -185,18 +205,10 @@
           plAmount: [
             { required: true, message: '保函金额不能为空', trigger: 'blur' }
           ],
-          bankName: [
-            { required: true, message: '开立银行不能为空', trigger: 'blur' }
-          ],
-          generateTime: [
-            { required: true, message: '开立时间不能为空', trigger: 'blur' }
-          ],
-          expireTime: [
-            { required: true, message: '到期时间不能为空', trigger: 'blur' }
-          ],
-          plCode: [
-            { required: true, message: '保函编号不能为空', trigger: 'blur' }
-          ],
+          bankName: [{validator: checkBankName, trigger: 'blur'}],
+          generateTime: [{validator: checkGenerateTime, trigger: 'blur'}],
+          expireTime: [{validator: checkExpireTime, trigger: 'blur'}],
+          plCode: [{validator: checkPlCode, trigger: 'blur'}],
           remark: [
             { required: true, message: '备注不能为空', trigger: 'blur' }
           ],
@@ -213,12 +225,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -271,6 +285,26 @@
           let model = { ...self.dataForm };
           tapp.services.plGenerateApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 回填保存
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.plGenerateApproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

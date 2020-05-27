@@ -5,7 +5,7 @@
         <div class="title">项目刻章申请</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
       <el-button type="primary" plain @click="dialogVisible = true">
                     <span style="display: flex;align-items:center;">
@@ -36,6 +36,9 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
     <el-dialog title="项目刻章流程图" :visible.sync="dialogVisible" width="60%" center>
       <!-- businessKey为当前流程的key值 -->
@@ -56,17 +59,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" readonly></el-input>
+            <t-input v-model="dataForm.proBusDept" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+            <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -76,7 +79,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -91,7 +94,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+            <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -101,12 +104,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目章内容：" prop="sealContent">
-            <el-input v-model="dataForm.sealContent" ></el-input>
+            <t-input v-model="dataForm.sealContent" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="保管人：" prop="sealCustodian">
-            <el-input v-model="dataForm.sealCustodian" readonly></el-input>
+          <el-form-item label="保管人：" prop="sealCustodian" :class="{'is-required': isBackFill}">
+            <t-input v-model="dataForm.sealCustodian" :disabled="!isBackFill" placeholder="流程结束后回填"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -125,7 +128,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.remark"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -146,19 +149,19 @@
     mapState,
   } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
+      var checkSealCustoDian = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.sealCustodian == '' || this.dataForm.sealCustodian == undefined)) callback(new Error('保管人不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
         dialogVisible: false,
         submitDialogVisible: false,
+        isBackFill: false,
         pType: '',
         sealCount: '',
         dataForm: {
@@ -180,6 +183,7 @@
           datastatus: ''
         },
         dataRule: {
+          sealCustodian: [{validator: checkSealCustoDian, trigger: 'blur'}],
           pId: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
@@ -190,7 +194,18 @@
       }
     },
     created () {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
+      this.init(currentQuery.businessId)
     },
     computed: {
       navbarClasses() {
@@ -210,26 +225,27 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.proSealApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proSealApproval.bId
-                this.dataForm.actTaskKey = result.proSealApproval.actTaskKey
-                this.dataForm.pId = result.proSealApproval.pId
-                this.dataForm.sealContent = result.proSealApproval.sealContent
-                this.dataForm.sealCustodian = result.proSealApproval.sealCustodian
-                this.dataForm.remark = result.proSealApproval.remark
-                this.dataForm.sign = result.proSealApproval.sign
-                this.dataForm.signTime = result.proSealApproval.signTime
-                this.dataForm.approvalStatus = result.proSealApproval.approvalStatus
-                this.dataForm.propose = result.proSealApproval.propose
-                this.dataForm.result = result.proSealApproval.result
-                this.dataForm.createtime = result.proSealApproval.createtime
-                this.dataForm.updatetime = result.proSealApproval.updatetime
-                this.dataForm.createuser = result.proSealApproval.createuser
-                this.dataForm.updateuser = result.proSealApproval.updateuser
-                this.dataForm.datastatus = result.proSealApproval.datastatus
+                self.dataForm.bId = result.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.pId = result.pId
+                self.dataForm.sealContent = result.sealContent
+                self.dataForm.sealCustodian = result.sealCustodian
+                self.dataForm.remark = result.remark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -266,6 +282,25 @@
           //     message: '保存成功！',
           //   })
           // })
+        }).catch(function (e) {
+          self.$notify.error({
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
+      },
+      doBackFillSave() {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
+        Promise.all(validPromises).then(resultList => {
+          let model = {...self.dataForm}
+          tapp.services.proSealApproval.save(model).then(function (result) {
+            self.$notify.success({
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
             title: '错误',

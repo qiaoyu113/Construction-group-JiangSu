@@ -15,6 +15,9 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
@@ -26,47 +29,47 @@
         </el-col>
         <el-col :span="8">
           <el-form-item  prop="proSubCompany"  label="所属公司">
-            <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
+            <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proAddress" label="项目地址">
-            <el-input v-model="dataForm.proAddress"></el-input>
+            <t-input v-model="dataForm.proAddress"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方单位名称">
-            <el-input :readonly="readOnly" v-model="dataForm.secompanyName"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.secompanyName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方单位地址">
-            <el-input :readonly="readOnly" v-model="dataForm.secompanyAddress"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.secompanyAddress"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对方联系电话">
-            <el-input :readonly="readOnly" v-model="dataForm.secompanyTel"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.secompanyTel"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="纳税识别号">
-            <el-input :readonly="readOnly" v-model="dataForm.taxNo"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.taxNo"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户行">
-            <el-input :readonly="readOnly" v-model="dataForm.bankName"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.bankName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户账号">
-            <el-input :readonly="readOnly" v-model="dataForm.bankAccount"></el-input>
+            <t-input :readonly="readOnly" v-model="dataForm.bankAccount"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <el-input :readonly="true" v-model="dataForm.conName"></el-input>
+            <t-input :readonly="true" v-model="dataForm.conName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -76,7 +79,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <el-input :readonly="true" v-model="dataForm.conTotal"></el-input>
+            <t-input :readonly="true" v-model="dataForm.conTotal"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,7 +101,7 @@
       <el-row :gutter="20">
         <el-col :span="8" >
           <el-form-item prop="levyRate" label="适用税率或征收率" label-width="130px">
-            <el-input :readonly="readOnly"  v-model="dataForm.levyRate"></el-input>
+            <t-input :readonly="readOnly"  v-model="dataForm.levyRate"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -108,7 +111,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="levyTaxNum" label="预征税款完税凭证号码" label-width="160px">
-            <el-input v-model="dataForm.levyTaxNum" :readonly="readOnly" ></el-input>
+            <t-input v-model="dataForm.levyTaxNum" :readonly="readOnly" ></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -215,7 +218,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="预缴税务局">
-            <el-input v-model="dataForm.taxBureau" :readonly="readOnly" ></el-input>
+            <t-input v-model="dataForm.taxBureau" :readonly="readOnly" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -230,17 +233,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="外经证号">
-            <el-input v-model="dataForm.lId" :readonly="readOnly" ></el-input>
+            <t-input v-model="dataForm.lId" :readonly="readOnly" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="invoiceDate" label="开票日期">
-            <t-datetime-picker disabled v-model="dataForm.invoiceDate" type="date"></t-datetime-picker>
+          <el-form-item prop="invoiceDate" label="开票日期" :class="{'is-required': isBackFill}">
+            <t-datetime-picker :disabled="!isBackFill" v-model="dataForm.invoiceDate" type="date" placeholder="开票后由专人填入"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="发票号码">
-            <el-input :readonly="true" v-model="dataForm.invoiceNum" placeholder="开票后由专人填入"></el-input>
+          <el-form-item prop="invoiceNum" label="发票号码" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.invoiceNum" placeholder="开票后由专人填入"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -262,7 +265,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="备注">
-            <el-input type="textarea" :readonly="readOnly"  v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :readonly="readOnly"  v-model="dataForm.remark"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -280,6 +283,14 @@
   import { mapState } from 'vuex'
   export default {
     data () {
+      var checkInvoiceDate = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.invoiceDate == '' || this.dataForm.invoiceDate == undefined)) callback(new Error('注销时间不能为空'));
+        else callback();
+      };
+      var checkInvoiceNum = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.invoiceNum == '' || this.dataForm.invoiceNum == undefined)) callback(new Error('注销时间不能为空'));
+        else callback();
+      };
       return {
         exceedStandard: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -287,6 +298,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',invoiceType: '',levyRate: '',isLevyTax: '',levyTaxNum: '',invoiceAmount: '',deductAmount: '',
           isReceivables: '',vat: '',uct: '',est: '',lest: '',st: '',cit: '',pit: '',ot: '',taxBureau: '',taxStartTime: '',taxEndTime: '',
@@ -301,7 +313,9 @@
           ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
-          ]
+          ],
+          invoiceDate: [{validator: checkInvoiceDate, trigger: 'blur'}],
+          invoiceNum: [{validator: checkInvoiceNum, trigger: 'blur'}],
         }
       }
     },
@@ -309,12 +323,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -363,44 +379,44 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaBinvoiceApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaBinvoiceApproval.pId
-                self.dataForm.cId = result.finaBinvoiceApproval.cId
-                self.dataForm.taxMethod = result.finaBinvoiceApproval.taxMethod
-                self.dataForm.invoiceType = result.finaBinvoiceApproval.invoiceType
-                self.dataForm.levyRate = result.finaBinvoiceApproval.levyRate
-                self.dataForm.isLevyTax = result.finaBinvoiceApproval.isLevyTax
-                self.dataForm.levyTaxNum = result.finaBinvoiceApproval.levyTaxNum
-                self.dataForm.invoiceAmount = result.finaBinvoiceApproval.invoiceAmount
-                self.dataForm.deductAmount = result.finaBinvoiceApproval.deductAmount
-                self.dataForm.isReceivables = result.finaBinvoiceApproval.isReceivables
-                self.dataForm.vat = result.finaBinvoiceApproval.vat
-                self.dataForm.uct = result.finaBinvoiceApproval.uct
-                self.dataForm.est = result.finaBinvoiceApproval.est
-                self.dataForm.lest = result.finaBinvoiceApproval.lest
-                self.dataForm.st = result.finaBinvoiceApproval.st
-                self.dataForm.cit = result.finaBinvoiceApproval.cit
-                self.dataForm.pit = result.finaBinvoiceApproval.pit
-                self.dataForm.ot = result.finaBinvoiceApproval.ot
-                self.dataForm.taxBureau = result.finaBinvoiceApproval.taxBureau
-                self.dataForm.taxStartTime = result.finaBinvoiceApproval.taxStartTime
-                self.dataForm.taxEndTime = result.finaBinvoiceApproval.taxEndTime
-                self.dataForm.paymentDate = result.finaBinvoiceApproval.paymentDate
-                self.dataForm.lId = result.finaBinvoiceApproval.lId
-                self.dataForm.invoiceDate = result.finaBinvoiceApproval.invoiceDate
-                self.dataForm.invoiceNum = result.finaBinvoiceApproval.invoiceNum
-                self.dataForm.approvalStatus = result.finaBinvoiceApproval.approvalStatus
-                self.dataForm.sign = result.finaBinvoiceApproval.sign
-                self.dataForm.signTime = result.finaBinvoiceApproval.signTime
-                self.dataForm.propose = result.finaBinvoiceApproval.propose
-                self.dataForm.result = result.finaBinvoiceApproval.result
-                self.dataForm.createtime = result.finaBinvoiceApproval.createtime
-                self.dataForm.updatetime = result.finaBinvoiceApproval.updatetime
-                self.dataForm.createuser = result.finaBinvoiceApproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.cId = result.cId
+                self.dataForm.taxMethod = result.taxMethod
+                self.dataForm.invoiceType = result.invoiceType
+                self.dataForm.levyRate = result.levyRate
+                self.dataForm.isLevyTax = result.isLevyTax
+                self.dataForm.levyTaxNum = result.levyTaxNum
+                self.dataForm.invoiceAmount = result.invoiceAmount
+                self.dataForm.deductAmount = result.deductAmount
+                self.dataForm.isReceivables = result.isReceivables
+                self.dataForm.vat = result.vat
+                self.dataForm.uct = result.uct
+                self.dataForm.est = result.est
+                self.dataForm.lest = result.lest
+                self.dataForm.st = result.st
+                self.dataForm.cit = result.cit
+                self.dataForm.pit = result.pit
+                self.dataForm.ot = result.ot
+                self.dataForm.taxBureau = result.taxBureau
+                self.dataForm.taxStartTime = result.taxStartTime
+                self.dataForm.taxEndTime = result.taxEndTime
+                self.dataForm.paymentDate = result.paymentDate
+                self.dataForm.lId = result.lId
+                self.dataForm.invoiceDate = result.invoiceDate
+                self.dataForm.invoiceNum = result.invoiceNum
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })
@@ -432,6 +448,29 @@
           model.taxEndTime = taxTime[1]
           tapp.services.finaBinvoiceApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 保存回填
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm }
+          let taxTime = model.taxStartTime
+          model.taxStartTime = taxTime[0]
+          model.taxEndTime = taxTime[1]
+          tapp.services.finaBinvoiceApproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

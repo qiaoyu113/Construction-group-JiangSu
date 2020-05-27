@@ -15,6 +15,9 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
@@ -28,31 +31,31 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item  prop="proName" label="项目名称">
-            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
+            <t-input :readonly="true" v-model="dataForm.proName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proCode" label="项目编号">
-            <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
+            <t-input :readonly="true" v-model="dataForm.proCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proSubCompany" label="所属单位">
-            <el-input :readonly="true" v-model="dataForm.proSubCompany"></el-input>
+            <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <el-input :readonly="true" v-model="dataForm.realAmount">
+            <t-input :readonly="true" v-model="dataForm.realAmount">
               <span slot="append">万元</span>
-            </el-input>
+            </t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次借款期限">
-            <el-input :readonly="true" v-model="dataForm.tiimeLimit">
+            <t-input :readonly="true" v-model="dataForm.tiimeLimit">
               <span slot="append">月</span>
-            </el-input>
+            </t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -62,37 +65,37 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="getAmount" label="本次放款金额">
-            <el-input v-model="dataForm.getAmount" @change="onGetAmount">
+            <t-input v-model="dataForm.getAmount" @change="onGetAmount" :readonly="readOnly">
               <span slot="append">万元</span>
-            </el-input>
+            </t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="timeLimit" label="本次放款期限">
-            <t-int-input v-model="dataForm.timeLimit">
+            <t-int-input v-model="dataForm.timeLimit" :readonly="readOnly">
               <span slot="append">月</span>
             </t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="getCode" label="借款合同编号">
-            <el-input :readonly="true" v-model="dataForm.getCode" placeholder="审批完成后填写"></el-input>
+          <el-form-item prop="getCode" label="借款合同编号" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.getCode" placeholder="审批完成后填写"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计放款金额">
-            <el-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+            <t-input :readonly="true" v-model="dataForm.totalBorrowAmount">
               <span slot="append">万元</span>
-            </el-input>
+            </t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftAmount" label="剩余可用额度">
-            <el-input :readonly="true" v-model="dataForm.leftAmount">
+            <t-input :readonly="true" v-model="dataForm.leftAmount">
               <span slot="append">万元</span>
-            </el-input>
+            </t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -102,7 +105,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="sign" label="经办人">
-              <el-input v-model="dataForm.sign"></el-input>
+              <span>{{dataForm.sign}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -114,7 +117,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="remark" label="备注">
-              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+              <t-input type="textarea" v-model="dataForm.remark"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -133,12 +136,17 @@
 
   export default {
     data () {
+      var checkGetCode = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.getCode == '' || this.dataForm.getCode == undefined)) callback(new Error('借款合同编号不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',baId: '',getAmount: '',timeLimit: '',getCode: '',totalBorrowAmount: '',
           leftAmount: '',fromType: '',approvalStatus: '',sign: '',signTime: '',propose: '',
@@ -180,6 +188,7 @@
           realAmount: [
             { required: true, message: '本次借款额度不能为空', trigger: 'blur' }
           ],
+          getCode: [{validator: checkGetCode, trigger: 'blur'}],
         }
       }
     },
@@ -187,12 +196,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -231,27 +242,27 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaGeamounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaGeamounapproval.pId
-                self.dataForm.baId = result.finaGeamounapproval.baId
-                self.dataForm.getAmount = result.finaGeamounapproval.getAmount
-                self.dataForm.timeLimit = result.finaGeamounapproval.timeLimit
-                self.dataForm.getCode = result.finaGeamounapproval.getCode
-                self.dataForm.totalBorrowAmount = result.finaGeamounapproval.totalBorrowAmount
-                self.dataForm.leftAmount = result.finaGeamounapproval.leftAmount
-                self.dataForm.fromType = result.finaGeamounapproval.fromType
-                self.dataForm.approvalStatus = result.finaGeamounapproval.approvalStatus
-                self.dataForm.sign = result.finaGeamounapproval.sign
-                self.dataForm.signTime = result.finaGeamounapproval.signTime
-                self.dataForm.propose = result.finaGeamounapproval.propose
-                self.dataForm.result = result.finaGeamounapproval.result
-                self.dataForm.createtime = result.finaGeamounapproval.createtime
-                self.dataForm.updatetime = result.finaGeamounapproval.updatetime
-                self.dataForm.createuser = result.finaGeamounapproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.baId = result.baId
+                self.dataForm.getAmount = result.getAmount
+                self.dataForm.timeLimit = result.timeLimit
+                self.dataForm.getCode = result.getCode
+                self.dataForm.totalBorrowAmount = result.totalBorrowAmount
+                self.dataForm.leftAmount = result.leftAmount
+                self.dataForm.fromType = result.fromType
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })
@@ -265,6 +276,27 @@
       },
       // 表单提交
       doSave () {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.finaGeamounapproval.save(model).then(function(result) {
+            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 保存回填
+      doBackFillSave() {
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {

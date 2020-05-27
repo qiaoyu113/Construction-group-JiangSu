@@ -1,10 +1,5 @@
 <template>
   <div>
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">农民工工资帐户开立申请</div>
-      </el-col>
-    </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
@@ -19,6 +14,9 @@
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
       </el-dialog>
+    </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card>
@@ -65,8 +63,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="注销时间：">
-            <el-date-picker type="datetime" placeholder="申请完成后，填写注销时间" :readonly="true" v-model="dataForm.cancelTime"></el-date-picker>
+          <el-form-item label="注销时间：" :class="{'is-required': isBackFill}">
+            <el-date-picker type="datetime" placeholder="申请完成后，填写注销时间" :disabled="!isBackFill" v-model="dataForm.cancelTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -86,12 +84,17 @@
 
   export default {
     data () {
+      var checkCancelTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.cancelTime == '' || this.dataForm.cancelTime == undefined)) callback(new Error('注销时间不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',
           pId: '',
@@ -115,6 +118,7 @@
           bankAccount: ''
         },
         dataRule: {
+          cancelTime: [{validator: checkCancelTime, trigger: 'blur'}],
           proCode: [
             { required: true, message: '项目编码不能为空', trigger: 'blur' }
           ],
@@ -144,12 +148,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -177,7 +183,7 @@
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs["ruleForm"].resetFields()
-                        if (this.dataForm.id) {
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
@@ -211,6 +217,26 @@
           let model = { ...self.dataForm };
           tapp.services.finaCancelFwaccounapproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 回填保存
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.finaCancelFwaccounapproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

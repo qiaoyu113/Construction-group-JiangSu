@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-date-picker :type="type" v-model="currentValue" align="right" :picker-options="pickerOptions"
+    <el-date-picker :type="type" v-model="currentValue" align="right" :picker-options="pickerOptions" :placeholder="placeholder"
                     :value-format="valueFormat" :disabled="disabled" v-if="!readOnly">
     </el-date-picker>
     <div v-else class="t-readonly  t-datetime-picker-readonly-div">
@@ -30,6 +30,11 @@
       readOnly: {
         type: Boolean,
         default: false,
+        required: false
+      },
+      placeholder: {
+        type: String,
+        default: '',
         required: false
       }
     },

@@ -15,6 +15,9 @@
         </div>
       </el-dialog>
     </el-row>
+     <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'跨区域涉税事项报告信息'"></t-sub-title>
@@ -96,8 +99,8 @@
       <t-sub-title :title="'注销申请'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="logoffDate" label="注销时间">
-            <el-date-picker type="datetime" readonly placeholder="申请通过后填写" v-model="dataForm.logoffDate"></el-date-picker>
+          <el-form-item prop="logoffDate" label="注销时间" :class="{'is-required': isBackFill}">
+            <el-date-picker type="datetime" :disabled="!isBackFill" placeholder="申请通过后填写" v-model="dataForm.logoffDate"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -133,12 +136,17 @@
 
   export default {
     data () {
+      var checkLogoffDate = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.logoffDate == '' || this.dataForm.logoffDate == undefined)) callback(new Error('注销时间不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',
           lId: '',logoffDate: '',
@@ -188,7 +196,7 @@
           ,province: [
             { required: true, message: '外出经营地不能为空', trigger: 'blur' }
           ],
-
+          logoffDate: [{validator: checkLogoffDate, trigger: 'blur'}],
         }
       }
     },
@@ -196,12 +204,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -235,22 +245,22 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCtaxationLogoffApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaCtaxationLogoffApproval.pId
-                self.dataForm.lId = result.finaCtaxationLogoffApproval.lId
-                self.dataForm.logoffDate = result.finaCtaxationLogoffApproval.logoffDate
-                self.dataForm.approvalStatus = result.finaCtaxationLogoffApproval.approvalStatus
-                self.dataForm.sign = result.finaCtaxationLogoffApproval.sign
-                self.dataForm.signTime = result.finaCtaxationLogoffApproval.signTime
-                self.dataForm.propose = result.finaCtaxationLogoffApproval.propose
-                self.dataForm.result = result.finaCtaxationLogoffApproval.result
-                self.dataForm.createtime = result.finaCtaxationLogoffApproval.createtime
-                self.dataForm.updatetime = result.finaCtaxationLogoffApproval.updatetime
-                self.dataForm.createuser = result.finaCtaxationLogoffApproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.lId = result.lId
+                self.dataForm.logoffDate = result.logoffDate
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })
@@ -272,6 +282,28 @@
           model.startDate = model.startDate[0]
           tapp.services.finaCtaxationLogoffApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 保存回填
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          model.endDate = model.startDate[1]
+          model.startDate = model.startDate[0]
+          tapp.services.finaCtaxationLogoffApproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

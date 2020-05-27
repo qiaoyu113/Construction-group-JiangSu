@@ -15,7 +15,7 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item prop="proName" label="项目名称：">
-            <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
+            <t-project-select placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -78,7 +78,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="计划开工日期：" prop="proPlanStartDate" verify class="is-required">
+          <el-form-item label="计划开工日期：" prop="proPlanStartDate" class="is-required">
             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
             </t-datetime-picker>
           </el-form-item>
@@ -241,18 +241,17 @@
         </el-col>
       </el-row>
       </el-card>
-      <el-card shadow="never" v-if="showDepositInfo">
+      <!-- <el-card shadow="never" v-if="showDepositInfo"> -->
+      <el-card shadow="never">
       <t-sub-title :title="'合同保证金信息'"></t-sub-title>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item prop="companyName" label="联营公司名称：">
            <el-input v-model="dataForm.companyName" :disabled="true"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item>
-            <div>已交总保证金额：{{depositTotal}}万元</div>
-          </el-form-item>
+        <el-col :span="4">
+          <div style="font-size: 11px;height:23px;line-height:23px;">已交总保证金额：{{depositTotal}}万元</div>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="currentDeposit" label="本合同保证金额：" label-width="130px">
@@ -262,34 +261,36 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
-          <el-form-item prop="datastatus" label="现金：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="payWay1" :rules="dataRule.payWay1">
+            <div slot="label"><el-checkbox v-model="checked1" @change="onPayWay1()"></el-checkbox><span style="margin-left: 5px;">现金：</span></div>
+            <t-number-input v-model="payWay1" :precision="8" @change="getItem1" :disabled="!checked1"></t-number-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="payWay2" label-width="120px" :rules="dataRule.payWay2">
+            <div slot="label"><el-checkbox v-model="checked2" @change="onPayWay2()"></el-checkbox><span @click="showPayWay2" :class="{'checkbox-checked': checked2 }" style="margin-left: 5px;">房产(他项权)：</span></div>
+            <el-input v-model="payWay2" disabled></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="payWay3" label-width="170px" :rules="dataRule.payWay3">
+            <div slot="label"><el-checkbox v-model="checked3" @change="onPayWay3()"></el-checkbox><span @click="showPayWay3" :class="{'checkbox-checked': checked3 }" style="margin-left: 5px;">其他合作协议的履约担保：</span></div>
+            <el-input v-model="payWay3" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="5">
-          <el-form-item prop="datastatus" label="房产(他项权)：">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item prop="datastatus" label="其他合作协议的履约担保：" label-width="150px">
-            <el-input v-model="dataForm.datastatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item prop="datastatus" label="其他合同转：">
-            <el-input v-model="dataForm.datastatus" readOnly></el-input>
+          <el-form-item prop="payWay4" :rules="dataRule.payWay4">
+            <div slot="label"><el-checkbox v-model="checked4" @change="onPayWay4()"></el-checkbox><span @click="showPayWay4" :class="{'checkbox-checked': checked4 }" style="margin-left: 5px;">其他合同转：</span></div>
+            <el-input v-model="payWay4" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-               label-width="120px" label-position="right"></el-form>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'合同收款条件'"></t-sub-title>
       <el-row :gutter="20">
-          <el-form-item prop="datastatus" verify can-be-empty :maxLength="200">
-            <el-input type="textarea" v-model="dataForm.datastatus" readOnly></el-input>
+          <el-form-item prop="conPayStandard" can-be-empty :maxLength="200">
+            <el-input type="textarea" v-model="dataForm.conPayStandard" readOnly></el-input>
           </el-form-item>
       </el-row>
       </el-card>
@@ -299,12 +300,90 @@
                  :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
+    <el-dialog title="房产（他项权）列表" :visible.sync="dialogVisible2">
+      <div>合计：{{payWay2}}元</div>
+      <t-edit-grid ref="payWay1Grid" :options="payWay2Options" :readOnly="readOnly" >
+        <template slot="columnDataHeader">
+          <t-edit-grid-column prop="code" label="抵押编号" verify :maxLength="100" min-width="100" class-name="is-required" >
+            <template slot-scope="scope">
+              <t-input v-model="scope.row.code" :readOnly="readOnly" ></t-input>
+            </template>
+          </t-edit-grid-column>
+          <t-edit-grid-column prop="num" label="房产抵押金额（元）" verify :maxLength="100" min-width="100" class-name="is-required" >
+            <template slot-scope="scope">
+              <t-number-input v-model="scope.row.num" :precision="8" :readOnly="readOnly"></t-number-input>
+            </template>
+          </t-edit-grid-column>
+        </template>
+      </t-edit-grid>
+      <div slot="footer">
+        <el-button @click="dialogVisible2 = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible2 = false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="其他合作协议的履约担保列表" :visible.sync="dialogVisible3">
+      <div></div>
+      <div slot="footer">
+        <el-button @click="dialogVisible3 = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible3 = false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="可用合同保证金列表" :visible.sync="dialogVisible4">
+      <div></div>
+      <div slot="footer">
+        <el-button @click="dialogVisible4 = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible4 = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   export default {
     data() {
+      var checkPayWay1 = (rule, value, callback) => {
+        if (this.checked1 && (this.payWay1 == '' || this.payWay1 == undefined)) callback(new Error('请输入现金'));
+        else callback();
+      };
+      var checkPayWay2 = (rule, value, callback) => {
+        if (this.checked2 && (this.payWay2 == '' || this.payWay2 == undefined)) callback(new Error('请输入房产(他项权)'));
+        else callback();
+      };
+      var checkPayWay3 = (rule, value, callback) => {
+        if (this.checked3 && (this.payWay3 == '' || this.payWay3 == undefined)) callback(new Error('请输入其他合作协议的履约担保'));
+        else callback();
+      };
+      var checkPayWay4 = (rule, value, callback) => {
+        if (this.checked4 && (this.payWay4 == '' || this.payWay4 == undefined)) callback(new Error('请输入其他合同转'));
+        else callback();
+      };
+      var isOtherPayWayEmpty = (rule, value, cb) => {
+        if(!this.dataForm.conPayWay || (this.dataForm.conPayWay && this.dataForm.conPayWay !== 'other_pay_way')) return cb()
+        if(this.dataForm.conPayWay && this.dataForm.conPayWay === 'other_pay_way') {
+          if (this.dataForm.otherPayWay == null || this.dataForm.otherPayWay.length == 0 || this.dataForm.otherPayWay == '') {
+            return cb(new Error('其他付款方式不能为空'))
+          }
+        }
+        return cb()
+      };
+      var isConSelfProportionEmpty = (rule, value, cb) => {
+        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
+        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
+          if (this.dataForm.conSelfProportion == null || this.dataForm.conSelfProportion.length == 0 || this.dataForm.conSelfProportion == '') {
+            return cb(new Error('自营占比不能为空'))
+          }
+        }
+        return cb()
+      };
+      var isConOtherProportionEmpty = (rule, value, cb) => {
+        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
+        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
+          if (this.dataForm.conOtherProportion == null || this.dataForm.conOtherProportion.length == 0 || this.dataForm.conOtherProportion == '') {
+            return cb(new Error('联营占比不能为空'))
+          }
+        }
+        return cb()
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
@@ -314,6 +393,21 @@
         showDepositInfo: false,
         depositTotal: 0,
         currentDeposit: 0,
+        checked1: false,
+        checked2: false,
+        checked3: false,
+        checked4: false,
+        payWay1: '',
+        payWay2: '',
+        payWay3: '',
+        payWay4: '',
+        payWayList1: [],
+        payWayList2: [],
+        payWayList3: [],
+        payWayList4: [],
+        dialogVisible2: false,
+        dialogVisible3: false,
+        dialogVisible4: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -347,20 +441,60 @@
           jointAamount: '',
           district: '',
           companyName: '',
-          otherPayWay: '',
-          condeposiinfoData: {
-          },
+          condeposiinfoData: []
         },
         dataRule: {
-          otherPayWay: [{validator: this.isOtherPayWayEmpty, trigger: 'blur'}],
-          conSelfProportion: [{validator: this.isConSelfProportionEmpty, trigger: 'blur'}],
-          conOtherProportion: [{validator: this.isConOtherProportionEmpty, trigger: 'blur'}],
           conPayWay: [{required: true, message: '付款方式不能为空', trigger: 'change'}],
-        }
+          otherPayWay: [{validator: isOtherPayWayEmpty, trigger: 'blur'}],
+          conSelfProportion: [{validator: isConSelfProportionEmpty, trigger: 'blur'}],
+          conOtherProportion: [{validator: isConOtherProportionEmpty, trigger: 'blur'}],
+          payWay1: [{validator: checkPayWay1, trigger: 'change'}],
+          payWay2: [{validator: checkPayWay2, trigger: 'change'}],
+          payWay3: [{validator: checkPayWay3, trigger: 'change'}],
+          payWay4: [{validator: checkPayWay4, trigger: 'change'}],
+        },
+        payWay2Options: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            reduceMethod: this.getSummaries2,
+            defaultSort: {
+              prop: "id",
+              order: "ascending",
+            },
+          },
+        },
+        payWay3Options: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            reduceMethod: this.getSummaries3,
+            defaultSort: {
+              prop: "id",
+              order: "ascending",
+            },
+          },
+        },
+        payWay4Options: {
+          dataSource: [],
+          grid: {
+            offsetHeight: 36, // 36:查询部分高度
+            reduceMethod: this.getSummaries4,
+            defaultSort: {
+              prop: "id",
+              order: "ascending",
+            },
+          },
+        },
       }
     },
     created() {
       // this.init()
+      setTimeout(() => {
+        this.payWay2Options.dataSource = [];
+        this.payWay3Options.dataSource = [];
+        this.payWay4Options.dataSource = [];
+      }, 300)
     },
     watch: {
       'dataForm.conPayWay': {
@@ -511,34 +645,92 @@
           return false;
         });
       },
-
-      isOtherPayWayEmpty (rule, value, cb) {
-        if(!this.dataForm.conPayWay || (this.dataForm.conPayWay && this.dataForm.conPayWay !== 'other_pay_way')) return cb()
-        if(this.dataForm.conPayWay && this.dataForm.conPayWay === 'other_pay_way') {
-          if (this.dataForm.otherPayWay == null || this.dataForm.otherPayWay.length == 0 || this.dataForm.otherPayWay == '') {
-            return cb(new Error('其他付款方式不能为空'))
-          }
-        }
-        return cb()
+      onPayWay1() {
+        console.log('1', this.checked1)
+        
       },
-      isConSelfProportionEmpty (rule, value, cb) {
-        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
-        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
-          if (this.dataForm.conSelfProportion == null || this.dataForm.conSelfProportion.length == 0 || this.dataForm.conSelfProportion == '') {
-            return cb(new Error('自营占比不能为空'))
-          }
-        }
-        return cb()
+      onPayWay2() {
+        console.log('2', this.checked2)
+        if(this.checked2) this.showPayWay2()
       },
-      isConOtherProportionEmpty (rule, value, cb) {
-        if(!this.dataForm.proRunMode || (this.dataForm.proRunMode && this.dataForm.proRunMode !== 'proprietary_pool')) return cb()
-        if(this.dataForm.proRunMode && this.dataForm.proRunMode === 'proprietary_pool') {
-          if (this.dataForm.conOtherProportion == null || this.dataForm.conOtherProportion.length == 0 || this.dataForm.conOtherProportion == '') {
-            return cb(new Error('联营占比不能为空'))
-          }
-        }
-        return cb()
+      onPayWay3() {
+        console.log('3', this.checked3)
+        if(this.checked3) this.showPayWay3()
       },
+      onPayWay4() {
+        console.log('4', this.checked4)
+        if(this.checked4) this.showPayWay4()
+      },
+      showPayWay2() {
+        this.dialogVisible2 = true
+        setTimeout(() => {
+          this.payWay2Options.dataSource = this.payWayList2;
+        }, 300)
+      },
+      showPayWay3() {
+        this.dialogVisible3 = true
+        setTimeout(() => {
+          this.payWay3Options.dataSource = this.payWayList3;
+        }, 300)
+      },
+      showPayWay4() {
+        this.dialogVisible4 = true
+        setTimeout(() => {
+          this.payWay4Options.dataSource = this.payWayList4;
+        }, 300)
+      },
+      getSummaries2 (param) {
+        const { columns, data, reduces } = param
+        let sum = 0;
+        data.map(item => {
+          if(!item.num) sum += 0;
+          sum += parseFloat(item.num);
+        })
+        this.payWay2 = sum;
+        return []
+      },
+      getSummaries3 (param) {
+        const { columns, data, reduces } = param
+        let sum = 0;
+        data.map(item => {
+          if(!item.num) sum += 0;
+          sum += parseFloat(item.num);
+        })
+        this.payWay4 = sum;
+        return []
+      },
+      getSummaries3 (param) {
+        const { columns, data, reduces } = param
+        let sum = 0;
+        data.map(item => {
+          if(!item.num) sum += 0;
+          sum += parseFloat(item.num);
+        })
+        this.payWay4 = sum;
+        return []
+      },
+      getItem1(val) {
+        if(this.payWayList1.length > 1) this.payWayList1.splice(1, this.payWayList1.length - 1)
+        if(this.payWayList1.length == 1) this.payWayList1[0].amountMoney = val
+        if(this.payWayList1.length == 0) {
+          this.payWayList1.push({
+            pId: this.dataForm.pId,
+            cId: '',
+            depositType: 'cash_deposit',
+            amountMoney: val,
+            fromCid: '',
+            depositStatus: 'no_refund',
+            unionCompany: this.dataForm.unionCompany,
+          })
+        }
+      }
     }
   }
 </script>
+<style lang="scss" scoped>
+.checkbox-checked {
+  color: #357ef7;
+  cursor: pointer;
+}
+</style>
+
