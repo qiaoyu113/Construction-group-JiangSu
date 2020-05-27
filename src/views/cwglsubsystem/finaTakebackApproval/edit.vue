@@ -21,7 +21,8 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item prop="rId" label="到帐信息选择">
-              <t-receive-accounapproval-select placeholder="选择到帐信息" v-model="dataForm.rId" @selectedProject="getSelectedProject"></t-receive-accounapproval-select>
+              <t-receive-accounapproval-select placeholder="选择到帐信息" v-model="dataForm.rId"
+                                               @selectedProject="getSelectedProject"></t-receive-accounapproval-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -69,15 +70,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="sAmount" label="自营金额">
-              <el-input readonly v-model="dataForm.sAmount">
+            <el-form-item prop="psAmount" label="自营金额">
+              <el-input readonly v-model="dataForm.psAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item prop="oAmount" label="联营金额">
-              <el-input readonly v-model="dataForm.oAmount">
+            <el-form-item prop="poAmount" label="联营金额">
+              <el-input readonly v-model="dataForm.poAmount">
                 <span slot="append">万元</span>
               </el-input>
             </el-form-item>
@@ -85,7 +86,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="2" >
-            <el-form-item prop="sAmount" label="已支付预付款"></el-form-item>
+            <el-form-item prop="paidSAmount" label="已支付预付款"></el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item prop="paidSAmount" label="自营金额" label-width="80px">
@@ -182,27 +183,29 @@
         readOnly: false,
         dialogVisible: false,
         dataForm: {
+          poAmount:'',
+          psAmount:'',
           bId: '',
-          actTaskKey: '',                                                                                                                                                            
-          pId: '',                                                                                                                                                            
-          rId: '', 
+          actTaskKey: '',
+          pId: '',
+          rId: '',
           mangementRatio: '',
           deductAmount: '',
           realAmount: '',
           sAmount: '',
           oAmount: '',
           paidSAmount: '',
-          paidOAmount: '',                                                                                                                                                            
-          approvalStatus: '',                                                                                                                                                            
-          sign: '',                                                                                                                                                            
-          signTime: '',                                                                                                                                                            
-          propose: '',                                                                                                                                                            
-          result: '',                                                                                                                                                            
-          createtime: '',                                                                                                                                                            
-          updatetime: '',                                                                                                                                                            
-          createuser: '',                                                                                                                                                            
-          updateuser: '',                                                                                                                                                            
-          datastatus: ''                                                                                        
+          paidOAmount: '',
+          approvalStatus: '',
+          sign: '',
+          signTime: '',
+          propose: '',
+          result: '',
+          createtime: '',
+          updatetime: '',
+          createuser: '',
+          updateuser: '',
+          datastatus: ''
         },
         dataRule: {
           proCode: [
@@ -245,6 +248,12 @@
             { required: true, message: '自营金额不能为空', trigger: 'blur' }
           ],
           oAmount: [
+            { required: true, message: '联营金额不能为空', trigger: 'blur' }
+          ],
+          psAmount: [
+            { required: true, message: '自营金额不能为空', trigger: 'blur' }
+          ],
+          poAmount: [
             { required: true, message: '联营金额不能为空', trigger: 'blur' }
           ],
           paidSAmount: [
@@ -290,28 +299,58 @@
         this.dataForm.rWay = data.rWay
         this.dataForm.rAmount = data.rAmount
         this.dataForm.rDatetime = data.rDatetime
-        this.dataForm.sAmount = data.sAmount
-        this.dataForm.oAmount = data.oAmount
+        this.dataForm.psAmount = data.sAmount
+        this.dataForm.poAmount = data.oAmount
         this.dataForm.rType = data.rType
         this.dataForm.lNum = data.lNum
         this.dataForm.proSubCompany = data.proSubCompany
         if (!data.lNum) {
           this.dataRule.lNum[0].required = false
         }
-        if (!data.oAmount) {
-          this.dataRule.oAmount[0].required = false
-        }
-        if (!data.sAmount) {
-          this.dataRule.sAmount[0].required = false
-        }
         if (data.rType == 'yfk') {
-          this.data.paidOAmount = data.oAmount
-          this.data.paidSAmount = data.sAmount
           this.dataRule.paidOAmount[0].required = true
           this.dataRule.paidSAmount[0].required = true
         } else {
           this.dataRule.paidOAmount[0].required = false
           this.dataRule.paidSAmount[0].required = false
+        }
+        // this.data.paidOAmount = data.oAmount
+        // this.data.paidSAmount = data.sAmount
+        // 如果是自营模式
+        if (this.dataForm.proRunMode == 'proprietary') {
+          this.dataRule.oAmount[0].required = false
+          this.dataRule.poAmount[0].required = false
+          this.dataForm.deductAmount = 0
+          this.dataForm.mangementRatio = 0
+          this.dataForm.sAmount = data.sAmount
+          this.dataForm.realAmount = data.sAmount
+          this.dataForm.oAmount = 0
+        }
+        if (this.dataForm.proRunMode == 'pool') {
+          this.dataRule.sAmount[0].required = false
+          this.dataRule.psAmount[0].required = false
+          this.dataForm.mangementRatio = data.proUnionCompanyMerate // 总部管理费比例
+          if (this.dataForm.rWay == 'other_acc_type') {
+            this.dataForm.deductAmount = 0 // 扣款
+            this.dataForm.realAmount = data.oAmount // 本次实际请款金额
+          } else {
+            this.dataForm.deductAmount = Number(this.dataForm.mangementRatio) * Number(data.oAmount) / 100 // 扣款
+            this.dataForm.realAmount = Number(data.oAmount) -  this.dataForm.deductAmount // 本次实际请款金额
+          }
+          this.dataForm.sAmount = 0 // 自营
+          this.dataForm.oAmount = data.oAmount // 联营
+        }
+        if (this.dataForm.proRunMode == 'proprietary_pool') {
+          this.dataForm.mangementRatio = data.proUnionCompanyMerate // 总部管理费比例
+          if (this.dataForm.rWay == 'other_acc_type') {
+            this.dataForm.deductAmount = 0 // 扣款
+            this.dataForm.realAmount = Number(data.oAmount) + Number(data.sAmount)// 本次实际请款金额
+          } else {
+            this.dataForm.deductAmount = Number(this.dataForm.mangementRatio) * Number(data.oAmount) / 100 // 扣款
+            this.dataForm.realAmount = Number(data.oAmount) -  Number(this.dataForm.deductAmount) + Number(data.sAmount)// 本次实际请款金额
+          }
+          this.dataForm.sAmount = data.sAmount // 自营
+          this.dataForm.oAmount = data.oAmount // 联营
         }
       },
       // 初始化 编辑和新增 2种情况
