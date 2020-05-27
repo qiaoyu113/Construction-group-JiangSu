@@ -197,6 +197,7 @@
       handleSelectionChange(val) {
         this.checkededRows = val
       },
+
       doReset() {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}

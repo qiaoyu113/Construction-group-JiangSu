@@ -42,7 +42,7 @@
           </el-col>
         </el-row>
       </t-form>
-      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
       </t-grid>
     </el-card>
   </div>
@@ -149,6 +149,9 @@
       },
       handleSelectionChange (val) {
         this.checkededRows = val
+      },
+      handleCellClick(row,column,cell,event){
+        console .log('click-info',row,column,cell,event)
       },
       doReset () {
         this.$refs.search.resetFields()
