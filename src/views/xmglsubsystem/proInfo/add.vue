@@ -50,8 +50,8 @@
             <el-form-item label="项目地址：" prop="pro_address">
               <el-row type="flex" justify="space-between">
                 <el-col :span="10">
-                  <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity"
-                                   :readOnly="readOnly"></t-region-picker>
+                  <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity"
+                                   :readOnly="readOnly"></t-region-s-picker>
                 </el-col>
                 <el-col :span="13">
                   <el-form-item prop="proAddressDetail">
@@ -400,9 +400,6 @@
           proConstructCompanyAttr: [
             {required: true, message: '单位性质不能为空', trigger: 'blur'}
           ],
-          proAddressProvince: [
-            {required: true, message: '项目地址-省不能为空', trigger: 'blur'}
-          ],
           proAddressDetail: [
             {required: true, message: '详细地址不能为空', trigger: 'blur'}
           ],
@@ -516,59 +513,60 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.proInfo.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.pcId = result.proInfo.pcId
-                this.dataForm.proCode = result.proInfo.proCode
-                this.dataForm.proName = result.proInfo.proName
-                this.dataForm.proConstructCompany = result.proInfo.proConstructCompany
-                this.dataForm.proConstructCompanyAttr = result.proInfo.proConstructCompanyAttr
-                this.dataForm.proAddressProvince = result.proInfo.proAddressProvince
-                this.dataForm.proAddressCity = result.proInfo.proAddressCity
-                this.dataForm.proAddressDetail = result.proInfo.proAddressDetail
-                this.dataForm.proTotalInvestment = result.proInfo.proTotalInvestment
-                this.dataForm.proSubCompany = result.proInfo.proSubCompany
-                this.dataForm.proBusDept = result.proInfo.proBusDept
-                this.dataForm.proDriveSubject = result.proInfo.proDriveSubject
-                this.dataForm.proContractAttr = result.proInfo.proContractAttr
-                this.dataForm.proType = result.proInfo.proType
-                this.dataForm.proSubType = result.proInfo.proSubType
-                this.dataForm.proFundSource = result.proInfo.proFundSource
-                this.dataForm.proStructure = result.proInfo.proStructure
-                this.dataForm.proContractScope = result.proInfo.proContractScope
-                this.dataForm.proManager = result.proInfo.proManager
-                this.dataForm.proWinAmount = result.proInfo.proWinAmount
-                this.dataForm.proWinAmountC = result.proInfo.proWinAmountC
-                this.dataForm.proPlanStartDate = result.proInfo.proPlanStartDate
-                this.dataForm.proPlanEndDate = result.proInfo.proPlanEndDate
-                this.dataForm.proRealStartDate = result.proInfo.proRealStartDate
-                this.dataForm.proRealEndDate = result.proInfo.proRealEndDate
-                this.dataForm.proLimitTime = result.proInfo.proLimitTime
-                this.dataForm.proBuildArea = result.proInfo.proBuildArea
-                this.dataForm.proSpan = result.proInfo.proSpan
-                this.dataForm.proLayer = result.proInfo.proLayer
-                this.dataForm.proBlock = result.proInfo.proBlock
-                this.dataForm.proBasementArea = result.proInfo.proBasementArea
-                this.dataForm.proIsFitout = result.proInfo.proIsFitout
-                this.dataForm.proFitoutRate = result.proInfo.proFitoutRate
-                this.dataForm.proIsBim = result.proInfo.proIsBim
-                this.dataForm.proRunMode = result.proInfo.proRunMode
-                this.dataForm.proProfitRate = result.proInfo.proProfitRate
-                this.dataForm.proUnionCompanyMerate = result.proInfo.proUnionCompanyMerate
-                this.dataForm.proUnionCompany = result.proInfo.proUnionCompany
-                this.dataForm.proContacter = result.proInfo.proContacter
-                this.dataForm.proCompanyHeader = result.proInfo.proCompanyHeader
-                this.dataForm.proContactway = result.proInfo.proContactway
-                this.dataForm.proRegister = result.proInfo.proRegister
-                this.dataForm.proRegisterTime = result.proInfo.proRegisterTime
-                this.dataForm.proStatue = result.proInfo.proStatue
-                this.dataForm.createtime = result.proInfo.createtime
-                this.dataForm.updatetime = result.proInfo.updatetime
-                this.dataForm.createuser = result.proInfo.createuser
-                this.dataForm.updateuser = result.proInfo.updateuser
-                this.dataForm.datastatus = result.proInfo.datastatus
+                self.dataForm.pcId = result.pcId
+                self.dataForm.proCode = result.proCode
+                self.dataForm.proName = result.proName
+                self.dataForm.proConstructCompany = result.proConstructCompany
+                self.dataForm.proConstructCompanyAttr = result.proConstructCompanyAttr
+                self.dataForm.proAddressProvince = result.proAddressProvince
+                self.dataForm.proAddressCity = result.proAddressCity
+                self.dataForm.proAddressDetail = result.proAddressDetail
+                self.dataForm.proTotalInvestment = result.proTotalInvestment
+                self.dataForm.proSubCompany = result.proSubCompany
+                self.dataForm.proBusDept = result.proBusDept
+                self.dataForm.proDriveSubject = result.proDriveSubject
+                self.dataForm.proContractAttr = result.proContractAttr
+                self.dataForm.proType = result.proType
+                self.dataForm.proSubType = result.proSubType
+                self.dataForm.proFundSource = result.proFundSource
+                self.dataForm.proStructure = result.proStructure
+                self.dataForm.proContractScope = result.proContractScope
+                self.dataForm.proManager = result.proManager
+                self.dataForm.proWinAmount = result.proWinAmount
+                self.dataForm.proWinAmountC = result.proWinAmountC
+                self.dataForm.proPlanStartDate = result.proPlanStartDate
+                self.dataForm.proPlanEndDate = result.proPlanEndDate
+                self.dataForm.proRealStartDate = result.proRealStartDate
+                self.dataForm.proRealEndDate = result.proRealEndDate
+                self.dataForm.proLimitTime = result.proLimitTime
+                self.dataForm.proBuildArea = result.proBuildArea
+                self.dataForm.proSpan = result.proSpan
+                self.dataForm.proLayer = result.proLayer
+                self.dataForm.proBlock = result.proBlock
+                self.dataForm.proBasementArea = result.proBasementArea
+                self.dataForm.proIsFitout = result.proIsFitout
+                self.dataForm.proFitoutRate = result.proFitoutRate
+                self.dataForm.proIsBim = result.proIsBim
+                self.dataForm.proRunMode = result.proRunMode
+                self.dataForm.proProfitRate = result.proProfitRate
+                self.dataForm.proUnionCompanyMerate = result.proUnionCompanyMerate
+                self.dataForm.proUnionCompany = result.proUnionCompany
+                self.dataForm.proContacter = result.proContacter
+                self.dataForm.proCompanyHeader = result.proCompanyHeader
+                self.dataForm.proContactway = result.proContactway
+                self.dataForm.proRegister = result.proRegister
+                self.dataForm.proRegisterTime = result.proRegisterTime
+                self.dataForm.proStatue = result.proStatue
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -642,16 +640,6 @@
           })
           return false
         })
-      },
-      getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressProvince = province
-      },
-      getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressCity = city
       },
     }
   }

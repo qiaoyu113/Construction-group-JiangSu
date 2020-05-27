@@ -67,19 +67,10 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="4">
+        <el-col :span="12">
           <el-form-item prop="province" label="外出经营地">
-            <el-input v-model="dataForm.province"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="city" label="">
-            <el-input v-model="dataForm.city"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item prop="district" label="">
-            <el-input v-model="dataForm.district"></el-input>
+            <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
+                             :readOnly="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -154,9 +145,9 @@
           city: [
             { required: true, message: '市不能为空', trigger: 'blur' }
           ],
-          district: [
-            { required: true, message: '区不能为空', trigger: 'blur' }
-          ],
+          // district: [
+          //   { required: true, message: '区不能为空', trigger: 'blur' }
+          // ],
           address: [
             { required: true, message: '详细地址不能为空', trigger: 'blur' }
           ],

@@ -228,11 +228,18 @@
                 </el-col>
               </el-row>
               <el-row :gutter="0">
-                <el-col :span="8">
-                  <el-form-item label="所属地区" prop="region" class="is-required">
+                <el-col :span="16">
+                  <el-form-item label="所属地区" prop="region1" class="is-required">
                     <!-- v-model 请绑定当前页面的对应值 -->
-                    <t-region-picker v-model="docEntity.province" @province="getProvince" @city="getCity"
+                    <t-region-picker :province.sync="docEntity.province" :city.sync="docEntity.city" :district.sync="docEntity.district"
                                      :readOnly="readOnly"></t-region-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="所属地区" prop="region2" class="is-required">
+                    <!-- v-model 请绑定当前页面的对应值 -->
+                    <t-region-s-picker :province.sync="docEntity.province2" :city.sync="docEntity.city2"
+                                     :readOnly="readOnly"></t-region-s-picker>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -541,7 +548,10 @@
           customerCardNOSexId: null,
           customerCardNOAddress: null,
           province: '',
-          city: ''
+          city: '',
+          district: '',
+          province2: '',
+          city2: '',
         },
         input: '',
         formInfo: '',
@@ -783,16 +793,6 @@
         this.formInfo = this.$refs.multipleTable.selection
         this.$emit('formInfo', this.formInfo)
         console.log(this.formInfo)
-      },
-      getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.docEntity.province = province
-      },
-      getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.docEntity.city = city
       },
     }
   }

@@ -3,7 +3,7 @@
     <el-col>
       <t-edit-grid ref="firstPartyGrid" :options="firstPartyGridOptions" :readOnly="readOnly" >
         <template slot="columnDataHeader">
-          <t-edit-grid-column prop="subjectType" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
+          <t-edit-grid-column prop="subjectType" label="甲方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
             <template slot-scope="scope">
               <t-input v-model="scope.row.subjectType" :readOnly="readOnly" ></t-input>
             </template>

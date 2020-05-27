@@ -46,8 +46,11 @@
 
   export default {
     extends: baseView,
-    pId: '-1',
     props: {
+      pId: {
+        type: String,
+        default: '-1'
+      },
       value: {
         type: String,
         default: '-1'
@@ -86,7 +89,7 @@
           ],
         },
         selectProject: {
-          proCode: ''
+          scConName: ''
         },
         currentValue: '',
         gridOptions: {
@@ -100,6 +103,7 @@
           grid: {
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
+            maxHeight: 350,
             columns: [{
               prop: 'conCode',
               label: '子合同编号',
@@ -179,7 +183,7 @@
       },
       doReset() {
         this.$refs.search.resetFields()
-        this.selectProject = { conName: '' }
+        this.selectProject = { scConName: '' }
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
@@ -189,7 +193,7 @@
       proChoose() {
         //传送到父组件
         this.currentValue = this.selectProject.proName;
-        this.$emit('selectedProject', this.selectProject);
+        this.$emit('selectedCon', this.selectProject);
         this.$emit('input', this.selectProject.id);
         this.doReset();
         this.dialogFormVisible = false

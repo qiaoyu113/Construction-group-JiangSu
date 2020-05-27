@@ -45,7 +45,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proAddressProvince" label="项目地点">
-              <t-region-picker v-model="dataForm.proAddressProvince" @province="getProvince" @city="getCity" ></t-region-picker>
+              <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -198,7 +198,7 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
         },
         dataRule: {
 
@@ -216,12 +216,6 @@
           ],
           proIntroduce: [
             {required: false, message: '项目简介不能为空', trigger: 'blur'}
-          ],
-          proAddressProvince: [
-            {required: true, message: '项目地址不能为空', trigger: 'blur'}
-          ],
-          proAddressCity: [
-            {required: false, message: '项目地址不能为空', trigger: 'blur'}
           ],
           proAddressDetail: [
             {required: true, message: '项目地址不能为空', trigger: 'blur'}
@@ -276,46 +270,47 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBidProcaseApproval.bId
-                this.dataForm.actTaskKey = result.tBidProcaseApproval.actTaskKey
-                this.dataForm.proCode = result.tBidProcaseApproval.proCode
-                this.dataForm.proSubCompany = result.tBidProcaseApproval.proSubCompany
-                this.dataForm.proBusDept = result.tBidProcaseApproval.proBusDept
-                this.dataForm.proName = result.tBidProcaseApproval.proName
-                this.dataForm.proIntroduce = result.tBidProcaseApproval.proIntroduce
-                this.dataForm.proAddressProvince = result.tBidProcaseApproval.proAddressProvince
-                this.dataForm.proAddressCity = result.tBidProcaseApproval.proAddressCity
-                this.dataForm.proAddressDetail = result.tBidProcaseApproval.proAddressDetail
-                this.dataForm.proConstructCompany = result.tBidProcaseApproval.proConstructCompany
-                this.dataForm.proConstructCompanyAttr = result.tBidProcaseApproval.proConstructCompanyAttr
-                this.dataForm.proTotalInvestment = result.tBidProcaseApproval.proTotalInvestment
-                this.dataForm.proType = result.tBidProcaseApproval.proType
-                this.dataForm.proContractAttr = result.tBidProcaseApproval.proContractAttr
-                this.dataForm.proRunMode = result.tBidProcaseApproval.proRunMode
-                this.dataForm.proUnionCompany = result.tBidProcaseApproval.proUnionCompany
-                this.dataForm.proBuildArea = result.tBidProcaseApproval.proBuildArea
-                this.dataForm.planBidDate = result.tBidProcaseApproval.planBidDate
-                this.dataForm.proTracker = result.tBidProcaseApproval.proTracker
-                this.dataForm.contactNum = result.tBidProcaseApproval.contactNum
-                this.dataForm.bidResult = result.tBidProcaseApproval.bidResult
-                this.dataForm.bidCount = result.tBidProcaseApproval.bidCount
-                this.dataForm.brUser = result.tBidProcaseApproval.brUser
-                this.dataForm.brTime = result.tBidProcaseApproval.brTime
-                this.dataForm.brRemark = result.tBidProcaseApproval.brRemark
-                this.dataForm.sign = result.tBidProcaseApproval.sign
-                this.dataForm.signTime = result.tBidProcaseApproval.signTime
-                this.dataForm.approvalStatus = result.tBidProcaseApproval.approvalStatus
-                this.dataForm.propose = result.tBidProcaseApproval.propose
-                this.dataForm.result = result.tBidProcaseApproval.result
-                this.dataForm.createtime = result.tBidProcaseApproval.createtime
-                this.dataForm.updatetime = result.tBidProcaseApproval.updatetime
-                this.dataForm.createuser = result.tBidProcaseApproval.createuser
-                this.dataForm.updateuser = result.tBidProcaseApproval.updateuser
-                this.dataForm.datastatus = result.tBidProcaseApproval.datastatus
+                self.dataForm.bId = result.tBidProcaseApproval.bId
+                self.dataForm.actTaskKey = result.actTaskKey
+                self.dataForm.proCode = result.proCode
+                self.dataForm.proSubCompany = result.proSubCompany
+                self.dataForm.proBusDept = result.proBusDept
+                self.dataForm.proName = result.proName
+                self.dataForm.proIntroduce = result.proIntroduce
+                self.dataForm.proAddressProvince = result.proAddressProvince
+                self.dataForm.proAddressCity = result.proAddressCity
+                self.dataForm.proAddressDetail = result.proAddressDetail
+                self.dataForm.proConstructCompany = result.proConstructCompany
+                self.dataForm.proConstructCompanyAttr = result.proConstructCompanyAttr
+                self.dataForm.proTotalInvestment = result.proTotalInvestment
+                self.dataForm.proType = result.proType
+                self.dataForm.proContractAttr = result.proContractAttr
+                self.dataForm.proRunMode = result.proRunMode
+                self.dataForm.proUnionCompany = result.proUnionCompany
+                self.dataForm.proBuildArea = result.proBuildArea
+                self.dataForm.planBidDate = result.planBidDate
+                self.dataForm.proTracker = result.proTracker
+                self.dataForm.contactNum = result.contactNum
+                self.dataForm.bidResult = result.bidResult
+                self.dataForm.bidCount = result.bidCount
+                self.dataForm.brUser = result.brUser
+                self.dataForm.brTime = result.brTime
+                self.dataForm.brRemark = result.brRemark
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
               })
             }
           })
@@ -347,16 +342,6 @@
           });
           return false;
         });
-      },
-      getProvince (proAddressProvince) {
-        console.log('proAddressProvince', proAddressProvince)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressProvince = proAddressProvince
-      },
-      getCity (proAddressCity) {
-        console.log('proAddressCity', proAddressCity)
-        // 赋值给实际页面的值
-        this.dataForm.proAddressCity = proAddressCity
       },
     }
   }
