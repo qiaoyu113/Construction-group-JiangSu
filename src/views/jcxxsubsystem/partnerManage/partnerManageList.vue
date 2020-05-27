@@ -24,8 +24,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="入库时间" prop="dateRange">
-              <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.createTime" type="date"
+            <el-form-item label="入库时间" prop="createtime">
+              <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.createtime" type="date"
                                  :readOnly="readOnly">
               </t-datetime-picker>
             </el-form-item>
@@ -92,7 +92,7 @@
               companyName: null,
               legalPerson: null,
               isLitigation: null,
-              createTime: ''
+              createtime: ''
             }
           },
           grid: {
@@ -131,10 +131,10 @@
                 sortable: false
               },
               {
-                prop: 'createTime',
+                prop: 'createtime',
                 label: '入库时间',
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createTime, 'YYYY-MM-DD')
+                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD')
                 }
               },
               {

@@ -5,19 +5,19 @@
         <div class="title">公告更新列表</div>
       </el-col>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
+    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-
-      <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-          </el-button>
-        </el-row>
         <t-sub-title :title="'公告列表'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="noticeType" label="公告类型" aria-placeholder="请选择">
-              <t-dic-dropdown-select dicType="notice_type" v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
+              <t-dic-dropdown-select dicType="notice_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
 
             </el-form-item>
@@ -52,6 +52,7 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -62,7 +63,7 @@
         required: false
       }
     },
-    data () {
+    data() {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -87,7 +88,7 @@
                 show: true,
                 label: '查看',
                 method: this.doEdit
-              } ]
+              }]
             }, // 列操作按钮
             columns: [
               {
@@ -153,31 +154,31 @@
       }
     },
     components: {},
-    created () {
+    created() {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       // 获取码表值
-      loadCodeTableList () {
+      loadCodeTableList() {
         // 以下为示例
       },
-      onStartDateRangeChanged (val) {
+      onStartDateRangeChanged(val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange (val) {
+      handleSelectionChange(val) {
         this.checkededRows = val
       },
-      doReset () {
+      doReset() {
         this.$refs.search.resetFields()
       },
-      doExportExcel () {
+      doExportExcel() {
         this.$refs.searchReulstList.exportCSV('${comments}表')
       },
-      doRefresh () {
+      doRefresh() {
         this.$refs.searchReulstList.refresh()
       },
-      doEdit (key, row) {
+      doEdit(key, row) {
         let tpath = '/jcxxsubsystem/noticeManage/noticeAdd?id=' + row.id
 
         this.$router.push({

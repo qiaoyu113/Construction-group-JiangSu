@@ -42,7 +42,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
+            <el-form-item label="有效期至" prop="expirationDate" >
               <t-datetime-picker v-model="dataForm.expirationDate" type="date">
               </t-datetime-picker>
             </el-form-item>
@@ -230,6 +230,7 @@
       }
     },
     created () {
+      this.init()
 
     },
     activated () {

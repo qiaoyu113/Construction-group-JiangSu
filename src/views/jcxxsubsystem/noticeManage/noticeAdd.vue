@@ -55,7 +55,7 @@
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
           <el-form-item prop="createuser" label="发布人">
-            <span>{{dataForm.sign}}</span>
+            <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -134,11 +134,19 @@
           ],
           remark: [
             {required: false, message: '是否置顶不能为空', trigger: 'blur'}
-          ]
+          ],
+      createuser: [
+            {required: false, message: '发布人不能为空', trigger: 'blur'}
+          ],
+      createtime: [
+            {required: false, message: '发布时间不能为空', trigger: 'blur'}
+          ],
         }
       }
     },
-    created () {},
+    created () {
+      this.init()
+    },
     activated () {
       this.$nextTick((_) => {
         if (this.routeChanged) {
@@ -160,30 +168,31 @@
           this.$nextTick(() => {
             this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.tBaseinfoNotice.get(id).then(result => {
-                this.isEdit = true
-                this.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.noticeType = result.noticeType
-                this.dataForm.fromDept = result.fromDept
-                this.dataForm.noticeTitle = result.noticeTitle
-                this.dataForm.noticeContent = result.noticeContent
-                this.dataForm.timeLimit = result.timeLimit
-                this.dataForm.remark = result.remark
-                this.dataForm.createuser = result.createuser
-                this.dataForm.updateuser = result.updateuser
-                this.dataForm.datastatus = result.datastatus
-                this.dataForm.createtime = result.createtime
-                this.dataForm.updatetime = result.updatetime
+                self.isEdit = true
+                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.noticeType = result.noticeType
+                self.dataForm.fromDept = result.fromDept
+                self.dataForm.noticeTitle = result.noticeTitle
+                self.dataForm.noticeContent = result.noticeContent
+                self.dataForm.timeLimit = result.timeLimit
+                self.dataForm.remark = result.remark
+                self.dataForm.createuser = result.createuser
+                self.dataForm.updateuser = result.updateuser
+                self.dataForm.datastatus = result.datastatus
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
               })
             }
           })
         } else {
           this.$nextTick(() => {
             this.isEdit = false
+            this.dataForm.id = ''
             this.dataForm.createuser = this.currentUser.userDisplayName
             this.dataForm.createtime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate()
-            this.$refs['ruleForm'].resetFields()
           })
         }
       },

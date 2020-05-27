@@ -72,7 +72,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效期至" prop="expirationDate" verify class="is-required">
+            <el-form-item label="有效期至" prop="expirationDate" >
               <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
@@ -97,7 +97,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申请时间" prop="applyforDate" verify class="is-required">
+            <el-form-item label="申请时间" prop="applyforDate" >
               <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
@@ -183,7 +183,7 @@
             {required: true, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           province: [
-            {required: true, message: '所属地区-省', trigger: 'blur'}
+            {required: true, message: '省份', trigger: 'blur'}
           ],
           city: [
             {required: true, message: '所属地区-市', trigger: 'blur'}
@@ -201,7 +201,7 @@
             {required: true, message: '登陆网址不能为空', trigger: 'blur'}
           ],
           expirationDate: [
-            {required: true, message: '有效期至不能为空', trigger: 'blur'}
+            {required: true, message: '有效期不能为空', trigger: 'blur'}
           ],
           account: [
             {required: true, message: '用户名不能为空', trigger: 'blur'}
