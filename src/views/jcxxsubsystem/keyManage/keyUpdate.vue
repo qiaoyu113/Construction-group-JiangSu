@@ -126,6 +126,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item prop="" label="办理单位">
+            <span>{{subCompany}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item prop="sign" label="登记时间">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
@@ -156,6 +161,7 @@
         submitDialogVisible: false,
         pType: '',
         sealCount: '',
+        subCompany: '',
         dataForm: {
           id: '',
           actTaskKey: '',
@@ -176,7 +182,8 @@
           password: '',
           isInput: '',
           sign: '',
-          signTime: ''
+          signTime: '',
+          flag: '2'
         },
         dataRule: {
           province: [
@@ -291,7 +298,19 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
+            this.getUserWithDepartments()
             this.$refs.ruleForm.clearValidate()
+          })
+        }
+      },
+      getUserWithDepartments() {
+        if(this.currentUser && this.currentUser.userId) {
+          let self = this;
+          tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
+            if(result) {
+              // console.log('result', result)
+              self.subCompany = result.grouplist[0].value
+            }
           })
         }
       },

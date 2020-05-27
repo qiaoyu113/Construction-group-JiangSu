@@ -92,7 +92,7 @@
                 minWidth: 120,
               },
               {
-                prop: '',
+                prop: 'proSubCompany',
                 label: '备案单位',
                 sortable: false,
                 minWidth: 120,
@@ -133,7 +133,8 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('base_region', row.proAddressProvince) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
+                  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
 

@@ -17,13 +17,14 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区：" class="is-required">
-              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" :readOnly="readOnly"></t-region-s-picker>
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit"
+                                 :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称：">
               <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
-                                      :disabled="isEdit"></t-dic-dropdown-select>
+                                     :disabled="isEdit"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -59,7 +60,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principalId" label="主要负责人：">
-              <t-maincharge-select v-model="dataForm.principalId" @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
+              <t-maincharge-select v-model="dataForm.principalId"
+                                   @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -68,8 +70,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申请时间：" prop="applyforDate" >
-              <t-datetime-picker v-model="dataForm.applyforDate" type="date"  >
+            <el-form-item label="申请时间：" prop="applyforDate">
+              <t-datetime-picker v-model="dataForm.applyforDate" type="date">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
@@ -99,11 +101,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="办理单位">
-            <span>{{subCompany}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
           <el-form-item prop="signTime" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
@@ -120,19 +117,18 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import baseView from '@/base/baseView'
 
   export default {
     extends: baseView,
-    data () {
+    data() {
       return {
         title: '',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         isEdit: false, // 是否是编辑状态
         readOnly: false,
-        subCompany: '',
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -157,7 +153,8 @@
           keyStatus: '',
           propose: '',
           result: '',
-          approvalStatus: ''
+          approvalStatus: '',
+          flag: '1'
         },
         dataRule: {
           bId: [
@@ -229,11 +226,11 @@
         }
       }
     },
-    created () {
+    created() {
       this.init()
 
     },
-    activated () {
+    activated() {
       this.$nextTick((_) => {
         if (this.routeChanged) {
           this.docId = this.$route.query.id || ''
@@ -257,7 +254,7 @@
       })
     },
     methods: {
-      getSelectedMainCharge (charge) {
+      getSelectedMainCharge(charge) {
         console.log('current charge', charge)
         // charge为从弹窗框列表带出来的那一行的数据
         // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
@@ -265,7 +262,7 @@
         // 例如 this.dataForm.id = charge.id
       },
       // 初始化 编辑和新增 2种情况
-      init (id) {
+      init(id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -312,24 +309,12 @@
             this.isEdit = false
             this.dataForm.id = ''
             this.dataForm.sign = this.currentUser.userDisplayName
-            this.getUserWithDepartments()
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
             this.$refs.ruleForm.clearValidate()
           })
         }
       },
-      getUserWithDepartments() {
-        if(this.currentUser && this.currentUser.userId) {
-          let self = this;
-          tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
-            if(result) {
-              // console.log('result', result)
-              self.subCompany = result.grouplist[0].value
-            }
-          })
-        }
-      },
-      doDelete () {
+      doDelete() {
         let self = this
         self.$confirm('此操作将永久删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -346,7 +331,7 @@
         })
       },
       // 表单提交
-      doSave () {
+      doSave() {
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
@@ -367,7 +352,7 @@
         })
       },
       // 关闭当前页面并跳转到新的页面
-      closeCurrentTabNav () {
+      closeCurrentTabNav() {
         this.$util.closeCurrentTabNav('key_update')
       }
     }
