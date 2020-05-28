@@ -3,16 +3,17 @@
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
       <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
     </t-input>
-    <el-dialog title="借款信息选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
+    <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
+      <div class="dialog-title" slot="title">借款信息选择</div>
+      <el-row slot="footer">
+        <el-button type="primary" @click="proChoose()">
+          确定
+        </el-button>
+        <el-button type="info" @click="dialogFormVisible = false">
+          取消
+        </el-button>
+      </el-row>
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        <el-row :gutter="10" class="search-top-operate">
-          <el-button type="primary" @click="proChoose()">
-            确定
-          </el-button>
-          <el-button type="info" @click="dialogFormVisible = false">
-            取消
-          </el-button>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="proName" style="margin-bottom: 15px;">

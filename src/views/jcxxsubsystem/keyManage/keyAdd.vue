@@ -11,7 +11,7 @@
       <el-button v-if="isEdit" type="primary" icon="el-icon-delete" @click="doDelete">删除</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="90px" label-position="right">
+             label-width="110px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">

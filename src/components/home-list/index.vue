@@ -13,6 +13,7 @@
           <div
             class="list-item-title"
             :class="{ 'margin-left-15': showTag || doneStatus }"
+            :style="{'margin-left': type == 1 ? '0' : ''}"
           >
             {{ item.title }}
           </div>
@@ -106,17 +107,17 @@ export default {
   color: #333;
 }
 .margin-left-15 {
-  margin-left: 14px;
+  margin-left: 15px;
 }
 .margin-left-20 {
-  margin-left: 20px;
+  margin-left: 27px;
 }
 .list-item {
   width: 100%;
   display: flex;
   align-items: center;
   height: 24px;
-  font-size: 11px;
+  font-size: 15px;
   &-title {
     font-weight: 500;
     width: fit-content;
@@ -126,11 +127,12 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 13.5px;
   }
   .el-tag--small {
     font-size: 6px;
     transform: scale(0.8);
-    transform-origin: center;
+    transform-origin: 0 50%;
   }
 }
 .list-notifications-item {
@@ -139,13 +141,13 @@ export default {
   align-items: center;
   height: 24px;
   justify-content: flex-start;
-  font-size: 11px;
+  font-size: 15px;
   &-img {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     img {
-      width: 14px;
-      height: 14px;
+      width: 18px;
+      height: 18px;
     }
   }
   &-title {
@@ -165,7 +167,7 @@ export default {
   // background-color: #707070;
   opacity: 0.67;
   height: 0.5px;
-  margin: 5px 0 8px 0;
+  margin: 12px 0 7px 0;
 }
 .el-tag {
   border-radius: 25px;

@@ -103,7 +103,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .site-content__wrapper {
-  padding-top: 70px;
+  padding-top: 82.5px;
 }
 </style>
 

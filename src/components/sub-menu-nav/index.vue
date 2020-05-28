@@ -8,7 +8,7 @@
   </el-submenu>
   <el-menu-item :class="{'t-sub-menu-item':menuNav.level == 2, 't-sub-3-menu-item':menuNav.level == 3}" v-else :index="menuNav.self.name" :data-idx="menuNav.self.id + ''" :id="menuNav.self.id + ''" @click="gotoRouteHandle(menuNav)">
     <icon-svg :name="menuNav.self.icon" class="site-sidebar__menu-icon" v-if="menuNav.self.icon"></icon-svg>
-    <span :style="{'padding-left':menuNav.level == 3 ? '12px': (menuNav.level == 2 ? '18px' : '0'), 'font-size': menuNav.level == 3 ? '14px': (menuNav.level == 2 ? '15px' : '16px')}">{{ menuNav.self.title }}</span>
+    <span :style="{'padding-left':menuNav.level == 3 ? '10px': (menuNav.level == 2 ? '18px' : '0'), 'font-size': menuNav.level == 3 ? '14px': (menuNav.level == 2 ? '15px' : '16px')}">{{ menuNav.self.title }}</span>
   </el-menu-item>
 </template>
 
@@ -57,8 +57,8 @@ export default {
   background: rgba(39, 78, 137, 0.6) !important;
 }
 .site-sidebar__menu-icon{
-  width:15px;
-  margin-right: 11px;
+  width:21px;
+  margin-right: 9px;
 }
 .sub-menus {
   .el-submenu__title {
