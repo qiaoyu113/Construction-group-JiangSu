@@ -1,47 +1,60 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">子合同登记</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_cont_key_subcontract_approval"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item prop="proName" label="项目名称：">
-            <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conCode" label="项目编号：">
-            <el-input v-model="dataForm.conCode" disabled></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'项目基本信息'"></t-sub-title>
         <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="proConstructCompany" label="建设单位：">
-            <el-input  v-model="dataForm.proConstructCompany" disabled></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proConstructCompanyAttr" label="单位性质：">
-            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.proConstructCompanyAttr"
-                                   disabled></t-dic-dropdown-select></el-form-item>
-        </el-col>
+          <el-col :span="16">
+            <el-form-item label="项目名称：" prop="pId">
+              <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proCode" label="项目编号：">
+              <el-input v-model="dataForm.proCode" readonly></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="16">
-            <el-form-item label="项目地址：" prop="pro_address">
-              <el-row type="flex" justify="space-between">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
+              <el-input  v-model="dataForm.proConstructCompany" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proConstructCompanyAttr" label="单位性质：">
+              <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.proConstructCompanyAttr"
+                                     disabled></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-form-item label="项目地址：" prop="proAddress">
+              <el-row type="flex" justify="space-between" :gutter="2">
                 <el-col :span="8">
-                  <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
+                  <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" :disabled="true"></t-region-s-picker>
                 </el-col>
                 <el-col :span="16">
                   <el-form-item prop="proAddressDetail">
@@ -51,77 +64,78 @@
               </el-row>
             </el-form-item>
           </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proTotalInvestment" label="项目总投资：">
-            <el-input v-model="dataForm.proTotalInvestment" disabled></el-input>
-          </el-form-item>
-        </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proTotalInvestment" label="项目总投资：">
+              <el-input v-model="dataForm.proTotalInvestment" disabled></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="所属分公司" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" disabled></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属事业部" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" disabled></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proDriveSubject" label="实施主体：">
-            <t-dic-dropdown-select dicType="ss_zt" v-model="dataForm.proDriveSubject"
-                                   disabled></t-dic-dropdown-select></el-form-item>
-        </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属分公司：">
+              <el-input v-model="dataForm.proSubCompany" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBusDept" label="所属事业部：">
+              <el-input v-model="dataForm.proBusDept" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proDriveSubject" label="实施主体：">
+              <t-dic-dropdown-select dicType="ss_zt" v-model="dataForm.proDriveSubject"
+                                     disabled></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="计划开工日期：" prop="proPlanStartDate" verify class="is-required">
-            <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
-            </t-datetime-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="计划完工日期：" prop="proPlanEndDate">
-            <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" disabled>
-            </t-datetime-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proLimitTime" label="工程工期：">
-            <el-input v-model="dataForm.proLimitTime" disabled></el-input>
-          </el-form-item>
-        </el-col>
+          <el-col :span="8">
+            <el-form-item label="计划开工日期：" prop="proPlanStartDate" class="is-required">
+              <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+              </t-datetime-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="计划完工日期：" prop="proPlanEndDate">
+              <t-datetime-picker v-model="dataForm.proPlanEndDate" type="date" disabled>
+              </t-datetime-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proLimitTime" label="工程工期：">
+              <el-input v-model="dataForm.proLimitTime" disabled></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-card>
       <el-card shadow="never">
       <t-sub-title :title="'主合同基本信息'"></t-sub-title>
         <el-row :gutter="20">
-         <el-col :span="8">
+         <el-col :span="16">
            <el-form-item prop="conName" label="主合同名称：">
              <el-input v-model="dataForm.conName" disabled></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="主合同编号：">
-             <el-input v-model="dataForm.bId" disabled></el-input>
+           <el-form-item prop="conCode" label="主合同编号：">
+             <el-input v-model="dataForm.conCode" disabled></el-input>
            </el-form-item>
          </el-col>
         </el-row>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="合同开始日期：">
-             <el-input v-model="dataForm.bId" disabled></el-input>
-           </el-form-item>
+           <el-form-item label="合同开始日期：" prop="conStartDate"  class="is-required">
+             <t-datetime-picker v-model="dataForm.conStartDate" type="date" disabled>
+             </t-datetime-picker></el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="合同结束日期：">
-             <el-input v-model="dataForm.bId" disabled></el-input>
-           </el-form-item>
+           <el-form-item label="合同结束日期：" prop="conEndDate"  class="is-required">
+             <t-datetime-picker v-model="dataForm.conEndDate" type="date" disabled>
+             </t-datetime-picker></el-form-item>
          </el-col>
          <el-col :span="8">
            <el-form-item prop="bId" label="总合同额">
-             <el-input v-model="dataForm.bId">
+             <el-input v-model="dataForm.conBcxyTotal" disabled>
                <span slot="append">万元</span>
              </el-input>
            </el-form-item>
@@ -131,119 +145,138 @@
       <el-card shadow="never">
        <t-sub-title :title="'子合同基本信息'"></t-sub-title>
        <el-row :gutter="20">
-         <el-col :span="8">
-           <el-form-item prop="bId" label="子合同名称：">
-             <el-input v-model="dataForm.bId"></el-input>
+         <el-col :span="16">
+           <el-form-item prop="conName" label="子合同名称：">
+             <el-input v-model="dataForm.conName"></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="子合同类型：">
-             <!--<el-input v-model="dataForm.bId"></el-input>-->
-             <t-dic-dropdown-select dicType="con_type" v-model="dataForm.bId"
-                                    disabled></t-dic-dropdown-select>
-           </el-form-item>
+           <el-row>
+           <el-col :span="showOtherType ? 8 : 24">
+             <el-form-item prop="conType" label="子合同类型：">
+               <t-dic-dropdown-select dicType="con_type" v-model="dataForm.conType"></t-dic-dropdown-select>
+             </el-form-item>
+           </el-col>
+           <el-col v-if="showOtherType" :span="16" sytle="padding-left: 2px;">
+             <el-form-item prop="	otherConType" label="其他子合同类型：">
+               <el-input v-model="dataForm.otherConType"></el-input>
+             </el-form-item>
+           </el-col>
+       </el-row>
          </el-col>
        </el-row>
          <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="子合同编号 ：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item prop="conCode" label="子合同编号 ：">
+             <el-input v-model="dataForm.conCode" disabled></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item label="合同开始日期：" prop="proPlanStartDate" verify class="is-required">
-             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+           <el-form-item label="合同开始日期：" prop="conStartDate"  class="is-required">
+             <t-datetime-picker v-model="dataForm.conStartDate" type="date" disabled>
              </t-datetime-picker>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item label="合同结束日期：" prop="proPlanStartDate" verify class="is-required">
-             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+           <el-form-item label="合同结束日期：" prop="conEndDate"  class="is-required">
+             <t-datetime-picker v-model="dataForm.conEndDate" type="date" disabled>
              </t-datetime-picker>
            </el-form-item>
          </el-col>
          </el-row>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="甲方单位：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item prop="conPartya" label="甲方单位：">
+             <el-input v-model="dataForm.conPartya"></el-input>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="签订人：">
-             <el-input v-model="dataForm.bId"></el-input>
-           </el-form-item>
-         </el-col>
-        </el-row>
-        <el-row :gutter="20">
-         <el-col :span="8">
-           <el-form-item prop="bId" label="乙方单位：">
-             <el-input v-model="dataForm.bId"></el-input>
-           </el-form-item>
-         </el-col>
-         <el-col :span="8">
-           <el-form-item prop="bId" label="签订人：">
-             <el-input v-model="dataForm.bId"></el-input>
+           <el-form-item prop="signatorya" label="签订人：">
+             <el-input v-model="dataForm.signatorya"></el-input>
            </el-form-item>
          </el-col>
         </el-row>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="子合同形式：">
-             <t-dic-dropdown-select dicType="con_modality" v-model="dataForm.bId"
+           <el-form-item prop="conPartyb" label="乙方单位：">
+             <el-input v-model="dataForm.conPartyb"></el-input>
+           </el-form-item>
+         </el-col>
+         <el-col :span="8">
+           <el-form-item prop="signatoryb" label="签订人：">
+             <el-input v-model="dataForm.signatoryb"></el-input>
+           </el-form-item>
+         </el-col>
+        </el-row>
+        <el-row :gutter="20">
+         <el-col :span="8">
+           <el-form-item prop="conModality" label="子合同形式：">
+             <t-dic-dropdown-select dicType="con_modality" v-model="dataForm.conModality"
                                     disabled></t-dic-dropdown-select>
            </el-form-item>
          </el-col>
          <el-col :span="8">
-           <el-form-item prop="bId" label="付款方式：">
-             <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.bId"
-                                    disabled></t-dic-dropdown-select>
-           </el-form-item>
+           <el-row>
+             <el-col :span="showOtherWay ? 8 : 24">
+               <el-form-item prop="conPayWay" label="付款方式：">
+                 <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.conPayWay"></t-dic-dropdown-select>
+               </el-form-item>
+             </el-col>
+             <el-col v-if="showOtherWay" :span="16" sytle="padding-left: 2px;">
+               <el-form-item prop="otherPayWay" label="其他付款方式：">
+                 <el-input v-model="dataForm.otherPayWay"></el-input>
+               </el-form-item>
+             </el-col>
+           </el-row>
          </el-col>
          <el-col :span="8">
-           <el-form-item label="签订日期：" prop="proPlanStartDate" verify class="is-required">
-             <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
+           <el-form-item label="签订日期：" prop="conSigningDate"  class="is-required">
+             <t-datetime-picker v-model="dataForm.conSigningDate" type="date" >
              </t-datetime-picker>
            </el-form-item>
          </el-col>
         </el-row>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="bId" label="子合同额">
-             <el-input v-model="dataForm.bId">
+           <el-form-item prop="conTotal" label="子合同额">
+             <el-input v-model="dataForm.conTotal">
                <span slot="append">万元</span>
              </el-input>
            </el-form-item>
          </el-col>
           <el-col :span="8">
           <el-form-item prop="bId" label="金额大写：">
-            <span>{{$util.moneyArabiaToChinese(dataForm.bId)}}</span>
+            <span>{{$util.moneyArabiaToChinese(dataForm.conTotal)}}</span>
           </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-         <el-col :span="8">
-           <el-form-item prop="bId" label="子合同额">
-             <el-input v-model="dataForm.bId">
-               <span slot="append">万元</span>
-             </el-input>
-           </el-form-item>
-          <!-- <el-form-item prop="bId" label="子合同额">
-             <span slot="append">金额大写： 自动转换为大写金额</span>
-           </el-form-item>-->
-         </el-col>
-        </el-row>
           <el-row :gutter="20">
-         <el-col :span="8">
-           <el-form-item prop="bId" label="是否经招标程序：">
-             <t-dic-radio-select dicType="y_or_n" v-model="dataForm.bId"></t-dic-radio-select>
+            <el-col :span="6">
+          <el-form-item prop="bId" class="is-required">
+            <span>合同价格审核：</span>
+            </el-form-item></el-col>
+              <el-col :span="8">
+           <el-form-item prop="isExceedTotal" label="总价是否超预算：">
+             <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isExceedTotal"></t-dic-radio-select>
            </el-form-item>
          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="isExceed" label="单价是否超预算：">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.	isExceed"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="isRunProcedure" label="是否经招标程序：">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isRunProcedure"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
            <el-col :span="24">
-             <el-form-item label="备注：" prop="remark">
-               <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+             <el-form-item label="备注：" prop="remarks">
+               <el-input type="textarea" :rows="2" v-model="dataForm.remarks"></el-input>
              </el-form-item>
          </el-col>
        </el-row>
@@ -272,21 +305,35 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         readOnly: false,
+        showOtherWay: false,
+        showOtherType: false,
+        showButton: true,
+        dialogVisible: false,
         dataForm: {
+          pId: '',
+          proCode: '',
+          proConstructCompany: '',
+          proConstructCompanyAttr: '',
+          proAddress: '',
+          proTotalInvestment: '',
+          proSubCompany: '',
+          proBusDept: '',
+          proDriveSubject: '',
+          proPlanStartDate: '',
+          proPlanEndDate: '',
+          proLimitTime: '',
           bId: '',
           actTaskKey: '',
-          pId: '',
           conCode: '',
           conName: '',
           conModality: '',
           conType: '',
-          otherConType: '',
           conStartDate: '',
           conEndDate: '',
           conSigningDate: '',
           conPayWay: '',
+          otherConType: '',
           otherPayWay: '',
-          conTotal: '',
           conPartya: '',
           signatorya: '',
           conPartyb: '',
@@ -309,14 +356,29 @@
           datastatus: '',
           province: '',
           city: '',
+          conBcxyTotal: '',
+          conTotal: '',
         },
         dataRule: {
-          bId: [
-            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
-          ],
-          actTaskKey: [
-            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
-          ],
+          //项目信息
+          pId:[{required: true, message: '项目名称不能为空', trigger: 'change'}],
+          proCode: [{required: true, message: '项目编号不能为空', trigger: 'change'}],
+          proConstructCompany: [{required: true, message: '建设单位不能为空', trigger: 'change'}],
+          proConstructCompanyAttr: [{required: true, message: '单位性质不能为空', trigger: 'change'}],
+          proAddress: [{required: true, message: '项目地址不能为空', trigger: 'change'}],
+          proTotalInvestment: [{required: true, message: '项目总投资不能为空', trigger: 'change'}],
+          proSubCompany: [{required: true, message: '所属分公司不能为空', trigger: 'change'}],
+          //proBusDept: [{required: true, message: '子合同类型不能为空', trigger: 'change'}],
+          proDriveSubject: [{required: true, message: '实施主体不能为空', trigger: 'change'}],
+          proPlanStartDate: [{required: true, message: '计划开工日期不能为空', trigger: 'change'}],
+          proPlanEndDate: [{required: true, message: '计划完工日期不能为空', trigger: 'change'}],
+          proLimitTime: [{required: true, message: '工程工期不能为空', trigger: 'change'}],
+
+          otherPayWay: [{validator: this.isOtherPayWayEmpty, trigger: 'blur'}],
+          conPayWay: [{required: true, message: '付款方式不能为空', trigger: 'change'}],
+          otherConType: [{validator: this.isOtherPayWayTypeEmpty, trigger: 'blur'}],
+          conType: [{required: true, message: '子合同类型不能为空', trigger: 'change'}],
+          conTotal:[{validator: this.isNotmorebigMainContMoney, trigger: 'blur'}],
           pId: [
             {required: true, message: '项目id不能为空', trigger: 'blur'}
           ],
@@ -329,12 +391,6 @@
           conModality: [
             {required: true, message: '子合同形式（字典表）不能为空', trigger: 'blur'}
           ],
-          conType: [
-            {required: true, message: '子合同类型（字典表）不能为空', trigger: 'blur'}
-          ],
-          otherConType: [
-            {required: true, message: '其他子合同类型不能为空', trigger: 'blur'}
-          ],
           conStartDate: [
             {required: true, message: '子合同开始日期不能为空', trigger: 'blur'}
           ],
@@ -344,26 +400,11 @@
           conSigningDate: [
             {required: true, message: '签订日期不能为空', trigger: 'blur'}
           ],
-          conPayWay: [
-            {required: true, message: '付款方式（字典表）不能为空', trigger: 'blur'}
-          ],
-          otherPayWay: [
-            {required: true, message: '其他付款方式不能为空', trigger: 'blur'}
-          ],
-          conTotal: [
-            {required: true, message: '子合同总额不能为空', trigger: 'blur'}
-          ],
           conPartya: [
             {required: true, message: '甲方不能为空', trigger: 'blur'}
           ],
-          signatorya: [
-            {required: true, message: '甲方签订人不能为空', trigger: 'blur'}
-          ],
           conPartyb: [
             {required: true, message: '乙方不能为空', trigger: 'blur'}
-          ],
-          signatoryb: [
-            {required: true, message: '乙方签订人不能为空', trigger: 'blur'}
           ],
           isExceedTotal: [
             {required: true, message: '总价是否超预算（字典表）不能为空', trigger: 'blur'}
@@ -374,50 +415,52 @@
           isRunProcedure: [
             {required: true, message: '是否经招标程序（字典表）不能为空', trigger: 'blur'}
           ],
-          remarks: [
-            {required: true, message: '备注不能为空', trigger: 'blur'}
-          ],
           conPayStandard: [
             {required: true, message: '合同收款条件不能为空', trigger: 'blur'}
           ],
           conStatus: [
             {required: true, message: '合同状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          approvalStatus: [
-            {required: true, message: '审批状态（字典表）不能为空', trigger: 'blur'}
-          ],
-          sign: [
-            {required: true, message: '执行人不能为空', trigger: 'blur'}
-          ],
-          signTime: [
-            {required: true, message: '执行时间不能为空', trigger: 'blur'}
-          ],
-          propose: [
-            {required: true, message: '审核意见不能为空', trigger: 'blur'}
-          ],
-          result: [
-            {required: true, message: '审核结果不能为空', trigger: 'blur'}
-          ],
-          createtime: [
-            {required: true, message: '创建时间不能为空', trigger: 'blur'}
-          ],
-          updatetime: [
-            {required: true, message: '更新时间不能为空', trigger: 'blur'}
-          ],
-          createuser: [
-            {required: true, message: '创建人不能为空', trigger: 'blur'}
-          ],
-          updateuser: [
-            {required: true, message: '更新人不能为空', trigger: 'blur'}
-          ],
-          datastatus: [
-            {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
           ]
         }
       }
     },
+
+    created() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
     created() {
       // this.init()
+    },
+    watch: {
+      'dataForm.conPayWay': {
+        handler: function(val) {
+          if(val == 'other_pay_way') {
+            this.showOtherWay = true
+          } else {
+            this.showOtherWay = false
+          }
+        },
+        deep: true
+      },
+      'dataForm.conType': {
+        handler: function(val) {
+          if(val == 'other_con_type') {
+            this.showOtherType = true
+          } else {
+            this.showOtherType = false
+          }
+        },
+        deep: true
+      },
     },
     methods: {
       // 初始化 编辑和新增 2种情况
@@ -475,17 +518,45 @@
         }
       },
       getSelectedProject(project) {
-        console.log('current project', project);
         this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proCode = project.proCode;
+        this.dataForm.proAddressProvince = project.proAddressProvince;
+        this.dataForm.proAddressDetail = project.proAddressDetail;
+        this.dataForm.proManager = project.proManager;
+        this.dataForm.proFundSource = project.proFundSource;
         this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proSubType = project.proSubType;
         this.dataForm.proConstructCompany = project.proConstructCompany;
         this.dataForm.proContractAttr = project.proContractAttr;
         this.dataForm.proTotalInvestment = project.proTotalInvestment;
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proName = project.proName;
-        this.dataForm.pcId = project.pcId;
+        this.dataForm.proRealStartDate = project.proRealStartDate;
+        this.dataForm.proPlanEndDate = project.proPlanEndDate;
+        this.proPlanStartDate = project.proPlanStartDate;
+        this.dataForm.proUnionCompanyMerate = project.proUnionCompanyMerate;
+        this.dataForm.proProfitRate = project.proProfitRate;
+        this.dataForm.proContacter = project.proContacter;
+        this.dataForm.proContactway = project.proContactway;
+        this.dataForm.proSpan = project.proSpan;
+        this.dataForm.proLayer = project.proLayer;
+        this.dataForm.proBlock = project.proBlock;
+        this.dataForm.proBasementArea = project.proBasementArea;
+        this.dataForm.proIsFitout = project.proIsFitout;
+        this.dataForm.proFitoutRate = project.proFitoutRate;
+        this.dataForm.proUnionCompany = project.proUnionCompany;
+        this.dataForm.proIsBim = project.proIsBim;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conName = project.conName;
+        this.proDriveSubject = project.proDriveSubject;
+        this.proLimitTime = project.proLimitTime;
+        this.proConstructCompanyAttr = project.proConstructCompanyAttr;
+        this.conCode = project.conCode;
+        this.conStartDate = project.conStartDate;
+        this.conEndDate = project.conEndDate;
+        this.conBcxyTotal=project.conBcxyTotal;
+        this.pId=project.id;
       },
       // 表单提交
       doSave() {
@@ -509,6 +580,61 @@
           return false;
         });
       },
+
+      isOtherPayWayEmpty (rule, value, cb) {
+        if(!this.dataForm.conPayWay || (this.dataForm.conPayWay && this.dataForm.conPayWay !== 'other_pay_way')) return cb()
+        if(this.dataForm.conPayWay && this.dataForm.conPayWay === 'other_pay_way') {
+          if (this.dataForm.otherPayWay == null || this.dataForm.otherPayWay.length == 0 || this.dataForm.otherPayWay == '') {
+            return cb(new Error('其他付款方式不能为空'))
+          }
+        }
+        return cb()
+      },
+
+      isOtherPayWayTypeEmpty (rule, value, cb) {
+        if(!this.dataForm.conType || (this.dataForm.conType && this.dataForm.conType !== 'other_con_type')) return cb()
+        if(this.dataForm.conType && this.dataForm.conType === 'other_con_type') {
+          if (this.dataForm.	otherConType == null || this.dataForm.otherConType.length == 0 || this.dataForm.otherConType == '') {
+            return cb(new Error('其他合同类型不能为空'))
+          }
+        }
+        return cb()
+      },
+      isNotmorebigMainContMoney(rule, value, cb) {
+        if(this.dataForm.conTotal > this.dataForm.conBcxyTotal) {
+          return cb(new Error('子合同额必须小于总合同额'))
+        }
+        if(this.dataForm.proRunMode == 'proprietary'){
+          if(this.dataForm.conType && this.dataForm.conType == 'pro_investigate' ||
+            this.dataForm.conType && this.dataForm.conType == 'pro_supervision' ||
+            this.dataForm.conType && this.dataForm.conType == 'pro_design' ||
+            this.dataForm.conType && this.dataForm.conType == 'pro_detection') {
+            //勘察、设计、监理、检测  子合同额在25万以上；
+            if(this.dataForm.conTotal <= 25){
+              return cb(new Error('子合同额必须在25万以上'))
+            }
+          }if(this.dataForm.conType && this.dataForm.conType == 'material_proc' || this.dataForm.conType && this.dataForm.conType == 'equipment_proc') {
+            //材料、设备采购  子合同额在50万以上
+            if(this.dataForm.conTotal <= 50){
+              return cb(new Error('子合同额必须在50万以上'))
+            }
+          }if(this.dataForm.conType && this.dataForm.conType == 'subcontract_type') {
+            //分包  子合同额在100万以上
+            if(this.dataForm.conTotal <= 100){
+              return cb(new Error('子合同额必须在100万以上'))
+            }
+          }
+        }
+        return cb()
+      },
+  /*    isCyusuanMusNotNull(rule, value, cb) {
+        if(this.dataForm.isExceedTotal == 'yes' || this.dataForm.isExceed == 'yes') {
+          if(this.dataForm.remarks.length ==0 ){
+            return cb(new Error('请填写原因'))
+          }
+        }
+        return cb()
+      },*/
     }
   }
 </script>
