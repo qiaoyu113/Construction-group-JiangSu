@@ -437,9 +437,6 @@
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    created() {
-      // this.init()
-    },
     watch: {
       'dataForm.conPayWay': {
         handler: function(val) {
@@ -561,7 +558,7 @@
       // 表单提交
       doSave() {
         let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+        let validPromises = self.$refs['ruleForm'].validate();
         Promise.all([validPromises]).then(resultList => {
           let model = {...self.dataForm};
 
@@ -594,7 +591,7 @@
       isOtherPayWayTypeEmpty (rule, value, cb) {
         if(!this.dataForm.conType || (this.dataForm.conType && this.dataForm.conType !== 'other_con_type')) return cb()
         if(this.dataForm.conType && this.dataForm.conType === 'other_con_type') {
-          if (this.dataForm.	otherConType == null || this.dataForm.otherConType.length == 0 || this.dataForm.otherConType == '') {
+          if (this.dataForm.otherConType == null || this.dataForm.otherConType.length == 0 || this.dataForm.otherConType == '') {
             return cb(new Error('其他合同类型不能为空'))
           }
         }
