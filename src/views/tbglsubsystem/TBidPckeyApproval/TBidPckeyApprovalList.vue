@@ -19,7 +19,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别">
+          <el-form-item label="工程类别" prop="proType">
             <t-dic-dropdown-select dicType="engineering_type"
                                    v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
             ></t-dic-dropdown-select>
@@ -109,8 +109,8 @@
           dataSource: {
             serviceInstance: tapp.services.tBidPckeyApproval.getPagedList,
             serviceInstanceInputParameters: {
-              /*searchKey: null,
-              processDefinationKey: null,*/
+              proType: null,
+              processDefinationKey: null,
               dateRange: '',
               dateRange1: ''
             }
@@ -345,6 +345,7 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.doRefresh()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,
           proType: null,

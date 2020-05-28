@@ -154,7 +154,7 @@
           propose: '',
           result: '',
           approvalStatus: '',
-          flag: '1'
+          flag: '0'
         },
         dataRule: {
           bId: [
