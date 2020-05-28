@@ -107,8 +107,14 @@
           dataSource: {
             serviceInstance: tapp.services.tBidQualApproval.getPagedList,
             serviceInstanceInputParameters: {
-              searchKey: null,
-              processDefinationKey: null,
+              proName: null,
+              proType: null,
+              proConstructCompany: null,
+              proSubCompany: null,
+              proContractAttr: null,
+              proRunMode: null,
+              approvalStatus: null,
+              sign: null,
               dateRange: ''
             }
           },
@@ -117,24 +123,6 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
-              /*{
-                prop: 'bId',
-                label: '流程业务id',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'actTaskKey',
-                label: 'activiti执行任务key',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'pcId',
-                label: '项目备案id',
-                sortable: true,
-                minWidth: 120,
-              },*/
               {
                 prop: 'proName',
                 label: '项目名称',
@@ -174,9 +162,8 @@
                   return util.dataDicsFormat('contract_model', row.proContractAttr)
                 }
               },
-
               {
-                prop: 'proAddressProvince',
+                prop: 'proSubCompany',
                 label: '分公司',
                 sortable: false,
                 minWidth: 120,
@@ -204,18 +191,6 @@
                 sortable: false,
                 minWidth: 120,
               },
-              /*{
-                prop: 'existElectMark',
-                label: '是否使用电子章（字典表）',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'remark',
-                label: '备注',
-                sortable: true,
-                minWidth: 120,
-              },*/
               {
                 prop: 'sign',
                 label: '经办人',
@@ -231,55 +206,6 @@
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
               },
-
-              /*{
-                prop: 'propose',
-                label: '审核意见',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'result',
-                label: '审核结果',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'createtime',
-                label: '创建时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'updatetime',
-                label: '更新时间',
-                sortable: true,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
-                }
-              },
-              {
-                prop: 'createuser',
-                label: '创建人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'updateuser',
-                label: '更新人',
-                sortable: true,
-                minWidth: 120,
-              },
-              {
-                prop: 'datastatus',
-                label: '数据有效性 1有效 0无效',
-                sortable: true,
-                minWidth: 120,
-              },*/
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
@@ -299,14 +225,15 @@
         // 以下为示例
       },
       onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0];
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeEnd = val[1];
       },
       handleSelectionChange(val) {
         this.checkededRows = val;
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.doRefresh()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,
           proType: null,

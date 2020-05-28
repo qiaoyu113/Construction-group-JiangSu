@@ -183,7 +183,7 @@
           isInput: '',
           sign: '',
           signTime: '',
-          flag: '2'
+          flag: '1'
         },
         dataRule: {
           province: [

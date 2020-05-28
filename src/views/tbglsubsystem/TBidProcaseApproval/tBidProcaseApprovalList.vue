@@ -15,8 +15,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地址">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"></el-input>
+            <el-form-item prop="proAddressDetail" label="项目地址">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -95,8 +95,6 @@
             serviceInstance: tapp.services.tBidProcaseApproval.getPagedList,
             serviceInstanceInputParameters: {
               proName: null,
-              proAddressProvince: null,
-              proAddressCity: null,
               proAddressDetail: null,
               proConstructCompany: null,
               proType: null,
@@ -155,12 +153,12 @@
                 minWidth: 120,
               },
               {
-                prop: 'proAddressProvince',
+                prop: 'proAddressDetail',
                 label: '项目地址',
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
                   // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
@@ -174,7 +172,6 @@
                   return util.dataDicsFormat('business_type', row.proRunMode)
                 }
               },
-
               {
                 prop: 'proTracker',
                 label: '项目跟踪人',
@@ -256,7 +253,7 @@
         this.doRefresh()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,
-          proAddressProvince: null,
+          proAddressDetail: null,
           proConstructCompany: null,
           proType: null,
           proRunMode: null,

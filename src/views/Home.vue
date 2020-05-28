@@ -22,7 +22,7 @@
           </div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
+            <div class="header-line" @click="handleMore('1')">更多<icon-svg name="more" style="width: 11px;margin: 0 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="1" showTag :list="list"></home-list>
@@ -51,7 +51,7 @@
         <div class="title">公告栏</div>
         <el-card shadow="never">
           <div slot="header">
-            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg></div>
+            <div class="header-line" @click="handleMore('3')">更多<icon-svg name="more" style="width: 11px;margin: 0 2px;"></icon-svg></div>
           </div>
           <div>
             <home-list type="3" :notifications="notifications"></home-list>
@@ -65,7 +65,7 @@
             <div class="header-line" @click="handleMore('4')">
               <div style="color: #333;margin-right: 15px;display: flex;align-items:center;"><div class="doing"></div>审批中</div>
               <div style="color: #333;margin-right: 40px;display: flex;align-items:center;"><div class="done"></div>已审批</div>
-              更多<icon-svg name="more" style="width: 9px;margin-bottom: 2px;"></icon-svg>
+              更多<icon-svg name="more" style="width: 11px;margin: 0 2px;"></icon-svg>
             </div>
           </div>
           <div>
@@ -139,21 +139,21 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: 11px;
+    font-size: 15px;
   }
   .title {
     background: #357EF7 url("~@/assets/img/wave.png");
     background-size: cover;
-    padding: 10px 20px;
+    padding: 14px 28px;
     height: fit-content;
     width: fit-content;
     color: #fff;
-    font-size: 14px;
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    font-size: 18px;
+    border-top-left-radius: 18px;
+    border-bottom-right-radius: 18px;
     box-shadow:0px 8px 6px rgba(0,0,0,0.16);
-    margin-bottom: -30px;
-    margin-left: 5px;
+    margin-bottom: -42px;
+    margin-left: 9px;
     z-index: 100;
     position: relative;
     font-weight: 500;
