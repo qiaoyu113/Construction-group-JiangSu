@@ -270,27 +270,8 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
+                console.log('result', result)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.id = result.id
-                self.dataForm.province = result.province
-                self.dataForm.city = result.city
-                self.dataForm.district = result.district
-                self.dataForm.keyType = result.keyType
-                self.dataForm.authCompany = result.authCompany
-                self.dataForm.loginUsername = result.loginUsername
-                self.dataForm.loginUrl = result.loginUrl
-                self.dataForm.expirationDate = result.expirationDate
-                self.dataForm.account = result.account
-                self.dataForm.principalId = result.principalId
-                self.dataForm.useScenes = result.useScenes
-                self.dataForm.applyforDate = result.applyforDate
-                self.dataForm.keyColor = result.keyColor
-                self.dataForm.existElectMark = result.existElectMark
-                self.dataForm.remark = result.remark
-                self.dataForm.password = result.password
-                self.dataForm.isInput = result.isInput
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
               })
             }
           })

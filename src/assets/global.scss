@@ -24,6 +24,20 @@
   border-color: #dcdfe6 !important;
 }
 
+.el-form-item .el-input__inner,
+.el-form-item .el-textarea__inner {
+  border-color: #707070;
+  border-radius: 8px;
+}
+.el-input.is-disabled .el-input__inner {
+  border-color: #707070 !important;
+  border-radius: 8px;
+}
+.el-form-item__label {
+  color: #242424;
+  font-weight: 400;
+}
+
 .el-form-item.is-success .el-input__inner,
 .el-form-item.is-success .el-input__inner:focus,
 .el-form-item.is-success .el-textarea__inner,
@@ -371,8 +385,9 @@ input[readonly="readonly"] {
 .el-form-item__content {
   font-size: 15px;
 }
-.el-input--medium .el-input__inner::placeholder, .el-range-editor--medium .el-range-input {
+.el-input--medium .el-input__inner::placeholder, .el-range-editor--medium .el-range-input::placeholder {
   font-size: 15px;
+  color: #bababa;
 }
 .el-form-item--medium .el-form-item__label {
   font-size: 15px;

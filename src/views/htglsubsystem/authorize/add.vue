@@ -235,29 +235,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.tGrantContractApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tGrantContractApproval.bId
-                this.dataForm.actTaskKey = result.tGrantContractApproval.actTaskKey
-                this.dataForm.pId = result.tGrantContractApproval.pId
-                this.dataForm.cId = result.tGrantContractApproval.cId
-                this.dataForm.grantStarttime = result.tGrantContractApproval.grantStarttime
-                this.dataForm.grantEndtime = result.tGrantContractApproval.grantEndtime
-                this.dataForm.grantUser = result.tGrantContractApproval.grantUser
-                this.dataForm.grantContent = result.tGrantContractApproval.grantContent
-                this.dataForm.remark = result.tGrantContractApproval.remark
-                this.dataForm.sign = result.tGrantContractApproval.sign
-                this.dataForm.signTime = result.tGrantContractApproval.signTime
-                this.dataForm.propose = result.tGrantContractApproval.propose
-                this.dataForm.result = result.tGrantContractApproval.result
-                this.dataForm.approvalStatus = result.tGrantContractApproval.approvalStatus
-                this.dataForm.createtime = result.tGrantContractApproval.createtime
-                this.dataForm.updatetime = result.tGrantContractApproval.updatetime
-                this.dataForm.createuser = result.tGrantContractApproval.createuser
-                this.dataForm.updateuser = result.tGrantContractApproval.updateuser
-                this.dataForm.datastatus = result.tGrantContractApproval.datastatus
               })
             }
           })
