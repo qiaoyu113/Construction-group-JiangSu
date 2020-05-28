@@ -185,27 +185,53 @@
     },
     methods: {
       onAmount(){
-        let self = this
-        if (isNaN(this.dataForm.sAmount)) {
-          this.dataForm.sAmount = ''
-          return
-        }
-        if (isNaN(this.dataForm.oAmount)) {
-          this.dataForm.oAmount = ''
-          return
-        }
-        let proRunMode = this.dataForm.proRunMode
-        if (proRunMode == 'proprietary_pool') {
-          let total = this.dataForm.sAmount + this.dataForm.oAmount;
-          if (total > this.dataForm.rAmount) {
-            this.dataForm.sAmount = ''
-            this.dataForm.oAmount = ''
-            this.$notify.error({
-              title: '错误',
-              message: '自营金额加联营金额，不能超过到账金额！'
-            });
-          }
-        }
+        // debugger
+        // let self = this
+        // let proRunMode = this.dataForm.proRunMode
+        // if (proRunMode == 'proprietary_pool') {
+        //   if (this.dataRule.oAmount[0].required && this.dataRule.sAmount[0].required == false) {
+        //     this.dataForm.oAmount = Number(this.dataForm.oAmount)
+        //     if (this.dataForm.oAmount - Number(this.dataForm.rAmount) != 0) {
+        //       this.dataForm.sAmount = ''
+        //       this.dataForm.oAmount = ''
+        //       this.$notify.error({
+        //         title: '错误',
+        //         message: '联营金额需等于到账金额！'
+        //       });
+        //     }
+        //   }
+        //   if (this.dataRule.sAmount[0].required && this.dataRule.oAmount[0].required == true) {
+        //     this.dataForm.sAmount = Number(this.dataForm.sAmount)
+        //     if (this.dataForm.sAmount - Number(this.dataForm.rAmount) != 0) {
+        //       this.dataForm.sAmount = ''
+        //       this.dataForm.sAmount = ''
+        //       this.$notify.error({
+        //         title: '错误',
+        //         message: '自营金额需等于到账金额！'
+        //       });
+        //     }
+        //   }
+        //   if (this.dataRule.sAmount[0].required && this.dataRule.oAmount[0].required) {
+        //     debugger
+        //     if (this.dataForm.oAmount) {
+        //       return
+        //     }
+        //     if (this.dataForm.sAmount) {
+        //       return
+        //     }
+        //     this.dataForm.oAmount = Number(this.dataForm.oAmount)
+        //     this.dataForm.sAmount = Number(this.dataForm.sAmount)
+        //     let total = this.dataForm.sAmount + this.dataForm.oAmount
+        //     if (total - Number(this.dataForm.rAmount) != 0) {
+        //       this.dataForm.sAmount = ''
+        //       this.dataForm.oAmount = ''
+        //       this.$notify.error({
+        //         title: '错误',
+        //         message: '自营金额加联营金额需等于到账金额！'
+        //       });
+        //     }
+        //   }
+        // }
       },
       onRAmount(){
         let proRunMode = this.dataForm.proRunMode

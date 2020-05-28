@@ -7,24 +7,12 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-form-item label="流程名称" prop="searchKey">
-          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" clearable></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="项目名称" prop="searchKey">
-          <el-input  @submit.native.prevent @keyup.enter.native="doRefresh()" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" clearable></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
         <el-form-item label="流程类别" prop="processDefinationKey">
           <el-select placeholder="请选择流程类别" v-model="gridOptions.dataSource.serviceInstanceInputParameters.processDefinationKey" clearable>
             <el-option v-for="(item, index) in processDefinationlist" :key='item.id' :label="item.name" :value="item.key"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
-    </el-row>
-    <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="流程开始时间" prop="startDateBegin">
           <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin" type="datetime">
@@ -47,8 +35,7 @@
       </el-col>
     </el-row>
   </t-form>
-  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-click="handleCellClick">
-  </t-grid>
+  <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-click="handleCellClick"></t-grid>
   </el-card>
 </div>
 </template>
@@ -65,9 +52,11 @@ export default {
       startDateRange: null,
       gridOptions: {
         dataSource: {
-          serviceInstance: tapp.services.wF_ProcessInst.getMyTaskPagedList,
+          serviceInstance: tapp.services.wF_ProcessInst.getMyCopyforPagedList,
           serviceInstanceInputParameters: {
-            searchKey: null,
+            processDefinationKey: null,
+            startDateBegin: null,
+            endDateBegin: null
           }
         },
         grid: {
@@ -164,6 +153,8 @@ export default {
     },
     doReset() {
       this.$refs.search.resetFields();
+      this.gridOptions.dataSource.serviceInstanceInputParameters = {}
+      this.doRefresh()
     },
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('流程实例列表');
@@ -176,7 +167,7 @@ export default {
       if(row.taskFormKey) {
         const taskFormKey = row.taskFormKey.substr(1)
         if(column.property == 'processDefinationName') {
-          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey+'&taskActId='+row.taskActId+'&status='+row.status
+          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey+'&taskActId='+row.taskActId+'&type=CC'
           this.$router.push({
             path: tpath,
           })

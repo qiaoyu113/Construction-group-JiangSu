@@ -2,16 +2,14 @@
 数字（decimal)输入控件
 */
 <template>
-<t-input :placeholder="placeholder" @blur="onBlurHandler" @input="onInputHandler" @focus="onFocusHandler" ref="numeric" type="tel" v-model="amount" :readOnly="readOnly" :disabled="disabled">
-  <template slot="prepend" v-if="$slots.prepend">
-  <slot name="prepend">
-  </slot>
-</template>
-  <template slot="append" v-if="$slots.append">
-  <slot name="append">
-  </slot>
-</template>
-</t-input>
+  <t-input :placeholder="placeholder" @blur="onBlurHandler" @input="onInputHandler" @focus="onFocusHandler" ref="numeric" type="tel" v-model="amount" :readOnly="readOnly" :readonly="readonly" :disabled="disabled">
+    <template slot="prepend" v-if="$slots.prepend">
+      <slot name="prepend"></slot>
+    </template>
+      <template slot="append" v-if="$slots.append">
+      <slot name="append"></slot>
+    </template>
+  </t-input>
 </template>
 
 <script>
@@ -130,6 +128,11 @@ export default {
       required: false
     },
     readOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    readonly: {
       type: Boolean,
       default: false,
       required: false

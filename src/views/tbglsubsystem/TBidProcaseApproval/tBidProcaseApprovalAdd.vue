@@ -49,7 +49,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressDetail" label="详细地址">
+            <el-form-item prop="proAddressDetail" label="详细地址" display="t">
               <el-input v-model="dataForm.proAddressDetail"></el-input>
             </el-form-item>
           </el-col>
@@ -100,7 +100,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTracker" label="项目跟踪人">
-              <el-input v-model="dataForm.proTracker"></el-input>
+              <t-manager-select v-model="dataForm.proTracker"
+                                @selectedManager="getSelectedManager"></t-manager-select>
+
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -322,6 +324,13 @@
             this.$refs.ruleForm.clearValidate();
           })
         }
+      },
+      getSelectedManager(charge) {
+        console.log('current charge', charge)
+        // charge为从弹窗框列表带出来的那一行的数据
+        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
+        // 例如 this.dataForm.id = charge.id
       },
       getUserWithDepartments() {
         if(this.currentUser && this.currentUser.userId) {

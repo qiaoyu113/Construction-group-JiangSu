@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
@@ -15,23 +15,26 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="proCode" :readOnly="readOnly" label="项目编号">
-            <el-input v-model="dataForm.proCode"></el-input>
+          <el-form-item prop="proCode" label="项目编号">
+            <t-input v-model="dataForm.proCode" :readOnly="readOnly" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="remark" :readOnly="readOnly" label="申请事项">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+          <el-form-item prop="remark" label="申请事项">
+            <t-input type="textarea" v-model="dataForm.remark" :readOnly="readOnly" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -50,28 +53,28 @@
       <t-sub-title :title="'帐户信息（帐户开立申请通过后填写）'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="bankName" label="开户行名称">
-            <el-input readonly v-model="dataForm.bankName"></el-input>
+          <el-form-item prop="bankName" label="开户行名称" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.bankName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="bankAddress" label="开户网点">
-            <el-input readonly v-model="dataForm.bankAddress"></el-input>
+          <el-form-item prop="bankAddress" label="开户网点" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.bankAddress"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="bankAccountName" label="银行帐户名称">
-            <el-input readonly v-model="dataForm.bankAccountName"></el-input>
+          <el-form-item prop="bankAccountName" label="银行帐户名称" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.bankAccountName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="bankAccount" label="银行帐号">
-            <el-input readonly v-model="dataForm.bankAccount"></el-input>
+          <el-form-item prop="bankAccount" label="银行帐号" :class="{'is-required': isBackFill}">
+            <t-input :disabled="!isBackFill" v-model="dataForm.bankAccount"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="openTime" label="开户时间">
-            <el-date-picker type="datetime" readonly v-model="dataForm.openTime"></el-date-picker>
+          <el-form-item prop="openTime" label="开户时间" :class="{'is-required': isBackFill}">
+            <el-date-picker type="datetime" :disabled="!isBackFill" v-model="dataForm.openTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,6 +93,26 @@
 
   export default {
     data () {
+      var checkBankName = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.bankName == '' || this.dataForm.bankName == undefined)) callback(new Error('开户行名称不能为空'));
+        else callback();
+      };
+      var checkBackAddress = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.bankAddress == '' || this.dataForm.bankAddress == undefined)) callback(new Error('开户网点不能为空'));
+        else callback();
+      };
+      var checkAccountName = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.bankAccountName == '' || this.dataForm.bankAccountName == undefined)) callback(new Error('银行账户不能为空'));
+        else callback();
+      };
+      var checkBankAccount = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.bankAccount == '' || this.dataForm.bankAccount == undefined)) callback(new Error('银行账号不能为空'));
+        else callback();
+      };
+      var checkOpenTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.openTime == '' || this.dataForm.openTime == undefined)) callback(new Error('开户时间不能为空'));
+        else callback();
+      };
       return {
         dialogFormVisible: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -97,6 +120,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           proName: '',
           proCode: '',
@@ -122,21 +146,11 @@
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
           ],
-          // bankName: [
-          //   { required: true, message: '开户行名称不能为空', trigger: 'blur' }
-          // ],
-          // bankAddress: [
-          //   { required: true, message: '开户网点不能为空', trigger: 'blur' }
-          // ],
-          // bankAccountName: [
-          //   { required: true, message: '银行帐户名称不能为空', trigger: 'blur' }
-          // ],
-          // bankAccount: [
-          //   { required: true, message: '银行帐号不能为空', trigger: 'blur' }
-          // ],
-          // openTime: [
-          //   { required: true, message: '开户时间不能为空', trigger: 'blur' }
-          // ],
+          bankName: [{validator: checkBankName, trigger: 'blur'}],
+          bankAddress: [{validator: checkBackAddress, trigger: 'blur'}],
+          bankAccountName: [{validator: checkAccountName, trigger: 'blur'}],
+          bankAccount: [{validator: checkBankAccount, trigger: 'blur'}],
+          openTime: [{validator: checkOpenTime, trigger: 'blur'}],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
           ],
@@ -150,12 +164,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -218,7 +234,27 @@
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
           tapp.services.finaFwaccounapproval.save(model).then(function(result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+            self.$refs['ruleForm'].resetFields()
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 回填信息保存
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.finaFwaccounapproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

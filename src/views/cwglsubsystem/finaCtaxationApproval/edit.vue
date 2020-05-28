@@ -15,6 +15,9 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="140px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'申请信息'"></t-sub-title>
@@ -26,43 +29,43 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="pId" label="工程起止时间">
-            <t-datetime-range-picker disabled type="datetime"  v-model="dataForm.proPlanDate"></t-datetime-range-picker>
+            <t-datetime-range-picker readOnly type="datetime"  v-model="dataForm.proPlanDate"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="cId" label="合同名称">
-            <el-input readonly v-model="dataForm.conName"></el-input>
+            <t-input readonly v-model="dataForm.conName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="cId" label="合同金额">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
+            <t-input readonly v-model="dataForm.conTotal"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="cId" label="合同对方企业名称">
-            <el-input readonly v-model="dataForm.cId"></el-input>
+            <t-input readonly v-model="dataForm.cId"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="cId" label="所属公司">
-            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+            <t-input readonly v-model="dataForm.proSubCompany"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="taxMethod" label="计税方式">
-            <t-dic-dropdown-select dicType="tax_method" v-model="dataForm.taxMethod"></t-dic-dropdown-select>
+            <t-dic-dropdown-select :disabled="readOnly" dicType="tax_method" v-model="dataForm.taxMethod"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="applyAmount" label="申请金额">
-            <el-input v-model="dataForm.applyAmount"></el-input>
+            <t-input v-model="dataForm.applyAmount"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,22 +73,22 @@
         <el-col :span="12">
           <el-form-item prop="province" label="外出经营地">
             <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
-                             :readOnly="readOnly"></t-region-picker>
+                             :disabled="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="address" label="详细地址">
-            <el-input v-model="dataForm.address"></el-input>
+            <t-input v-model="dataForm.address"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="licenceCode" label="外经证号">
-              <el-input placeholder="申请通过后填写" readonly="true" v-model="dataForm.licenceCode"></el-input>
+          <el-form-item prop="licenceCode" label="外经证号" :class="{'is-required': isBackFill}">
+              <t-input placeholder="申请通过后填写" :disabled="!isBackFill" v-model="dataForm.licenceCode"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="使用期限">
-            <t-datetime-range-picker disabled v-model="dataForm.startDate"></t-datetime-range-picker>
+          <el-form-item label="使用期限" :rules="dataRule.startDate" :class="{'is-required': isBackFill}">
+            <t-datetime-range-picker :disabled="!isBackFill" v-model="timeRange" @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -116,12 +119,27 @@
 
   export default {
     data () {
+      var checkLicenceCode = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.licenceCode == '' || this.dataForm.licenceCode == undefined)) callback(new Error('外经证号不能为空'));
+        else callback();
+      };
+      var checkStartDate = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.startDate == '' || this.dataForm.startDate == undefined)) callback(new Error('使用期限不能为空'));
+        else callback();
+      };
+      var checkEndDate = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.endDate == '' || this.dataForm.endDate == undefined)) callback(new Error('使用期限不能为空'));
+        else callback();
+      };
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
+        timeRange: [],
+        proPlanDateRange: [],
         dataForm: {
           bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',applyAmount: '',province: '',city: '',district: '',
           address: '',licenceCode: '',startDate: '',endDate: '',approvalStatus: '',sign: '',signTime: '',proPlanDate:'',
@@ -139,15 +157,6 @@
           applyAmount: [
             { required: true, message: '申请金额不能为空', trigger: 'blur' }
           ],
-          province: [
-            { required: true, message: '省不能为空', trigger: 'blur' }
-          ],
-          city: [
-            { required: true, message: '市不能为空', trigger: 'blur' }
-          ],
-          // district: [
-          //   { required: true, message: '区不能为空', trigger: 'blur' }
-          // ],
           address: [
             { required: true, message: '详细地址不能为空', trigger: 'blur' }
           ],
@@ -157,7 +166,9 @@
           signTime: [
             { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
-
+          licenceCode: [{validator: checkLicenceCode, trigger: 'blur'}],
+          startDate: [{validator: checkStartDate, trigger: 'blur'}],
+          endDate: [{validator: checkEndDate, trigger: 'blur'}],
         }
       }
     },
@@ -165,12 +176,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -195,30 +208,31 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCtaxationApproval.get(id).then(function(result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaCtaxationApproval.pId
-                self.dataForm.cId = result.finaCtaxationApproval.cId
-                self.dataForm.taxMethod = result.finaCtaxationApproval.taxMethod
-                self.dataForm.applyAmount = result.finaCtaxationApproval.applyAmount
-                self.dataForm.province = result.finaCtaxationApproval.province
-                self.dataForm.city = result.finaCtaxationApproval.city
-                self.dataForm.district = result.finaCtaxationApproval.district
-                self.dataForm.address = result.finaCtaxationApproval.address
-                self.dataForm.licenceCode = result.finaCtaxationApproval.licenceCode
-                self.dataForm.startDate = result.finaCtaxationApproval.startDate
-                self.dataForm.endDate = result.finaCtaxationApproval.endDate
-                self.dataForm.approvalStatus = result.finaCtaxationApproval.approvalStatus
-                self.dataForm.sign = result.finaCtaxationApproval.sign
-                self.dataForm.signTime = result.finaCtaxationApproval.signTime
-                self.dataForm.propose = result.finaCtaxationApproval.propose
-                self.dataForm.result = result.finaCtaxationApproval.result
-                self.dataForm.createtime = result.finaCtaxationApproval.createtime
-                self.dataForm.updatetime = result.finaCtaxationApproval.updatetime
-                self.dataForm.createuser = result.finaCtaxationApproval.createuser
+                self.dataForm.pId = result.pId
+                self.dataForm.cId = result.cId
+                self.dataForm.taxMethod = result.taxMethod
+                self.dataForm.applyAmount = result.applyAmount
+                self.dataForm.province = result.province
+                self.dataForm.city = result.city
+                self.dataForm.district = result.district
+                self.dataForm.address = result.address
+                self.dataForm.licenceCode = result.licenceCode
+                self.dataForm.startDate = result.startDate
+                self.dataForm.endDate = result.endDate
+                self.timeRange = [result.startDate, result.endDate]
+                self.dataForm.approvalStatus = result.approvalStatus
+                self.dataForm.sign = result.sign
+                self.dataForm.signTime = result.signTime
+                self.dataForm.propose = result.propose
+                self.dataForm.result = result.result
+                self.dataForm.createtime = result.createtime
+                self.dataForm.updatetime = result.updatetime
+                self.dataForm.createuser = result.createuser
               })
             }
           })
@@ -238,6 +252,30 @@
           let model = { ...self.dataForm };
           tapp.services.finaCtaxationApproval.save(model).then(function(result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function(e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      onStartDateRangeChanged(val) {
+        this.startDate = val[0];
+        this.endDate = val[1];
+      },
+      // 保存回填
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = { ...self.dataForm };
+          tapp.services.finaCtaxationApproval.save(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

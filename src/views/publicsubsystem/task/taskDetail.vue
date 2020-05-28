@@ -14,7 +14,7 @@
               </el-col>
             </el-row>
             <el-row :gutter="10" v-if="userRole.length > 0">
-              <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required">
+              <el-form-item label="下一节点办理人" prop="maritalStatusIdList" class="is-required" :rules="dataRule.taskAssignee">
                 <el-col :span="8">
                   <t-dic-dropdown-select :data="userRole" placeholder="请选择审批角色" v-model="dataForm.userRole" :readOnly="true"></t-dic-dropdown-select>
                 </el-col>
@@ -85,6 +85,10 @@
   import isEmpty from 'lodash/isEmpty'
   export default {
     data () {
+      var checkTaskAssignee = (rule, value, callback) => {
+        if (!this.dataForm.taskAssignee || this.dataForm.taskAssignee.length == 0 || this.dataForm.taskAssignee == '') callback(new Error('请选择下一节点审批人'));
+        else callback();
+      };
       return {
         activeName: 'first',
         assetCategoryClassifications: ['pl_loanapplyInput'], // 附件的分类标识 此处为示例
@@ -102,7 +106,7 @@
           taskAssignee: ''
         },
         dataRule: {
-          
+          taskAssignee: [{validator: checkTaskAssignee, trigger: 'blur'}]
         },
         selectedUser: {
           name: ''
@@ -370,24 +374,48 @@
       doApprove() {
         let self = this;
         let validPromises = [];
-        const currentQuery = this.$route.query
-        this.$refs['ruleForm'].validate((valid) => {
+        const currentQuery = self.$route.query
+        self.$refs['ruleForm'].validate((valid) => {
           if(valid) {
-            let model = {
-              action: 'approve',
-              docId: currentQuery.id,
-              result: '审批通过',
-              taskId: currentQuery.taskId,
-              taskRemark: self.dataForm.suggestion,
-              multiTaskAssignee: self.dataForm.taskAssignee
-            }
-            if(self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
-            tapp.services.wf_TaskAction.approve(model).then(function(result) {
-              self.$notify.success({
-                title: "操作成功！",
-                message: "保存成功！",
+            if(self.$route.query.status && (self.$route.query.status == 1 || self.$route.query.status == 2)) {
+              self.$confirm('是否已填写完回填信息且保存?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                let model = {
+                  action: 'approve',
+                  docId: currentQuery.id,
+                  result: '审批通过',
+                  taskId: currentQuery.taskId,
+                  taskRemark: self.dataForm.suggestion,
+                  multiTaskAssignee: self.dataForm.taskAssignee
+                }
+                if(self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
+                tapp.services.wf_TaskAction.approve(model).then(function(result) {
+                  self.$notify.success({
+                    title: "操作成功！",
+                    message: "保存成功！",
+                  })
+                })
               })
-            })
+            } else {
+              let model = {
+                action: 'approve',
+                docId: currentQuery.id,
+                result: '审批通过',
+                taskId: currentQuery.taskId,
+                taskRemark: self.dataForm.suggestion,
+                multiTaskAssignee: self.dataForm.taskAssignee
+              }
+              if(self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
+              tapp.services.wf_TaskAction.approve(model).then(function(result) {
+                self.$notify.success({
+                  title: "操作成功！",
+                  message: "保存成功！",
+                })
+              })
+            }
           } else {
             self.$notify.error({
               title: "错误",
