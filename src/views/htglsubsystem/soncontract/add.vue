@@ -32,7 +32,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="项目编号：">
-              <el-input v-model="dataForm.proCode" readonly></el-input>
+              <el-input v-model="dataForm.proCode" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -90,7 +90,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="计划开工日期：" prop="proPlanStartDate" class="is-required">
+            <el-form-item label="计划开工日期：" prop="proPlanStartDate">
               <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" disabled>
               </t-datetime-picker>
             </el-form-item>
@@ -515,6 +515,9 @@
         }
       },
       getSelectedProject(project) {
+        console.log('=====',project);
+        console.log('合同编号',project.conCode);
+        console.log('proPlanStartDate',project.proPlanStartDate);
         this.dataForm.proSubCompany = project.proSubCompany;
         this.dataForm.proCode = project.proCode;
         this.dataForm.proAddressProvince = project.proAddressProvince;
@@ -530,8 +533,8 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proRealStartDate = project.proRealStartDate;
+        this.dataForm.proPlanStartDate=project.proPlanStartDate;
         this.dataForm.proPlanEndDate = project.proPlanEndDate;
-        this.proPlanStartDate = project.proPlanStartDate;
         this.dataForm.proUnionCompanyMerate = project.proUnionCompanyMerate;
         this.dataForm.proProfitRate = project.proProfitRate;
         this.dataForm.proContacter = project.proContacter;
@@ -546,14 +549,14 @@
         this.dataForm.proIsBim = project.proIsBim;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conName = project.conName;
-        this.proDriveSubject = project.proDriveSubject;
-        this.proLimitTime = project.proLimitTime;
-        this.proConstructCompanyAttr = project.proConstructCompanyAttr;
-        this.conCode = project.conCode;
-        this.conStartDate = project.conStartDate;
-        this.conEndDate = project.conEndDate;
-        this.conBcxyTotal=project.conBcxyTotal;
-        this.pId=project.id;
+        this.dataForm.proDriveSubject = project.proDriveSubject;
+        this.dataForm.proLimitTime = project.proLimitTime;
+        this.dataForm.proConstructCompanyAttr = project.proConstructCompanyAttr;
+        this.dataForm.conCode = project.conCode;
+        this.dataForm.conStartDate = project.conStartDate;
+        this.dataForm.conEndDate = project.conEndDate;
+        this.dataForm.conBcxyTotal=project.conBcxyTotal;
+        this.dataForm.pId=project.id;
       },
       // 表单提交
       doSave() {
