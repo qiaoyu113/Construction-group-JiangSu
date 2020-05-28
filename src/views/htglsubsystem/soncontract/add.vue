@@ -21,7 +21,7 @@
       </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="130px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'项目基本信息'"></t-sub-title>
         <el-row :gutter="20">
@@ -238,7 +238,7 @@
         </el-row>
         <el-row :gutter="20">
          <el-col :span="8">
-           <el-form-item prop="conTotal" label="子合同额">
+           <el-form-item prop="conTotal" label="子合同额：">
              <el-input v-model="dataForm.conTotal">
                <span slot="append">万元</span>
              </el-input>
@@ -250,26 +250,24 @@
           </el-form-item>
           </el-col>
         </el-row>
-          <el-row :gutter="20">
-            <el-col :span="6">
-          <el-form-item prop="bId" class="is-required">
-            <span>合同价格审核：</span>
-            </el-form-item></el-col>
-              <el-col :span="8">
-           <el-form-item prop="isExceedTotal" label="总价是否超预算：">
-             <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isExceedTotal"></t-dic-radio-select>
-           </el-form-item>
-         </el-col>
-          <el-col :span="8">
-            <el-form-item prop="isExceed" label="单价是否超预算：">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.	isExceed"></t-dic-radio-select>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="bId" label="合同价格审核：" class="is-required">
+              <el-form-item prop="isExceedTotal" label="总价是否超预算：" label-width="140px">
+                <t-dic-radio-select :dataisgood="y_or_n1" v-model="dataForm.isExceedTotal"></t-dic-radio-select>
+              </el-form-item>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="isExceed" label="单价是否超预算：" label-width="140px">
+              <t-dic-radio-select :dataisgood="y_or_n2" v-model="dataForm.	isExceed"></t-dic-radio-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item prop="isRunProcedure" label="是否经招标程序：">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isRunProcedure"></t-dic-radio-select>
+          <el-col :span="16">
+            <el-form-item prop="isRunProcedure" label="是否经招标程序：" label-width="140px">
+              <t-dic-radio-select :dataisgood="y_or_n3" v-model="dataForm.isRunProcedure"></t-dic-radio-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -309,6 +307,9 @@
         showOtherType: false,
         showButton: true,
         dialogVisible: false,
+        y_or_n1: JSON.parse(JSON.stringify(tapp.data.base_datadictionary['y_or_n'])),
+        y_or_n2: JSON.parse(JSON.stringify(tapp.data.base_datadictionary['y_or_n'])),
+        y_or_n3: JSON.parse(JSON.stringify(tapp.data.base_datadictionary['y_or_n'])),
         dataForm: {
           pId: '',
           proCode: '',
@@ -426,6 +427,16 @@
     },
 
     created() {
+      this.y_or_n1.map(item => {
+        if(item.id == 'yes') item.name = '是（请在备注里填写原因）'
+      })
+      this.y_or_n2.map(item => {
+        if(item.id == 'yes') item.name = '是（请在备注里填写原因）'
+      })
+      this.y_or_n3.map(item => {
+        if(item.id == 'yes') item.name = '是（请上传招采文件）'
+        if(item.id == 'no') item.name = '否（请在备注里填写原因）'
+      })
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
