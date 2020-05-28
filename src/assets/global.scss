@@ -290,7 +290,7 @@ input[readonly="readonly"] {
 }
 
 .sidebar-search {
-  height: 46px;
+  height: 53.5px;
   background-color: #20335D;
   display: flex;
   align-items: center;
@@ -304,8 +304,8 @@ input[readonly="readonly"] {
   }
   .el-input--medium .el-input__inner {
     border-radius: 25px;
-    line-height: 23px;
-    height: 23px;
+    line-height: 27px;
+    height: 27px;
   }
   .el-icon-s-fold:before, .el-icon-s-unfold:before {
     color: #fff;
@@ -363,8 +363,8 @@ input[readonly="readonly"] {
   font-weight: 400;
 }
 .el-input--medium .el-input__inner, .el-range-editor--medium.el-input__inner {
-  height: 23px;
-  line-height: 23px;
+  height: 27px;
+  line-height: 27px;
 }
 .el-input--medium {
   font-size: 11px;
@@ -377,20 +377,20 @@ input[readonly="readonly"] {
 }
 .el-form-item--medium .el-form-item__label {
   font-size: 11px;
-  line-height: 23px;
+  line-height: 27px;
   padding: 0 4.5px 0 0;
 }
 .el-form-item {
   margin-bottom: 11.25px;
 }
 .el-form-item--medium .el-form-item__content {
-  line-height: 23px;
+  line-height: 27px;
 }
 .el-input__icon {
   width: 13px;
 }
 .el-input--medium .el-input__icon {
-  line-height: 23px;
+  line-height: 27px;
 }
 .el-radio__label {
   font-size: 11px;
@@ -408,12 +408,12 @@ input[readonly="readonly"] {
   padding: 20px 20px 16px 20px;
 }
 .site-sidebar--dark .site-sidebar__menu.el-menu .el-submenu .el-submenu__title {
-  height: 39px;
-  line-height: 39px;
+  height: 48px;
+  line-height: 48px;
 }
 .site-sidebar--dark .site-sidebar__menu.el-menu .el-menu-item {
-  height: 30px;
-  line-height: 30px;
+  height: 48px;
+  line-height: 48px;
 }
 .btns {
   .webuploader-pick {

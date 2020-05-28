@@ -132,7 +132,7 @@ img {
   right: 0;
   left: 0;
   z-index: 1030;
-  height: 70px;
+  height: 82.5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
   background-color: $navbar--background-color;
 
@@ -193,7 +193,7 @@ img {
     &-mini {
       margin: 15px 20px;
       color: #fff;
-		font-size: 25px;
+		  font-size: 21px;
       &:focus,
       &:hover {
         color: #fff;
@@ -280,7 +280,7 @@ img {
 ------------------------------ */
 .site-sidebar {
   position: fixed;
-  top: 70px;
+  top: 82.5px;
   left: 0;
   bottom: 0;
   z-index: 1020;
@@ -374,7 +374,7 @@ img {
 
   &__wrapper {
     position: relative;
-    padding-top: 70px;
+    padding-top: 82.5px;
     margin-left: 280px;
     min-height: 100%;
     background: $content--background-color;
@@ -387,7 +387,7 @@ img {
   > .el-tabs {
     > .el-tabs__header {
       position: fixed;
-      top: 70px;
+      top: 82.5px;
       left: 280px;
       right: 0;
       z-index: 930;
@@ -409,7 +409,7 @@ img {
 
       > .site-tabs__tools {
         position: fixed;
-        top: 70px;
+        top: 82.5px;
         right: 0;
         z-index: 931;
         height: 40px;

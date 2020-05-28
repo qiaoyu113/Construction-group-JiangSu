@@ -1,6 +1,6 @@
 <template>
 	<nav class="site-navbar" :class="navbarClasses">
-		<div class="bacolo" style="width: 100%;height: 70px;background: -webkit-gradient(linear, 0 0, 100% 100%, from(#7BB3F3), to(#20335D));position: absolute;margin-bottom: 20px;">
+		<div class="bacolo" style="width: 100%;height: 82.5px;background: -webkit-gradient(linear, 0 0, 100% 100%, from(#7BB3F3), to(#20335D));position: absolute;">
 			<div class="jianzhu" style=""></div>
 			<div class="site-navbar__header">
 				<div class="site-navbar__brand" @click="$router.push({ name: 'home' })">
@@ -9,7 +9,7 @@
 					<a class="site-navbar__brand-mini" href="javascript:;">{{appShortName}}</a>
 				</div>
 			</div>
-			<el-menu class="site-navbar__menu site-navbar__menu--right" style="z-index: 10;border-right: none;display: flex;align-items: center;height: 50px;margin:  10px; font-size: 16px;">
+			<el-menu class="site-navbar__menu site-navbar__menu--right" style="z-index: 10;border-right: none;display: flex;align-items: center;height: 62.5px;margin:  10px; font-size: 16px;">
 				<el-menu-item index="2" id="base_notification">
 					<div class="el-badge" >
 						<a href="#" target="_blank" v-on:click.stop.prevent="notificationHandle()">
@@ -23,7 +23,7 @@
 					<el-dropdown :show-timeout="0" placement="bottom">
 						<span class="el-dropdown-link">
 							<el-avatar shape ="circle" size="medium" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
-							<span style="margin-left: 15px;font-size: 16px;color: #fff;">{{user.userDisplayName}}</span>
+							<span style="margin-left: 12px;font-size: 15px;color: #fff;">{{user.userDisplayName}}</span>
 							<i class="el-icon-arrow-down el-icon--right"></i>
 						</span>
 						<el-dropdown-menu slot="dropdown">
@@ -144,8 +144,8 @@
 </script>
 <style lang="scss" scoped>
 	.site-navbar__brand-lg {
-		font-size: 25px;
-		margin: 20px 0 0 4px;
+		font-size: 21px;
+		margin: 25px 0 0 4px;
 	}
 	.site-navbar__brand {
 		line-height: 70px;
@@ -177,23 +177,23 @@
 			left: 200px;
 			z-index: 7;
 			width: 1200px;
-			height: 70px;
+			height: 82.5px;
 			content: "";
 			background-size: cover;
 		}
 
 	}
 	.logo {
-		width: 70px;
-		height: 70px;
+		width: 60px;
+		height: 60px;
 		margin-left: 25px;
 		img {
-			width: 70px;
+			width: 60px;
 		}
 	}
 	.jianzhu {
 		width: 90%;
-		height: 70px;
+		height: 82.5px;
 		z-index: 1;
 		position: absolute;
 		// left: 17%;
@@ -208,8 +208,8 @@
 		margin-top: 18px;
 	}
 	.site-sidebar__menu-icon {
-		width: 28px;
-		height: 28px;
+		width: 30px;
+		height: 33px;
 		color: #fff !important;
 	}
 	#base_notification:hover, #base_user:hover {
