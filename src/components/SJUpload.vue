@@ -18,15 +18,15 @@
         <div slot="header" class="clearfix" v-if="disabled==false">
           <!-- <span>{{selectedCategoryItemName}}</span> -->
           <div style="float: left; padding: 3px 0">
-            <div class="btns " style="float:left;border-radius: 6px;width:88px;height:27px;">
+            <div class="btns " style="float:left;border-radius: 6px;width:108px;">
             </div>
-            <div style="float:left;width:88px;">
+            <div style="float:left;width:108px;">
               <el-button  type="primary" @click="handleGlobalPreview()" >文件预览</el-button>
             </div>
-            <div style="float:left;width:88px;">
+            <div style="float:left;width:108px;">
               <el-button  type="primary" @click="switchItemViewModel()">{{switchItemViewModelButtonText}}</el-button>
             </div>
-            <div style="float:left;width:88px;">
+            <div style="float:left;width:108px;">
               <el-button  type="danger" @click="doItemBatchDelete()" :disabled="selectedItemRows.length <= 0" >批量删除</el-button>
             </div>
 

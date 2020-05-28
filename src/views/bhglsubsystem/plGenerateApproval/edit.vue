@@ -197,6 +197,7 @@
         readOnly: false,
         dialogVisible: false,
         isBackFill: false,
+        dataInfo: [],
         dataForm: {
           id: 0,
           pId: '',
