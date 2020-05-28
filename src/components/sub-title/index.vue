@@ -66,7 +66,7 @@ export default {
   margin-top: 0;
 }
 .sub-title .extra {
-  font-size: 11px;
+  font-size: 14px;
   color: #5E98F8;
   margin-left: 25px;
   padding-top: 2px;
