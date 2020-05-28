@@ -3,6 +3,7 @@ import accounting from 'accounting-js'
 import idcard from 'idcard'
 import find from 'lodash/find' // https://www.npmjs.com/package/idcard
 import isEmpty from 'lodash/isEmpty'
+import bigDecimal from 'bigdecimal'
 
 let util = {
   ui: {
@@ -793,4 +794,71 @@ util.download = function (fileName, url, params) {
     alert(err)
   })
 }
+
+// bigDecimal 加法 num1 + num2 为2个数字（字符串类型），decimal为小数点位数（数字类型）
+util.bigDAdd = function (num1, num2, decimal) {
+  if(typeof num1 == Number) {
+    num1 = num1.toString()
+  }
+  if(typeof num2 == Number) {
+    num2 = num2.toString()
+  }
+  const result = 0;
+  if(decimal) {
+    result = new bigDecimal(num1).add(new bigDecimal(num2)).setScale(parseInt(decimal), MathContext.ROUND_HALF_UP).toString();
+  } else {
+    result = new bigDecimal(num1).add(new bigDecimal(num2));
+  }
+  return result
+}
+// bigDecimal 减法 num1 - num2 为2个数字（字符串类型），decimal为小数点位数（数字类型），小数位截取采用四舍五入
+util.bigDSubtract = function (num1, num2, decimal) {
+  if(typeof num1 == Number) num1 = num1.toString()
+  if(typeof num2 == Number) num2 = num2.toString()
+  const result = 0;
+  if(decimal) {
+    result = new bigDecimal(num1).subtract(new bigDecimal(num2)).setScale(parseInt(decimal), MathContext.ROUND_HALF_UP).toString();
+  } else {
+    result = new bigDecimal(num1).subtract(new bigDecimal(num2));
+  }
+  return result
+}
+// bigDecimal 减法 num1 - num2 为2个数字（字符串类型），decimal为小数点位数（数字类型），小数位截取采用四舍五入
+util.bigDSubtract = function (num1, num2, decimal) {
+  if(typeof num1 == Number) num1 = num1.toString()
+  if(typeof num2 == Number) num2 = num2.toString()
+  const result = 0;
+  if(decimal) {
+    result = new bigDecimal(num1).subtract(new bigDecimal(num2)).setScale(parseInt(decimal), MathContext.ROUND_HALF_UP).toString();
+  } else {
+    result = new bigDecimal(num1).subtract(new bigDecimal(num2));
+  }
+  return result
+}
+// bigDecimal 乘法 num1 * num2 为2个数字（字符串类型），decimal为小数点位数（数字类型），小数位截取采用四舍五入
+util.bigDSubtract = function (num1, num2, decimal) {
+  if(typeof num1 == Number) num1 = num1.toString()
+  if(typeof num2 == Number) num2 = num2.toString()
+  const result = 0;
+  if(decimal) {
+    result = new bigDecimal(num1).multiply(new bigDecimal(num2)).setScale(parseInt(decimal), MathContext.ROUND_HALF_UP).toString();
+  } else {
+    result = new bigDecimal(num1).multiply(new bigDecimal(num2));
+  }
+  return result
+}
+// bigDecimal 除非 num1 / num2 为2个数字（字符串类型），decimal为小数点位数（数字类型）
+util.bigDSubtract = function (num1, num2, decimal) {
+  if(typeof num1 == Number) num1 = num1.toString()
+  if(typeof num2 == Number) num2 = num2.toString()
+  if(num2 == 0 || num2 == '0') return NaN;
+  const result = 0;
+  if(decimal) {
+    result = new bigDecimal(num1).divide(new bigDecimal(num2)).setScale(parseInt(decimal), MathContext.ROUND_HALF_UP).toString();
+  } else {
+    result = new bigDecimal(num1).divide(new bigDecimal(num2));
+  }
+  return result
+}
+
 export default util
