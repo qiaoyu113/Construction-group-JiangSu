@@ -3,16 +3,17 @@
     <!-- <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
     </t-input> -->
     <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
-    <el-dialog title="到账信息选择" :visible.sync="dialogFormVisible" width='80%' center @close="doReset()">
+    <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
+      <div class="dialog-title" slot="title">到账信息选择</div>
+      <el-row slot="footer">
+        <el-button type="primary" @click="proChoose()">
+          确定
+        </el-button>
+        <el-button type="info" @click="dialogFormVisible = false">
+          取消
+        </el-button>
+      </el-row>
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
-        <el-row :gutter="10" class="search-top-operate">
-          <el-button type="primary" @click="proChoose()">
-            确定
-          </el-button>
-          <el-button type="info" @click="dialogFormVisible = false">
-            取消
-          </el-button>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="proName" style="margin-bottom: 15px;">
@@ -105,6 +106,7 @@
               {
                 prop: 'proName',
                 label: '项目名称',
+                minWidth: 120,
                 sortable: true
               },
               {
@@ -119,6 +121,7 @@
               {
                 prop: 'rAmount',
                 label: '到帐金额（万元）',
+                minWidth: 120,
                 sortable: true
               },
               {
@@ -126,7 +129,7 @@
                 columnKey: 'rWay', // 保持与prop一致（可以去掉）
                 label: '到帐方式',
                 sortable: true,
-                width: 100,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return util.dataDicFormat('account_way', row.rWay) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
@@ -136,7 +139,7 @@
                 columnKey: 'rType', // 保持与prop一致（可以去掉）
                 label: '到帐类型',
                 sortable: true,
-                width: 100,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return util.dataDicFormat('account_type', row.rType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }

@@ -19,7 +19,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="工程类别">
+          <el-form-item label="工程类别" prop="proType">
             <t-dic-dropdown-select dicType="engineering_type"
                                    v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
             ></t-dic-dropdown-select>
@@ -57,9 +57,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办人" prop="sign">
+          <el-form-item label="经办人" prop="signId">
             <t-handler-select label="经办人" placeholder="选择一个经办人"
-                              v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+                              v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId"
                               @selectedUser="getSelectedUser"></t-handler-select>
           </el-form-item>
         </el-col>
@@ -109,8 +109,8 @@
           dataSource: {
             serviceInstance: tapp.services.tBidPckeyApproval.getPagedList,
             serviceInstanceInputParameters: {
-              /*searchKey: null,
-              processDefinationKey: null,*/
+              proType: null,
+              processDefinationKey: null,
               dateRange: '',
               dateRange1: ''
             }
@@ -327,6 +327,7 @@
     methods: {
       getSelectedUser(user) {
         console.log('current user', user)
+        this.gridOptions.dataSource.serviceInstanceInputParameters.sign = user.name
         // user为从弹窗框列表带出来的那一行的数据
         // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的user的其他值，从这里的user获取
@@ -345,6 +346,7 @@
       },
       doReset() {
         this.$refs.search.resetFields();
+        this.doRefresh()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,
           proType: null,

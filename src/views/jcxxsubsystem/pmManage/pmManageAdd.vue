@@ -47,7 +47,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="是否在建">
+            <el-form-item prop="proStatue" label="是否在建">
               <el-input v-model="dataForm.proStatue" readonly></el-input>
             </el-form-item>
           </el-col>
@@ -259,7 +259,17 @@
       },
       getSelectedManager(manager) {
         console.log('current charge', manager)
-        this.dataForm.proContactway = manager.name
+        this.dataForm.proSubCompany = manager.proSubCompany//所属单位
+        this.dataForm.proContactway = manager.proContactway//联系方式
+        this.dataForm.proStatue = manager.proStatue        //是否在建
+        this.dataForm.CountProWinAmount = manager.CountProWinAmount  //累计项目合同额
+        this.dataForm.proName = manager.proName            //在建项目名称
+        this.dataForm.proRealStartDate = manager.proRealStartDate//项目开工日期
+        this.dataForm.proWinAmount = manager.proWinAmount//项目合同额
+        tapp.services.proInfo.getPagedList().then(result => {
+          console.log('result', result)
+        })
+
       },
     }
   }

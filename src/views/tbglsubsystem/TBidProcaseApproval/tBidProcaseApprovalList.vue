@@ -15,8 +15,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地址">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"></el-input>
+            <el-form-item prop="proAddressDetail" label="项目地址">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -46,8 +46,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="备案人" prop="sign">
-              <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign"
+            <el-form-item label="备案人" prop="signId">
+              <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId"
                                 @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
@@ -95,8 +95,6 @@
             serviceInstance: tapp.services.tBidProcaseApproval.getPagedList,
             serviceInstanceInputParameters: {
               proName: null,
-              proAddressProvince: null,
-              proAddressCity: null,
               proAddressDetail: null,
               proConstructCompany: null,
               proType: null,
@@ -155,12 +153,12 @@
                 minWidth: 120,
               },
               {
-                prop: 'proAddressProvince',
+                prop: 'proAddressDetail',
                 label: '项目地址',
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
                   // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
@@ -174,7 +172,6 @@
                   return util.dataDicsFormat('business_type', row.proRunMode)
                 }
               },
-
               {
                 prop: 'proTracker',
                 label: '项目跟踪人',
@@ -235,6 +232,8 @@
     methods: {
       getSelectedUser(user) {
         console.log('current user', user)
+        this.gridOptions.dataSource.serviceInstanceInputParameters.sign = user.name
+
         // user为从弹窗框列表带出来的那一行的数据
         // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的user的其他值，从这里的user获取
@@ -256,7 +255,7 @@
         this.doRefresh()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,
-          proAddressProvince: null,
+          proAddressDetail: null,
           proConstructCompany: null,
           proType: null,
           proRunMode: null,
