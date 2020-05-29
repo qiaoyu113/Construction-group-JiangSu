@@ -43,7 +43,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="unionCompany" label="所属单位">
+            <el-form-item prop="proSubCompany" label="所属单位">
               <el-input readonly v-model="dataForm.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
@@ -182,6 +182,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isPay: false,
         dataForm: {
           poAmount:'',
           psAmount:'',
@@ -293,7 +294,7 @@
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.proName = data.proName
         this.dataForm.proCode = data.proCode
-        this.dataForm.pId = data.id
+        this.dataForm.pId = data.pId
         this.dataForm.unionCompany = data.proUnionCompany
         this.dataForm.proRunMode = data.proRunMode
         this.dataForm.rWay = data.rWay
@@ -304,6 +305,7 @@
         this.dataForm.rType = data.rType
         this.dataForm.lNum = data.lNum
         this.dataForm.proSubCompany = data.proSubCompany
+        this.dataForm.rId = data.id
         if (!data.lNum) {
           this.dataRule.lNum[0].required = false
         }
@@ -326,32 +328,67 @@
           this.dataForm.realAmount = data.sAmount
           this.dataForm.oAmount = 0
         }
+        // 联营
         if (this.dataForm.proRunMode == 'pool') {
           this.dataRule.sAmount[0].required = false
           this.dataRule.psAmount[0].required = false
           this.dataForm.mangementRatio = data.proUnionCompanyMerate // 总部管理费比例
-          if (this.dataForm.rWay == 'other_acc_type') {
+          if (this.dataForm.rWay == 'promise_draft') { // 到账方式 == 承兑汇票
             this.dataForm.deductAmount = 0 // 扣款
             this.dataForm.realAmount = data.oAmount // 本次实际请款金额
           } else {
-            this.dataForm.deductAmount = Number(this.dataForm.mangementRatio) * Number(data.oAmount) / 100 // 扣款
-            this.dataForm.realAmount = Number(data.oAmount) -  this.dataForm.deductAmount // 本次实际请款金额
+            this.dataForm.deductAmount =  this.$util.bigDDivide(this.$util.bigDSubtract(Number(this.dataForm.mangementRatio), Number(data.oAmount), 2), 100, 2) // 扣款
+            this.dataForm.realAmount = this.$util.bigDSubtract(Number(data.oAmount), this.dataForm.deductAmount) // 本次实际请款金额
           }
           this.dataForm.sAmount = 0 // 自营
           this.dataForm.oAmount = data.oAmount // 联营
         }
+        // 自营 + 联营
         if (this.dataForm.proRunMode == 'proprietary_pool') {
           this.dataForm.mangementRatio = data.proUnionCompanyMerate // 总部管理费比例
-          if (this.dataForm.rWay == 'other_acc_type') {
-            this.dataForm.deductAmount = 0 // 扣款
-            this.dataForm.realAmount = Number(data.oAmount) + Number(data.sAmount)// 本次实际请款金额
-          } else {
-            this.dataForm.deductAmount = Number(this.dataForm.mangementRatio) * Number(data.oAmount) / 100 // 扣款
-            this.dataForm.realAmount = Number(data.oAmount) -  Number(this.dataForm.deductAmount) + Number(data.sAmount)// 本次实际请款金额
-          }
           this.dataForm.sAmount = data.sAmount // 自营
           this.dataForm.oAmount = data.oAmount // 联营
+          if (this.dataForm.rWay == 'promise_draft') { // 到账方式 ==  承兑汇票
+            this.dataForm.deductAmount = 0 // 扣款
+            this.dataForm.realAmount = this.$util.bigDAdd(Number(data.oAmount), Number(data.sAmount))// 本次实际请款金额
+          } else {
+            this.dataForm.deductAmount = this.$util.bigDDivide(this.$util.bigDMultiply(Number(this.dataForm.mangementRatio), Number(data.oAmount)), 100, 2)// 扣款
+            this.dataForm.realAmount = this.$util.bigDAdd(this.$util.bigDSubtract(Number(data.oAmount), Number(this.dataForm.deductAmount)), Number(data.sAmount)) // 本次实际请款金额
+            this.getDetailByRId(this.dataForm.rId)
+          }
         }
+      },
+      // getDetailByRId 获取最近的预付款记录,根据到账ID
+      getDetailByRId(rId) {
+        console.log(rId)
+        if (!rId) {
+          console.log('获取预付款信息 错误')
+          return
+        }
+        tapp.services.finaPaymendetail.getDetailByRId(rId).then(res => {
+          debugger
+          // 有预付款付款记录
+          if (res) {
+            this.isPay = res.isPay
+            // 获取信息后计算 payment 本次借款金额  mangement_ratio 管理费比例
+            this.dataForm.mangementRatio = res.mangementRatio
+            const liveAmount = res.liveAmount // 可用金额
+            // 扣款金额
+            this.dataForm.deductAmount = this.$util.bigDDivide(this.$util.bigDMultiply(Number(liveAmount), Number(this.dataForm.mangementRatio), 2), 100, 2)
+            // 联营金额
+            this.dataForm.oAmount = this.$util.bigDSubtract(Number(liveAmount), this.dataForm.deductAmount, 2)
+            this.dataForm.realAmount = this.$util.bigDAdd(Number(this.dataForm.oAmount), Number(this.dataForm.sAmount))
+          } else {
+            // 无预付款付款记录
+            this.dataForm.mangementRatio = 0
+            this.dataForm.deductAmount = 0
+            this.dataForm.realAmount = this.dataForm.sAmount
+            this.dataForm.oAmount = 0
+          }
+
+        }).catch(err => {
+          console.log('获取预付款信息 错误', err)
+        })
       },
       // 初始化 编辑和新增 2种情况
       init (id) {

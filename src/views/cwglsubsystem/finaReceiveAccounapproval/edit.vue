@@ -61,14 +61,14 @@
             <t-dic-dropdown-select dicType="account_type" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="6">
           <el-form-item prop="sAmount" label="自营">
             <el-input v-model="dataForm.sAmount" @change="onAmount" :readonly="sAmount">
               <span slot="append">万元</span>
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="6">
           <el-form-item prop="oAmount" label="联营">
             <el-input v-model="dataForm.oAmount" @change="onAmount" :readonly="oAmount">
               <span slot="append">万元</span>

@@ -54,8 +54,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="经办人" prop="sign">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
+            <el-form-item label="经办人" prop="signId">
+              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
@@ -237,6 +237,8 @@
     methods: {
       getSelectedUser (user) {
         console.log('current user', user)
+        this.gridOptions.dataSource.serviceInstanceInputParameters.sign=user.name
+
       },
       // 获取码表值
       loadCodeTableList () {
@@ -260,7 +262,7 @@
       doReset () {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
-          sign: null,
+          signId: null,
           keyType: null,
           province: null,
           city: null,
