@@ -84,7 +84,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="processBranch" label="流程选择：">
-            <t-dic-dropdown-select dicType="process_type" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select :dataisgood="processBranchList" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -131,6 +131,7 @@
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
         dialogVisible: false,
         dataForm: {
@@ -149,7 +150,11 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -215,6 +220,9 @@
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {
