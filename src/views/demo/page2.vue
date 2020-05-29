@@ -18,6 +18,17 @@
                 <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"  :readOnly="readOnly"></t-region-picker>
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item label="所属地区" prop="region" class="is-required">
+                <!-- v-model 请绑定当前页面的对应值 -->
+                <t-region-s-picker :province.sync="dataForm.province1" :city.sync="dataForm.city1" :readOnly="readOnly"></t-region-s-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="性别-下拉-单选" prop="sexId" class="is-required">
+                <t-dic-dropdown-select dicType="public_sex" v-model="dataForm.sexId" :readOnly="readOnly"></t-dic-dropdown-select>
+              </el-form-item>
+            </el-col>
           </el-row>
         </div>
         <el-button type="primary" @click="doSave()">保存</el-button>
@@ -29,7 +40,7 @@
 <script>
 	import util from '@/util'
 	import moment from 'moment'
-	import baseView from '@/base/baseView'
+  import baseView from '@/base/baseView'
 
 	export default {
 		extends: baseView,
@@ -39,7 +50,10 @@
 				dataForm: {
           province: '',
           city: '',
+          province1: '',
+          city1: '',
           district: '',
+          sexId: ''
         },
         dataRules: {
 
@@ -47,23 +61,26 @@
 			}
 		},
 		components: {},
-		created() {},
+		created() {
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, {
+            province: '我的天',
+            city: '我的地',
+            province1: '我的天1',
+            city1: '我的地1',
+            district: '我的家',
+            sexId: 'public_sex_m'
+          })
+        })
+      }, 5000)
+    },
 		watch: {},
 		activated() {
 			this.$nextTick(() => {})
 		},
 		computed: {},
 		methods: {
-      getProvince (province) {
-        console.log('province', province)
-        // 赋值给实际页面的值
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        console.log('city', city)
-        // 赋值给实际页面的值
-        this.dataForm.city = city
-      },
       doSave () {
         let self = this
         let selfValidPromise = self.$refs['ruleForm'].validate()
