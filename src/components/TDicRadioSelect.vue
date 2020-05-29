@@ -23,6 +23,11 @@ export default {
       default: null,
       required: false
     },
+    dataisgood: {
+      type: Array,
+      default: null,
+      required: false
+    },
     value: null,
     disabled: {
       type: Boolean,
@@ -62,6 +67,14 @@ export default {
               name: p.label || p.value,
             };
           });
+        }
+      },
+      immediate: true,
+    },
+    dataisgood: {　　　　
+      handler(newValue, oldValue) {　
+        if (newValue) {
+          this.innerData = newValue
         }
       },
       immediate: true,

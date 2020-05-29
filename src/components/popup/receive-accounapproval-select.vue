@@ -106,6 +106,7 @@
               {
                 prop: 'proName',
                 label: '项目名称',
+                minWidth: 120,
                 sortable: true
               },
               {
@@ -120,6 +121,7 @@
               {
                 prop: 'rAmount',
                 label: '到帐金额（万元）',
+                minWidth: 120,
                 sortable: true
               },
               {
@@ -127,7 +129,7 @@
                 columnKey: 'rWay', // 保持与prop一致（可以去掉）
                 label: '到帐方式',
                 sortable: true,
-                width: 100,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return util.dataDicFormat('account_way', row.rWay) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
@@ -137,7 +139,7 @@
                 columnKey: 'rType', // 保持与prop一致（可以去掉）
                 label: '到帐类型',
                 sortable: true,
-                width: 100,
+                minWidth: 120,
                 formatter: (row, column, cellValue) => {
                   return util.dataDicFormat('account_type', row.rType) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }

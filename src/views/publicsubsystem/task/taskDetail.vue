@@ -103,7 +103,7 @@
           time: '',
           suggestion: '',
           userRole: '',
-          taskAssignee: ''
+          taskAssignee: []
         },
         dataRule: {
           taskAssignee: [{validator: checkTaskAssignee, trigger: 'blur'}]
@@ -391,7 +391,7 @@
                   taskRemark: self.dataForm.suggestion,
                   multiTaskAssignee: self.dataForm.taskAssignee
                 }
-                if(self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
+                if(!self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
                 tapp.services.wf_TaskAction.approve(model).then(function(result) {
                   self.$notify.success({
                     title: "操作成功！",
@@ -408,7 +408,7 @@
                 taskRemark: self.dataForm.suggestion,
                 multiTaskAssignee: self.dataForm.taskAssignee
               }
-              if(self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
+              if(!self.dataForm.taskAssignee || self.dataForm.taskAssignee.length == 0) delete model.multiTaskAssignee;
               tapp.services.wf_TaskAction.approve(model).then(function(result) {
                 self.$notify.success({
                   title: "操作成功！",

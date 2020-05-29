@@ -266,7 +266,9 @@
         this.dataForm.proName = manager.proName            //在建项目名称
         this.dataForm.proRealStartDate = manager.proRealStartDate//项目开工日期
         this.dataForm.proWinAmount = manager.proWinAmount//项目合同额
-
+        tapp.services.proInfo.getPagedList().then(result => {
+          console.log('result', result)
+        })
 
       },
     }
