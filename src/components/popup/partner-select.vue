@@ -1,7 +1,7 @@
 <template>
   <div class="partner-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
       <div class="dialog-title" slot="title">联营公司选择</div>
@@ -185,7 +185,11 @@
         this.$emit('input', this.selectedPartner.id);
         this.doReset();
         this.dialogFormVisible = false
-			}
+      },
+      showDialog() {
+        if(this.readOnly) return;
+        this.$childrendialogFormVisible = true
+      }
 		}
 	}
 </script>

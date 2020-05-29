@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-input ref="input" v-model="currentValue" @change="onChange" @focus="onFocus"  @blur="onBlur" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" :disabled="disabled" v-if="!readOnly">
+  <el-input ref="input" v-model="currentValue" @change="onChange" @focus="onFocus"  @blur="onBlur" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" :disabled="disabled" :readonly="readOnly">
     <template slot="prepend" v-if="$slots.prepend">
       <slot name="prepend"></slot>
     </template>
@@ -14,7 +14,7 @@
       <slot name="suffix"></slot>
     </template>
   </el-input>
-  <div v-else class="t-readonly t-input-readonly-div">
+  <!-- <div v-else class="t-readonly t-input-readonly-div">
     <span class="t-input-readonly-prepend" v-if="$slots.prepend">
       <slot name="prepend">
       </slot>
@@ -24,7 +24,7 @@
       <slot name="append">
       </slot>
     </span>
-  </div>
+  </div> -->
 </div>
 </template>
 

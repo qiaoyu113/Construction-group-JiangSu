@@ -1,7 +1,7 @@
 <template>
   <div class="record-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
       <div class="dialog-title" slot="title">备案项目选择</div>
@@ -222,7 +222,11 @@
         this.$emit('input', this.selectRecord.id);
         this.doReset();
         this.dialogFormVisible = false
-			}
+      },
+      showDialog() {
+        if(this.readOnly) return;
+        this.$childrendialogFormVisible = true
+      }
 		}
 	}
 </script>

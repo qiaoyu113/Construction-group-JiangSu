@@ -1,7 +1,7 @@
 <template>
   <div class="maincharge-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
       <div class="dialog-title" slot="title">主要负责人选择</div>
@@ -80,13 +80,6 @@
             mutiSelect: false,
             maxHeight: 350,
             columns: [
-              // {
-              //   prop: 'loginId',
-              //   label: '登陆名',
-              //   sortable: true,
-              //   fixed: 'left',
-              //   width: 100
-              // },
               {
                 prop: 'name',
                 label: '姓名',
@@ -105,9 +98,13 @@
 				dialogFormVisible: false,
 			}
 		},
-		components: {},
 		created() {
       this.currentValue = this.value;
+    },
+    watch: {
+      value(val) {
+        this.currentValue = val
+      }
     },
 		methods: {
 			clearValidate() {
@@ -134,7 +131,11 @@
         this.$emit('input', this.selectedMainCharge.id);
         this.doReset();
         this.dialogFormVisible = false
-			}
+      },
+      showDialog() {
+        if(this.readOnly) return;
+        this.$childrendialogFormVisible = true
+      }
 		}
 	}
 </script>

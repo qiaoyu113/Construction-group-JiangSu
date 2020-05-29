@@ -2,7 +2,7 @@
   <div class="receive-accounapproval-select">
     <!-- <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
     </t-input> -->
-    <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+    <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
       <div class="dialog-title" slot="title">到账信息选择</div>
       <el-row slot="footer">
@@ -192,6 +192,10 @@
         this.$emit('input', this.selectProject.id);
         this.doReset();
         this.dialogFormVisible = false
+      },
+      showDialog() {
+        if(this.readOnly) return;
+        this.$childrendialogFormVisible = true
       }
     }
   }

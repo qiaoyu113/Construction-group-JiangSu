@@ -24,7 +24,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
+              <t-project-select placeholder="选择一个项目" :disabled="readOnly" v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -197,25 +197,24 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
+              console.log('id', id)
               tapp.services.finaFwaccounapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaFwaccounapproval.pId
-                self.dataForm.bankName = result.finaFwaccounapproval.bankName
-                self.dataForm.bankAddress = result.finaFwaccounapproval.bankAddress
-                self.dataForm.bankAccountName = result.finaFwaccounapproval.bankAccountName
-                self.dataForm.bankAccount = result.finaFwaccounapproval.bankAccount
-                self.dataForm.openTime = result.finaFwaccounapproval.openTime
-                self.dataForm.approvalStatus = result.finaFwaccounapproval.approvalStatus
-                self.dataForm.sign = result.finaFwaccounapproval.sign
-                self.dataForm.signTime = result.finaFwaccounapproval.signTime
-                self.dataForm.propose = result.finaFwaccounapproval.propose
-                self.dataForm.result = result.finaFwaccounapproval.result
-                self.dataForm.createtime = result.finaFwaccounapproval.createtime
-                self.dataForm.updatetime = result.finaFwaccounapproval.updatetime
-                self.dataForm.createuser = result.finaFwaccounapproval.createuser
+                console.log('result111111', result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('result2222', _result)
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })

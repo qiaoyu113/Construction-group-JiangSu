@@ -27,7 +27,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="proName">
-            <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
+            <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">

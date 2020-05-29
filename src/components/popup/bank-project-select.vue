@@ -1,7 +1,7 @@
 <template>
   <div class="project-select">
     <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
-      <i slot="suffix" class="el-input__icon el-icon-search" @click="dialogFormVisible = true"></i>
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
       <div class="dialog-title" slot="title">项目合同选择</div>
@@ -31,7 +31,7 @@
         <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
           <el-col :span="8">
             <el-form-item label="选择的项目" prop="selectedProname" style="margin-bottom: 15px;">
-              <t-input v-model="selectData.proName" :readOnly="true" placeholder="选择的项目"></t-input>
+              <t-input v-model="selectData.proName" :readOnly="true" placeholder="选择的项目合同"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -200,6 +200,10 @@
         this.$emit('input', this.selectData.id);
         this.doReset();
         this.dialogFormVisible = false
+      },
+      showDialog() {
+        if(this.readOnly) return;
+        this.$childrendialogFormVisible = true
       }
     }
   }

@@ -233,6 +233,7 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proSealApproval.get(id).then(function (result) {
+                console.log('result', result)
                 self.$util.deepObjectAssign({}, self.dataForm, result);
                 self.dataForm.bId = result.bId;
                 self.dataForm.actTaskKey = result.actTaskKey;
