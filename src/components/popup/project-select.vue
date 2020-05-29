@@ -189,8 +189,8 @@
       this.currentValue = this.value
 		},
 		watch: {
-			currentValue(newValue, oldValue) {
-
+			value(val) {
+        this.currentValue = val
       }
 		},
 		activated() {

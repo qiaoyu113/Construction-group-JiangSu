@@ -27,7 +27,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="proName">
-            <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+            <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -136,7 +136,16 @@
       }
     },
     created() {
-      this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+     activated () {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -153,6 +162,7 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tQsSdfileApproval.get(id).then(function (result) {
+                console.log('result', result)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.bId = result.bId
                 self.dataForm.actTaskKey = result.actTaskKey
@@ -168,6 +178,17 @@
                 self.dataForm.createuser = result.createuser
                 self.dataForm.updateuser = result.updateuser
                 self.dataForm.datastatus = result.datastatus
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('result2222', _result)
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })
