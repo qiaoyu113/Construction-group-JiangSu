@@ -2,17 +2,17 @@
   <div class="region-picker">
     <el-col :span="8" style="padding-left: 0;padding-right: 2px;">
       <el-form-item prop="province" :rules="dataRules.province">
-        <t-dic-dropdown-select ref="province" dicType="base_region" v-model="_province" :readOnly="readOnly" :disabled="disabled" @input="provinceChange"></t-dic-dropdown-select>
+        <t-dic-dropdown-select ref="province" dicType="base_region" v-model="_province" :readOnly="readOnly" :disabled="disabled"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
     <el-col :span="8" style="padding-left: 0;padding-right: 2px;">
       <el-form-item prop="city" :rules="dataRules.city">
-        <t-dic-dropdown-select ref="cityPicker" :dataisgood="currentProvince.items" v-model="_city" :readOnly="readOnly" :disabled="disabled" @input="cityChange"></t-dic-dropdown-select>
+        <t-dic-dropdown-select ref="cityPicker" :dataisgood="currentProvince.items" v-model="_city" :readOnly="readOnly" :disabled="disabled"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
     <el-col :span="8" style="padding-left: 0;padding-right: 0;">
       <el-form-item prop="city" :rules="dataRules.district">
-        <t-dic-dropdown-select ref="districtPicker" :dataisgood="currentCity.items" v-model="_district" :readOnly="readOnly" :disabled="disabled" @input="districtChange"></t-dic-dropdown-select>
+        <t-dic-dropdown-select ref="districtPicker" :dataisgood="currentCity.items" v-model="_district" :readOnly="readOnly" :disabled="disabled"></t-dic-dropdown-select>
       </el-form-item>
     </el-col>
   </div>
@@ -60,9 +60,9 @@ export default {
   },
   data () {
     return {
-      _province: '',
-      _city: '',
-      _district: '',
+      selectValue1: null,
+      selectValue2: null,
+      selectValue3: null,
       currentProvince: {
         items: []
       },
@@ -80,6 +80,80 @@ export default {
     this._province = this.province;
     this._city = this.city;
     this._district = this.district;
+  },
+  watch: {
+    province(val) {
+      this._province = val;
+    },
+    city(val) {
+      this._city = val;
+    },
+    district(val) {
+      this._district = val;
+    },
+  },
+  computed: {
+    _province: {
+      get: function() {
+        return this.selectValue1;
+      },
+      set: function(val) {
+        //如果原值，新值都为空，无需重新赋值，防止首次进入显示必输提示
+        if ((!val || val.length == 0) && (!this.selectValue1 || this.selectValue1.length == 0)) {
+          this.currentProvince.items = []
+          return;
+        }
+        this.selectValue1 = val;
+        if(!/^\d{6}$/.test(val)) {
+          this.$emit('update:province', val)
+          return val
+        }
+        if(this.$refs['cityPicker']) {
+          this.$refs['cityPicker'].currentValue = '';
+        }
+         if(this.$refs['districtPicker']) {
+          this.$refs['districtPicker'].currentValue = '';
+          this.currentCity.items = []
+        }
+        this.currentProvince = find(tapp.data.base_datadictionary['base_region'], {id: val})
+        this.$emit('update:province', this.selectValue1);
+      }
+    },
+    _city: {
+      get: function() {
+        return this.selectValue2;
+      },
+      set: function(val) {
+        //如果原值，新值都为空，无需重新赋值，防止首次进入显示必输提示
+        if ((!val || val.length == 0) && (!this.selectValue2 || this.selectValue2.length == 0)) {
+          this.currentCity.items = []
+          return;
+        }
+        this.selectValue2 = val;
+        if(!/^\d{6}$/.test(val)) {
+          this.$emit('update:city', val)
+          return val
+        }
+        if(this.$refs['districtPicker']) {
+          this.$refs['districtPicker'].currentValue = '';
+        }
+        this.currentCity = find(this.currentProvince.items, {id: val})
+        this.$emit('update:city', this.selectValue2);
+      }
+    },
+    _district: {
+      get: function() {
+        return this.selectValue3;
+      },
+      set: function(val) {
+        //如果原值，新值都为空，无需重新赋值，防止首次进入显示必输提示
+        if ((!val || val.length == 0) && (!this.selectValue3 || this.selectValue3.length == 0)) {
+          return;
+        }
+        this.selectValue3 = val;
+        this.$emit('update:district', this.selectValue3);
+      }
+    },
   },
   methods: {
     isProvinceEmpty (rule, value, cb) {
@@ -109,35 +183,6 @@ export default {
       }
       return cb()
     },
-    provinceChange(val) {
-      this.$emit('update:city', '')
-      if(this.$refs['cityPicker']) {
-        this.$refs['cityPicker'].currentValue = '';
-      }
-      if (!val) {
-        this.currentProvince.items = []
-        return
-      }
-      this.currentProvince = find(tapp.data.base_datadictionary['base_region'], {id: val})
-      this._province = val;
-      this.$emit('update:province', val)
-    },
-    cityChange(val) {
-      this.$emit('update:district', '')
-      if(this.$refs['districtPicker']) {
-        this.$refs['districtPicker'].currentValue = '';
-      }
-      if (!val) {
-        this.currentCity.items = []
-        return
-      }
-      this.currentCity = find(this.currentProvince.items, {id: val})
-      this._city = val;
-      this.$emit('update:city', val)
-    },
-    districtChange(val) {
-      this.$emit('update:district', val)
-    }
   }
 }
 </script>
