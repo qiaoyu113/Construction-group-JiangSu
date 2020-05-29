@@ -2,68 +2,94 @@
   <div>
     <el-row :gutter="20" class="page-title">
       <el-col>
-        <div class="title">资格审查</div>
+        <div class="title">密钥办理申请</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <el-form ref="dialogForm" label-width="100px">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item prop="pType" label="用印类型：" class="is-required">
+                <!-- <t-dic-dropdown-select dict_type="" v-model=""></t-dic-dropdown-select> -->
+                <t-input v-model="pType" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="sealCount" label="用印数量：" class="is-required">
+                <t-input v-model="sealCount" :readOnly="readOnly"></t-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div slot="footer">
+          <el-button type="primary" @click="submit">确定</el-button>
+          <el-button type="info" @click="submitDialogVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px"
+             label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="pcId">
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
+            <el-form-item label="项目名称" prop="pcId" >
+              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"  :readOnly="readOnly"></t-record-select >
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司">
-              <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+              <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部">
-              <el-input v-model="dataForm.proBusDept" readonly></el-input>
+              <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位">
-              <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+              <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="  合同模式">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     readonly></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额">
-              <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+              <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     readonly></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     readonly></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模">
-              <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+              <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -71,12 +97,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="amount" label="金额">
-              <el-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"></el-input>
+              <el-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"  :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item prop="existElectMark" label="是否使用电子章">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -114,7 +140,9 @@
     extends: baseView,
     data() {
       return {
+        showButton: true,
         readOnly: false,
+        dialogVisible: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {
@@ -176,8 +204,17 @@
         }
       }
     },
-    created() {
-      this.init()
+    created () {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated () {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -202,26 +239,12 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.tBidQualApproval.get(id).then(function (result) {
+                console.log('result', result)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.tBidQualApproval.bId
-                this.dataForm.actTaskKey = result.tBidQualApproval.actTaskKey
-                this.dataForm.pcId = result.tBidQualApproval.pcId
-                this.dataForm.amount = result.tBidQualApproval.amount
-                this.dataForm.existElectMark = result.tBidQualApproval.existElectMark
-                this.dataForm.remark = result.tBidQualApproval.remark
-                this.dataForm.sign = result.tBidQualApproval.sign
-                this.dataForm.signTime = result.tBidQualApproval.signTime
-                this.dataForm.approvalStatus = result.tBidQualApproval.approvalStatus
-                this.dataForm.propose = result.tBidQualApproval.propose
-                this.dataForm.result = result.tBidQualApproval.result
-                this.dataForm.createtime = result.tBidQualApproval.createtime
-                this.dataForm.updatetime = result.tBidQualApproval.updatetime
-                this.dataForm.createuser = result.tBidQualApproval.createuser
-                this.dataForm.updateuser = result.tBidQualApproval.updateuser
-                this.dataForm.datastatus = result.tBidQualApproval.datastatus
               })
             }
           })
