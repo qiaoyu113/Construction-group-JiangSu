@@ -56,9 +56,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办人">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
+          <el-form-item label="经办人" prop="signId">
+            <t-handler-select label="经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId"
+                              @selectedUser="getSelectedUser"></t-handler-select>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
@@ -220,9 +220,17 @@
       this.loadCodeTableList();
     },
     methods: {
-      // 获取码表值
+      getSelectedUser(user) {
+        console.log('current user', user)
+        this.gridOptions.dataSource.serviceInstanceInputParameters.sign = user.name
+
+        // user为从弹窗框列表带出来的那一行的数据
+        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
+        // 实际上需要传到接口的的user的其他值，从这里的user获取
+        // 例如 this.dataForm.id = user.id
+      },
+
       loadCodeTableList() {
-        // 以下为示例
       },
       onStartDateRangeChanged(val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.signTimeStart = val[0];
@@ -246,8 +254,9 @@
           dateRange: ''
         }
       },
+
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('资格审查列表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
