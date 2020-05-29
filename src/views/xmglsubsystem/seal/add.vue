@@ -25,7 +25,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item prop="sealCount" label="用印数量：" class="is-required">
-                <t-input v-model="sealCount" :readOnly="readOnly"></t-input>
+                <t-int-input v-model="sealCount" :readOnly="readOnly"></t-int-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -59,17 +59,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-input>
+            <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <t-input v-model="dataForm.proBusDept" :readOnly="readOnly"></t-input>
+            <t-input v-model="dataForm.proBusDept" :readOnly="readOnly" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
+            <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -79,7 +79,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></t-input>
+            <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -94,7 +94,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></t-input>
+            <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly" disabled></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -180,7 +180,11 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           sealCustodian: [{validator: checkSealCustoDian, trigger: 'blur'}],
@@ -194,17 +198,17 @@
       }
     },
     created () {
-      const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
-      this.showButton = !(currentQuery.readonly == 'true')
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     activated() {
-      const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
       this.showButton = !(currentQuery.readonly == 'true')
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -223,29 +227,29 @@
       // 初始化 编辑和新增 2种情况
       init (id) {
         if (id) {
-          this.dataForm.id = id || 0
+          this.dataForm.id = id || 0;
           this.$nextTick(() => {
-            this.$refs['ruleForm'].resetFields()
+            this.$refs['ruleForm'].resetFields();
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proSealApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.bId
-                self.dataForm.actTaskKey = result.actTaskKey
-                self.dataForm.pId = result.pId
-                self.dataForm.sealContent = result.sealContent
-                self.dataForm.sealCustodian = result.sealCustodian
-                self.dataForm.remark = result.remark
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
-                self.dataForm.updateuser = result.updateuser
-                self.dataForm.datastatus = result.datastatus
+                self.$util.deepObjectAssign({}, self.dataForm, result);
+                self.dataForm.bId = result.bId;
+                self.dataForm.actTaskKey = result.actTaskKey;
+                self.dataForm.pId = result.pId;
+                self.dataForm.sealContent = result.sealContent;
+                self.dataForm.sealCustodian = result.sealCustodian;
+                self.dataForm.remark = result.remark;
+                self.dataForm.sign = result.sign;
+                self.dataForm.signTime = result.signTime;
+                self.dataForm.approvalStatus = result.approvalStatus;
+                self.dataForm.propose = result.propose;
+                self.dataForm.result = result.result;
+                self.dataForm.createtime = result.createtime;
+                self.dataForm.updatetime = result.updatetime;
+                self.dataForm.createuser = result.createuser;
+                self.dataForm.updateuser = result.updateuser;
+                self.dataForm.datastatus = result.datastatus;
               })
             }
           })
@@ -267,11 +271,14 @@
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {
         let self = this
-        let validPromises = [self.$refs['ruleForm'].validate()]
+        let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           this.submitDialogVisible = true;
           // let model = {...self.dataForm}

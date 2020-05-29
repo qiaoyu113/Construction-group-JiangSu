@@ -20,21 +20,6 @@
         </div>
       </el-dialog>
     </el-row>
-<!--<template>
-  <div>
-    <el-row :gutter="10" class="search-top-operate">
-        <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
-          提交审批
-        </el-button>
-        <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
-          审批流程图
-        </el-button>
-      </el-row>
-      <el-row :gutter="20" class="page-title">
-        <el-col>
-          <div class="title">投标授权申请</div>
-        </el-col>
-      </el-row>-->
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
@@ -206,6 +191,7 @@
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
         this.dataForm.pId = project.id;
+        this.dataForm.conTotal = project.conTotal;
         },
       // 表单提交
       doSave() {
