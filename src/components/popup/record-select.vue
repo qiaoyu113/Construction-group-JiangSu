@@ -1,6 +1,6 @@
 <template>
   <div class="record-select">
-    <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readOnly="readOnly">
+    <t-input v-model="currentValue" :placeholder="placeholder" :disabled="true" :readonly="readOnly">
       <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
@@ -225,7 +225,7 @@
       },
       showDialog() {
         if(this.readOnly) return;
-        this.$childrendialogFormVisible = true
+        this.dialogFormVisible = true
       }
 		}
 	}

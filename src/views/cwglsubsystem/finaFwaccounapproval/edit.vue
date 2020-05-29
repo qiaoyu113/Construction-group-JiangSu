@@ -200,9 +200,7 @@
             this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
-              console.log('id', id)
               tapp.services.finaFwaccounapproval.get(id).then(function(result) {
-                console.log('result111111', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params = {
                   filters: {},
@@ -212,7 +210,6 @@
                   id: result.pId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  console.log('result2222', _result)
                   if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                 })
               })

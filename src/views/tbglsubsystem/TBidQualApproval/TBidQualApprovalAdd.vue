@@ -45,7 +45,7 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px"
              label-position="right">
       <el-card shadow="never">
-        <t-sub-title :title="'备案信息'"></t-sub-title>
+        <t-sub-title :title="'备案信息1111'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="pcId" >
@@ -54,17 +54,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司">
-              <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部">
-              <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proBusDept" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位">
-              <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -74,7 +74,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额">
-              <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -89,7 +89,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模">
-              <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -97,7 +97,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="amount" label="金额">
-              <el-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"  :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.amount" placeholder="填写大致金额（数字）"  :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -143,6 +143,9 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        submitDialogVisible: false,
+        pType: '',
+        sealCount: '',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         dataForm: {

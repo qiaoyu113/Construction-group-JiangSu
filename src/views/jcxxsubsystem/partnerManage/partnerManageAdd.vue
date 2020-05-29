@@ -267,6 +267,9 @@
         managers: [],
         achievementDialogVisible: false,
         managerDialogVisible: false,
+        submitDialogVisible: false,
+        pType: '',
+        sealCount: '',
         achievementForm: {
           projectName: '',
           projectScale: '',

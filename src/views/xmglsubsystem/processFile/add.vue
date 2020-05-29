@@ -179,26 +179,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proProcessFileApproval.bId
-                this.dataForm.actTaskKey = result.proProcessFileApproval.actTaskKey
-                this.dataForm.pId = result.proProcessFileApproval.pId
-                this.dataForm.processFileType = result.proProcessFileApproval.processFileType
-                this.dataForm.processBranch = result.proProcessFileApproval.processBranch
-                this.dataForm.remark = result.proProcessFileApproval.remark
-                this.dataForm.sign = result.proProcessFileApproval.sign
-                this.dataForm.signTime = result.proProcessFileApproval.signTime
-                this.dataForm.approvalStatus = result.proProcessFileApproval.approvalStatus
-                this.dataForm.propose = result.proProcessFileApproval.propose
-                this.dataForm.result = result.proProcessFileApproval.result
-                this.dataForm.createtime = result.proProcessFileApproval.createtime
-                this.dataForm.updatetime = result.proProcessFileApproval.updatetime
-                this.dataForm.createuser = result.proProcessFileApproval.createuser
-                this.dataForm.updateuser = result.proProcessFileApproval.updateuser
-                this.dataForm.datastatus = result.proProcessFileApproval.datastatus
               })
             }
           })

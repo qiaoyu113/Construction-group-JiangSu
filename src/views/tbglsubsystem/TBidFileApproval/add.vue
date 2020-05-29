@@ -6,7 +6,7 @@
       </el-col>
     </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
-      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+      <el-button type="primary" icon="el-icon-s-check" @click="ubmitDialogVisible = true">
         提交审批
       </el-button>
       <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
@@ -27,7 +27,7 @@
           </el-row>
         </el-form>
         <div slot="footer">
-          <el-button type="primary" @click="submit">确定</el-button>
+          <el-button type="primary" @click="doSave()">确定</el-button>
           <el-button type="info" @click="submitDialogVisible = false">取消</el-button>
         </div>
       </el-dialog>
@@ -69,8 +69,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="readOnly" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -80,14 +79,13 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="readOnly" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly" ></t-dic-dropdown-select>
+                                     :disabled="readOnly" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -141,11 +139,14 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        submitDialogVisible: false,
+        pType: '',
+        sealCount: '',
         dataForm: {
           bId: '',
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
           actTaskKey: '',
           pcId: '',
           bidFileType: '',
@@ -252,7 +253,18 @@
               let self = this
               tapp.services.tBidFileApproval.get(id).then(function (result) {
                 console.log('result', result)
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pcId
+                }
+                tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
+                  console.log('result2222', _result)
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })

@@ -193,7 +193,7 @@
       },
       showDialog() {
         if(this.readOnly) return;
-        this.$childrendialogFormVisible = true
+        this.dialogFormVisible = true
       }
     }
   }
