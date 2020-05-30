@@ -124,19 +124,13 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         // 需要再定义一个流程类别的数组 对应 海外项目
         processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
+        readOnly: false,
         showButton:true,
         dialogVisible: false,
         dataForm: {
