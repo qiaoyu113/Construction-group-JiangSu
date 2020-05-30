@@ -251,7 +251,7 @@
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
-          tapp.services.finaFwaccounapproval.save(model).then(function(result) {
+          tapp.services.finaFwaccounapproval.onlySave(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",
