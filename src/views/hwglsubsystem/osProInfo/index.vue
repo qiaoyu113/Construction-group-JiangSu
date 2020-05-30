@@ -10,7 +10,7 @@
       </el-button>
     </el-row>
     <el-card shadow="never">
-      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="110px"
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="120px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">

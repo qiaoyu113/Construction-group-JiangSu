@@ -5,10 +5,17 @@
         <div class="title">待确认工程款结算登记</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-bell" @click="doSave()">保存并通知</el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="">通知流程图</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="dialogVisible = true">通知流程图</el-button>
     </el-row>
+    <el-dialog title="经营方式变更后工程款确认流程" :visible.sync="dialogVisible" width="60%" center>
+      <!-- businessKey为当前流程的key值 -->
+      <t-workflow-map businessKey="t_pro_fund_clear_approval_process"></t-workflow-map>
+      <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+    </el-dialog>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="140px" label-position="right">
       <el-card shadow="never">
@@ -185,16 +192,12 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        showButton:true,
+        readOnly: false,
+        dialogVisible: false,
         docId: '',
         dataForm: {
           bId: '',
@@ -221,7 +224,11 @@
           otherHzTotal:'',
           propertyTotal:'',
           getAmountTotal:'',
-          returnAmountTotal:''
+          returnAmountTotal:'',
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -240,7 +247,18 @@
       }
     },
     created () {
-      this.init()
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -252,26 +270,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.proFundClearApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proFundClearApproval.bId
-                this.dataForm.actTaskKey = result.proFundClearApproval.actTaskKey
-                this.dataForm.prcId = result.proFundClearApproval.prcId
-                this.dataForm.pId = result.proFundClearApproval.pId
-                this.dataForm.conPorjectFund = result.proFundClearApproval.conPorjectFund
-                this.dataForm.remark = result.proFundClearApproval.remark
-                this.dataForm.sign = result.proFundClearApproval.sign
-                this.dataForm.signTime = result.proFundClearApproval.signTime
-                this.dataForm.approvalStatus = result.proFundClearApproval.approvalStatus
-                this.dataForm.propose = result.proFundClearApproval.propose
-                this.dataForm.result = result.proFundClearApproval.result
-                this.dataForm.createtime = result.proFundClearApproval.createtime
-                this.dataForm.updatetime = result.proFundClearApproval.updatetime
-                this.dataForm.createuser = result.proFundClearApproval.createuser
-                this.dataForm.updateuser = result.proFundClearApproval.updateuser
-                this.dataForm.datastatus = result.proFundClearApproval.datastatus
+                self.$util.deepObjectAssign({}, self.dataForm, result);
               })
             }
           })
@@ -325,6 +328,9 @@
         this.dataForm.propertyTotal = project.propertyTotal;
         this.dataForm.getAmountTotal = project.getAmountTotal;
         this.dataForm.returnAmountTotal = project.returnAmountTotal;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {

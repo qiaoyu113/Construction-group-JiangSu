@@ -9,18 +9,24 @@
       <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="130px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'项目信息'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="16">
+          <el-col :span="8">
             <el-form-item prop="name" label="项目名称：">
               <el-input v-model="dataForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item prop="currencyCode" label="货币类型：">
+             <t-dic-dropdown-select dicType="currency_type" v-model="dataForm.currencyCode" :readOnly="readOnly">
+             </t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item prop="code" label="项目编号：">
-              <el-input v-model="dataForm.code" readonly></el-input>
+              <el-input v-model="dataForm.code" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -69,17 +75,176 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubType" label="类别子项：">
-              <t-dic-dropdown-select dicType="category_child" v-model="dataForm.proSubType" :readOnly="readOnly"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="category_child" v-model="dataForm.proSubType" :readOnly="readOnly">
+              </t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'合同信息 增加合同信息'"></t-sub-title>
+            <el-table :data="dataForm.getPartnerAchievements" border style="width: 100%" max-height="220">
+              <el-table-column prop="name" label="合同名称" min-width="180"></el-table-column>
+              <el-table-column prop="buildDate" label="开工日期" width="180"></el-table-column>
+              <el-table-column prop="completeDate" label="竣工日期" width="180"></el-table-column>
+              <el-table-column prop="totalAmount" label="合同额" width="180"></el-table-column>
+              <el-table-column prop="monthComplete" label="本月完成产值" min-width="180"></el-table-column>
+              <el-table-column prop="totalComplete" label="由开工累计完成产值" min-width="180"></el-table-column>
+              <el-table-column prop="totalReceived" label="已回收工程款" min-width="180"></el-table-column>
+            </el-table>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'合同详细信息（子合同详细信息）'"></t-sub-title>
+            <el-row :gutter="20">
+                <el-col :span="16">
+                  <el-form-item prop="name" label="项目名称：">
+                    <el-input v-model="dataForm.name"  :readOnly="readOnly"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item prop="code" label="合同编号：">
+                    <el-input v-model="dataForm.code" ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="totalAmount" label="合同总额：">
+                      <el-input v-model="dataForm.totalAmount"   :readOnly="readOnly"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item prop="currencyCode" label="使用货币：">
+                   <t-dic-dropdown-select dicType="currency_type" v-model="dataForm.currencyCode" :readOnly="readOnly">
+                   </t-dic-dropdown-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="manager" label="项目经理：">
+                      <el-input v-model="dataForm.manager"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="companyName" label="甲方单位名称：">
+                      <el-input v-model="dataForm.companyName"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="contact" label="联系人：">
+                      <el-input v-model="dataForm.contact"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="contactWay" label="联系方式：">
+                      <el-input v-model="dataForm.contactWay"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item  label="合同起止日期：">
+                         <el-col :span="11">
+                             <el-date-picker type="date" placeholder="选择日期" v-model="dataForm.date1" style="width: 100%;"></el-date-picker>
+                         </el-col>
+                         <el-col :span="1">~</el-col>
+                         <el-col :span="11">
+                             <el-date-picker type="date" placeholder="选择日期" v-model="dataForm.date1" style="width: 100%;"></el-date-picker>
+                         </el-col>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="priceWay" label="合同价格方式：">
+                      <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.priceWay" :readOnly="readOnly">
+                      </t-dic-dropdown-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="payWay" label="付款方式：">
+                      <t-dic-dropdown-select dicType="con_pay_way" v-model="dataForm.payWay" :readOnly="readOnly">
+                      </t-dic-dropdown-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="signDate" label="签订日期：">
+                     <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" :readOnly="readOnly">
+                     </t-datetime-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="buildDate" label="开工日期：">
+                     <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" :readOnly="readOnly">
+                     </t-datetime-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                   <el-form-item prop="completeDate" label="竣工日期：">
+                      <t-datetime-picker v-model="dataForm.proPlanStartDate" type="date" :readOnly="readOnly">
+                      </t-datetime-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="20">
+                   <h5>合同清单</h5>
+                   <el-link href="#" target="_blank">增加行</el-link>
+                   <el-table>
+                      <el-table-column label="操作" min-width="180">
+                          <el-button><i class="el-icon-delete"></i></el-button>
+                      </el-table-column>
+                      <el-table-column prop="itemCode"  label="合同序号" min-width="180">
+                          <el-input prop="itemCode"></el-input>
+                      </el-table-column>
+                      <el-table-column prop="itemDesc"  label="合同清单描述" min-width="180">
+                          <el-input prop="itemDesc"></el-input>
+                      </el-table-column>
+                      <el-table-column prop="process"  label="关键工序" min-width="180">
+                      </el-table-column>
+                      <el-table-column label="单位" min-width="180">
+                      </el-table-column>
+                      <el-table-column prop="unitPrice"  label="单价" min-width="180">
+                          <el-input prop="unitPrice"></el-input>
+                      </el-table-column>
+                   </el-table>
+                </el-col>
+                <el-row :gutter="24">
+                      <el-col :span="6">
+                         <el-form-item prop="retentionMoney" label="质保金：">
+                            <el-input v-model="dataForm.retentionMoney"></el-input>
+                          </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                         <el-form-item prop="returnAgree" label="质保金返还约定:">
+                            <el-input v-model="dataForm.returnAgree"></el-input>
+                          </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                          <el-form-item prop="performanceBond" label="履约保函：">
+                             <el-input v-model="dataForm.performanceBond"></el-input>
+                           </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                          <el-form-item prop="taxes" label="税金：">
+                             <el-input v-model="dataForm.taxes"></el-input>
+                          </el-form-item>
+                      </el-col>
+                </el-row>
+                <el-row :gutter="24">
+                    <el-col :span="6">
+                        <el-form-item prop="chineseCount" label="计划用人数(中国):">
+                           <el-input v-model="dataForm.chineseCount"></el-input>
+                         </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item  prop="foreignerCount" label="计划用人数(外籍):" >
+                           <el-input v-model="dataForm.foreignerCount"></el-input>
+                         </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item prop="visaCount" label="计划办理签证数:">
+                           <el-input v-model="dataForm.contact"></el-input>
+                         </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item prop="ptCount" label="计划办理机票数:">
+                           <el-input v-model="dataForm.ptCount"></el-input>
+                         </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-row>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>

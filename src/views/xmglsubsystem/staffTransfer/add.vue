@@ -5,7 +5,7 @@
         <div class="title">人员调整审批</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
       <el-button type="primary" plain @click="dialogVisible = true">
                     <span style="display: flex;align-items:center;">
@@ -16,7 +16,10 @@
     </el-row>
     <el-dialog title="人员调整审批流程图" :visible.sync="dialogVisible" width="60%" center>
       <!-- businessKey为当前流程的key值 -->
-      <t-workflow-map businessKey="t_pro_staff_transfer_approval_process"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_staff_transfer_approval_process_jyb" v-if="dataForm.processBranch === 'sales_dept'" key="sales_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_staff_transfer_approval_process_zab" v-if="dataForm.processBranch === 'za_dept'" key="za_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_staff_transfer_approval_process_hwb" v-if="dataForm.processBranch === 'overseas_dept'" key="overseas_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_staff_transfer_approval_process_jyzab" v-if="dataForm.processBranch === 'sales_za_dept'" key="sales_za_dept"></t-workflow-map>
       <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
               </span>
@@ -78,7 +81,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="processBranch" label="流程选择：">
-            <t-dic-dropdown-select dicType="process_type" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select :dataisgood="processBranchList" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -113,17 +116,14 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        // 需要再定义一个流程类别的数组 对应 海外项目
+        processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'sales_za_dept', name: '经经营质安部' }],
         docId: '',
+        readOnly: false,
+        showButton:true,
         dialogVisible: false,
         dataForm: {
           bId: '',
@@ -141,7 +141,10 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          approvalStatus2: ''
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -154,7 +157,18 @@
       }
     },
     created () {
-      this.init()
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -166,26 +180,13 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields();
+            this.readOnly = true;
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.proStaffTransferApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proStaffTransferApproval.bId
-                this.dataForm.actTaskKey = result.proStaffTransferApproval.actTaskKey
-                this.dataForm.pId = result.proStaffTransferApproval.pId
-                this.dataForm.processBranch = result.proStaffTransferApproval.processBranch
-                this.dataForm.remark = result.proStaffTransferApproval.remark
-                this.dataForm.sign = result.proStaffTransferApproval.sign
-                this.dataForm.signTime = result.proStaffTransferApproval.signTime
-                this.dataForm.approvalStatus = result.proStaffTransferApproval.approvalStatus
-                this.dataForm.propose = result.proStaffTransferApproval.propose
-                this.dataForm.result = result.proStaffTransferApproval.result
-                this.dataForm.createtime = result.proStaffTransferApproval.createtime
-                this.dataForm.updatetime = result.proStaffTransferApproval.updatetime
-                this.dataForm.createuser = result.proStaffTransferApproval.createuser
-                this.dataForm.updateuser = result.proStaffTransferApproval.updateuser
-                this.dataForm.datastatus = result.proStaffTransferApproval.datastatus
-                this.dataForm.approvalStatus2 = result.proStaffTransferApproval.approvalStatus2
+                console.log('result', result);
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
               })
             }
           })
@@ -207,6 +208,9 @@
         this.dataForm.proType = project.proType;
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {
