@@ -96,7 +96,7 @@
         <prepay-table :searchData="prepaySearchData" @selectedData="getPrepaySelectedData"></prepay-table>
 
         <!-- 项目借款 -->
-        <project-loan-table :searchData="prepaySearchData" @selectedData="getPrepaySelectedData"></project-loan-table>
+        <project-loan-table ref="projectLoan"></project-loan-table>
 
       </el-card>
       <el-card shadow="never">
