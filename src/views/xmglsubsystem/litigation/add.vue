@@ -5,10 +5,20 @@
         <div class="title">项目诉讼登记</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-bell" @click="doSave()">保存并通知</el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="">通知流程图</el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-operation" @click="dialogVisible = true">
+        通知流程图
+      </el-button>
     </el-row>
+    <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
+    <el-dialog title="项目诉讼资金冻结流程" :visible.sync="dialogVisible" width="60%" center>
+      <!-- businessKey为当前流程的key值 -->
+      <t-workflow-map businessKey="t_pro_litigation_process"></t-workflow-map>
+      <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+    </el-dialog>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="140px" label-position="right">
       <el-card shadow="never">
@@ -38,7 +48,7 @@
           <el-col :span="8">
             <el-form-item label="合同模式：">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :readOnly="readOnly" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -49,13 +59,13 @@
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :readOnly="readOnly" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :readOnly="readOnly" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -151,16 +161,13 @@
   import {mapState} from 'vuex'
 
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        isBackFill: false,
         docId: '',
         dataForm: {
           bId: '',
@@ -182,7 +189,11 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -195,8 +206,19 @@
         litigationData: []
       }
     },
-    created() {
-      this.init()
+    created () {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -209,30 +231,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.proLitigation.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proLitigation.bId
-                this.dataForm.actTaskKey = result.proLitigation.actTaskKey
-                this.dataForm.pId = result.proLitigation.pId
-                this.dataForm.isLitigation = result.proLitigation.isLitigation
-                this.dataForm.owingtoUnionCompany = result.proLitigation.owingtoUnionCompany
-                this.dataForm.unionCompany = result.proLitigation.unionCompany
-                this.dataForm.freezingAmount = result.proLitigation.freezingAmount
-                this.dataForm.remark = result.proLitigation.remark
-                this.dataForm.sign = result.proLitigation.sign
-                this.dataForm.signTime = result.proLitigation.signTime
-                this.dataForm.litigationStatus = result.proLitigation.litigationStatus
-                this.dataForm.cancelTime = result.proLitigation.cancelTime
-                this.dataForm.approvalStatus = result.proLitigation.approvalStatus
-                this.dataForm.propose = result.proLitigation.propose
-                this.dataForm.result = result.proLitigation.result
-                this.dataForm.createtime = result.proLitigation.createtime
-                this.dataForm.updatetime = result.proLitigation.updatetime
-                this.dataForm.createuser = result.proLitigation.createuser
-                this.dataForm.updateuser = result.proLitigation.updateuser
-                this.dataForm.datastatus = result.proLitigation.datastatus
+                self.$util.deepObjectAssign({}, self.dataForm, result);
               })
             }
           })
@@ -245,15 +248,18 @@
         }
       },
       getSelectedProject(project) {
-        console.log('current project', project)
-        this.dataForm.proSubCompany = project.proSubCompany
-        this.dataForm.proBusDept = project.proBusDept
-        this.dataForm.proConstructCompany = project.proConstructCompany
-        this.dataForm.proContractAttr = project.proContractAttr
-        this.dataForm.proTotalInvestment = project.proTotalInvestment
-        this.dataForm.proType = project.proType
-        this.dataForm.proRunMode = project.proRunMode
-        this.dataForm.proBuildArea = project.proBuildArea
+        console.log('current project', project);
+        this.dataForm.proSubCompany = project.proSubCompany;
+        this.dataForm.proBusDept = project.proBusDept;
+        this.dataForm.proConstructCompany = project.proConstructCompany;
+        this.dataForm.proContractAttr = project.proContractAttr;
+        this.dataForm.proTotalInvestment = project.proTotalInvestment;
+        this.dataForm.proType = project.proType;
+        this.dataForm.proRunMode = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
         this.getLitigationList(project.id)
       },
       // 表单提交

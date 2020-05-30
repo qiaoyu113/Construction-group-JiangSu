@@ -376,7 +376,7 @@
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm}
-          tapp.services.proFundClearApproval.save(model).then(function (result) {
+          tapp.services.proCompletedFile.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: '操作成功！',

@@ -264,13 +264,6 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -321,7 +314,11 @@
           otherHzTotal:'',
           propertyTotal:'',
           getAmountTotal:'',
-          returnAmountTotal:''
+          returnAmountTotal:'',
+          flag: '1',
+          pName: '',
+          conTotal: '',
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -445,6 +442,9 @@
         this.dataForm.propertyTotal = project.propertyTotal;
         this.dataForm.getAmountTotal = project.getAmountTotal;
         this.dataForm.returnAmountTotal = project.returnAmountTotal;
+        this.dataForm.pName = project.proName;
+        this.dataForm.conTotal = project.conTotal;
+        this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
       // 表单提交
       doSave () {
