@@ -49,7 +49,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="pcId">
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -132,6 +132,7 @@
   import moment from 'moment'
   import {mapState} from 'vuex'
   import baseView from '@/base/baseView'
+  import find from 'lodash/find'
 
   export default {
     extends: baseView,
@@ -148,7 +149,7 @@
         dataForm: {
           bId: '',
           actTaskKey: '',
-          pcId: '',
+          proName: '',
           bidFileType: '',
           remark: '',
           sign: '',
@@ -263,7 +264,10 @@
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
                   console.log('result2222', _result)
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pcId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
                 })
               })
             }
