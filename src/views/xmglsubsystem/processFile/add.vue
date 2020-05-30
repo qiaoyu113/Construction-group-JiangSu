@@ -17,11 +17,10 @@
     <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
     <el-dialog title="过程文件审批流程图" :visible.sync="dialogVisible" width="60%" center>
       <!-- businessKey为当前流程的key值 -->
-      <div>dataForm.processBranch:{{ dataForm.processBranch }}</div>
-      <t-workflow-map businessKey="t_pro_process_file_approval_process_jyb" v-if="dataForm.processBranch === 'sales_dept'"></t-workflow-map>
-      <t-workflow-map businessKey="t_pro_process_file_approval_process_zab" v-if="dataForm.processBranch === 'za_dept'"></t-workflow-map>
-      <t-workflow-map businessKey="t_pro_process_file_approval_process_hwb" v-if="dataForm.processBranch === 'overseas_dept'"></t-workflow-map>
-      <t-workflow-map businessKey="t_pro_process_file_approval_process_all" v-if="dataForm.processBranch === 'all_dept'"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_jyb" v-if="dataForm.processBranch === 'sales_dept'" key="sales_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_zab" v-if="dataForm.processBranch === 'za_dept'" key="za_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_hwb" v-if="dataForm.processBranch === 'overseas_dept'" key="overseas_dept"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_all" v-if="dataForm.processBranch === 'all_dept'" key="all_dept"></t-workflow-map>
       <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
               </span>
