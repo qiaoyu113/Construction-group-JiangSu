@@ -17,6 +17,7 @@
     <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
     <el-dialog title="过程文件审批流程图" :visible.sync="dialogVisible" width="60%" center>
       <!-- businessKey为当前流程的key值 -->
+      <div>dataForm.processBranch:{{ dataForm.processBranch }}</div>
       <t-workflow-map businessKey="t_pro_process_file_approval_process_jyb" v-if="dataForm.processBranch === 'sales_dept'"></t-workflow-map>
       <t-workflow-map businessKey="t_pro_process_file_approval_process_zab" v-if="dataForm.processBranch === 'za_dept'"></t-workflow-map>
       <t-workflow-map businessKey="t_pro_process_file_approval_process_hwb" v-if="dataForm.processBranch === 'overseas_dept'"></t-workflow-map>
@@ -37,17 +38,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly" readonly></el-input>
+            <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" :readOnly="readOnly" readonly></el-input>
+            <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly" readonly></el-input>
+            <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -57,7 +58,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly" readonly></el-input>
+            <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -72,7 +73,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly" readonly></el-input>
+            <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -137,7 +138,6 @@
         processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
         showButton:true,
-        readOnly: false,
         dialogVisible: false,
         dataForm: {
           bId: '',
@@ -196,6 +196,7 @@
           this.dataForm.id = id || 0;
           this.$nextTick(() => {
             this.$refs['ruleForm'].resetFields();
+            this.readOnly = true
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
