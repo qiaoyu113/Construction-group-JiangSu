@@ -253,7 +253,6 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidFileApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params = {
                   filters: {},
@@ -263,7 +262,6 @@
                   id: result.pcId
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
-                  console.log('result2222', _result)
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)

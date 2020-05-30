@@ -20,40 +20,40 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card>
-      <t-sub-title :title="'项目信息'"></t-sub-title>
+      <t-sub-title :title="'账户信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="bankAccount" label="银行账号：">
-            <t-bank-select :readonly="true" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
+            <t-bank-select :readOnly="readOnly" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankName" label="开户行名称：">
-            <el-input :readonly="true" v-model="dataForm.bankName"></el-input>
+            <el-input :readOnly="readOnly" v-model="dataForm.bankName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankAddress" label="开户网点：">
-            <el-input :readonly="true" v-model="dataForm.bankAddress"></el-input>
+            <el-input :readOnly="readOnly" v-model="dataForm.bankAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankAccountName" label="银行账户名称：">
-            <el-input :readonly="true" v-model="dataForm.bankAccountName"></el-input>
+            <el-input :readOnly="readOnly" v-model="dataForm.bankAccountName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称：">
-            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
+            <el-input :readOnly="readOnly" v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proCode" label="项目编号：">
-            <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
+            <el-input :readOnly="readOnly" v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="sign" :readonly="true" label="经办人：">
+          <el-form-item prop="sign" label="经办人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
@@ -81,6 +81,7 @@
 
   import moment from "moment";
   import {mapState} from "vuex";
+  import find from 'lodash/find'
 
   export default {
     data () {
@@ -186,18 +187,22 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.fwaId = result.fwaId
-                self.dataForm.cancelTime = result.cancelTime
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                console.log('result11111', result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                console.log('result2222', _result)
+                tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })

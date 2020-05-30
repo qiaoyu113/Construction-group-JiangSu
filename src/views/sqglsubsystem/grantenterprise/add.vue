@@ -27,37 +27,37 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="pId" label="授权编号 ：">
-            <el-input v-model="dataForm.pId"></el-input>
+            <t-input v-model="dataForm.pId" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyName" label="企业名称：">
-            <el-input v-model="dataForm.companyName"></el-input>
+            <t-input v-model="dataForm.companyName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="creditCode" label="统一社会信用代码：">
-            <el-input v-model="dataForm.creditCode"></el-input>
+            <t-input v-model="dataForm.creditCode" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyAddress" label="企业地址：">
-            <el-input v-model="dataForm.companyAddress"></el-input>
+            <t-input v-model="dataForm.companyAddress" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="companyAttr" label="企业性质：">
-            <t-dic-dropdown-select dicType="unit_nature" v-model="dataForm.companyAttr"></t-dic-dropdown-select>
+            <t-dic-dropdown-select :disabled="readOnly" dicType="unit_nature" v-model="dataForm.companyAttr"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="legalPerson" label="法人代表：">
-            <el-input v-model="dataForm.legalPerson"></el-input>
+            <t-input v-model="dataForm.legalPerson" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
           <el-col :span="24">
             <el-form-item label="备注：" prop="remark">
-              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+              <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
       </el-row>
@@ -67,23 +67,23 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="intentionProject" label="意向项目：">
-            <el-input v-model="dataForm.intentionProject"></el-input>
+            <t-input v-model="dataForm.intentionProject" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBuildArea" label="项目规模：">
-            <el-input v-model="dataForm.proBuildArea" placeholder="请输入数字"></el-input>
+            <t-input v-model="dataForm.proBuildArea" placeholder="请输入数字" :readOnly="readOnly"></t-input>
           <!--  <t-number-range-input v-model="dataForm.proBuildArea"></t-number-range-input>-->
           </el-form-item>
         </el-col>
         <el-col :span="8">
-            <el-form-item label="授权人:" prop="grantUser">
-              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
+            <el-form-item label="授权人：" prop="grantUser">
+              <t-dic-dropdown-select :disabled="readOnly" dicType="licensor" v-model="dataForm.grantUser"
                                      ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
+          <el-form-item prop="sign" label="登记人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
@@ -162,33 +162,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tGrantEnterpriseApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.bId
-                self.dataForm.actTaskKey = result.actTaskKey
-                self.dataForm.pId = result.pId
-                self.dataForm.companyName = result.companyName
-                self.dataForm.creditCode = result.creditCode
-                self.dataForm.companyAddress = result.companyAddress
-                self.dataForm.companyAttr = result.companyAttr
-                self.dataForm.legalPerson = result.legalPerson
-                self.dataForm.intentionProject = result.intentionProject
-                self.dataForm.proBuildArea = result.proBuildArea
-                self.dataForm.grantUser =result.grantUser
-                self.dataForm.remark =result.remark
-                self.dataForm.sign =result.sign
-                self.dataForm.signTime =result.signTime
-                self.dataForm.propose =result.propose
-                self.dataForm.result =result.result
-                self.dataForm.approvalStatus =result.approvalStatus
-                self.dataForm.createtime =result.createtime
-                self.dataForm.updatetime =result.updatetime
-                self.dataForm.createuser =result.createuser
-                self.dataForm.updateuser =result.updateuser
-                self.dataForm.datastatus =result.datastatus
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })

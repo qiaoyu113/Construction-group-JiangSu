@@ -27,50 +27,47 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject"></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input disabled v-model="dataForm.proSubCompany"></el-input>
+              <t-input :readOnly="readOnly" v-model="dataForm.proSubCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input disabled v-model="dataForm.proBusDept"></el-input>
+              <t-input :readOnly="readOnly" v-model="dataForm.proBusDept"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
+              <t-input :readOnly="readOnly" v-model="dataForm.proConstructCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同模式：" prop="proContractAttr">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
+              <t-input :readOnly="readOnly" v-model="dataForm.proTotalInvestment"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="项目规模：">
-              <el-input disabled v-model="dataForm.proBuildArea"></el-input>
+              <t-input :readOnly="readOnly" v-model="dataForm.proBuildArea"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -80,35 +77,34 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proManager" label="项目经理：">
-            <el-input disabled v-model="dataForm.proManager"></el-input>
+            <t-input :readOnly="readOnly" v-model="dataForm.proManager"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBusDept" label="所在单位：">
-            <el-input disabled v-model="dataForm.proBusDept"></el-input>
+            <t-input :readOnly="readOnly" v-model="dataForm.proBusDept"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="constructorLevel" label="称职：">
-            <el-input disabled v-model="dataForm.constructorLevel"></el-input>
+            <t-input :readOnly="readOnly" v-model="dataForm.constructorLevel"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="授权期限："  prop="conPeriod"  class="is-required">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+            <t-datetime-range-picker v-model="grantTime" :readOnly="readOnly" @change="onStartDateRangeChanged"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="授权人:" prop="grantUser">
-            <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
-                                   ></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser" :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="授权内容：" prop="grantContent">
-            <el-input type="textarea" :rows="2" v-model="dataForm.grantContent"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.grantContent" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -145,6 +141,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        grantTime: [],
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -191,31 +188,25 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tGrantPmApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.bId
-                self.dataForm.actTaskKey = result.actTaskKey
-                self.dataForm.pId = result.pId
-                self.dataForm.proManager = result.proManager
-                self.dataForm.grantStarttime = result.grantStarttime
-                self.dataForm.grantEndtime = result.grantEndtime
-                self.dataForm.useScenes = result.useScenes
-                self.dataForm.grantUser = result.grantUser
-                self.dataForm.grantContent = result.grantContent
-                self.dataForm.remark = result.remark
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
-                self.dataForm.updateuser = result.updateuser
-                self.dataForm.datastatus = result.datastatus
+                console.log('result', result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.grantTime = [self.dataForm.grantStarttime, self.dataForm.grantEndtime]
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('_result', _result)
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
+                
               })
             }
           })
