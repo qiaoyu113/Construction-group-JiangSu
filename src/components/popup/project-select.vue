@@ -219,7 +219,7 @@
         //传送到父组件
         this.currentValue = this.selectProject.proName;
         this.$emit('selectedProject', this.selectProject);
-        this.$emit('input', this.selectProject.id);
+        this.$emit('input', this.selectProject.proName);
         this.doReset();
         this.dialogFormVisible = false
       },
