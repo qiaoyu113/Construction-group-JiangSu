@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_fwaccount_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -24,12 +24,13 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-              <t-project-select placeholder="选择一个项目" :disabled="readOnly" v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
+              <t-project-select placeholder="选择一个项目" :disabled="readOnly"
+                                v-model="dataForm.proName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proCode" label="项目编号">
-            <t-input v-model="dataForm.proCode" :readOnly="readOnly" ></t-input>
+            <t-input v-model="dataForm.proCode" disabled ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">

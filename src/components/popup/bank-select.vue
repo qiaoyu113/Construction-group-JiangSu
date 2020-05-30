@@ -163,8 +163,8 @@
       this.currentValue = this.value
     },
     watch: {
-      currentValue(newValue, oldValue) {
-
+      value(val) {
+        this.currentValue = val
       }
     },
     activated() {
@@ -193,7 +193,7 @@
         //传送到父组件
         this.currentValue = this.selectData.proName;
         this.$emit('selectedData', this.selectData);
-        this.$emit('input', this.selectData.id);
+        this.$emit('input', this.selectData.bankAccount);
         this.doReset();
         this.dialogFormVisible = false
       },
