@@ -2,7 +2,7 @@
 数字（decimal)输入控件
 */
 <template>
-  <t-input :placeholder="placeholder" @blur="onBlurHandler" @input="onInputHandler" @focus="onFocusHandler" ref="numeric" type="tel" v-model="amount" :readOnly="readOnly" :readonly="readonly" :disabled="disabled">
+  <t-input :placeholder="placeholder" @blur="onBlurHandler" @input="onInputHandler" @focus="onFocusHandler" ref="numeric" type="tel" v-model="amount" :readOnly="readOnly" :disabled="disabled">
     <template slot="prepend" v-if="$slots.prepend">
       <slot name="prepend"></slot>
     </template>
@@ -128,11 +128,6 @@ export default {
       required: false
     },
     readOnly: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    readonly: {
       type: Boolean,
       default: false,
       required: false
