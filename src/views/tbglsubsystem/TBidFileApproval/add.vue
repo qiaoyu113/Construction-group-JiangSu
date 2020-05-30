@@ -6,7 +6,7 @@
       </el-col>
     </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
-      <el-button type="primary" icon="el-icon-s-check" @click="ubmitDialogVisible = true">
+      <el-button type="primary" icon="el-icon-s-check" @click="submitDialogVisible = true">
         提交审批
       </el-button>
       <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
@@ -48,49 +48,49 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="pcId">
+            <el-form-item label="项目名称" prop="proName">
               <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司">
-              <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proSubCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部">
-              <t-input v-model="dataForm.proBusDept"  :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proBusDept"  :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位">
-              <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proConstructCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="readOnly" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="true" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额">
-              <t-input v-model="dataForm.proTotalInvestment"  :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proTotalInvestment"  :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="readOnly" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="true" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :disabled="readOnly" ></t-dic-dropdown-select>
+                                     :disabled="true" ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划规模项目">
-              <t-input v-model="dataForm.proBuildArea"  :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proBuildArea"  :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -171,7 +171,7 @@
           actTaskKey: [
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
-          pcId: [
+          proName: [
             {required: true, message: '项目备案名称不能为空', trigger: 'blur'}
           ],
           bidFileType: [
@@ -234,6 +234,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
+        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompany = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
@@ -284,12 +285,14 @@
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm}
+          this.submitDialogVisible = false;
           tapp.services.tBidFileApproval.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            // self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: '操作成功！',
               message: '保存成功！',
             })
+            self.$refs['ruleForm'].resetFields()
           })
         }).catch(function (e) {
           self.$notify.error({

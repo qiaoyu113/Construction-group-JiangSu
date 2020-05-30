@@ -219,7 +219,7 @@
         //传送到父组件
         this.currentValue = this.selectRecord.proName;
         this.$emit('selectedRecord', this.selectRecord);
-        this.$emit('input', this.selectRecord.id);
+        this.$emit('input', this.selectRecord.proName);
         this.doReset();
         this.dialogFormVisible = false
       },

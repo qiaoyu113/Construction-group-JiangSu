@@ -4,7 +4,7 @@
       <i slot="suffix" class="el-input__icon el-icon-search" @click="showDialog"></i>
     </t-input>
     <el-dialog center :visible.sync="dialogFormVisible" width='80%' @close="doReset()">
-      <div class="dialog-title" slot="title">项目合同选择</div>
+      <div class="dialog-title" slot="title">银行项目选择</div>
       <el-row slot="footer">
         <el-button type="primary" @click="proChoose()">
           确定
@@ -30,8 +30,8 @@
         </el-row>
         <el-row type="flex" :span="8" justify="space-between" class="search-bottom-operate">
           <el-col :span="8">
-            <el-form-item label="选择的项目" prop="selectedProname" style="margin-bottom: 15px;">
-              <t-input v-model="selectData.proName" :readOnly="true" placeholder="选择的项目合同"></t-input>
+            <el-form-item label="选择的银行项目" prop="selectedProname" style="margin-bottom: 15px;">
+              <t-input v-model="selectData.proName" :readOnly="true" placeholder="还未选择的银行项目"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -167,8 +167,8 @@
       this.currentValue = this.value
     },
     watch: {
-      currentValue(newValue, oldValue) {
-
+      value(val) {
+        this.currentValue = val
       }
     },
     activated() {
@@ -197,7 +197,7 @@
         //传送到父组件
         this.currentValue = this.selectData.proName;
         this.$emit('selectedData', this.selectData);
-        this.$emit('input', this.selectData.id);
+        this.$emit('input', this.selectData.proName);
         this.doReset();
         this.dialogFormVisible = false
       },
