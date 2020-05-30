@@ -32,27 +32,27 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proSubCompany" label="所属分公司：">
-            <el-input disabled v-model="dataForm.proSubCompany"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.proSubCompany"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBusDept" label="所属事业部：">
-            <el-input disabled v-model="dataForm.proBusDept"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.proBusDept"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proConstructCompany" label="建设单位：">
-            <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.proConstructCompany"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式：" prop="proContractAttr">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" disabled></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="true"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proTotalInvestment" label="投资金额：">
-            <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.proTotalInvestment"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -67,7 +67,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBuildArea" label="项目规模：">
-            <el-input disabled v-model="dataForm.proBuildArea"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.proBuildArea"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -89,7 +89,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="说明：" prop="remark">
-              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+              <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -162,7 +162,6 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tQsSdfileApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.dataForm.bId = result.bId
                 self.dataForm.actTaskKey = result.actTaskKey
@@ -186,7 +185,6 @@
                   id: result.pId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  console.log('result2222', _result)
                   if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                 })
               })

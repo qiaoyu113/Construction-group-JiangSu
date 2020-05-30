@@ -32,42 +32,42 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <t-input :readOnly="readOnly" v-model="dataForm.proSubCompany"></t-input>
+              <t-input :readOnly="true" v-model="dataForm.proSubCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <t-input :readOnly="readOnly" v-model="dataForm.proBusDept"></t-input>
+              <t-input :readOnly="true" v-model="dataForm.proBusDept"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <t-input :readOnly="readOnly" v-model="dataForm.proConstructCompany"></t-input>
+              <t-input :readOnly="true" v-model="dataForm.proConstructCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同模式：" prop="proContractAttr">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <t-input :readOnly="readOnly" v-model="dataForm.proTotalInvestment"></t-input>
+              <t-input :readOnly="true" v-model="dataForm.proTotalInvestment"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="项目规模：">
-              <t-input :readOnly="readOnly" v-model="dataForm.proBuildArea"></t-input>
+              <t-input :readOnly="true" v-model="dataForm.proBuildArea"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -77,17 +77,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proManager" label="项目经理：">
-            <t-input :readOnly="readOnly" v-model="dataForm.proManager"></t-input>
+            <t-input :readOnly="true" v-model="dataForm.proManager"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proBusDept" label="所在单位：">
-            <t-input :readOnly="readOnly" v-model="dataForm.proBusDept"></t-input>
+            <t-input :readOnly="true" v-model="dataForm.proBusDept"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="constructorLevel" label="称职：">
-            <t-input :readOnly="readOnly" v-model="dataForm.constructorLevel"></t-input>
+            <t-input :readOnly="true" v-model="dataForm.constructorLevel"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -192,7 +192,6 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tGrantPmApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 self.grantTime = [self.dataForm.grantStarttime, self.dataForm.grantEndtime]
                 let params = {
@@ -203,7 +202,6 @@
                   id: result.pId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  console.log('_result', _result)
                   if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                 })
                 
