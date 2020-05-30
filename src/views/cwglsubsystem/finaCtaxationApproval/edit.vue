@@ -116,6 +116,7 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import find from "lodash/find";
 
   export default {
     data () {
@@ -212,27 +213,21 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCtaxationApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.cId = result.cId
-                self.dataForm.taxMethod = result.taxMethod
-                self.dataForm.applyAmount = result.applyAmount
-                self.dataForm.province = result.province
-                self.dataForm.city = result.city
-                self.dataForm.district = result.district
-                self.dataForm.address = result.address
-                self.dataForm.licenceCode = result.licenceCode
-                self.dataForm.startDate = result.startDate
-                self.dataForm.endDate = result.endDate
-                self.timeRange = [result.startDate, result.endDate]
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.proPlanDate = [self.dataForm.proPlanStartDate + ' 00:00:00', self.dataForm.proPlanEndDate + ' 00:00:00']
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })

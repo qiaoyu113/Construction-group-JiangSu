@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_borrow_amount_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -29,22 +29,22 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="项目编号">
-              <t-input :readonly="true" v-model="dataForm.proCode"></t-input>
+              <t-input :readonly="true" v-model="dataForm.proCode" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属单位">
-              <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
+              <t-input :readonly="true" v-model="dataForm.proSubCompany" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="totalBorrowCount" label="累计借款次数">
-              <t-input :readonly="true" v-model="dataForm.totalBorrowCount"></t-input>
+              <t-input :readonly="true" v-model="dataForm.totalBorrowCount" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="totalBorrowAmount" label="累计借款金额">
-              <t-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+              <t-input :readonly="true" v-model="dataForm.totalBorrowAmount" disabled>
                 <span slot="append">万元</span>
               </t-input>
             </el-form-item>
@@ -225,22 +225,7 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaBorrowAmounapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaBorrowAmounapproval.pId
-                self.dataForm.applyAmount = result.finaBorrowAmounapproval.applyAmount
-                self.dataForm.tiimeLimit = result.finaBorrowAmounapproval.tiimeLimit
-                self.dataForm.totalBorrowCount = result.finaBorrowAmounapproval.totalBorrowCount
-                self.dataForm.totalBorrowAmount = result.finaBorrowAmounapproval.totalBorrowAmount
-                self.dataForm.realAmount = result.finaBorrowAmounapproval.realAmount
-                self.dataForm.borrowDate = result.finaBorrowAmounapproval.borrowDate
-                self.dataForm.approvalStatus = result.finaBorrowAmounapproval.approvalStatus
-                self.dataForm.sign = result.finaBorrowAmounapproval.sign
-                self.dataForm.signTime = result.finaBorrowAmounapproval.signTime
-                self.dataForm.propose = result.finaBorrowAmounapproval.propose
-                self.dataForm.result = result.finaBorrowAmounapproval.result
-                self.dataForm.createtime = result.finaBorrowAmounapproval.createtime
-                self.dataForm.updatetime = result.finaBorrowAmounapproval.updatetime
-                self.dataForm.createuser = result.finaBorrowAmounapproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })

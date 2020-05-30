@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="fina_key_litigation"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -129,14 +129,6 @@
             </template>
           </el-table-column>
           <el-table-column prop="cancelTime" label="取消时间" min-width="160"></el-table-column>
-<!--          <el-table-column align="center" min-width="100">-->
-<!--            <template slot-scope="scope">-->
-<!--              &lt;!&ndash; 标记中的状态才需要展示该按钮 &ndash;&gt;-->
-<!--              <el-button v-if="scope.row.litigationStatus === 'marking'" size="mini" type="danger"-->
-<!--                         @click="cancelLitigation(scope.row)">取消诉讼-->
-<!--              </el-button>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
         </el-table>
       </el-card>
       <el-card shadow="never">
@@ -159,6 +151,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         litigationData: [],
         dataForm: {
           bId: '',pId: '',proRunMode: '',unionCompany: '',amount: '',bankName: '',accountNum: '',sign: '',signTime: '',
@@ -243,12 +236,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -275,24 +270,12 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaLitigation.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.finaLitigation.bId
-                self.dataForm.pId = result.finaLitigation.pId
-                self.dataForm.proRunMode = result.finaLitigation.proRunMode
-                self.dataForm.unionCompany = result.finaLitigation.unionCompany
-                self.dataForm.amount = result.finaLitigation.amount
-                self.dataForm.bankName = result.finaLitigation.bankName
-                self.dataForm.accountNum = result.finaLitigation.accountNum
-                self.dataForm.sign = result.finaLitigation.sign
-                self.dataForm.signTime = result.finaLitigation.signTime
-                self.dataForm.propose = result.finaLitigation.propose
-                self.dataForm.createtime = result.finaLitigation.createtime
-                self.dataForm.updatetime = result.finaLitigation.updatetime
-                self.dataForm.createuser = result.finaLitigation.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.getLitigationList(self.dataForm.pId)
               })
             }
           })
