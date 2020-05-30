@@ -135,6 +135,7 @@
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
+        // 需要再定义一个流程类别的数组 对应 海外项目
         processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
         showButton:true,
@@ -200,7 +201,19 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                console.log('result', result);
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                };
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('_result', _result)
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })
