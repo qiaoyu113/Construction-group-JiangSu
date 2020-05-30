@@ -5,7 +5,7 @@
         <div class="title">过程文件审批</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
       <el-button type="primary" plain @click="dialogVisible = true">
                     <span style="display: flex;align-items:center;">
@@ -17,7 +17,10 @@
     <!-- dialogVisible控制显示和隐藏的变量，需要在data函数中定义 -->
     <el-dialog title="过程文件审批流程图" :visible.sync="dialogVisible" width="60%" center>
       <!-- businessKey为当前流程的key值 -->
-      <t-workflow-map businessKey="t_pro_process_file_approval_process"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_jyb" v-if="dataForm.processBranch === 'sales_dept'"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_zab" v-if="dataForm.processBranch === 'za_dept'"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_hwb" v-if="dataForm.processBranch === 'overseas_dept'"></t-workflow-map>
+      <t-workflow-map businessKey="t_pro_process_file_approval_process_all" v-if="dataForm.processBranch === 'all_dept'"></t-workflow-map>
       <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
               </span>
@@ -29,22 +32,22 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" readonly></el-input>
+            <el-input v-model="dataForm.proBusDept" :readOnly="readOnly" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+            <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -54,7 +57,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly" readonly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -69,7 +72,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+            <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,7 +106,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="备注：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            <el-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -133,13 +136,15 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
+        showButton:true,
+        readOnly: false,
         dialogVisible: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
           pId: '',
           processFileType: '',
-          processBranch: '',
+          processBranch: 'sales_dept',
           remark: '',
           sign: '',
           signTime: '',
@@ -167,7 +172,18 @@
       }
     },
     created () {
-      this.init()
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -177,11 +193,11 @@
       // 初始化 编辑和新增 2种情况
       init (id) {
         if (id) {
-          this.dataForm.id = id || 0
+          this.dataForm.id = id || 0;
           this.$nextTick(() => {
-            this.$refs['ruleForm'].resetFields()
+            this.$refs['ruleForm'].resetFields();
             if (this.dataForm.id) {
-              let self = this
+              let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
               })
