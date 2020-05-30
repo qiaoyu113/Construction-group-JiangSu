@@ -5,7 +5,7 @@
         <div class="title">经营方式变更申请</div>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="search-top-operate">
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">提交审批</el-button>
       <el-button type="primary" plain @click="dialogVisible = true">
                     <span style="display: flex;align-items:center;">
@@ -106,7 +106,7 @@
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary' || dataForm.proRunModeO === 'proprietary_pool'">
           <el-form-item prop="proUnionCompanyContacterO" label="公司负责人：">
-            <el-input v-model="dataForm.proUnionCompanyContacterO" disabled></el-input>
+            <el-input v-model="dataForm.proUnionCompanyContacterO" :readOnly="readOnly" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8"  v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
@@ -128,31 +128,31 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="联营单位名称：" prop="proUnionCompanyO" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
-            <el-input v-model="dataForm.proUnionCompanyO" disabled>
+            <el-input v-model="dataForm.proUnionCompanyO" :readOnly="readOnly" disabled>
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true" disabled></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
           <el-form-item prop="proContacterO" label="联系人：">
-            <el-input v-model="dataForm.proContacterO" disabled></el-input>
+            <el-input v-model="dataForm.proContacterO" :readOnly="readOnly" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
           <el-form-item prop="proContactwayO" label="联系方式：">
-            <el-input v-model="dataForm.proContactwayO" disabled></el-input>
+            <el-input v-model="dataForm.proContactwayO" :readOnly="readOnly" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
           <el-form-item prop="conDepositO" label="合同履约保证金：">
-            <el-input v-model="dataForm.conDepositO" disabled>
+            <el-input v-model="dataForm.conDepositO" :readOnly="readOnly" disabled>
               <span slot="append"><a>详细</a></span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunModeO === 'pool'|| dataForm.proRunModeO === 'proprietary_pool'">
           <el-form-item prop="conPorjectFund" label="待确认工程款：">
-            <el-input v-model="dataForm.conPorjectFund"></el-input>
+            <el-input v-model="dataForm.conPorjectFund" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -190,7 +190,7 @@
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'proprietary' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item prop="proUnionCompanyContacter" label="公司负责人：">
-            <el-input v-model="dataForm.proUnionCompanyContacter"></el-input>
+            <el-input v-model="dataForm.proUnionCompanyContacter" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
@@ -202,29 +202,29 @@
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item label="联营单位名称：" prop="proUnionCompany">
-            <el-input v-model="dataForm.proUnionCompany">
+            <el-input v-model="dataForm.proUnionCompany" :readOnly="readOnly">
               <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item prop="proContacter" label="联系人：">
-            <el-input v-model="dataForm.proContacter"></el-input>
+            <el-input v-model="dataForm.proContacter" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item prop="proContactway" label="联系方式：">
-            <el-input v-model="dataForm.proContactway"></el-input>
+            <el-input v-model="dataForm.proContactway" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item prop="conDepositO" label="总保证金额：">
-            <el-input v-model="dataForm.conDepositO"></el-input>
+            <el-input v-model="dataForm.conDepositO" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" v-if="dataForm.proRunMode === 'pool' || dataForm.proRunMode === 'proprietary_pool'">
           <el-form-item prop="conDeposit" label="本合同履约保证金：">
-            <el-input v-model="dataForm.conDeposit"></el-input>
+            <el-input v-model="dataForm.conDeposit" :readOnly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -275,6 +275,8 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton:true,
+        readOnly: false,
         dialogVisible: false,
         dataForm: {
           bId: '',
@@ -362,7 +364,18 @@
       }
     },
     created () {
-      this.init()
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true');
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query;
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
+      this.init(currentQuery.businessId)
     },
     computed: {
       ...mapState({
@@ -372,47 +385,13 @@
       // 初始化 编辑和新增 2种情况
       init (id) {
         if (id) {
-          this.dataForm.id = id || 0
+          this.dataForm.id = id || 0;
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields();
             if (this.dataForm.id) {
+              let self = this;
               tapp.services.proRunmodeChageApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result);
-                this.dataForm.bId = result.proRunmodeChageApproval.bId;
-                this.dataForm.actTaskKey = result.proRunmodeChageApproval.actTaskKey;
-                this.dataForm.pId = result.proRunmodeChageApproval.pId;
-                this.dataForm.proRunModeO = result.proRunmodeChageApproval.proRunModeO;
-                this.dataForm.proProfitRateO = result.proRunmodeChageApproval.proProfitRateO;
-                this.dataForm.proUnionCompanyMerateO = result.proRunmodeChageApproval.proUnionCompanyMerateO;
-                this.dataForm.proUnionCompanyO = result.proRunmodeChageApproval.proUnionCompanyO;
-                this.dataForm.proContacterO = result.proRunmodeChageApproval.proContacterO;
-                this.dataForm.proUnionCompanyContacterO = result.proRunmodeChageApproval.proUnionCompanyContacterO;
-                this.dataForm.proContactwayO = result.proRunmodeChageApproval.proContactwayO;
-                this.dataForm.conSelfRateO = result.proRunmodeChageApproval.conSelfRateO;
-                this.dataForm.conUnionCompanyRateO = result.proRunmodeChageApproval.conUnionCompanyRateO;
-                this.dataForm.conDepositO = result.proRunmodeChageApproval.conDepositO;
-                this.dataForm.conPorjectFund = result.proRunmodeChageApproval.conPorjectFund;
-                this.dataForm.proRunMode = result.proRunmodeChageApproval.proRunMode;
-                this.dataForm.proProfitRate = result.proRunmodeChageApproval.proProfitRate;
-                this.dataForm.proUnionCompanyMerate = result.proRunmodeChageApproval.proUnionCompanyMerate;
-                this.dataForm.proUnionCompany = result.proRunmodeChageApproval.proUnionCompany;
-                this.dataForm.proContacter = result.proRunmodeChageApproval.proContacter;
-                this.dataForm.proUnionCompanyContacter = result.proRunmodeChageApproval.proUnionCompanyContacter;
-                this.dataForm.proContactway = result.proRunmodeChageApproval.proContactway;
-                this.dataForm.conSelfRate = result.proRunmodeChageApproval.conSelfRate;
-                this.dataForm.conUnionCompanyRate = result.proRunmodeChageApproval.conUnionCompanyRate;
-                this.dataForm.conDeposit = result.proRunmodeChageApproval.conDeposit;
-                this.dataForm.approvalStatus = result.proRunmodeChageApproval.approvalStatus;
-                this.dataForm.reason = result.proRunmodeChageApproval.reason;
-                this.dataForm.sign = result.proRunmodeChageApproval.sign;
-                this.dataForm.signTime = result.proRunmodeChageApproval.signTime;
-                this.dataForm.propose = result.proRunmodeChageApproval.propose;
-                this.dataForm.result = result.proRunmodeChageApproval.result;
-                this.dataForm.createtime = result.proRunmodeChageApproval.createtime;
-                this.dataForm.updatetime = result.proRunmodeChageApproval.updatetime;
-                this.dataForm.createuser = result.proRunmodeChageApproval.createuser;
-                this.dataForm.updateuser = result.proRunmodeChageApproval.updateuser;
-                this.dataForm.datastatus = result.proRunmodeChageApproval.datastatus;
               })
             }
           })

@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_cancel_fwaccount"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -64,7 +64,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="注销时间：" :class="{'is-required': isBackFill}">
-            <el-date-picker type="datetime" placeholder="申请完成后，填写注销时间" :disabled="!isBackFill" v-model="dataForm.cancelTime"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="申请完成后，填写注销时间" :disabled="!isBackFill"
+                            v-model="dataForm.cancelTime"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -146,16 +147,20 @@
       }
     },
     created() {
+      debugger
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      console.log("currentQuery:" + currentQuery)
       this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
+      debugger
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      console.log("currentQuery:" + currentQuery)
       this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
@@ -187,7 +192,6 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCancelFwaccounapproval.get(id).then(function(result) {
-                console.log('result11111', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params = {
                   filters: {},
@@ -196,7 +200,6 @@
                   sorting: "id descending",
                   id: result.pId
                 }
-                console.log('result2222', _result)
                 tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.pId})
@@ -241,7 +244,7 @@
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
-          tapp.services.finaCancelFwaccounapproval.save(model).then(function(result) {
+          tapp.services.finaCancelFwaccounapproval.onlySave(model).then(function(result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",

@@ -27,51 +27,48 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-             <!-- <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject"></t-project-select>-->
-              <t-bank-project-select :readonly="true" @selectedData="selectedData"></t-bank-project-select>
+             <t-project-select placeholder="选择一个项目" :readOnly="readOnly" v-model="dataForm.proName" @selectedProject="selectedData"></t-project-select>
+              <!-- <t-bank-project-select :readOnly="readOnly" v-model="dataForm.proName" @selectedData="selectedData"></t-bank-project-select> -->
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input disabled v-model="dataForm.proSubCompany"></el-input>
+              <t-input :readOnly="true" v-model="dataForm.proSubCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input disabled v-model="dataForm.proBusDept"></el-input>
+              <t-input :readOnly="true" v-model="dataForm.proBusDept"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位：">
-              <el-input disabled v-model="dataForm.proConstructCompany"></el-input>
+              <t-input :readOnly="true" v-model="dataForm.proConstructCompany"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="合同模式：" prop="proContractAttr">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额：">
-              <el-input disabled v-model="dataForm.proTotalInvestment"></el-input>
+              <t-input :readOnly="true" v-model="dataForm.proTotalInvestment"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="工程类别：" prop="proType">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunMode">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBuildArea" label="计划项目规模：">
-              <el-input readonly v-model="dataForm.proBuildArea"></el-input>
+            <el-form-item prop="proBuildArea" label="项目规模：">
+              <t-input :readOnly="true" v-model="dataForm.proBuildArea"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -81,7 +78,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <el-input :readonly="true" v-model="dataForm.conName"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.conName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -91,7 +88,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <el-input :readonly="true" v-model="dataForm.conTotal"></el-input>
+            <t-input :readOnly="true" v-model="dataForm.conTotal"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -101,14 +98,14 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="授权内容：" prop="grantContent">
-            <el-input type="textarea" :rows="2" v-model="dataForm.grantContent"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.grantContent" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="grantStarttime" label="授权期限：" class="is-required">
-            <t-datetime-range-picker @change="onStartDateRangeChanged"></t-datetime-range-picker>
+            <t-datetime-range-picker v-model="grantTime" @change="onStartDateRangeChanged" :readOnly="readOnly"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -133,7 +130,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="备注：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -150,6 +147,7 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import find from 'lodash/find'
 
   export default {
     data() {
@@ -159,6 +157,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        grantTime:[],
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -221,30 +220,25 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tGrantContractApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.bId
-                self.dataForm.actTaskKey = result.actTaskKey
-                self.dataForm.pId = result.pId
-                self.dataForm.cId = result.cId
-                self.dataForm.grantStarttime = result.grantStarttime
-                self.dataForm.grantEndtime = result.grantEndtime
-                self.dataForm.grantUser = result.grantUser
-                self.dataForm.grantContent = result.grantContent
-                self.dataForm.remark = result.remark
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
-                self.dataForm.updateuser = result.updateuser
-                self.dataForm.datastatus = result.datastatus
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.grantTime = [result.grantStarttime, result.grantEndtime]
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    self.dataForm.conPeriod = [_result.conStartDate, _result.conEndDate];
+                  }
+                })
               })
             }
           })
@@ -258,24 +252,9 @@
       },
       // 选择项目
       selectedData(data) {
-        debugger
-        this.resetFields()
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
-        this.dataForm.pId = data.pId
-        this.dataForm.cId = data.cId
-        this.dataForm.bankName = data.bankName
-        this.dataForm.proName = data.proName
-        this.dataForm.proCode = data.proCode
-        this.dataForm.secompanyAddress = data.bankAccountName
-        this.dataForm.secompanyTel = data.contactInfo
-        this.dataForm.bankAccount = data.bankAccount
-        this.dataForm.conName = data.conName
-        this.dataForm.proAddress = data.proAddressProvince + data.proAddressCity + data.proAddressDetail
-        this.dataForm.conTotal = data.conTotal
-        this.dataForm.proSubCompany = data.proSubCompany
-        this.dataForm.secompanyName = data.companyName
-        this.dataForm.conPeriod = [data.conStartDate + ' 00:00:00', data.conEndDate + ' 00:00:00'];
-        this.findTotalSum();
+        this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, data)
+        this.dataForm.conPeriod = [data.conStartDate, data.conEndDate];
       },
       onStartDateRangeChanged(val) {
         this.dataForm.grantStarttime = val[0];

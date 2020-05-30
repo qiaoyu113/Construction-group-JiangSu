@@ -21,32 +21,32 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="bankAccount" label="银行账号：">
-            <t-bank-select :readonly="true" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
+            <t-bank-select :disabled="readOnly" v-model="dataForm.bankAccount" @selectedData="selectedData"></t-bank-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankName" label="开户行名称">
-            <el-input :readonly="true" v-model="dataForm.bankName"></el-input>
+            <el-input disabled v-model="dataForm.bankName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankAddress" label="开户网点">
-            <el-input :readonly="true" v-model="dataForm.bankAddress"></el-input>
+            <el-input disabled v-model="dataForm.bankAddress"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="bankAccountName" label="银行账户名称">
-            <el-input :readonly="true" v-model="dataForm.bankAccountName"></el-input>
+            <el-input disabled v-model="dataForm.bankAccountName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proName" label="项目名称">
-            <el-input :readonly="true" v-model="dataForm.proName"></el-input>
+            <el-input disabled v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="proCode" label="项目编号">
-            <el-input :readonly="true" v-model="dataForm.proCode"></el-input>
+            <el-input disabled v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -179,22 +179,21 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaFpayoffApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaFpayoffApproval.pId
-                self.dataForm.fwaId = result.finaFpayoffApproval.fwaId
-                self.dataForm.payoffMoney = result.finaFpayoffApproval.payoffMoney
-                self.dataForm.approvalStatus = result.finaFpayoffApproval.approvalStatus
-                self.dataForm.sign = result.finaFpayoffApproval.sign
-                self.dataForm.signTime = result.finaFpayoffApproval.signTime
-                self.dataForm.propose = result.finaFpayoffApproval.propose
-                self.dataForm.result = result.finaFpayoffApproval.result
-                self.dataForm.createtime = result.finaFpayoffApproval.createtime
-                self.dataForm.updatetime = result.finaFpayoffApproval.updatetime
-                self.dataForm.createuser = result.finaFpayoffApproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })
@@ -213,11 +212,11 @@
         Promise.all(validPromises).then(resultList => {
           let model = { ...self.dataForm };
           tapp.services.finaFpayoffApproval.save(model).then(function(result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",
             });
+            self.$refs['ruleForm'].resetFields()
           });
         }).catch(function(e) {
           self.$notify.error({
@@ -226,7 +225,7 @@
           });
           return false;
         });
-      }
+      },
     }
   }
 </script>

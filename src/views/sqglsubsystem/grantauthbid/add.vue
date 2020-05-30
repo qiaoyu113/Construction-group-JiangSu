@@ -27,7 +27,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.projectId" @selectedProject="getSelectedProject" disabled></t-project-select>
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject" disabled></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -198,24 +198,17 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tGrantAuthbidApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.bId = result.bId
-                self.dataForm.actTaskKey = result.actTaskKey
-                self.dataForm.pcId = result.pcId
-                self.dataForm.useScenes = result.useScenes
-                self.dataForm.grantUser = result.grantUser
-                self.dataForm.grantContent = result.grantContent
-                self.dataForm.remark = result.remark
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
-                self.dataForm.updateuser = result.updateuser
-                self.dataForm.datastatus = result.datastatus
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })

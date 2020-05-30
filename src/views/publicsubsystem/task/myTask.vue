@@ -172,15 +172,21 @@ export default {
       this.$refs.searchReulstList.refresh();
     },
     handleCellClick(row, column, cell, event) {
-      // console.log('row', row)
-      if(row.taskFormKey) {
-        const taskFormKey = row.taskFormKey.substr(1)
-        if(column.property == 'processDefinationName') {
-          let tpath = '/publicsubsystem/task/taskDetail/_'+taskFormKey+'?taskFromUrl='+row.taskFormUrl+'&readonly=true&taskId='+row.taskId+'&processDefinationKey='+row.processDefinationKey+'&taskActId='+row.taskActId+'&status='+row.status
-          this.$router.push({
-            path: tpath,
-          })
+      let item = JSON.parse(JSON.stringify(row))
+      delete item.status
+      if(item.taskFormKey) {
+        let pathKey = String(item.taskFormKey.substr(1))
+        let tpath
+        if(pathKey.indexOf('status=') >=0) {
+          pathKey = pathKey.replace('?status=1', '')
+          pathKey = pathKey.replace('?status=2', '')
+          tpath = '/publicsubsystem/task/taskDetail/_'+pathKey+'?taskFromUrl='+item.taskFormUrl+'&readonly=true&processDefinationKey='+item.processDefinationKey+'&taskActId='+item.taskActId+'&status=1'
+        } else {
+          tpath = '/publicsubsystem/task/taskDetail/_'+pathKey+'?taskFromUrl='+item.taskFormUrl+'&readonly=true&processDefinationKey='+item.processDefinationKey+'&taskActId='+item.taskActId+'&taskId='+item.taskId
         }
+        this.$router.push({
+          path: tpath,
+        })
       }
     },
   }

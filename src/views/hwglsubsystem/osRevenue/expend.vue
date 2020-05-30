@@ -15,7 +15,7 @@
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="130px" label-position="right">
       <el-card shadow="never">
       <t-sub-title :title="'付款信息'"></t-sub-title>
       <el-row :gutter="20">
@@ -25,18 +25,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="cId" label="项目编号：" verify class="is-required">
-            <el-input v-model="dataForm.code" disabled></el-input>
+          <el-form-item prop="code" label="项目编号：" verify class="is-required">
+            <el-input v-model="dataForm.code" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="subCompany" label="所属分公司：" verify class="is-required">
-            <el-input v-model="dataForm.subCompany" disabled></el-input>
+            <el-input v-model="dataForm.subCompany" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="address" label="项目地址：" verify class="is-required">
-            <el-input v-model="dataForm.address" disabled></el-input>
+            <el-input v-model="dataForm.address" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
