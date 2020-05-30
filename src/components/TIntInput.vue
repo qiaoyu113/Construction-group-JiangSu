@@ -1,5 +1,5 @@
 <template>
-<number-input ref="input" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" v-model="currentValue" currency="" :precision="0" :disabled="disabled" :readOnly="readOnly" :readonly="readonly">
+<number-input ref="input" :placeholder="placeholder" v-bind="$attrs" v-on="$listeners" v-model="currentValue" currency="" :precision="0" :disabled="disabled" :readOnly="readOnly">
   <template slot="prepend" v-if="$slots.prepend">
     <slot name="prepend">
     </slot>

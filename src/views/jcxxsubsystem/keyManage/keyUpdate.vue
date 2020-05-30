@@ -53,7 +53,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyType" label="类别名称">
-              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -87,8 +87,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="principalId" label="主要负责人">
-              <t-maincharge-select v-model="dataForm.principalId"></t-maincharge-select>
+            <el-form-item prop="mainChargeName" label="主要负责人">
+              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge=""></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -146,6 +146,7 @@
 
 <script>
   import moment from 'moment'
+  import find from 'lodash/find'
   import {
     mapState
   } from 'vuex'
@@ -183,7 +184,8 @@
           isInput: '',
           sign: '',
           signTime: '',
-          flag: '1'
+          flag: '1',
+          mainChargeName: ''
         },
         dataRule: {
           province: [
@@ -239,7 +241,10 @@
           ],
           signTime: [
             {required: false, message: '登记时间不能为空', trigger: 'blur'}
-          ]
+          ],
+          mainChargeName: [
+            {required: false, message: '主要负责人不能为空', trigger: 'blur'}
+          ],
         }
       }
     },
@@ -270,8 +275,20 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
-                console.log('result', result)
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {
+                  filters: {},
+                  maxResultCount: 20000,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.principalId
+                }
+                tapp.services.base_User.getAllUsers(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.principalId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                  }
+                })
               })
             }
           })
@@ -279,18 +296,20 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.getUserWithDepartments()
             this.$refs.ruleForm.clearValidate()
           })
         }
+        this.getUserWithDepartments()
+      },
+      getSelectedName(main) {
+        this.dataForm.principalId = main.id
       },
       getUserWithDepartments() {
         if(this.currentUser && this.currentUser.userId) {
           let self = this;
           tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
             if(result) {
-              // console.log('result', result)
-              self.subCompany = result.grouplist[0].value
+              self.subCompany = result.grouplist[0] && result.grouplist[0].value ? result.grouplist[0].value : '' 
             }
           })
         }

@@ -128,7 +128,7 @@
         //传送到父组件
         this.currentValue = this.selectedMainCharge.name;
         this.$emit('selectedMainCharge', this.selectedMainCharge);
-        this.$emit('input', this.selectedMainCharge.id);
+        this.$emit('input', this.selectedMainCharge.name);
         this.doReset();
         this.dialogFormVisible = false
       },
