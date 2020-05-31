@@ -9,11 +9,11 @@
       </el-col>
     </el-row>
     <el-table :data="dataInfo" border size="mini">
-      <el-table-column align="center" label="借款额度（万元）" prop="lNum"></el-table-column>
-      <el-table-column align="center" label="可使用借款额度（万元）" prop="aoAmount"></el-table-column>
-      <el-table-column align="center" label="本次付款金额（万元）" prop="technicalTitle"></el-table-column>
-      <el-table-column align="center" label="本次借款期限" prop="asAmount"></el-table-column>
-      <el-table-column align="center" label="借款合同编号" prop="asAmount">
+      <el-table-column align="center" label="借款额度（万元）" prop="realAmount"></el-table-column>
+      <el-table-column align="center" label="可使用借款额度（万元）" prop="liveAmount"></el-table-column>
+      <el-table-column align="center" label="本次付款金额（万元）" prop="payment"></el-table-column>
+      <el-table-column align="center" label="本次借款期限" prop="timeLimit"></el-table-column>
+      <el-table-column align="center" label="借款合同编号" prop="getCode">
         <template slot-scope="row">
           <t-input v-model="row.asAmount" placeholder="审批完成后回填" :readOnly="readOnly"></t-input>
         </template>
@@ -48,29 +48,13 @@
         :options="gridOptions"
         @selection-change="handleSelectionChange"
       >
-      <template slot="columnDataHeader">
-          <t-edit-grid-column prop="subjectType" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
-            <template slot-scope="scope">
-              <t-input v-model="scope.row.subjectType" :readOnly="readOnly" ></t-input>
-            </template>
-          </t-edit-grid-column>
-        </template>
       </t-grid>
-      <!-- <t-edit-grid ref="searchResultList" :options="gridOptions" disabled @selection-change="handleSelectionChange">
-        <template slot="columnDataHeader">
-          <t-edit-grid-column prop="subjectType" label="乙方单位" verify :maxLength="200" min-width="150" class-name="is-required" >
-            <template slot-scope="scope">
-              <t-input v-model="scope.row.subjectType" :readOnly="readOnly" ></t-input>
-            </template>
-          </t-edit-grid-column>
-        </template>
-      </t-edit-grid> -->
     </el-dialog>
   </div>
 </template>
 
 <script>
-import baseView from "@/base/baseView";
+import baseView from '@/base/baseView'
 export default {
   extends: baseView,
   props: {
@@ -83,7 +67,7 @@ export default {
       required: false
     }
   },
-  data() {
+  data () {
     return {
       dataInfo: [],
       totalAmount: 0, // 小计
@@ -93,8 +77,8 @@ export default {
         dataSource: {
           serviceInstance: tapp.services.finaTakebackApproval.getPagedList,
           serviceInstanceInputParameters: {
-            rWay: "", // 默认承兑汇票 promise_draft
-            rType: ""
+            rWay: '', // 默认承兑汇票 promise_draft
+            rType: ''
           }
         },
         grid: {
@@ -103,125 +87,149 @@ export default {
           maxHeight: 350,
           columns: [
             {
-              prop: "proName",
-              label: "项目名称"
+              prop: 'proName',
+              label: '项目名称'
             },
 
             {
-              prop: "proCode",
-              label: "项目借款额度（万元）",
+              prop: 'bRealAmount',
+              label: '项目借款额度（万元）',
               width: 200
             },
             {
-              prop: "proCode",
-              label: "借款日期",
+              prop: 'borrowDate',
+              label: '借款日期'
             },
             {
-              prop: "proCode",
-              label: "借款额度期限",
+              prop: 'borrowDate',
+              label: '借款额度期限',
               width: 120
             },
+            // 到账金额 rAmount- 累计借款款 totalBorrowAmount - realAmount
             {
-              prop: "proCode",
-              label: "剩余可用额度（万元）",
-              width: 200
+              prop: 'liveAmount',
+              label: '剩余可用额度（万元）',
+              width: 200,
+              render: (h, params) => {
+                return h('t-currency-input', {
+                  props: {
+
+                    value: params.row.rAmount - params.row.realAmount,
+                    unitValue: 10000
+                  }
+                })
+              }
             },
             {
-              prop: "proManager",
-              label: "本次付款金额（万元）",
-              width: 200
+              prop: 'payment',
+              label: '本次付款金额（万元）',
+              width: 180,
+              render: (h, params) => {
+                return h('t-currency-input', {
+                  props: {
+                    value: params.row.aoAmount,
+                    unitValue: 10000
+                  },
+                  on: {
+                    input: function (event) {
+                      console.log('event',event)
+                      params.row.aoAmount = event
+                    }
+                  }
+                })
+              }
             },
             {
-              prop: "proManager",
-              label: "本次借款期限",
-              width: 120
+              prop: 'timeLimit',
+              label: '本次借款期限',
+              width: 120,
+              render: (h, params) => {
+                console.log(h,params)
+                return h('t-int-input', {
+                  props: {
+                    value: params.row.asAmount
+                  },
+                  on: {
+                    input: function (event) {
+                      console.log('event',event)
+                      params.row.asAmount = event
+                    }
+                  }
+                })
+              }
             }
           ], // 需要展示的列
           defaultSort: {
-            prop: "id",
-            order: "descending"
+            prop: 'id',
+            order: 'descending'
           }
         }
-      },
-      // gridOptions: {
-      //   dataSource: [],
-      //   grid: {
-      //     offsetHeight: 36, // 36:查询部分高度
-      //     defaultSort: {
-      //       prop: "id",
-      //       order: "ascending"
-      //     },
-      //   },
-      // }
-    };
+      }
+    }
   },
   components: {},
-  created() {
-    this.currentValue = this.value;
+  created () {
+    this.currentValue = this.value
   },
   watch: {
     searchData: {
-      handler(newValue, oldValue) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters = newValue;
-        this.doRefresh();
+      handler (newValue, oldValue) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters = newValue
+        this.doRefresh()
       },
       deep: true
     }
   },
-  activated() {
-    this.$nextTick(() => {});
+  activated () {
+    this.$nextTick(() => {})
   },
   computed: {},
   methods: {
-    handleSelectionChange(val) {
-      this.selectedRows = val;
-      console.log("selectedData 选中的数据", val);
+    handleSelectionChange (val) {
+      this.selectedRows = val
+      console.log('selectedData 选中的数据', val)
     },
-    doRefresh() {
+    doRefresh () {
       console.log(
-        "doRefresh 查询条件",
+        'doRefresh 查询条件',
         this.gridOptions.dataSource.serviceInstanceInputParameters
-      );
-      this.$refs.searchResultList.refresh();
+      )
+      this.$refs.searchResultList.refresh()
     },
     // 打开承兑汇票弹框
-    openDialog() {
+    openDialog () {
       // 给弹出的框赋值查询条件
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     // 打开承兑汇票弹框
-    closeDialog() {
-      this.dialogVisible = false;
+    closeDialog () {
+      this.dialogVisible = false
     },
-    doReset() {
-      this.$refs.search.resetFields();
-      this.selectedRows = [];
-      this.doRefresh();
+    doReset () {
+      this.$refs.search.resetFields()
+      this.selectedRows = []
+      this.doRefresh()
     },
     // 点击确定
-    choose() {
-      this.dialogVisible = false;
-
-      // =============================
-      this.selectedRows = [{lNum: 23, aoAmount: 2}]
-      // =============================
+    choose () {
+      this.dialogVisible = false
       // 给承兑汇票的table赋值
-      this.dataInfo = this.selectedRows;
-      this.setTotalAmount(this.dataInfo);
+      this.dataInfo = this.selectedRows
+      this.setTotalAmount(this.dataInfo)
       // 传送到父组件
-      this.$emit("selectedData", this.dataInfo);
-      this.doReset();
+      this.$emit('selectedData', this.dataInfo)
+      this.doReset()
     },
     // 计算小计
-    setTotalAmount(data) {
-      let sum = 0;
+    setTotalAmount (data) {
+      let sum = 0
       data.map(v => {
-        sum += Number(v.aoAmount);
-      });
-      this.totalAmount = sum;
+        sum += Number(v.aoAmount)
+      })
+      this.totalAmount = sum
     }
   }
-};
+}
 </script>
 <style scoped type="text/css">
 .acceptance-bill-table-container {
