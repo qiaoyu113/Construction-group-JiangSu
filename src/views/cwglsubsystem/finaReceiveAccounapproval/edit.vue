@@ -126,8 +126,8 @@
         isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',rAmount: '',rDatetime: '',rWay: '',
-          lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
-          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '' ,proCode:''                                                                                       },
         dataRule: {
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
@@ -237,6 +237,7 @@
         this.dataForm.pId = project.id
         this.dataForm.proSubCompany = project.proSubCompany
         this.dataForm.proRunMode = project.proRunMode
+        this.dataForm.proCode = project.proCode
       },
       // 初始化 编辑和新增 2种情况
       init (id) {
@@ -271,6 +272,7 @@
               title: "操作成功！",
               message: "保存成功！",
             });
+            self.$refs['ruleForm'].resetFields()
           });
         }).catch(function(e) {
           self.$notify.error({
