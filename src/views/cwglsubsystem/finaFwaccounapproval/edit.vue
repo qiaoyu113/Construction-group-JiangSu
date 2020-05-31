@@ -229,7 +229,6 @@
       },
       // 表单提交
       doSave () {
-        debugger
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
         Promise.all(validPromises).then(resultList => {
