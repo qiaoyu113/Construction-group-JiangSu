@@ -27,7 +27,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称：" prop="proName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.proName" @selectedProject="getSelectedProject" disabled></t-project-select>
+              <t-record-select placeholder="选择一个备案项目" v-model="dataForm.proName" @selectedRecord="getSelectedProject" disabled></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -207,11 +207,11 @@
                   maxResultCount: 20,
                   skipCount: 1,
                   sorting: "id descending",
-                  pcId: result.pcId
+                  id: result.pcId
                 }
-                tapp.services.proInfo.getPagedList(params).then(_result => {
+                tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
-                    let item = find(_result.items, {pcId: result.pcId})
+                    let item = find(_result.items, {id: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                   }
                 })
