@@ -119,7 +119,15 @@
               {
                 prop: 'proManager',
                 label: '本次付款金额（万元）| 联营',
-                width: 200
+                width: 200,
+                render: (h, params) => {
+                  console.log(h,params)
+                  return h('t-input', {
+                    props: {
+                      value: 0
+                    }
+                  })
+                }
               }
             ], // 需要展示的列
             defaultSort: {
