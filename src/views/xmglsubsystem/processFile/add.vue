@@ -32,7 +32,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -195,15 +195,23 @@
               let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
-                let params = {
-                  filters: {},
-                  maxResultCount: 20,
-                  skipCount: 1,
-                  sorting: "id descending",
-                  id: result.pId
-                };
+                let params = {}
+                if(/^\d$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  } 
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  } 
+                }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    self.dataForm.pName = self.dataForm.proName
+                  }
                 })
               })
             }
@@ -227,6 +235,7 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.pName = project.proName;
+        this.dataForm.pId = project.id;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },

@@ -384,7 +384,6 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proRunmodeChageApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
                 let params = {}
                 if(/^\d$/.test(result.pId)) {
@@ -461,7 +460,7 @@
         this.dataForm.pName = project.proName;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conBcxyTotal = project.conBcxyTotal;
-        this.dataForm.pId = project.pId;
+        this.dataForm.pId = project.id;
       },
       // 表单提交
       doSave () {
