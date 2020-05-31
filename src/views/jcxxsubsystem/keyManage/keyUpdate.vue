@@ -88,7 +88,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="mainChargeName" label="主要负责人">
-              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge=""></t-maincharge-select>
+              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge="getSelectedName"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -164,8 +164,6 @@
         sealCount: '',
         subCompany: '',
         dataForm: {
-          id: '',
-          actTaskKey: '',
           province: '',
           city: '',
           keyType: '',
@@ -181,7 +179,6 @@
           existElectMark: '',
           remark: '',
           password: '',
-          isInput: '',
           sign: '',
           signTime: '',
           flag: '1',
@@ -304,7 +301,8 @@
         this.getUserWithDepartments()
       },
       getSelectedName(main) {
-        this.dataForm.principalId = main.id
+        console.log('main', main)
+        this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, {principalId: main.id})
       },
       getUserWithDepartments() {
         if(this.currentUser && this.currentUser.userId) {
@@ -318,8 +316,7 @@
       },
       // 表单提交
       doSave () {
-        let self = this
-        let validPromises = [self.$refs['ruleForm'].validate()]
+        let validPromises = [this.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
           this.submitDialogVisible = true;
           // let model = {...self.dataForm};
@@ -330,7 +327,7 @@
           //   });
           // });
         }).catch(function (e) {
-          self.$notify.error({
+          this.$notify.error({
             title: '错误',
             message: '保存失败！'
           })
