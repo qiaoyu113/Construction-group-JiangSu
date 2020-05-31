@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_receive_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -30,8 +30,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="unionCompany" label="所属单位">
-            <el-input readonly v-model="dataForm.unionCompany"></el-input>
+          <el-form-item prop="proSubCompany" label="所属单位">
+            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -58,7 +58,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="rType" label="到帐类型">
-            <t-dic-dropdown-select dicType="account_type" v-model="dataForm.rType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="account_type" v-model="dataForm.rType"
+                                   :readOnly="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -94,7 +95,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item prop="remark" label="备注">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            <el-input type="textarea" v-model="dataForm.remark" :readonly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -122,10 +123,11 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           bId: '',actTaskKey: '',pId: '',proRunMode: '',unionCompany: '',rAmount: '',rDatetime: '',rWay: '',
-          lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: new Date(),propose: '',result: '',
-          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: ''                                                                                        },
+          lNum: '',rType: '',sAmount: '',oAmount: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '' ,proCode:''                                                                                       },
         dataRule: {
           proName: [
             { required: true, message: '项目名称不能为空', trigger: 'blur' }
@@ -133,8 +135,8 @@
           proRunMode: [
             { required: true, message: '经营模式不能为空', trigger: 'blur' }
           ],
-          unionCompany: [
-            { required: true, message: '联营单位标识不能为空', trigger: 'blur' }
+          proSubCompany: [
+            { required: true, message: '所属单位不能为空', trigger: 'blur' }
           ],
           rAmount: [
             { required: true, message: '到帐金额不能为空', trigger: 'blur' }
@@ -171,12 +173,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -185,53 +189,6 @@
     },
     methods: {
       onAmount(){
-        // debugger
-        // let self = this
-        // let proRunMode = this.dataForm.proRunMode
-        // if (proRunMode == 'proprietary_pool') {
-        //   if (this.dataRule.oAmount[0].required && this.dataRule.sAmount[0].required == false) {
-        //     this.dataForm.oAmount = Number(this.dataForm.oAmount)
-        //     if (this.dataForm.oAmount - Number(this.dataForm.rAmount) != 0) {
-        //       this.dataForm.sAmount = ''
-        //       this.dataForm.oAmount = ''
-        //       this.$notify.error({
-        //         title: '错误',
-        //         message: '联营金额需等于到账金额！'
-        //       });
-        //     }
-        //   }
-        //   if (this.dataRule.sAmount[0].required && this.dataRule.oAmount[0].required == true) {
-        //     this.dataForm.sAmount = Number(this.dataForm.sAmount)
-        //     if (this.dataForm.sAmount - Number(this.dataForm.rAmount) != 0) {
-        //       this.dataForm.sAmount = ''
-        //       this.dataForm.sAmount = ''
-        //       this.$notify.error({
-        //         title: '错误',
-        //         message: '自营金额需等于到账金额！'
-        //       });
-        //     }
-        //   }
-        //   if (this.dataRule.sAmount[0].required && this.dataRule.oAmount[0].required) {
-        //     debugger
-        //     if (this.dataForm.oAmount) {
-        //       return
-        //     }
-        //     if (this.dataForm.sAmount) {
-        //       return
-        //     }
-        //     this.dataForm.oAmount = Number(this.dataForm.oAmount)
-        //     this.dataForm.sAmount = Number(this.dataForm.sAmount)
-        //     let total = this.dataForm.sAmount + this.dataForm.oAmount
-        //     if (total - Number(this.dataForm.rAmount) != 0) {
-        //       this.dataForm.sAmount = ''
-        //       this.dataForm.oAmount = ''
-        //       this.$notify.error({
-        //         title: '错误',
-        //         message: '自营金额加联营金额需等于到账金额！'
-        //       });
-        //     }
-        //   }
-        // }
       },
       onRAmount(){
         let proRunMode = this.dataForm.proRunMode
@@ -278,37 +235,20 @@
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.proName = project.proName
         this.dataForm.pId = project.id
-        this.dataForm.unionCompany = project.proUnionCompany
+        this.dataForm.proSubCompany = project.proSubCompany
         this.dataForm.proRunMode = project.proRunMode
+        this.dataForm.proCode = project.proCode
       },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaReceiveAccounapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaReceiveAccounapproval.pId
-                self.dataForm.proRunMode = result.finaReceiveAccounapproval.proRunMode
-                self.dataForm.unionCompany = result.finaReceiveAccounapproval.unionCompany
-                self.dataForm.rAmount = result.finaReceiveAccounapproval.rAmount
-                self.dataForm.rDatetime = result.finaReceiveAccounapproval.rDatetime
-                self.dataForm.rWay = result.finaReceiveAccounapproval.rWay
-                self.dataForm.lNum = result.finaReceiveAccounapproval.lNum
-                self.dataForm.rType = result.finaReceiveAccounapproval.rType
-                self.dataForm.sAmount = result.finaReceiveAccounapproval.sAmount
-                self.dataForm.oAmount = result.finaReceiveAccounapproval.oAmount
-                self.dataForm.approvalStatus = result.finaReceiveAccounapproval.approvalStatus
-                self.dataForm.sign = result.finaReceiveAccounapproval.sign
-                self.dataForm.signTime = result.finaReceiveAccounapproval.signTime
-                self.dataForm.propose = result.finaReceiveAccounapproval.propose
-                self.dataForm.result = result.finaReceiveAccounapproval.result
-                self.dataForm.createtime = result.finaReceiveAccounapproval.createtime
-                self.dataForm.updatetime = result.finaReceiveAccounapproval.updatetime
-                self.dataForm.createuser = result.finaReceiveAccounapproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })
@@ -332,6 +272,7 @@
               title: "操作成功！",
               message: "保存成功！",
             });
+            self.$refs['ruleForm'].resetFields()
           });
         }).catch(function(e) {
           self.$notify.error({

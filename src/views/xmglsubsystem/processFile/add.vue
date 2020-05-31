@@ -37,42 +37,42 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+            <t-input v-model="dataForm.proSubCompany" :readOnly="true"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
+            <t-input v-model="dataForm.proBusDept" :readOnly="true"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
+            <t-input v-model="dataForm.proConstructCompany" :readOnly="true"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式：" prop="proContractAttr">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="true"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
+            <t-input v-model="dataForm.proTotalInvestment" :readOnly="true"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别：" prop="proType">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="true"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式：" prop="proRunMode">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="true"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
+            <t-input v-model="dataForm.proBuildArea" :readOnly="true"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -106,7 +106,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="备注：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,19 +124,13 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         // 需要再定义一个流程类别的数组 对应 海外项目
         processBranchList:[{ id: 'sales_dept', name: ' 经经营部' }, { id: 'za_dept', name: '经质安部' }, { id: 'all_dept', name: '全流程（所有部门可选）' }],
         docId: '',
+        readOnly: false,
         showButton:true,
         dialogVisible: false,
         dataForm: {
@@ -200,18 +194,25 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
-                console.log('result', result);
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
-                let params = {
-                  filters: {},
-                  maxResultCount: 20,
-                  skipCount: 1,
-                  sorting: "id descending",
-                  id: result.pId
-                };
+                let params = {}
+                if(/^\d$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  }
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  }
+                }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  console.log('_result', _result)
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    self.dataForm.pName = self.dataForm.proName
+                    self.dataForm.pId = self.dataForm.id
+                  }
                 })
               })
             }
@@ -235,6 +236,7 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.pName = project.proName;
+        this.dataForm.pId = project.id;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },

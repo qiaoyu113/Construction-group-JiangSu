@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_repay_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -28,12 +28,12 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item prop="proName" label="项目名称">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input readonly v-model="dataForm.proName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proCode" label="项目编号">
-            <el-input readonly v-model="dataForm.pId"></el-input>
+            <el-input readonly v-model="dataForm.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -156,7 +156,7 @@
             { required: true, message: '本次还款金额不能为空', trigger: 'blur' }
           ],
           tiimeLimit: [
-            { required: true, message: '本次累计已还金额不能为空', trigger: 'blur' }
+            { required: true, message: '本次借款期限不能为空', trigger: 'blur' }
           ],
           getCode: [
             { required: true, message: '本次累计未还金额不能为空', trigger: 'blur' }
@@ -204,6 +204,7 @@
     },
     methods: {
       isNumber (rule, value, cb) {
+        debugger
         if (!this.dataForm.getCode) {
           this.dataForm.returnAmount = ''
           return cb(new Error('请先选择借款信息！'))
@@ -244,24 +245,11 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaRepayApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaRepayApproval.pId
-                self.dataForm.gId = result.finaRepayApproval.gId
-                self.dataForm.getAmount = result.finaRepayApproval.getAmount
-                self.dataForm.tiimeLimit = result.finaRepayApproval.tiimeLimit
-                self.dataForm.getCode = result.finaRepayApproval.getCode
-                self.dataForm.approvalStatus = result.finaRepayApproval.approvalStatus
-                self.dataForm.sign = result.finaRepayApproval.sign
-                self.dataForm.signTime = result.finaRepayApproval.signTime
-                self.dataForm.propose = result.finaRepayApproval.propose
-                self.dataForm.result = result.finaRepayApproval.result
-                self.dataForm.createtime = result.finaRepayApproval.createtime
-                self.dataForm.updatetime = result.finaRepayApproval.updatetime
-                self.dataForm.createuser = result.finaRepayApproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })

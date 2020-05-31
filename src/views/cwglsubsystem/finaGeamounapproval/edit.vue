@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_get_amount_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -23,37 +23,38 @@
       <t-sub-title :title="'项目借款信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form-item prop="baId" label="借款额度信息">
-            <t-borrow-amount-select :readonly="true" placeholder="选择项目信息"  v-model="dataForm.baId" @selectedProject="getSelectedProject"></t-borrow-amount-select>
+          <el-form-item prop="proName" label="借款额度信息">
+            <t-borrow-amount-select :readonly="true" placeholder="借款额度信息" v-model="dataForm.proName"
+                                    @selectedProject="getSelectedProject"></t-borrow-amount-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item  prop="proName" label="项目名称">
-            <t-input :readonly="true" v-model="dataForm.proName"></t-input>
+            <t-input :readonly="true" v-model="dataForm.proName" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proCode" label="项目编号">
-            <t-input :readonly="true" v-model="dataForm.proCode"></t-input>
+            <t-input :readonly="true" v-model="dataForm.proCode" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proSubCompany" label="所属单位">
-            <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
+            <t-input :readonly="true" v-model="dataForm.proSubCompany" disabled></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="realAmount" label="确认借款额度">
-            <t-input :readonly="true" v-model="dataForm.realAmount">
+            <t-input :readonly="true" v-model="dataForm.realAmount" disabled>
               <span slot="append">万元</span>
             </t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="tiimeLimit" label="本次借款期限">
-            <t-input :readonly="true" v-model="dataForm.tiimeLimit">
+            <t-input :readonly="true" v-model="dataForm.tiimeLimit" disabled>
               <span slot="append">月</span>
             </t-input>
           </el-form-item>
@@ -86,14 +87,14 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="totalBorrowAmount" label="累计放款金额">
-            <t-input :readonly="true" v-model="dataForm.totalBorrowAmount">
+            <t-input :readonly="true" v-model="dataForm.totalBorrowAmount" disabled>
               <span slot="append">万元</span>
             </t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="leftAmount" label="剩余可用额度">
-            <t-input :readonly="true" v-model="dataForm.leftAmount">
+            <t-input :readonly="true" v-model="dataForm.leftAmount" disabled>
               <span slot="append">万元</span>
             </t-input>
           </el-form-item>
@@ -186,7 +187,7 @@
             { required: true, message: '确认借款期限不能为空', trigger: 'blur' }
           ],
           realAmount: [
-            { required: true, message: '本次借款额度不能为空', trigger: 'blur' }
+            { required: true, message: '确认借款额度不能为空', trigger: 'blur' }
           ],
           getCode: [{validator: checkGetCode, trigger: 'blur'}],
         }
@@ -213,7 +214,7 @@
     methods: {
       onGetAmount(){
         if (!isNaN(this.dataForm.getAmount)) {
-          let amount = this.dataForm.realAmount - this.dataForm.getAmount - this.dataForm.totalBorrowAmount;
+          let amount = this.$util.bigDSubtract(this.$util.bigDSubtract(this.dataForm.realAmount, this.dataForm.getAmount, 2), this.dataForm.totalBorrowAmount, 2);
           if (amount >= 0) {
             this.dataForm.leftAmount = amount
           } else {
@@ -246,23 +247,7 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaGeamounapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.baId = result.baId
-                self.dataForm.getAmount = result.getAmount
-                self.dataForm.timeLimit = result.timeLimit
-                self.dataForm.getCode = result.getCode
-                self.dataForm.totalBorrowAmount = result.totalBorrowAmount
-                self.dataForm.leftAmount = result.leftAmount
-                self.dataForm.fromType = result.fromType
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })

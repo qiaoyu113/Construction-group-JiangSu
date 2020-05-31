@@ -14,7 +14,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_bid_procase_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_bid_promise_approval_process"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -179,10 +179,10 @@
         },
         dataRule: {
           bId: [
-            {required: false, message: '流程业务id不能为空', trigger: 'blur'}
+            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
           ],
           actTaskKey: [
-            {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
+            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           pcId: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}

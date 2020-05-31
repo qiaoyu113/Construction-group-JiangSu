@@ -75,7 +75,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="openTime" label="开户时间" :class="{'is-required': isBackFill}">
-            <el-date-picker type="datetime" :disabled="!isBackFill" v-model="dataForm.openTime"></el-date-picker>
+<!--            <t-datetime-picker type="date"  v-model="dataForm.openTime"></t-datetime-picker>-->
+            <t-datetime-picker v-model="dataForm.openTime" :disabled="!isBackFill" type="date"></t-datetime-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,8 +92,10 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import TDateTimePicker from "../../../components/TDateTimePicker";
 
   export default {
+    components: {TDateTimePicker},
     data () {
       var checkBankName = (rule, value, callback) => {
         if (this.isBackFill && (this.dataForm.bankName == '' || this.dataForm.bankName == undefined)) callback(new Error('开户行名称不能为空'));

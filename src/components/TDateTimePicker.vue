@@ -95,8 +95,6 @@
         }
       }
     },
-    mounted() {
-    },
     computed: {
       valueFormat: {
         get: function () {
