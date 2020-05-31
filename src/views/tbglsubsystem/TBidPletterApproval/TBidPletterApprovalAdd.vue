@@ -285,7 +285,8 @@
                 })
                 let params2 = {
                   filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
-                  id: result.pcId
+                  pcId: result.pcId,
+                  plCode: result.pId
                 } 
                 tapp.services.tBidPromiseApproval.getPagedList(params2).then(resp => {
                   if(resp && resp.items && resp.items.length > 0) {
