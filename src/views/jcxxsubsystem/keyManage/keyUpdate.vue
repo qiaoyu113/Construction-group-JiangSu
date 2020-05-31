@@ -73,7 +73,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效期至" prop="expirationDate" >
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly"></t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -286,7 +286,9 @@
                 tapp.services.base_User.getAllUsers(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.principalId})
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                    if(item && item.name) {
+                      self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                    }
                   }
                 })
               })
