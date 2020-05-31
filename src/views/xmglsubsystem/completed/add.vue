@@ -32,9 +32,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="2">
-            <a>项目详细信息</a>
-            <!-- <el-form-item prop="actTaskKey" label="">
-            </el-form-item> -->
+            <a style="line-height: 36px;">项目详细信息</a>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proCode" label="项目编号：">
