@@ -84,8 +84,8 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item prop="province" label="外出经营地">
-              <t-region-picker disabled :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
-                               :readOnly="readOnly"></t-region-picker>
+              <t-region-picker read-only="true" :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
+                               :disabled="readOnly"></t-region-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -133,6 +133,7 @@
 <script>
   import moment from "moment";
   import {mapState} from "vuex";
+  import find from "lodash/find";
 
   export default {
     data () {
@@ -221,7 +222,6 @@
     methods: {
       // 选择项目
       selectedData(data) {
-        debugger
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.pId = data.pId
         this.dataForm.lId = data.id
@@ -232,10 +232,10 @@
         this.dataForm.proSubCompany = data.proSubCompany
         this.dataForm.taxMethod = data.taxMethod
         this.dataForm.applyAmount = data.applyAmount
-        this.dataForm.address = data.address
         this.dataForm.district = data.district
         this.dataForm.city = data.city
         this.dataForm.province = data.province
+        this.dataForm.address = data.address
         this.dataForm.companyName = data.companyName
         this.dataForm.proPlanDate = [data.proPlanStartDate + ' 00:00:00',data.proPlanEndDate + ' 00:00:00']
         this.dataForm.startDate = [data.startDate,data.endDate]
@@ -249,18 +249,22 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCtaxationLogoffApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.lId = result.lId
-                self.dataForm.logoffDate = result.logoffDate
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.proPlanDate = [self.dataForm.proPlanStartDate + ' 00:00:00', self.dataForm.proPlanEndDate + ' 00:00:00']
+                self.dataForm.startDate = [self.dataForm.startDate + ' 00:00:00', self.dataForm.endDate + ' 00:00:00']
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })

@@ -26,8 +26,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proCode" label="项目备案编号">
-              <el-input v-model="dataForm.proCode" placeholder="系统自动生成" readonly></el-input>
+            <el-form-item prop="proCode" label="项目备案编号:">
+              <el-input v-model="dataForm.proCode" placeholder="系统自动生成" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -153,21 +153,9 @@
 </template>
 
 <script>
-
   import moment from 'moment'
   import {mapState} from 'vuex'
-  import baseView from "../../../base/baseView";
-
   export default {
-    name: 'myTask',
-    extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -212,10 +200,15 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: '',
+          datastatus: ''
         },
         dataRule: {
-
+          bId: [
+            {required: true, message: '流程业务id不能为空', trigger: 'blur'}
+          ],
+          actTaskKey: [
+            {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
+          ],
           proCode: [
             {required: false, message: '项目备案编号不能为空', trigger: 'blur'}
           ],
@@ -266,7 +259,7 @@
           ],
           brRemark: [
             {required: false, message: '投标结果备注不能为空', trigger: 'blur'}
-          ],
+          ]
         }
       }
     },
@@ -284,7 +277,7 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
     methods: {
@@ -293,7 +286,7 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
@@ -306,7 +299,7 @@
             this.dataForm.sign = this.currentUser.userDisplayName
             this.getUserWithDepartments()
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
@@ -319,7 +312,7 @@
       },
       getUserWithDepartments() {
         if (this.currentUser && this.currentUser.userId) {
-          let self = this;
+          let self = this
           tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
             if (result) {
               // console.log('result', result)
@@ -331,25 +324,25 @@
       },
       // 表单提交
       doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBidProcaseApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
-      },
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
+      }
     }
   }
 </script>

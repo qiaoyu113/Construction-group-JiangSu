@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_takeback_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -183,6 +183,7 @@
         readOnly: false,
         dialogVisible: false,
         isPay: false,
+        isBackFill: false,
         dataForm: {
           poAmount:'',
           psAmount:'',
@@ -276,12 +277,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -309,15 +312,7 @@
         if (!data.lNum) {
           this.dataRule.lNum[0].required = false
         }
-        if (data.rType == 'yfk') {
-          this.dataRule.paidOAmount[0].required = true
-          this.dataRule.paidSAmount[0].required = true
-        } else {
-          this.dataRule.paidOAmount[0].required = false
-          this.dataRule.paidSAmount[0].required = false
-        }
-        // this.data.paidOAmount = data.oAmount
-        // this.data.paidSAmount = data.sAmount
+        this.isRType(data.rType)
         // 如果是自营模式
         if (this.dataForm.proRunMode == 'proprietary') {
           this.dataRule.oAmount[0].required = false
@@ -358,9 +353,17 @@
           }
         }
       },
+      isRType(rType){
+        if (rType == 'yfk') {
+          this.dataRule.paidOAmount[0].required = true
+          this.dataRule.paidSAmount[0].required = true
+        } else {
+          this.dataRule.paidOAmount[0].required = false
+          this.dataRule.paidSAmount[0].required = false
+        }
+      },
       // getDetailByRId 获取最近的预付款记录,根据到账ID
       getDetailByRId(rId) {
-        console.log(rId)
         if (!rId) {
           console.log('获取预付款信息 错误')
           return
@@ -395,28 +398,15 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaTakebackApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaTakebackApproval.pId
-                self.dataForm.rId = result.finaTakebackApproval.rId
-                self.dataForm.mangementRatio = result.finaTakebackApproval.mangementRatio
-                self.dataForm.deductAmount = result.finaTakebackApproval.deductAmount
-                self.dataForm.realAmount = result.finaTakebackApproval.realAmount
-                self.dataForm.sAmount = result.finaTakebackApproval.sAmount
-                self.dataForm.oAmount = result.finaTakebackApproval.oAmount
-                self.dataForm.paidSAmount = result.finaTakebackApproval.paidSAmount
-                self.dataForm.paidOAmount = result.finaTakebackApproval.paidOAmount
-                self.dataForm.approvalStatus = result.finaTakebackApproval.approvalStatus
-                self.dataForm.sign = result.finaTakebackApproval.sign
-                self.dataForm.signTime = result.finaTakebackApproval.signTime
-                self.dataForm.propose = result.finaTakebackApproval.propose
-                self.dataForm.result = result.finaTakebackApproval.result
-                self.dataForm.createtime = result.finaTakebackApproval.createtime
-                self.dataForm.updatetime = result.finaTakebackApproval.updatetime
-                self.dataForm.createuser = result.finaTakebackApproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.isRType(self.dataForm.rType)
+                if (!self.dataForm.lNum) {
+                  self.dataRule.lNum[0].required = false
+                }
               })
             }
           })

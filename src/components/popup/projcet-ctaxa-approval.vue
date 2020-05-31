@@ -69,7 +69,7 @@
       },
       placeholder: {
         type: String,
-        default: '选择项目信息',
+        default: '选择外经证号信息',
         required: false
       },
       readOnly: {
@@ -223,8 +223,8 @@
       this.currentValue = this.value
     },
     watch: {
-      currentValue(newValue, oldValue) {
-
+      value(val) {
+        this.currentValue = val
       }
     },
     activated() {

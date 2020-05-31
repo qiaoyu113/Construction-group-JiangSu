@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_binvoice_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -24,17 +24,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="proName" label="项目名称">
-            <t-bank-project-select :readonly="true" @selectedData="selectedData"></t-bank-project-select>
+            <t-bank-project-select :readOnly="readOnly" v-model="dataForm.proName" @selectedData="selectedData"></t-bank-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item  prop="proSubCompany"  label="所属公司">
-            <t-input :readonly="true" v-model="dataForm.proSubCompany"></t-input>
+            <t-input v-model="dataForm.proSubCompany" :readonly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="proAddress" label="项目地址">
-            <t-input v-model="dataForm.proAddress"></t-input>
+            <t-input v-model="dataForm.proAddress" :readonly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -64,22 +64,22 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户账号">
-            <t-input :readonly="readOnly" v-model="dataForm.bankAccount"></t-input>
+            <t-input :readonly="readOnly" v-model="dataForm.bankAccount" ></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同名称">
-            <t-input :readonly="true" v-model="dataForm.conName"></t-input>
+            <t-input v-model="dataForm.conName" :readonly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同期间">
-            <t-datetime-range-picker disabled v-model="dataForm.conPeriod"></t-datetime-range-picker>
+            <t-datetime-range-picker disabled v-model="dataForm.conPeriod" :readonly="readOnly"></t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额">
-            <t-input :readonly="true" v-model="dataForm.conTotal"></t-input>
+            <t-input v-model="dataForm.conTotal" :readonly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,8 +124,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="已开票金额">
-            <t-currency-input disabled v-model="dataForm.totalIamount">
+          <el-form-item label="已开票金额" >
+            <t-currency-input disabled v-model="dataForm.totalIamount" :readonly="readOnly">
               <span slot="append">元</span>
             </t-currency-input>
           </el-form-item>
@@ -137,14 +137,14 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="可抵扣分包金额">
-            <t-currency-input :readonly="readOnly"  v-model="dataForm.deductAmount">
+            <t-currency-input :readonly="readOnly"  v-model="dataForm.deductAmount" >
               <span slot="append">元</span>
             </t-currency-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="已抵扣分包金额">
-            <t-currency-input disabled v-model="dataForm.totalDamount">
+            <t-currency-input disabled v-model="dataForm.totalDamount" :readonly="readOnly">
               <span slot="append">元</span>
             </t-currency-input>
           </el-form-item>
@@ -228,7 +228,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="交税日期">
-            <t-datetime-picker v-model="dataForm.paymentDate" type="date"></t-datetime-picker>
+            <t-datetime-picker v-model="dataForm.paymentDate" type="date" :readonly="readOnly"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -243,7 +243,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="invoiceNum" label="发票号码" :class="{'is-required': isBackFill}">
-            <t-input :disabled="!isBackFill" v-model="dataForm.invoiceNum" placeholder="开票后由专人填入"></t-input>
+            <t-input :disabled="!isBackFill" v-model="dataForm.invoiceNum" :readonly="readOnly" placeholder="开票后由专人填入"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -252,12 +252,12 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
+          <el-form-item prop="sign" :readonly="readOnly" label="经办人">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="经办时间">
+          <el-form-item prop="signTime" :readonly="readOnly" label="经办时间">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -300,12 +300,17 @@
         dialogVisible: false,
         isBackFill: false,
         dataForm: {
-          bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',invoiceType: '',levyRate: '',isLevyTax: '',levyTaxNum: '',invoiceAmount: '',deductAmount: '',
-          isReceivables: '',vat: '',uct: '',est: '',lest: '',st: '',cit: '',pit: '',ot: '',taxBureau: '',taxStartTime: '',taxEndTime: '',
-          paymentDate: '',lId: '',invoiceDate: '',invoiceNum: '',approvalStatus: '',sign: '',signTime: '',propose: '',result: '',
-          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',conPeriod: '',taxNo: '',secompanyTel: '',
-          secompanyAddress: '',secompanyName: '',proAddress: '',bankName: '', bankAccount:'',proName: '',proSubCompany:'',totalIamount:'',totalDamount:'',
-          proCode:''
+          bId: '',actTaskKey: '',pId: '',cId: '',taxMethod: '',invoiceType: '',
+          levyRate: '',isLevyTax: '',levyTaxNum: '',invoiceAmount: '',deductAmount: '',
+          isReceivables: '',vat: '',uct: '',est: '',lest: '',st: '',cit: '',pit: '',
+          ot: '',taxBureau: '',taxStartTime: '',taxEndTime: '',
+          paymentDate: '',lId: '',invoiceDate: '',invoiceNum: '',approvalStatus: '',
+          sign: '',signTime: '',propose: '',result: '',
+          createtime: '',updatetime: '',createuser: '',updateuser: '',datastatus: '',
+          conPeriod: '',taxNo: '',secompanyTel: '',
+          secompanyAddress: '',secompanyName: '',proAddress: '',bankName: '',
+          bankAccount:'',proName: '',proSubCompany:'',totalIamount:'',totalDamount:'',
+          proCode:'',remark:''
         },
         dataRule: {
           proName: [
@@ -313,6 +318,9 @@
           ],
           sign: [
             { required: true, message: '执行人不能为空', trigger: 'blur' }
+          ],
+          signTime: [
+            { required: true, message: '执行时间不能为空', trigger: 'blur' }
           ],
           invoiceDate: [{validator: checkInvoiceDate, trigger: 'blur'}],
           invoiceNum: [{validator: checkInvoiceNum, trigger: 'blur'}],
@@ -355,8 +363,6 @@
       },
       // 选择项目
       selectedData(data) {
-        debugger
-        this.resetFields()
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm.pId = data.pId
         this.dataForm.cId = data.cId
@@ -370,8 +376,9 @@
         this.dataForm.proAddress = data.proAddressProvince + data.proAddressCity + data.proAddressDetail
         this.dataForm.conTotal = data.conTotal
         this.dataForm.proSubCompany = data.proSubCompany
-        this.dataForm.secompanyName = data.companyName
+        this.dataForm.secompanyName = data.secompanyName
         this.dataForm.conPeriod = [data.conStartDate + ' 00:00:00', data.conEndDate + ' 00:00:00'];
+        this.dataForm.taxNo = '我是假数据'
         this.findTotalSum();
       },
       // 初始化 编辑和新增 2种情况
@@ -383,40 +390,19 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaBinvoiceApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.cId = result.cId
-                self.dataForm.taxMethod = result.taxMethod
-                self.dataForm.invoiceType = result.invoiceType
-                self.dataForm.levyRate = result.levyRate
-                self.dataForm.isLevyTax = result.isLevyTax
-                self.dataForm.levyTaxNum = result.levyTaxNum
-                self.dataForm.invoiceAmount = result.invoiceAmount
-                self.dataForm.deductAmount = result.deductAmount
-                self.dataForm.isReceivables = result.isReceivables
-                self.dataForm.vat = result.vat
-                self.dataForm.uct = result.uct
-                self.dataForm.est = result.est
-                self.dataForm.lest = result.lest
-                self.dataForm.st = result.st
-                self.dataForm.cit = result.cit
-                self.dataForm.pit = result.pit
-                self.dataForm.ot = result.ot
-                self.dataForm.taxBureau = result.taxBureau
-                self.dataForm.taxStartTime = result.taxStartTime
-                self.dataForm.taxEndTime = result.taxEndTime
-                self.dataForm.paymentDate = result.paymentDate
-                self.dataForm.lId = result.lId
-                self.dataForm.invoiceDate = result.invoiceDate
-                self.dataForm.invoiceNum = result.invoiceNum
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+                self.dataForm.taxStartTime = [self.dataForm.taxStartTime + ' 00:00:00', self.dataForm.taxEndTime + ' 00:00:00']
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                })
               })
             }
           })
@@ -428,7 +414,6 @@
           })
         }
       },
-      // 获取已经开票金额
       findTotalSum () {
         let self = this;
         let model = { ...self.dataForm };

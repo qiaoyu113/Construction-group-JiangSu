@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_rpdelay_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -283,25 +283,11 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaRpdelayApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaRpdelayApproval.pId
-                self.dataForm.gId = result.finaRpdelayApproval.gId
-                self.dataForm.getAmount = result.finaRpdelayApproval.getAmount
-                self.dataForm.tiimeLimit = result.finaRpdelayApproval.tiimeLimit
-                self.dataForm.getCode = result.finaRpdelayApproval.getCode
-                self.dataForm.approvalStatus = result.finaRpdelayApproval.approvalStatus
-                self.dataForm.sign = result.finaRpdelayApproval.sign
-                self.dataForm.signTime = result.finaRpdelayApproval.signTime
-                self.dataForm.propose = result.finaRpdelayApproval.propose
-                self.dataForm.result = result.finaRpdelayApproval.result
-                self.dataForm.createtime = result.finaRpdelayApproval.createtime
-                self.dataForm.updatetime = result.finaRpdelayApproval.updatetime
-                self.dataForm.createuser = result.finaRpdelayApproval.createuser
-
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })

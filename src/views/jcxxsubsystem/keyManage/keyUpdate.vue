@@ -73,7 +73,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效期至" prop="expirationDate" >
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :readOnly="readOnly"></t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -88,7 +88,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="mainChargeName" label="主要负责人">
-              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge=""></t-maincharge-select>
+              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge="getSelectedName"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -164,8 +164,6 @@
         sealCount: '',
         subCompany: '',
         dataForm: {
-          id: '',
-          actTaskKey: '',
           province: '',
           city: '',
           keyType: '',
@@ -181,7 +179,6 @@
           existElectMark: '',
           remark: '',
           password: '',
-          isInput: '',
           sign: '',
           signTime: '',
           flag: '1',
@@ -286,7 +283,9 @@
                 tapp.services.base_User.getAllUsers(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.principalId})
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                    if(item && item.name) {
+                      self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                    }
                   }
                 })
               })
@@ -302,7 +301,8 @@
         this.getUserWithDepartments()
       },
       getSelectedName(main) {
-        this.dataForm.principalId = main.id
+        console.log('main', main)
+        this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, {principalId: main.id})
       },
       getUserWithDepartments() {
         if(this.currentUser && this.currentUser.userId) {
@@ -316,8 +316,7 @@
       },
       // 表单提交
       doSave () {
-        let self = this
-        let validPromises = [self.$refs['ruleForm'].validate()]
+        let validPromises = [this.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
           this.submitDialogVisible = true;
           // let model = {...self.dataForm};
@@ -328,7 +327,7 @@
           //   });
           // });
         }).catch(function (e) {
-          self.$notify.error({
+          this.$notify.error({
             title: '错误',
             message: '保存失败！'
           })

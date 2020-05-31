@@ -279,7 +279,8 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          dateRange: []
         },
         dataRule: {
           pId: [
@@ -304,25 +305,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              tapp.services.proCompletedApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bId = result.proCompletedApproval.bId
-                this.dataForm.actTaskKey = result.proCompletedApproval.actTaskKey
-                this.dataForm.pId = result.proCompletedApproval.pId
-                this.dataForm.completedTime = result.proCompletedApproval.completedTime
-                this.dataForm.remark = result.proCompletedApproval.remark
-                this.dataForm.sign = result.proCompletedApproval.sign
-                this.dataForm.signTime = result.proCompletedApproval.signTime
-                this.dataForm.approvalStatus = result.proCompletedApproval.approvalStatus
-                this.dataForm.propose = result.proCompletedApproval.propose
-                this.dataForm.result = result.proCompletedApproval.result
-                this.dataForm.createtime = result.proCompletedApproval.createtime
-                this.dataForm.updatetime = result.proCompletedApproval.updatetime
-                this.dataForm.createuser = result.proCompletedApproval.createuser
-                this.dataForm.updateuser = result.proCompletedApproval.updateuser
-                this.dataForm.datastatus = result.proCompletedApproval.datastatus
+              tapp.services.proCompletedApproval.get(id).then((result) => {
+                this.dataForm.dateRange = [result.startDateBegin, result.startDateEnd]
+                this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, result)
               })
             }
           })
@@ -335,8 +322,8 @@
         }
       },
       onStartDateRangeChanged (val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
+        this.dataForm.startDateBegin = val[0]
+        this.dataForm.startDateEnd = val[1]
       },
       getSelectedProject(project) {
         console.log('current project', project);
