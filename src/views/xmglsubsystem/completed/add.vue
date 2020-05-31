@@ -27,8 +27,8 @@
         <t-sub-title :title="'项目信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="14">
-            <el-form-item label="项目名称：" prop="pName">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.pName" :readOnly="readOnly" @selectedProject="getSelectedProject"></t-project-select>
+            <el-form-item label="项目名称：" prop="pId">
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.pId" :readOnly="readOnly" @selectedProject="getSelectedProject"></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="2">
@@ -290,7 +290,7 @@
           conBcxyTotal: ''
         },
         dataRule: {
-          pName: [
+          pId: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           completedTime: [

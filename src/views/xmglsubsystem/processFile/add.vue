@@ -32,7 +32,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -200,12 +200,12 @@
                   params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
                     id: result.pId
-                  } 
+                  }
                 } else {
                   params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
                     proName: result.pId
-                  } 
+                  }
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
