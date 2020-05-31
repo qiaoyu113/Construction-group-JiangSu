@@ -64,8 +64,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="注销时间：" :class="{'is-required': isBackFill}">
-            <el-date-picker type="datetime" placeholder="申请完成后，填写注销时间" :disabled="!isBackFill"
-                            v-model="dataForm.cancelTime"></el-date-picker>
+            <t-datetime-picker type="date" placeholder="申请完成后，填写注销时间" :disabled="!isBackFill"
+                            v-model="dataForm.cancelTime"></t-datetime-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,20 +147,16 @@
       }
     },
     created() {
-      debugger
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
-      console.log("currentQuery:" + currentQuery)
       this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
-      debugger
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
-      console.log("currentQuery:" + currentQuery)
       this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },

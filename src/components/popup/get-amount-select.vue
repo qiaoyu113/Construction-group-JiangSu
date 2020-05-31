@@ -114,13 +114,11 @@
                 prop: 'getCode',
                 label: '借款合同编号',
                 sortable: true,
-                width: 150,
               },
               {
               prop: 'proCode',
               label: '项目编号',
               sortable: true,
-              width: 150,
             },
               {
                 prop: 'proName',
@@ -180,9 +178,9 @@
       },
       proChoose() {
         //传送到父组件
-        this.currentValue = this.selectProject.proName;
+        this.currentValue = this.selectProject.getCode;
         this.$emit('selectedProject', this.selectProject);
-        this.$emit('input', this.selectProject.id);
+        this.$emit('input', this.selectProject.getCode);
         this.doReset();
         this.dialogFormVisible = false
       },

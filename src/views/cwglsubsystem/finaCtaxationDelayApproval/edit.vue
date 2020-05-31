@@ -81,8 +81,10 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="province" label="外出经营地">
-            <t-region-picker disabled :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
-                             :readOnly="readOnly"></t-region-picker>
+<!--            <t-region-picker disabled :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"-->
+<!--                             :readOnly="readOnly"></t-region-picker>-->
+            <t-region-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :district.sync="dataForm.district"
+                             :disabled="readOnly"></t-region-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -130,6 +132,7 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import find from "lodash/find";
 
   export default {
     data () {
@@ -230,22 +233,26 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
-                        if (this.dataForm.id) {
+            this.$refs["ruleForm"].resetFields()
+            if (this.dataForm.id) {
               let self = this;
               tapp.services.finaCtaxationDelayApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaCtaxationDelayApproval.pId
-                self.dataForm.lId = result.finaCtaxationDelayApproval.lId
-                self.dataForm.delayDate = result.finaCtaxationDelayApproval.delayDate
-                self.dataForm.approvalStatus = result.finaCtaxationDelayApproval.approvalStatus
-                self.dataForm.sign = result.finaCtaxationDelayApproval.sign
-                self.dataForm.signTime = result.finaCtaxationDelayApproval.signTime
-                self.dataForm.propose = result.finaCtaxationDelayApproval.propose
-                self.dataForm.result = result.finaCtaxationDelayApproval.result
-                self.dataForm.createtime = result.finaCtaxationDelayApproval.createtime
-                self.dataForm.updatetime = result.finaCtaxationDelayApproval.updatetime
-                self.dataForm.createuser = result.finaCtaxationDelayApproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.proPlanDate = [self.dataForm.proPlanStartDate + ' 00:00:00', self.dataForm.proPlanEndDate + ' 00:00:00']
+                self.dataForm.startDate = [self.dataForm.startDate + ' 00:00:00', self.dataForm.endDate + ' 00:00:00']
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })

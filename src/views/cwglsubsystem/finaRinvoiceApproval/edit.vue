@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="t_fina_key_rinvoice_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -24,7 +24,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="fInvoiceNum" label="蓝字发票号码">
-            <el-input v-model="dataForm.fInvoiceNum" @change="getByInvoiceNum"></el-input>
+            <el-input v-model="dataForm.fInvoiceNum" @change="getByInvoiceNum" :readonly="readOnly"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -106,7 +106,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同金额" prop="conTotal">
-            <el-input  v-model="dataForm.conTotal" disabled></el-input>
+            <el-input  v-model="dataForm.conTotal" disabled ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -115,7 +115,7 @@
       <t-sub-title :title="'红字开票信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="申请开票金额" prop="invoiceAmount">
+          <el-form-item label="申请开票金额" prop="invoiceAmount" :readonly="readOnly">
             <t-currency-input v-model="dataForm.invoiceAmount">
               <span slot="append">元</span>
             </t-currency-input>
@@ -135,7 +135,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="红字申请理由" prop="reason">
-            <el-input type="textarea" v-model="dataForm.reason"></el-input>
+            <el-input type="textarea" v-model="dataForm.reason" :readonly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -157,7 +157,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item prop="remark" label="备注">
-            <el-input type="textarea" v-model="dataForm.remark"></el-input>
+            <el-input type="textarea" v-model="dataForm.remark" :readonly="readOnly"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -174,7 +174,7 @@
   import moment from 'moment'
   import { mapState } from 'vuex'
   export default {
-    
+
     data () {
       var checkInvoiceDate = (rule, value, callback) => {
         if (this.isBackFill && (this.dataForm.invoiceDate == '' || this.dataForm.invoiceDate == undefined)) callback(new Error('注销时间不能为空'));
@@ -270,22 +270,21 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.finaRinvoiceApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.pId
-                self.dataForm.biId = result.biId
-                self.dataForm.invoiceAmount = result.invoiceAmount
-                self.dataForm.reason = result.reason
-                self.dataForm.invoiceDate = result.invoiceDate
-                self.dataForm.invoiceCode = result.invoiceCode
-                self.dataForm.invoiceNum = result.invoiceNum
-                self.dataForm.approvalStatus = result.approvalStatus
-                self.dataForm.sign = result.sign
-                self.dataForm.signTime = result.signTime
-                self.dataForm.propose = result.propose
-                self.dataForm.result = result.result
-                self.dataForm.createtime = result.createtime
-                self.dataForm.updatetime = result.updatetime
-                self.dataForm.createuser = result.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+                let params = {
+                  filters: {},
+                  maxResultCount: 20,
+                  skipCount: 1,
+                  sorting: "id descending",
+                  id: result.pId
+                }
+                tapp.services.finaFwaccounapproval.getFinaBankList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {id: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })
