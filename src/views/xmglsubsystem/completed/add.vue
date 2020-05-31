@@ -290,7 +290,7 @@
           conBcxyTotal: ''
         },
         dataRule: {
-          pId: [
+          pName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           completedTime: [
