@@ -5,14 +5,26 @@
         <el-button @click="openDialog" type="primary">到账：承兑汇票</el-button>
       </el-col>
       <el-col :span="6">
-        <span>小计金额：{{ totalAmount }}万元</span>
+        <span>小计金额：{{ $util.moneyFormat(totalAmount) }}万元</span>
       </el-col>
     </el-row>
     <el-table :data="dataInfo" border size="mini">
       <el-table-column align="center" label="票号" prop="lNum"></el-table-column>
-      <el-table-column align="center" label="金额（万元）" prop="aoAmount"></el-table-column>
-      <el-table-column align="center" label="管理费" prop="technicalTitle"></el-table-column>
-      <el-table-column align="center" label="本次付款金额（万元）" prop="asAmount"></el-table-column>
+      <el-table-column align="center" label="金额（万元）" prop="payment">
+        <template slot-scope="scope">
+          <span>{{ $util.moneyFormat(scope.row.payment) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="管理费" prop="technicalTitle">
+        <template slot-scope="scope">
+          <el-tag>未交</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="本次付款金额（万元）" prop="payment">
+        <template slot-scope="scope">
+          <span>{{ $util.moneyFormat(scope.row.payment) }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <el-dialog title="项目到帐请款列表" :visible.sync="dialogVisible" width='80%' center @click="openDialog">
       <t-form ref="search" label-width="120px" :model="gridOptions.dataSource.serviceInstanceInputParameters">
@@ -20,7 +32,7 @@
           <el-button type="primary" @click="choose">
             确定
           </el-button>
-          <el-button type="info" @click="dialogVisible = false">
+          <el-button type="info" @click="cancel">
             取消
           </el-button>
         </el-row>
@@ -180,11 +192,18 @@
         this.$emit('selectedData', this.dataInfo)
         this.doReset()
       },
+      // 点击取消
+      cancel () {
+        this.dialogVisible = false
+        this.doReset()
+      },
       // 计算小计
       setTotalAmount (data) {
         let sum = 0
         data.map(v => {
-          sum += Number(v.aoAmount)
+          if (v.payment) {
+            sum += Number(v.payment)
+          }
         })
         this.totalAmount = sum
       }

@@ -195,15 +195,24 @@
               let self = this;
               tapp.services.proProcessFileApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
-                let params = {
-                  filters: {},
-                  maxResultCount: 20,
-                  skipCount: 1,
-                  sorting: "id descending",
-                  id: result.pId
-                };
+                let params = {}
+                if(/^\d$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  }
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  }
+                }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    self.dataForm.pName = self.dataForm.proName
+                    self.dataForm.pId = self.dataForm.id
+                  }
                 })
               })
             }
@@ -227,6 +236,7 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.pName = project.proName;
+        this.dataForm.pId = project.id;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },
