@@ -27,8 +27,8 @@
         <t-sub-title :title="'项目信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="14">
-            <el-form-item label="项目名称：" prop="pId">
-              <t-project-select placeholder="选择一个项目" v-model="dataForm.pId" :readOnly="readOnly" @selectedProject="getSelectedProject"></t-project-select>
+            <el-form-item label="项目名称：" prop="pName">
+              <t-project-select placeholder="选择一个项目" v-model="dataForm.pName" :readOnly="readOnly" @selectedProject="getSelectedProject"></t-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="2">
@@ -260,6 +260,7 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+  import find from 'lodash/find'
 
   export default {
     data() {
@@ -327,18 +328,24 @@
               let self = this;
               tapp.services.proCompletedApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                let params = {
-                  filters: {},
-                  maxResultCount: 20,
-                  skipCount: 1,
-                  sorting: "id descending",
-                  id: result.pId
-                };
+                let params = {}
+                if(/^\d$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  } 
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  } 
+                }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('_result', _result)
                   if(_result && _result.items && _result.items.length > 0) {
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
-                    self.dataForm.pName = _result.proName
-                    self.dataForm.pId = _result.id
+                    self.dataForm.pName = _result.items[0].proName
+                    self.dataForm.pId = _result.items[0].id
                   }
                 })
               })
