@@ -79,8 +79,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="pId" label="投标保函申请:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.pId"
-                                  :readOnly="true"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.pId" :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -242,7 +241,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
-        this.dataForm.pId = pcId.id
+        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompany = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
@@ -277,7 +276,11 @@
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    let item;
+                    item = find(_result.items, {id: result.pcId})
+                    if(!item) item = find(_result.items, {proName: result.pcId})
+                    console.log('item',item)
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                   }
                 })
                 let params2 = {
