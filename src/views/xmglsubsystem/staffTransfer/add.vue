@@ -185,7 +185,7 @@
               tapp.services.proStaffTransferApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
                 let params = {}
-                if(/^\d$/.test(result.pId)) {
+                if(/^[0-9]*$/.test(result.pId)) {
                   params = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pId

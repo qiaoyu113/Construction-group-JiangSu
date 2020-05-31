@@ -26,7 +26,7 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称:" prop="pcId">
+            <el-form-item label="项目名称:" prop="proNameA">
               <t-record-select v-model="dataForm.proNameA" @selectedRecord="getSelectedRecord"
                                :readOnly="readOnly"></t-record-select>
             </el-form-item>
@@ -202,6 +202,7 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+  import find from 'lodash/find'
 
   export default {
     data() {
@@ -254,6 +255,9 @@
           ],
           pcId: [
             {required: true, message: '项目备案名称不能为空', trigger: 'blur'}
+          ],
+          proNameA: [
+            {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           proName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
@@ -395,41 +399,36 @@
               let self = this
               tapp.services.tBidProbidApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                let params1 = {}
-                if(/^\d$/.test(result.pId)) {
-                  params1 = {
+                let params = {}
+                if(/^[0-9]*$/.test(result.pcId)) {
+                  params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
-                    id: result.pId
+                    id: result.pcId
                   } 
                 } else {
-                  params1 = {
+                  params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
-                    proName: result.pId
+                    proName: result.pcId
                   } 
                 }
-                tapp.services.proInfo.getPagedList(params1).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) {
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
-                    self.dataForm.proNameA = _result.items[0].proName
-                    self.dataForm.proRunModeA = _result.items[0].proRunMode
-                    self.dataForm.proSubCompanyA = _result.items[0].proSubCompany
-                    self.dataForm.proBusDeptA = _result.items[0].proBusDept
-                    self.dataForm.proConstructCompanyA = _result.items[0].proConstructCompany
-                    self.dataForm.proContractAttrA = _result.items[0].proContractAttr
-                    self.dataForm.proTotalInvestmentA = _result.items[0].proTotalInvestment
-                    self.dataForm.proTypeA = _result.items[0].proType
-                    self.dataForm.proBuildAreaA = _result.items[0].proBuildArea
-                  }
-                })
-                let params2 = {
-                  filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
-                  id: result.pcId
-                }
-                tapp.services.tBidProcaseApproval.getPagedList(params2).then(resp => {
+                tapp.services.tBidProcaseApproval.getPagedList(params).then(resp => {
                   if(resp && resp.items && resp.items.length > 0) {
-                    let item = find(resp.items, {id: result.pcId})
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                    let item;
+                    item = find(resp.items, {id: result.pcId})
+                    if(!item) item = find(resp.items, {proName: result.pcId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {
+                      proNameA: item.proName,
+                      proRunModeA: item.proRunMode,
+                      proSubCompanyA: item.proSubCompany,
+                      proBusDeptA: item.proBusDept,
+                      proConstructCompanyA: item.proConstructCompany,
+                      proContractAttrA: item.proContractAttr,
+                      proTotalInvestmentA: item.proTotalInvestment,
+                      proTypeA: item.proType,
+                      proBuildAreaA: item.proBuildArea,
+                    })
                   }
+
                 })
               })
             }

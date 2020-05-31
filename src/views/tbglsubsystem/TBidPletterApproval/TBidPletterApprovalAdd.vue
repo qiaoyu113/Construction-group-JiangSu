@@ -264,7 +264,7 @@
               tapp.services.tBidPletterApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params1 = {}
-                if(/^\d$/.test(result.pcId)) {
+                if(/^[0-9]*$/.test(result.pcId)) {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
