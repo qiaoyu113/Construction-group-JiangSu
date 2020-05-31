@@ -5,15 +5,27 @@
         <el-button @click="openDialog" type="primary">到账：预付款</el-button>
       </el-col>
       <el-col :span="6">
-        <span>小计金额：{{ totalAmount }}万元</span>
+        <span>小计金额：{{ $util.moneyFormat(totalAmount) }}万元</span>
       </el-col>
     </el-row>
     <el-table :data="dataInfo" border size="mini">
-      <el-table-column prop="staffName" label="可使用金额（万元）" align="center"></el-table-column>
-      <el-table-column prop="aoAmount" label="本次付款金额（万元）" align="center"></el-table-column>
+      <el-table-column prop="bRealAmount" label="可使用金额（万元）" align="center">
+        <template slot-scope="scope">
+          <span>{{ $util.moneyFormat(scope.row.bRealAmount) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="payment" label="本次付款金额（万元）" align="center">
+        <template slot-scope="scope">
+          <span>{{ $util.moneyFormat(scope.row.payment) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="本次付款扣除管理费" align="center">
         <el-table-column prop="achievement" label="管理费（%）" align="center"></el-table-column>
-        <el-table-column prop="achievement" label="扣款（万元）" align="center"></el-table-column>
+        <el-table-column prop="achievement" label="扣款（万元）" align="center">
+          <template slot-scope="scope">
+            <span>{{ $util.moneyFormat(scope.row.payment) }}</span>
+          </template>
+        </el-table-column>
       </el-table-column>
     </el-table>
     <el-dialog title="项目到帐请款列表" :visible.sync="dialogVisible" width='80%' center @click="openDialog">
@@ -22,7 +34,7 @@
           <el-button type="primary" @click="choose">
             确定
           </el-button>
-          <el-button type="info" @click="dialogVisible = false">
+          <el-button type="info" @click="cancel">
             取消
           </el-button>
         </el-row>
@@ -46,6 +58,7 @@
 
 <script>
   import baseView from '@/base/baseView'
+  import isEmpty from "lodash/isEmpty";
   export default {
     extends: baseView,
     props: {
@@ -81,12 +94,15 @@
               {
                 prop: 'proCode',
                 label: '项目编号',
-                width: 150
+                width: 170
               },
               {
-                prop: 'proSubCompany',
-                label: '到帐金额（万元）| 联营',
-                width: 200
+                prop: 'bRealAmount',
+                label: '可使用金额（万元）| 联营',
+                width: 200,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.moneyFormat(row.bRealAmount)
+                }
               },
               {
                 prop: 'rWay',
@@ -117,18 +133,24 @@
                 }
               },
               {
-                prop: 'proManager',
-                label: '本次付款金额（万元）| 联营',
-                width: 200,
+                prop: 'payment',
+                label: '本次付款金额（万元）|联营',
+                width: 180,
                 render: (h, params) => {
-                  console.log(h,params)
-                  return h('t-input', {
+                  return h('t-currency-input', {
                     props: {
-                      value: 0
+                      value: params.row.payment,
+                      unitValue: 10000
+                    },
+                    on: {
+                      input: function (event) {
+                        console.log('event', event)
+                        params.row.payment = event
+                      }
                     }
                   })
                 }
-              }
+              },
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
@@ -182,19 +204,43 @@
       },
       // 点击确定
       choose () {
+        if (this.validatorSelectedData()) {
+          this.dialogVisible = false
+          // 给承兑汇票的table赋值
+          this.dataInfo = this.selectedRows
+          this.setTotalAmount(this.dataInfo)
+          // 传送到父组件
+          this.$emit('selectedData', this.dataInfo)
+          this.doReset()
+        }
+      },
+      // 点击取消
+      cancel () {
         this.dialogVisible = false
-        // 给承兑汇票的table赋值
-        this.dataInfo = this.selectedRows
-        this.setTotalAmount(this.dataInfo)
-        // 传送到父组件
-        this.$emit('selectedData', this.dataInfo)
         this.doReset()
+      },
+      // 校验选中的数据是否填写了本次付款金额（万元）
+      validatorSelectedData () {
+        let isPass = true
+        for (let v of this.selectedRows) {
+          if (!v.payment) {
+            isPass = false
+            this.$notify.error({
+              title: '错误',
+              message: '选中的数据的【本次付款金额（万元）】不能为空'
+            })
+            break
+          }
+        }
+        return isPass
       },
       // 计算小计
       setTotalAmount (data) {
         let sum = 0
         data.map(v => {
-          sum += Number(v.aoAmount)
+          if (v.payment) {
+            sum += Number(v.payment)
+          }
         })
         this.totalAmount = sum
       }
