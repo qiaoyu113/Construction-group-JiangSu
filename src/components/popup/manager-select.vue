@@ -154,6 +154,11 @@
 		created() {
       this.currentValue = this.value;
     },
+    watch: {
+      value(val) {
+        this.currentValue = val;
+      }
+    },
 		methods: {
 			clearValidate() {
 				this.$nextTick((_) => {
@@ -176,7 +181,7 @@
         //传送到父组件
         this.currentValue = this.selectedManager.name;
         this.$emit('selectedManager', this.selectedManager);
-        this.$emit('input', this.selectedManager.id);
+        this.$emit('input', this.selectedManager.name);
         this.doReset();
         this.dialogFormVisible = false
       },
