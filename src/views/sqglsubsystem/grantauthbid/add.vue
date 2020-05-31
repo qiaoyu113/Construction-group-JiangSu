@@ -80,12 +80,12 @@
         <el-row :gutter="20">
           <el-col :span="16">
             <el-form-item prop="useScenes" label="授权用途：">
-              <t-dic-radio-select dicType="grant_use_type" v-model="dataForm.useScenes"></t-dic-radio-select>
+              <t-dic-radio-select dicType="grant_use_type" v-model="dataForm.useScenes" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
-              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
+              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser" :disabled="readOnly"
                                      ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
@@ -95,7 +95,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="授权内容：" prop="grantContent">
-              <el-input type="textarea" :rows="2" v-model="dataForm.grantContent"></el-input>
+              <el-input type="textarea" :rows="2" v-model="dataForm.grantContent" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -114,7 +114,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="备注：" prop="remark">
-              <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+              <el-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -132,6 +132,7 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import find from 'lodash/find'
   export default {
     data() {
       return {
@@ -156,7 +157,9 @@
           grantContent: '',
           sign: '',
           signTime: '',
-          remark: ''
+          remark: '',
+          pcId: '',
+          pId: ''
         },
         dataRule: {
           proName: [
@@ -204,10 +207,13 @@
                   maxResultCount: 20,
                   skipCount: 1,
                   sorting: "id descending",
-                  id: result.pId
+                  pcId: result.pcId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item = find(_result.items, {pcId: result.pcId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
                 })
               })
             }
@@ -232,6 +238,7 @@
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
         this.dataForm.pcId = project.pcId;
+        this.dataForm.pId = project.id;
       },
       // 表单提交
       doSave() {
