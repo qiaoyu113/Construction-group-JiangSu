@@ -394,7 +394,6 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidProbidApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params1 = {}
                 if(/^\d$/.test(result.pId)) {
@@ -411,7 +410,6 @@
                 tapp.services.proInfo.getPagedList(params1).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
-                    console.log('_result', _result)
                     self.dataForm.proNameA = _result.items[0].proName
                     self.dataForm.proRunModeA = _result.items[0].proRunMode
                     self.dataForm.proSubCompanyA = _result.items[0].proSubCompany
@@ -428,7 +426,6 @@
                   id: result.pcId
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params2).then(resp => {
-                  console.log('resp', resp)
                   if(resp && resp.items && resp.items.length > 0) {
                     let item = find(resp.items, {id: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
