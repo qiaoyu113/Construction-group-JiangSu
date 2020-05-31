@@ -9,11 +9,11 @@
       </el-col>
     </el-row>
     <el-table :data="dataInfo" border size="mini">
-      <el-table-column align="center" label="借款额度（万元）" prop="lNum"></el-table-column>
-      <el-table-column align="center" label="可使用借款额度（万元）" prop="aoAmount"></el-table-column>
-      <el-table-column align="center" label="本次付款金额（万元）" prop="technicalTitle"></el-table-column>
-      <el-table-column align="center" label="本次借款期限" prop="asAmount"></el-table-column>
-      <el-table-column align="center" label="借款合同编号" prop="asAmount">
+      <el-table-column align="center" label="借款额度（万元）" prop="realAmount"></el-table-column>
+      <el-table-column align="center" label="可使用借款额度（万元）" prop="liveAmount"></el-table-column>
+      <el-table-column align="center" label="本次付款金额（万元）" prop="payment"></el-table-column>
+      <el-table-column align="center" label="本次借款期限" prop="timeLimit"></el-table-column>
+      <el-table-column align="center" label="借款合同编号" prop="getCode">
         <template slot-scope="row">
           <t-input v-model="row.asAmount" placeholder="审批完成后回填" :readOnly="readOnly"></t-input>
         </template>
@@ -92,26 +92,36 @@ export default {
             },
 
             {
-              prop: 'proCode',
+              prop: 'bRealAmount',
               label: '项目借款额度（万元）',
               width: 200
             },
             {
-              prop: 'proCode',
+              prop: 'borrowDate',
               label: '借款日期'
             },
             {
-              prop: 'proCode',
+              prop: 'borrowDate',
               label: '借款额度期限',
               width: 120
             },
+            // 到账金额 rAmount- 累计借款款 totalBorrowAmount - realAmount
             {
-              prop: 'proCode',
+              prop: 'liveAmount',
               label: '剩余可用额度（万元）',
-              width: 200
+              width: 200,
+              render: (h, params) => {
+                return h('t-currency-input', {
+                  props: {
+
+                    value: params.row.rAmount - params.row.realAmount,
+                    unitValue: 10000
+                  }
+                })
+              }
             },
             {
-              prop: 'aoAmount',
+              prop: 'payment',
               label: '本次付款金额（万元）',
               width: 180,
               render: (h, params) => {
@@ -130,7 +140,7 @@ export default {
               }
             },
             {
-              prop: 'asAmount',
+              prop: 'timeLimit',
               label: '本次借款期限',
               width: 120,
               render: (h, params) => {
