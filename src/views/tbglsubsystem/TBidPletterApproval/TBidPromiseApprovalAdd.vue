@@ -77,6 +77,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -101,12 +103,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="generateTime" label="开立时间:">
-              <t-input v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
+              <t-datetime-picker v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="invalidTime" label="到期时间:">
-              <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
+              <t-datetime-picker v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">

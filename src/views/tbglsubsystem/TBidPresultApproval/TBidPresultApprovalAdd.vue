@@ -1,16 +1,8 @@
 <template>
   <div>
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">项目备案信息登记</div>
-      </el-col>
-    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
-        提交审批
-      </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
-        审批流程图
+        保存
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
@@ -67,12 +59,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-row :gutter="20" class="page-title">
+        <el-row :gutter="20" >
           <el-col :span="8">
             <el-form-item prop="bidResult" label="  投标结果">
-              <t-dic-radio-select dicType="bid_result" v-model="dataForm.bidResult"
-                                  readonly></t-dic-radio-select>
+              <t-dic-radio-select dicType="bid_result" v-model="dataForm.bidResult"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -164,14 +157,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.bidResult = result.tBidProcaseApproval.bidResult
-                this.dataForm.brUser = result.tBidProcaseApproval.brUser
-                this.dataForm.brTime = result.tBidProcaseApproval.brTime
-                this.dataForm.brRemark = result.tBidProcaseApproval.brRemark
               })
             }
           })

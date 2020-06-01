@@ -32,7 +32,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司:">
-              <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+              <el-input v-model="dataForm.proSubCompany1" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -150,11 +150,11 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="领用单位:">
-              <span>{{proSubCompany}}</span>
-            </el-form-item>
-          </el-col>
+            <el-col :span="8">
+              <el-form-item prop="proSubCompany" label="领用单位:">
+                <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+              </el-form-item>
+            </el-col>
           <el-col :span="8">
             <el-form-item prop="useScenes" label="用途:">
               <t-input v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
@@ -166,12 +166,12 @@
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="8">
             <el-form-item prop="getTime" label="领用时间:">
               <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="8">
             <el-form-item prop="returnTime" label="归还时间:">
               <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" :readOnly="readOnly"></el-input>
             </el-form-item>
@@ -349,7 +349,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
-        this.dataForm.proSubCompany = pcId.proSubCompany
+        this.dataForm.proSubCompany1 = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
         this.dataForm.proContractAttr = pcId.proContractAttr
@@ -360,6 +360,9 @@
         this.dataForm.authCompany = pcId.authCompany
         this.dataForm.province = pcId.proAddressProvince
         this.dataForm.city = pcId.proAddressCity
+        this.dataForm.proSubCompany = pcId.proSubCompany
+
+
 
 
       },

@@ -93,6 +93,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
