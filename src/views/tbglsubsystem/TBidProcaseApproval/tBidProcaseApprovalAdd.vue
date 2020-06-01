@@ -106,8 +106,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTracker" label="项目跟踪人:">
-              <t-manager-select v-model="dataForm.proTracker"
+            <el-form-item prop="proTrackerName" label="项目跟踪人:">
+              <t-manager-select v-model="dataForm.proTrackerName"
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
 
             </el-form-item>
@@ -185,6 +185,7 @@
           proBuildArea: '',
           planBidDate: '',
           proTracker: '',
+          proTracker: '',
           contactNum: '',
           bidResult: '',
           bidCount: '',
@@ -251,7 +252,7 @@
           planBidDate: [
             {required: false, message: '计划投标日期不能为空', trigger: 'blur'}
           ],
-          proTracker: [
+          proTrackerName: [
             {required: false, message: '项目跟踪人不能为空', trigger: 'blur'}
           ],
           contactNum: [
@@ -305,6 +306,7 @@
       },
       getSelectedManager(charge) {
         console.log('current charge', charge)
+        this.dataForm.proTracker = charge.id
         // charge为从弹窗框列表带出来的那一行的数据
         // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的charge的其他值，从这里的charge获取
