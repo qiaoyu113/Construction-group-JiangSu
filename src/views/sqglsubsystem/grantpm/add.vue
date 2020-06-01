@@ -87,7 +87,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="constructorLevel" label="称职：">
-            <t-input :readOnly="true" v-model="dataForm.constructorLevel"></t-input>
+            <t-dic-dropdown-select dicType="licensor" v-model="dataForm.constructorLevel"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -204,7 +204,7 @@
                 tapp.services.proInfo.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                 })
-                
+
               })
             }
           })
