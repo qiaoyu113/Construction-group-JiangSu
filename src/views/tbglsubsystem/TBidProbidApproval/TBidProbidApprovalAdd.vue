@@ -107,9 +107,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proManager" label="项目经理:">
-              <t-manager-select v-model="dataForm.proManager"
-                                @selectedManager="getSelectedManager" :readOnly="readOnly"></t-manager-select>
+            <el-form-item prop="proManagerName" label="项目经理:">
+              <t-manager-select v-model="dataForm.proManagerName" @selectedManager="getSelectedManager" :readOnly="readOnly"></t-manager-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -135,8 +134,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proCompanyHeader" label="主要负责人:">
-              <t-maincharge-select v-model="dataForm.proCompanyHeader" :readOnly="readOnly"
+            <el-form-item prop="proCompanyHeaderName" label="主要负责人:">
+              <t-maincharge-select v-model="dataForm.proCompanyHeaderName" :readOnly="readOnly"
                                    @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
             </el-form-item>
           </el-col>
@@ -231,12 +230,14 @@
           proContractAttr: '',
           proType: '',
           proManager: '',
+          proManagerName: '',
           proRunMode: '',
           proProfitRate: '',
           proUnionCompanyMerate: '',
           proUnionCompany: '',
           proContacter: '',
           proCompanyHeader: '',
+          proCompanyHeaderName: '',
           proContactway: '',
           bidCount: '',
           bidAmount: '',
@@ -282,7 +283,7 @@
           proType: [
             {required: true, message: '工程类别不能为空', trigger: 'blur'}
           ],
-          proManager: [
+          proManagerName: [
             {required: true, message: '项目经理不能为空', trigger: 'blur'}
           ],
           proRunMode: [
@@ -300,7 +301,7 @@
           proContacter: [
             {required: false, message: '联系人不能为空', trigger: 'blur'}
           ],
-          proCompanyHeader: [
+          proCompanyHeaderName: [
             {required: false, message: '负责人不能为空', trigger: 'blur'}
           ],
           proContactway: [
@@ -374,12 +375,14 @@
     methods: {
       getSelectedMainCharge(charge) {
         console.log('current charge', charge)
+        this.dataForm.proCompanyHeader = charge.id
         //获取主要负责人
 
         // 需要传到接口的是 主要负责人的id的话 请联系 前端修改
       },
       getSelectedManager(manager) {
         console.log('current manager', manager)
+        this.dataForm.proManager = manager.id
         //获取项目经理
 
         // 需要传到接口的是 项目经理的id的话 请联系 前端修改

@@ -10,7 +10,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="姓名">
-              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId"
+              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pmId"
                                 @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
@@ -65,7 +65,7 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
             serviceInstanceInputParameters: {
-              pcId: null,
+              pmId: null,
               constructorLevel: null,
               proSubCompany: null
             }
