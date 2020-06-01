@@ -74,7 +74,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -279,12 +280,12 @@
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  } 
+                  }
                 } else {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  } 
+                  }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
@@ -298,7 +299,7 @@
                   filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                   pcId: result.pcId,
                   plCode: result.pId
-                } 
+                }
                 tapp.services.tBidPromiseApproval.getPagedList(params2).then(resp => {
                   if(resp && resp.items && resp.items.length > 0) {
                     let item = find(resp.items, {pcId: result.pcId})

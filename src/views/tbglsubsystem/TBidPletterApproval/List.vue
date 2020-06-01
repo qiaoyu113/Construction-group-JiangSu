@@ -165,7 +165,7 @@
               },
 
               {
-                prop: 'proAddressProvince',
+                prop: 'proSubCompany',
                 label: '分公司',
                 sortable: false,
                 minWidth: 120,
@@ -181,7 +181,7 @@
                 }
               },
               {
-                prop: 'bidAmount',
+                prop: 'proTotalInvestment',
                 label: '投标金额',
                 sortable: false,
                 minWidth: 120,
