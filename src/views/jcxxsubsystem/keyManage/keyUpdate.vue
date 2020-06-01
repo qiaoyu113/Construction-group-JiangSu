@@ -273,14 +273,14 @@
               let self = this
               tapp.services.tBaseinfoKeyApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                let params = {
-                  filters: {},
-                  maxResultCount: 20000,
-                  skipCount: 1,
-                  sorting: "id descending",
-                  id: result.principalId
-                }
-                tapp.services.base_User.getAllUsers(params).then(_result => {
+                // let params = {
+                //   filters: {},
+                //   maxResultCount: 20000,
+                //   skipCount: 1,
+                //   sorting: "id descending",
+                //   id: result.principalId
+                // }
+                tapp.services.tBaseinfoKeyApproval.getPrincipalId(result.principalId).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.principalId})
                     if(item && item.name) {
