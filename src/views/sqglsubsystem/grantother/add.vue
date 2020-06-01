@@ -95,7 +95,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="授权内容：" prop="grantContent">
-              <t-input type="textarea" :rows="2" v-model="dataForm.grantContent"></t-input>
+              <t-input type="textarea" :rows="2" v-model="dataForm.grantContent" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -105,12 +105,12 @@
               <t-input v-model="dataForm.result"></t-input>
             </el-form-item>-->
             <el-form-item label="授权期限："  prop="grantTime"  class="is-required">
-              <t-datetime-range-picker v-model="grantTime" @change="onStartDateRangeChanged"></t-datetime-range-picker>
+              <t-datetime-range-picker v-model="grantTime" @change="onStartDateRangeChanged" :disabled="readOnly"></t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="授权人:" prop="grantUser">
-              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser"
+              <t-dic-dropdown-select dicType="licensor" v-model="dataForm.grantUser" :disabled="readOnly"
                                      ></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
@@ -130,7 +130,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="备注：" prop="remark">
-              <t-input type="textarea" :rows="2" v-model="dataForm.remark"></t-input>
+              <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -157,7 +157,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
-        grantTime: [],
+        grantTime: ['', '2019-12-23 00:00:00'],
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -176,7 +176,9 @@
           grantUser: '',
           sign: '',
           signTime: '',
-          remark: ''
+          remark: '',
+          pId: '',
+          conPeriod: []
         },
         dataRule: {
           proName: [
@@ -225,7 +227,7 @@
               let self = this;
               tapp.services.tGrantOtherApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.grantTime = [self.dataForm.grantStarttime, self.dataForm.grantEndtime]
+                self.grantTime = [result.grantStarttime ? result.grantStarttime : '', result.grantEndtime ? result.grantEndtime : '']
                 let params = {
                   filters: {},
                   maxResultCount: 20,
@@ -238,7 +240,7 @@
                     let item = find(_result.items, {id: result.pId})
                     if(item) {
                       self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
-                      self.dataForm.conPeriod = [self.dataForm.conStartDate, self.dataForm.conEndDate]
+                      self.dataForm.conPeriod = [item.conStartDate ? item.conStartDate : '', item.conEndDate ? item.conEndDate : '']
                     }
                   }
                 })
@@ -272,7 +274,7 @@
           proContractAttr: data.proContractAttr,
           conTotal: data.conTotal,
           proSubCompany: data.proSubCompany,
-          conPeriod: [data.conStartDate + '00:00:00', data.conEndDate + '00:00:00']
+          conPeriod: [data.conStartDate ? data.conStartDate : '', data.conEndDate ? data.conEndDate : '']
         })
         // this.findTotalSum();
       },

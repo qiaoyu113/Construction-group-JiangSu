@@ -157,7 +157,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
-        grantTime:[],
+        grantTime: [],
         dataForm: {
           proName: '',
           proSubCompany: '',
@@ -176,7 +176,8 @@
           grantUser: '',
           sign: '',
           signTime: '',
-          remark: ''
+          remark: '',
+          pId: ''
         },
         dataRule: {
           proName: [
@@ -225,7 +226,7 @@
               let self = this;
               tapp.services.tGrantContractApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.grantTime = [result.grantStarttime, result.grantEndtime]
+                self.grantTime = [result.grantStarttime ? result.grantStarttime : '', result.grantEndtime ? result.grantEndtime : '']
                 let params = {
                   filters: {},
                   maxResultCount: 20,
@@ -238,7 +239,7 @@
                     let item = find(_result.items, {id: result.pId})
                     if(item) {
                       self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
-                      self.dataForm.conPeriod = [self.dataForm.conStartDate, self.dataForm.conEndDate];
+                      self.dataForm.conPeriod = [item.conStartDate ? item.conStartDate : '', item.conEndDate ? item.conEndDate : '']
                     }
                   }
                 })
@@ -257,7 +258,7 @@
       selectedData(data) {
         // 项目 id 已从从组件里已经带出来，这里定义为 dataForm.projectId，可以自行修改为当前传到接口的变量名
         this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, data)
-        this.dataForm.conPeriod = [data.conStartDate, data.conEndDate];
+        this.dataForm.conPeriod = [data.conStartDate ? data.conStartDate : '', data.conEndDate ? data.conEndDate : '']
       },
       onStartDateRangeChanged(val) {
         this.dataForm.grantStarttime = val[0];
