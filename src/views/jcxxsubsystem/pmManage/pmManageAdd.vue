@@ -14,14 +14,14 @@
         <t-sub-title :title="'资质信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="pmId" label="项目经理">
-              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmId"
+            <el-form-item prop="pmName" label="项目经理">
+              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmName"
                                 @selectedManager="getSelectedManager"></t-manager-select>
 
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="pmId" label="所属单位">
+            <el-form-item prop="proSubCompany" label="所属单位">
               <el-input v-model="dataForm.proSubCompany" readonly></el-input>
             </el-form-item>
           </el-col>
@@ -161,10 +161,11 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          pmName: ''
         },
         dataRule: {
-          pmId: [
+          pmName: [
             {required: false, message: '项目经理唯一标识id不能为空', trigger: 'blur'}
           ],
           constructorLevel: [
@@ -211,20 +212,11 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
+              let self = this
               tapp.services.tBaseinfoPmQualification.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                this.dataForm.pmId = result.tBaseinfoPmQualification.pmId
-                this.dataForm.constructorLevel = result.tBaseinfoPmQualification.constructorLevel
-                this.dataForm.constructorCode = result.tBaseinfoPmQualification.constructorCode
-                this.dataForm.safeB = result.tBaseinfoPmQualification.safeB
-                this.dataForm.remark = result.tBaseinfoPmQualification.remark
-                this.dataForm.createtime = result.tBaseinfoPmQualification.createtime
-                this.dataForm.updatetime = result.tBaseinfoPmQualification.updatetime
-                this.dataForm.createuser = result.tBaseinfoPmQualification.createuser
-                this.dataForm.updateuser = result.tBaseinfoPmQualification.updateuser
-                this.dataForm.datastatus = result.tBaseinfoPmQualification.datastatus
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
               })
             }
           })
@@ -259,6 +251,7 @@
       },
       getSelectedManager(manager) {
         console.log('current charge', manager)
+        this.dataForm.pmId = manager.id
         this.dataForm.proSubCompany = manager.proSubCompany//所属单位
         this.dataForm.proContactway = manager.proContactway//联系方式
         this.dataForm.proStatue = manager.proStatue        //是否在建
@@ -267,7 +260,7 @@
         this.dataForm.proRealStartDate = manager.proRealStartDate//项目开工日期
         this.dataForm.proWinAmount = manager.proWinAmount//项目合同额
         tapp.services.proInfo.getPagedList().then(result => {
-          console.log('result', result)
+          
         })
 
       },
