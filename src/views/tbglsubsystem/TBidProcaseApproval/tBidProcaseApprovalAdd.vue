@@ -101,7 +101,6 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="planBidDate" label="计划投标日期:">
-              <!-- <el-input v-model="dataForm.planBidDate"></el-input>-->
               <t-datetime-picker v-model="dataForm.planBidDate" type="date" :readOnly="readOnly">
               </t-datetime-picker>
             </el-form-item>
