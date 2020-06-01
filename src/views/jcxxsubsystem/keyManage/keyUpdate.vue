@@ -88,7 +88,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="mainChargeName" label="主要负责人">
-              <t-maincharge-select v-model="dataForm.mainChargeName" :readOnly="readOnly" @selectedMainCharge="getSelectedName"></t-maincharge-select>
+              <t-maincharge-select v-model="mainChargeName" :readOnly="readOnly" @selectedMainCharge="getSelectedName"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -163,6 +163,7 @@
         pType: '',
         sealCount: '',
         subCompany: '',
+        mainChargeName: '',
         dataForm: {
           province: '',
           city: '',
@@ -182,7 +183,6 @@
           sign: '',
           signTime: '',
           flag: '1',
-          mainChargeName: ''
         },
         dataRule: {
           province: [
@@ -284,7 +284,7 @@
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.principalId})
                     if(item && item.name) {
-                      self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name})
+                      self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name, principalId: item.id})
                     }
                   }
                 })

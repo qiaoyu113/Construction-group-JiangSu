@@ -30,48 +30,48 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
+          <el-form-item label="项目名称：" prop="pName">
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pName" @selectedProject="getSelectedProject"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" readonly></el-input>
+            <t-input v-model="dataForm.proBusDept" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+            <t-input v-model="dataForm.proConstructCompany" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式：" prop="proContractAttr">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :disabled="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            <t-input v-model="dataForm.proTotalInvestment" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别：" prop="proType">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :disabled="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="经营方式：" prop="proRunMode">
-            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :disabled="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+            <t-input v-model="dataForm.proBuildArea" readOnly></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -81,7 +81,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="processBranch" label="流程选择：">
-            <t-dic-dropdown-select :dataisgood="processBranchList" v-model="dataForm.processBranch" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select :dataisgood="processBranchList" v-model="dataForm.processBranch" :disabled="readOnly"></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -98,7 +98,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="说明：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -160,14 +160,12 @@
       const currentQuery = this.$route.query;
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
       this.showButton = !(currentQuery.readonly == 'true');
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query;
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
       this.showButton = !(currentQuery.readonly == 'true')
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -185,8 +183,26 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proStaffTransferApproval.get(id).then(function (result) {
-                console.log('result', result);
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result);
+                let params = {}
+                if(/^[0-9]*$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  } 
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  } 
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    self.dataForm.pName = _result.items[0].proName
+                    self.dataForm.pId = _result.items[0].id
+                  }
+                })
               })
             }
           })
@@ -209,6 +225,7 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.pName = project.proName;
+        this.dataForm.pId = project.id;
         this.dataForm.conTotal = project.conTotal;
         this.dataForm.conBcxyTotal = project.conBcxyTotal;
       },

@@ -20,57 +20,60 @@
         </div>
       </el-dialog>
     </el-row>
+    <el-row :gutter="10" class="search-top-operate" v-if="isBackFill">
+      <el-button type="primary" icon="el-icon-upload2" @click="doBackFillSave()">保存</el-button>
+    </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="pcId">
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
+            <el-form-item label="项目名称" prop="proName">
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"  :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司:">
-              <t-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proSubCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部:">
-              <t-input v-model="dataForm.proBusDept" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proBusDept" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位:">
-              <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proConstructCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式:">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额:">
-              <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proTotalInvestment" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别:">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式:">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划规模项目:">
-              <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.proBuildArea" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -79,38 +82,37 @@
           <el-col :span="8">
             <el-form-item prop="promiseWay" label="保证方式:">
               <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay"
-                                  :readOnly="readOnly"></t-dic-radio-select>
+                                  :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额:">
-              <el-input v-model="dataForm.amount" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash"
-                                  :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="generateBank" label="开立银行:">
-              <el-input v-model="dataForm.generateBank" placeholder="选择保函时，保函开立员回填" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.generateBank" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="generateTime" label="开立时间:">
-              <el-input v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="invalidTime" label="到期时间:">
-              <el-input v-model="dataForm.invalidTime" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="plCode" label="保函编号:">
-              <el-input v-model="dataForm.plCode" placeholder="选择保函时，保函开立员回填" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.plCode" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
 
@@ -143,22 +145,41 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+  import find from 'lodash/find'
 
   export default {
     data() {
+      var checkBankName = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.generateBank == '' || this.dataForm.generateBank == undefined)) callback(new Error('开立银行不能为空'));
+        else callback();
+      };
+      var checkGenerateTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.generateTime == '' || this.dataForm.generateTime == undefined)) callback(new Error('开立时间不能为空'));
+        else callback();
+      };
+      var checkExpireTime = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.invalidTime == '' || this.dataForm.invalidTime == undefined)) callback(new Error('到期时间不能为空'));
+        else callback();
+      };
+      var checkPlCode = (rule, value, callback) => {
+        if (this.isBackFill && (this.dataForm.plCode == '' || this.dataForm.plCode == undefined)) callback(new Error('保函编号不能为空'));
+        else callback();
+      };
       return {
-        readOnly: false,
+        readOnlydisabled: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        isBackFill: false,
+        submitDialogVisible: false,
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           pcId: '',
           promiseWay: '',
+          proName: '',
           amount: '',
           isCash: '',
           generateBank: '',
@@ -184,7 +205,7 @@
           actTaskKey: [
             {required: true, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
-          pcId: [
+          proName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           promiseWay: [
@@ -196,18 +217,10 @@
           isCash: [
             {required: false, message: '是否现金缴纳不能为空', trigger: 'blur'}
           ],
-          generateBank: [
-            {required: false, message: '开立银行不能为空', trigger: 'blur'}
-          ],
-          generateTime: [
-            {required: false, message: '开立时间不能为空', trigger: 'blur'}
-          ],
-          invalidTime: [
-            {required: false, message: '到期时间不能为空', trigger: 'blur'}
-          ],
-          plCode: [
-            {required: false, message: '保函编号不能为空', trigger: 'blur'}
-          ],
+          generateBank: [{validator: checkBankName, trigger: 'blur'}],
+          generateTime: [{validator: checkGenerateTime, trigger: 'blur'}],
+          invalidTime: [{validator: checkExpireTime, trigger: 'blur'}],
+          plCode: [{validator: checkPlCode, trigger: 'blur'}],
           remark: [
             {required: false, message: '备注不能为空', trigger: 'blur'}
           ],
@@ -248,12 +261,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -266,6 +281,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
+        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompany = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
@@ -285,7 +301,27 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidPromiseApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params1 = {}
+                if(/^[0-9]*$/.test(result.pcId)) {
+                  params1 = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    id: result.pcId
+                  } 
+                } else {
+                  params1 = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    proName: result.pcId
+                  } 
+                }
+                tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item;
+                    item = find(_result.items, {id: result.pcId})
+                    if(!item) item = find(_result.items, {proName: result.pcId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                  }
+                })
               })
             }
           })
@@ -304,7 +340,26 @@
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
           tapp.services.tBidPromiseApproval.save(model).then(function (result) {
-            self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+            self.$notify.success({
+              title: "操作成功！",
+              message: "保存成功！",
+            });
+          });
+        }).catch(function (e) {
+          self.$notify.error({
+            title: "错误",
+            message: "保存失败！"
+          });
+          return false;
+        });
+      },
+      // 回填保存
+      doBackFillSave() {
+        let self = this;
+        let validPromises = [self.$refs['ruleForm'].validate()];
+        Promise.all(validPromises).then(resultList => {
+          let model = {...self.dataForm};
+          tapp.services.tBidPromiseApproval.save(model).then(function (result) {
             self.$notify.success({
               title: "操作成功！",
               message: "保存成功！",
