@@ -250,25 +250,24 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidQualApproval.get(id).then(function (result) {
-                console.log('result', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params = {}
                 if(/^[0-9]*$/.test(result.pId)) {
                   params = {
-                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
-                    id: result.pId
+                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: "id descending",
+                    id: result.pcId
                   }
                 } else {
                   params = {
-                    filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
-                    proName: result.pId
+                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: "id descending",
+                    proName: result.pcId
                   }
                 }
-                tapp.services.proInfo.getPagedList(params).then(_result => {
+                tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item;
-                    item = find(_result.items, {id: result.pId})
-                    if(!item) item = find(_result.items, {proName: result.pId})
+                    item = find(_result.items, {id: result.pcId})
+                    if(!item) item = find(_result.items, {proName: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                     self.dataForm.proName = item.proName
                     self.dataForm.pId = item.id
@@ -306,6 +305,9 @@
           });
           return false;
         });
+      },
+      submit() {
+        
       }
     }
   }
