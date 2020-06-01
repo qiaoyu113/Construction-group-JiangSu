@@ -235,8 +235,11 @@
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
-                    self.dataForm.conPeriod = [_result.conStartDate, _result.conEndDate];
+                    let item = find(_result.items, {id: result.pId})
+                    if(item) {
+                      self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                      self.dataForm.conPeriod = [self.dataForm.conStartDate, self.dataForm.conEndDate];
+                    }
                   }
                 })
               })
