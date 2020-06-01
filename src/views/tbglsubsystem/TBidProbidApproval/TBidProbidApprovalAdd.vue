@@ -75,6 +75,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'项目信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -111,6 +113,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'经营方式'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -152,6 +156,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+        </el-card>
+          <el-card shadow="never">
         <t-sub-title :title="'投标信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -176,6 +182,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -404,12 +412,12 @@
                   params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  } 
+                  }
                 } else {
                   params = {
                     filters: {}, maxResultCount: 20, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  } 
+                  }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params).then(resp => {
                   if(resp && resp.items && resp.items.length > 0) {
