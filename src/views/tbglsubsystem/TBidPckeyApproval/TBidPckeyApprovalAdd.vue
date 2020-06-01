@@ -80,7 +80,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="province" label="所属地区:">
-              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" :readOnly="readOnly"></t-region-s-picker>
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" readonly></t-region-s-picker>
             </el-form-item>
           </el-col>
 
@@ -120,8 +120,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="密码:">
-              <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+            <el-form-item prop="password" label="密码:">
+              <el-input v-model="dataForm.password" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -152,7 +152,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="领用单位:">
-              <span>该项目所属分公司</span>
+              <span>{{proSubCompany}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -241,10 +241,10 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          province: '',
+        /*  province: '',
           city: '',
           keyType: '',
-          existElectMark: ''
+          existElectMark: ''*/
         },
         dataRule: {
           bId: [
@@ -284,7 +284,7 @@
             {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: false, message: '审批状态（字典表）不能为空', trigger: 'blur'}
+            {required: false, message: '审批状态不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: false, message: '审核意见不能为空', trigger: 'blur'}
@@ -314,7 +314,7 @@
       })
     },
     watch: {
-      'dataForm.province': {
+/*      'dataForm.province': {
         handler: function (val) {
           // 820000 810000 500000 310000 110000 120000 710000
           this.dataForm.city = ''
@@ -330,7 +330,7 @@
             this.getPkey({province: this.dataForm.province, city: val, keyType: this.dataForm.keyType})
           }
         },
-      },
+      },*/
       'dataForm.keyType': {
         handler: function (val) {
           if((this.dataForm.province && this.municipality.indexOf(this.dataForm.province) >= 0) ||  (this.dataForm.province && this.dataForm.city)) {
@@ -358,6 +358,10 @@
         this.dataForm.proRunMode = pcId.proRunMode
         this.dataForm.proBuildArea = pcId.proBuildArea
         this.dataForm.authCompany = pcId.authCompany
+        this.dataForm.province = pcId.proAddressProvince
+        this.dataForm.city = pcId.proAddressCity
+
+
       },
       // 初始化 编辑和新增 2种情况
       init(id) {
@@ -369,7 +373,7 @@
               let self = this;
               tapp.services.tBidPckeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                
+
               })
             }
           })

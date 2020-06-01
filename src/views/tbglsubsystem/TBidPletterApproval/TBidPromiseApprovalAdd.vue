@@ -81,18 +81,17 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="promiseWay" label="保证方式:">
-              <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay"
-                                  :readOnly="true"></t-dic-radio-select>
+              <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额:">
-              <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
+              <t-input v-model="dataForm.amount" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="true"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -307,12 +306,12 @@
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  } 
+                  }
                 } else {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  } 
+                  }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
