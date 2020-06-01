@@ -193,7 +193,9 @@
           flag: '1',
           pName: '',
           conTotal: '',
-          conBcxyTotal: ''
+          conBcxyTotal: '',
+          proSubCompany: '',
+          proBusDept: ''
         },
         dataRule: {
           pId: [
