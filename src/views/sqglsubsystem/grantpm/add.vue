@@ -157,7 +157,8 @@
           grantUser: '',
           grantContent: '',
           sign: '',
-          signTime: ''
+          signTime: '',
+          pId: ''
         },
         dataRule: {
           proName: [
@@ -202,9 +203,15 @@
                   id: result.pId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    tapp.services.tBaseinfoPmQualification.get(self.dataForm.proManager).then(manager => {
+                      if(manager) {
+                        self.dataForm.constructorLevel = manager.constructorLevel
+                      }
+                    })
+                  }
                 })
-                
               })
             }
           })
@@ -234,6 +241,13 @@
         this.dataForm.pId = project.id;
         this.dataForm.proManager = project.proManager;
         this.dataForm.constructorLevel = project.constructorLevel;
+        if(this.dataForm.proManager) {
+          tapp.services.tBaseinfoPmQualification.get(this.dataForm.proManager).then(manager => {
+            if(manager) {
+              this.dataForm.constructorLevel = manager.constructorLevel
+            }
+          })
+        }
       },
       // 表单提交
       doSave() {
