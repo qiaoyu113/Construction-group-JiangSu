@@ -20,149 +20,167 @@
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
       <el-card shadow="never">
-      <t-sub-title :title="'项目信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="proName" label="项目名称">
-            <t-bank-project-select v-model="dataForm.pcId" @selectedData="getSelectedRecord"></t-bank-project-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proSubCompany" label="所属分公司">
-            <el-input readonly v-model="dataForm.proSubCompany"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proBusDept" label="所属事业部">
-            <el-input readonly v-model="dataForm.proBusDept"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proConstructCompany" label="建设单位">
-            <el-input readonly v-model="dataForm.proConstructCompany"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proContractAttr" label="合同模式">
-            <t-dic-dropdown-select disabled dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proTotalInvestment" label="投资金额">
-            <el-input readonly v-model="dataForm.proTotalInvestment"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proType" label="工程类别">
-            <t-dic-dropdown-select dicType="engineering_type" disabled v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proRunMode" label="经营方式">
-            <t-dic-dropdown-select dicType="business_type" disabled v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="proBuildArea" label="项目规模">
-            <el-input readonly v-model="dataForm.proBuildArea"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conName" label="合同名称">
-            <el-input readonly v-model="dataForm.conName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conPeriod" label="合同期间">
-            <t-datetime-range-picker disabled v-model="dataForm.conPeriod"></t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="conTotal" label="合同金额">
-            <el-input readonly v-model="dataForm.conTotal"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'项目信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="proName" label="项目名称">
+              <t-bank-project-select v-model="dataForm.pcId" @selectedData="getSelectedRecord"></t-bank-project-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proSubCompany" label="所属分公司">
+              <el-input readonly v-model="dataForm.proSubCompany"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBusDept" label="所属事业部">
+              <el-input readonly v-model="dataForm.proBusDept"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proConstructCompany" label="建设单位">
+              <el-input readonly v-model="dataForm.proConstructCompany"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proContractAttr" label="合同模式">
+              <t-dic-dropdown-select disabled dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proTotalInvestment" label="投资金额">
+              <el-input readonly v-model="dataForm.proTotalInvestment"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proType" label="工程类别">
+              <t-dic-dropdown-select dicType="engineering_type" disabled v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proRunMode" label="经营方式">
+              <t-dic-dropdown-select dicType="business_type" disabled v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="proBuildArea" label="项目规模">
+              <el-input readonly v-model="dataForm.proBuildArea"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="conName" label="合同名称">
+              <el-input readonly v-model="dataForm.conName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="conPeriod" label="合同期间">
+              <t-datetime-range-picker disabled v-model="dataForm.conPeriod"></t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="conTotal" label="合同金额">
+              <el-input readonly v-model="dataForm.conTotal"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'办理信息'"></t-sub-title>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="plType" label="保函类型">
-            <t-dic-dropdown-select dicType="pl_type" v-model="dataForm.plType" :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="plAmount" label="保函金额">
-            <t-input v-model="dataForm.plAmount"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-table :data="dataInfo" border size="mini">
-          <el-table-column align="center" label="合同编号" prop="conCode"></el-table-column>
-          <el-table-column align="center" label="合同名称" prop="conName"></el-table-column>
-          <el-table-column align="center" label="合同保证金（元）" prop="technicalTitle"></el-table-column>
-          <el-table-column align="center" label="可用合同保证金（元）" prop="asAmount"></el-table-column>
-          <el-table-column align="center" label="本次占用合同保证金（元）" prop="asAmount"></el-table-column>
-          <el-table-column align="center" label="剩余可用合同保证金（元）" prop="asAmount"></el-table-column>
-        </el-table>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="1">
-          <el-form-item>
-            <el-checkbox></el-checkbox>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="plAmount" label="现金金额">
-            <t-input v-model="dataForm.plAmount"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="bankName" label="开立银行" :class="{'is-required': isBackFill}">
-            <t-input :disabled="!isBackFill" v-model="dataForm.bankName" placeholder="保函开立员回填"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="generateTime" label="开立时间" :class="{'is-required': isBackFill}">
-            <t-input :disabled="!isBackFill" v-model="dataForm.generateTime" placeholder="保函开立员回填"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="expireTime" label="到期时间" :class="{'is-required': isBackFill}">
-            <t-input :disabled="!isBackFill" v-model="dataForm.expireTime" placeholder="保函开立员回填"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="plCode" label="保函编号" :class="{'is-required': isBackFill}">
-            <t-input :disabled="!isBackFill" v-model="dataForm.plCode" placeholder="保函开立员回填"></t-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办人">
-            <span>{{dataForm.sign}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="sign" label="经办时间">
-            <span>{{dataForm.signTime}}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item prop="remark" label="备注">
-            <t-input type="textarea" v-model="dataForm.remark"></t-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <t-sub-title :title="'办理信息'"></t-sub-title>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="plType" label="保函类型">
+              <t-dic-dropdown-select dicType="pl_type" v-model="dataForm.plType" :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="plAmount" label="保函金额">
+              <t-input v-model="dataForm.plAmount"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="合同保证金" prop="contractType" class="is-required">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.contractType"
+                                  :readOnly="readOnly"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            {{dataForm.conName}}
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-table :data="dataInfo" border size="mini">
+            <el-table-column align="center" label="合同编号" prop="conCode">
+            </el-table-column>
+            <el-table-column align="center" label="合同名称" prop="conName">
+            </el-table-column>
+            <el-table-column align="center" label="合同保证金（元）" prop="technicalTitle">
+            </el-table-column>
+            <el-table-column align="center" label="可用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+            <el-table-column align="center" label="本次占用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+            <el-table-column align="center" label="剩余可用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+          </el-table>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="现金缴纳" prop="cashType" class="is-required">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.cashType"
+                                  :readOnly="readOnly"></t-dic-radio-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item>
+              <t-input v-model="dataForm.amount" :read-only="dataForm.cashType != 'yes'"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="bankName" label="现金缴纳" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" v-model="dataForm.bankName" placeholder="保函开立员回填"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="generateTime" label="开立时间" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" v-model="dataForm.generateTime" placeholder="保函开立员回填"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="expireTime" label="到期时间" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" v-model="dataForm.expireTime" placeholder="保函开立员回填"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="plCode" label="保函编号" :class="{'is-required': isBackFill}">
+              <t-input :disabled="!isBackFill" v-model="dataForm.plCode" placeholder="保函开立员回填"></t-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办人">
+              <span>{{dataForm.sign}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="sign" label="经办时间">
+              <span>{{dataForm.signTime}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item prop="remark" label="备注">
+              <t-input type="textarea" v-model="dataForm.remark"></t-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
       <el-card shadow="never">
-      <t-sub-title :title="'附件上传'"></t-sub-title>
-      <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+        <t-sub-title :title="'附件上传'"></t-sub-title>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -199,7 +217,6 @@
         isBackFill: false,
         dataInfo: [],
         dataForm: {
-          id: 0,
           pId: '',
           plType: '',
           plAmount: '',
@@ -209,7 +226,10 @@
           plCode: '',
           remark: '',
           sign: '',
-          signTime: ''
+          signTime: '',
+          contractType: 'no',
+          cashType: 'no',
+          cId: ''
         },
         dataRule: {
           proName: [
@@ -257,7 +277,6 @@
     },
     methods: {
       getSelectedRecord(data) {
-        console.log('current data', data)
         this.dataForm.proName = data.proName
         this.dataForm.proSubCompany = data.proSubCompany
         this.dataForm.proBusDept = data.proBusDept
@@ -267,10 +286,21 @@
         this.dataForm.proType = data.proType
         this.dataForm.proRunMode = data.proRunMode
         this.dataForm.proBuildArea = data.proBuildArea
-        this.dataForm.pId = data.id
+        this.dataForm.pId = data.pId
+        this.dataForm.cId = data.cId
         this.dataForm.conName = data.conName
         this.dataForm.conTotal = data.conTotal
-        this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00'];
+        this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00']
+        this.getConDto(this.dataForm.cId, this.dataForm.pId)
+      },
+      getConDto(cId){
+        if (cId) {
+          let self = this
+          tapp.services.plGenerateApproval.findFinaConById(cId).then(function(result) {
+            console.log('获取合同信息' + result)
+            self.dataInfo = result
+          })
+        }
       },
       // 初始化 编辑和新增 2种情况
       init (id) {
