@@ -22,48 +22,48 @@
       <t-sub-title :title="'项目信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="项目名称：" prop="pId">
-            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pId" @selectedProject="getSelectedProject"></t-project-select>
+          <el-form-item label="项目名称：" prop="pName">
+            <t-project-select  placeholder="选择一个项目" v-model="dataForm.pName" @selectedProject="getSelectedProject" :readOnly="readOnly"></t-project-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属分公司：" prop="proSubCompany">
-            <el-input v-model="dataForm.proSubCompany" readonly></el-input>
+            <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属事业部：" prop="proBusDept">
-            <el-input v-model="dataForm.proBusDept" readonly></el-input>
+            <t-input v-model="dataForm.proBusDept" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="建设单位：" prop="proConstructCompany">
-            <el-input v-model="dataForm.proConstructCompany" readonly></el-input>
+            <t-input v-model="dataForm.proConstructCompany" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="合同模式：" prop="proContractAttr">
-            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="投资金额：" prop="proTotalInvestment">
-            <el-input v-model="dataForm.proTotalInvestment" readonly></el-input>
+            <t-input v-model="dataForm.proTotalInvestment" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="工程类别：" prop="proType">
-            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
+            <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" disabled></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="项目规模：" prop="proBuildArea">
-            <el-input v-model="dataForm.proBuildArea" readonly></el-input>
+            <t-input v-model="dataForm.proBuildArea" readOnly></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="项目经理：" prop="proRunMode">
-            <el-input v-model="dataForm.proManager" readonly></el-input>
+          <el-form-item label="项目经理：" prop="proManager">
+            <t-input v-model="dataForm.proManager" readOnly></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,19 +73,19 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="经营方式：" prop="proRunModeO">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunModeO" :readOnly="readOnly" disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunModeO" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="自营：" prop="conSelfRateO">
-              <t-int-input v-model="dataForm.conSelfRateO" :readOnly="readOnly" disabled>
+              <t-int-input v-model="dataForm.conSelfRateO" readOnly>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="联营：" prop="conUnionCompanyRateO">
-              <t-int-input v-model="dataForm.conUnionCompanyRateO" :readOnly="readOnly" disabled>
+              <t-int-input v-model="dataForm.conUnionCompanyRateO" readOnly>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
@@ -94,60 +94,58 @@
         <el-row :gutter="20">
           <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="净利润承诺超：" prop="proProfitRateO">
-              <t-int-input v-model="dataForm.proProfitRateO" :readOnly="readOnly" disabled>
+              <t-int-input v-model="dataForm.proProfitRateO" readOnly>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'proprietary' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proUnionCompanyContacterO" label="公司负责人：">
-              <el-input v-model="dataForm.proUnionCompanyContacterO" disabled></el-input>
+              <t-input v-model="dataForm.proUnionCompanyContacterO" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8"  v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item label="管理费" prop="proUnionCompanyMerateO">
-              <t-int-input v-model="dataForm.proUnionCompanyMerateO" :readOnly="readOnly" disabled>
+              <t-int-input v-model="dataForm.proUnionCompanyMerateO" readOnly>
                 <span slot="append">%</span>
               </t-int-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary'">
+          <el-col :span="6" v-if="dataForm.proRunModeO === 'proprietary'">
             <el-form-item label="有无借款：" prop="isBorrow">
-              <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrow" :readOnly="readOnly" disabled></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="have_or_not" v-model="dataForm.isBorrow" disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-if="dataForm.proRunModeO === 'proprietary' && dataForm.isBorrow === 'have'">
-            <el-form-item prop="proContacter" label="">
-              <a>借还款信息</a>
-            </el-form-item>
+          <el-col :span="2" v-if="dataForm.proRunModeO === 'proprietary' && dataForm.isBorrow === 'have'">
+            <a style="line-height: 36px;">借还款信息</a>
           </el-col>
           <el-col :span="8">
             <el-form-item label="联营单位名称：" prop="proUnionCompanyO" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
-              <el-input v-model="dataForm.proUnionCompanyO" disabled>
+              <t-input v-model="dataForm.proUnionCompanyO" readOnly>
                 <el-button slot="append" icon="el-icon-search" @click="queryDialogVisible=true" disabled></el-button>
-              </el-input>
+              </t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proContacterO" label="联系人：">
-              <el-input v-model="dataForm.proContacterO" disabled></el-input>
+              <t-input v-model="dataForm.proContacterO" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="proContactwayO" label="联系方式：">
-              <el-input v-model="dataForm.proContactwayO" disabled></el-input>
+              <t-input v-model="dataForm.proContactwayO" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'pool' || dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="conDepositO" label="合同履约保证金：">
-              <el-input v-model="dataForm.conDepositO" disabled>
+              <t-input v-model="dataForm.conDepositO" readOnly>
                 <span slot="append"><a>详细</a></span>
-              </el-input>
+              </t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="dataForm.proRunModeO === 'pool'|| dataForm.proRunModeO === 'proprietary_pool'">
             <el-form-item prop="conPorjectFund" label="待确认工程款：">
-              <el-input v-model="dataForm.conPorjectFund" disabled></el-input>
+              <t-input v-model="dataForm.conPorjectFund" readOnly></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -157,7 +155,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="最终结算工程款：" prop="conPorjectFund">
-            <el-input v-model="dataForm.conPorjectFund"></el-input>
+            <t-input v-model="dataForm.conPorjectFund" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -174,7 +172,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="说明：" prop="remark">
-            <el-input type="textarea" :rows="2" v-model="dataForm.remark"></el-input>
+            <t-input type="textarea" :rows="2" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -191,6 +189,7 @@
 <script>
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import find from 'lodash/find'
   export default {
     data () {
       return {
@@ -250,14 +249,12 @@
       const currentQuery = this.$route.query;
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
       this.showButton = !(currentQuery.readonly == 'true');
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query;
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly;
       this.showButton = !(currentQuery.readonly == 'true')
-      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false;
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -274,7 +271,40 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proFundClearApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result);
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                let params = {}
+                if(/^[0-9]*$/.test(result.pId)) {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    id: result.pId
+                  } 
+                } else {
+                  params = {
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    proName: result.pId
+                  } 
+                }
+                tapp.services.proInfo.getPagedList(params).then(_result => {
+                  console.log('_result', _result)
+                  if(_result && _result.items && _result.items.length > 0) {
+                    let item;
+                    item = find(_result.items, {id: result.pId})
+                    if(!item) item = find(_result.items, {proName: result.pId})
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                    self.dataForm.pName = item.proName
+                    self.dataForm.pId = item.id
+                    self.dataForm.proRunMode = result.proRunMode
+                    self.dataForm.proUnionCompanyMerateO = self.dataForm.proUnionCompanyMerate
+                    self.dataForm.proProfitRateO = self.dataForm.proProfitRate
+                    self.dataForm.proContacterO = self.dataForm.proContacter
+                    self.dataForm.proContactwayO = self.dataForm.proContactway
+                    self.dataForm.proUnionCompanyO = self.dataForm.proUnionCompany
+                    self.dataForm.proUnionCompanyContacterO = self.dataForm.proCompanyHeader
+                    self.dataForm.conSelfRateO = self.dataForm.conSelfProportion
+                    self.dataForm.conUnionCompanyRateO = self.dataForm.conOtherProportion
+                    self.dataForm.conDepositO = self.dataForm.conDeposit
+                  }
+                })
               })
             }
           })
@@ -301,26 +331,26 @@
         this.dataForm.proTotalInvestment = project.proTotalInvestment;
         this.dataForm.proType = project.proType;
         this.dataForm.proRunModeO = project.proRunMode;
-        this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proRealStartDate = project.proRealStartDate;
-        this.dataForm.proPlanEndDate = project.proPlanEndDate;
         this.dataForm.proUnionCompanyMerateO = project.proUnionCompanyMerate;
         this.dataForm.proProfitRateO = project.proProfitRate;
         this.dataForm.proContacterO = project.proContacter;
         this.dataForm.proContactwayO = project.proContactway;
+        this.dataForm.proUnionCompanyO = project.proUnionCompany;
+        this.dataForm.proUnionCompanyContacterO = project.proCompanyHeader;
+        this.dataForm.conSelfRateO = project.conSelfProportion;
+        this.dataForm.conUnionCompanyRateO = project.conOtherProportion;
+        this.dataForm.conDepositO = project.conDeposit;
+        this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.proRealStartDate = project.proRealStartDate;
+        this.dataForm.proPlanEndDate = project.proPlanEndDate;
         this.dataForm.proSpan = project.proSpan;
         this.dataForm.proLayer = project.proLayer;
         this.dataForm.proBlock = project.proBlock;
         this.dataForm.proBasementArea = project.proBasementArea;
         this.dataForm.proIsFitout = project.proIsFitout;
         this.dataForm.proFitoutRate = project.proFitoutRate;
-        this.dataForm.proUnionCompanyO = project.proUnionCompany;
         this.dataForm.proIsBim = project.proIsBim;
         this.dataForm.isBorrow = project.isBorrow;
-        this.dataForm.proUnionCompanyContacterO = project.proCompanyHeader;
-        this.dataForm.conSelfRateO = project.conSelfProportion;
-        this.dataForm.conUnionCompanyRateO = project.conOtherProportion;
-        this.dataForm.conDepositO = project.conDeposit;
         this.dataForm.conDepositInfoList = project.conDepositInfoList;
         this.dataForm.cashDepositTotal = project.cashDepositTotal;
         this.dataForm.otherConTotal = project.otherConTotal;
