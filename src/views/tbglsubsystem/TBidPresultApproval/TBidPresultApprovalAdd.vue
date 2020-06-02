@@ -11,8 +11,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="pcId">
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
+            <el-form-item label="项目名称" prop="proNameA">
+              <t-record-select v-model="dataForm.proNameA" @selectedRecord="getSelectedRecord"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -115,6 +115,9 @@
         },
         dataRule: {
 
+          proNameA: [
+            {required: false, message: '项目名称不能为空', trigger: 'blur'}
+          ],
           bidResult: [
             {required: false, message: '投标结果不能为空', trigger: 'blur'}
           ],
@@ -142,6 +145,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proNameA = pcId.proName
+        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompanyA = pcId.proSubCompany
         this.dataForm.proBusDeptA = pcId.proBusDept
         this.dataForm.proConstructCompanyA = pcId.proConstructCompany
