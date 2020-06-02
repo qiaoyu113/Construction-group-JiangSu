@@ -26,51 +26,51 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称:" prop="pcId">
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
+            <el-form-item label="项目名称:" prop="proName">
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司:">
-              <el-input v-model="dataForm.proSubCompany1" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proSubCompany1" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBusDept" label="所属事业部:">
-              <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proBusDept" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proConstructCompany" label="建设单位:">
-              <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proConstructCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="  合同模式:">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proTotalInvestment" label="投资金额:">
-              <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proTotalInvestment" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别:">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式:">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proBuildArea" label="计划项目规模:">
-              <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proBuildArea" readOnly></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -79,70 +79,70 @@
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="province" label="所属地区:">
-              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :disabled="isEdit" readonly></t-region-s-picker>
+            <el-form-item label="所属地区:">
+              <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity" readOnly></t-region-s-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
             <el-form-item prop="keyType" label="密钥类别:">
-              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :readOnly="readOnly" :disabled="isEdit" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="authCompany" label="批准单位:">
-              <el-input v-model="dataForm.authCompany" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.authCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="loginUsername" label="登录网名:">
-              <el-input v-model="dataForm.loginUsername" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.loginUsername" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="loginUrl" label="登录网址:">
-              <el-input v-model="dataForm.loginUrl" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.loginUrl" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="expirationDate" label="有效期至:">
-              <el-input v-model="dataForm.expirationDate" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.expirationDate" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item  label="用途:" >
-              <el-input type="textarea" :rows="3" :readOnly="readOnly"></el-input>
+              <t-input type="textarea" :rows="3" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="account" label="用户名:">
-              <el-input v-model="dataForm.account" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.account" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="password" label="密码:">
-              <el-input v-model="dataForm.password" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.password" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="principalId" label="主要负责人:">
-              <el-input v-model="dataForm.principalId" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.principalId" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="keyColor" label="密钥颜色:">
-              <el-input v-model="dataForm.keyColor" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.keyColor" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="existElectMark" label="是否有电子签章功能:" label-width="180px">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
-                                  :readOnly="readOnly"></t-dic-radio-select>
+                                  readOnly></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="" label="办理单位:">
-              <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -152,7 +152,7 @@
         <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item prop="proSubCompany" label="领用单位:">
-                <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
+                <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
               </el-form-item>
             </el-col>
           <el-col :span="8">
@@ -162,18 +162,18 @@
           </el-col>
           <el-col :span="8" class="search-date-picker">
             <el-form-item label="领用期限:">
-              <t-datetime-range-picker v-model="dataForm.limitStarttime" :readOnly="readOnly">
+              <t-datetime-range-picker v-model="dataForm.limitStarttime" :disabled="readOnly">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="getTime" label="领用时间:">
-              <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="returnTime" label="归还时间:">
-              <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" :readOnly="readOnly"></el-input>
+              <t-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -193,10 +193,10 @@
         <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="width">
+    <el-dialog title="提示" :visible.sync="hitDiablogVisible" width="width">
       <div>{{hint}}</div>
       <div slot="footer">
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="hitDiablogVisible = false">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -216,11 +216,12 @@
         isEdit: false,
         hint: '',
         municipality: ['820000', '810000', '500000', '310000', '110000', '120000', '710000'],
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        hitDiablogVisible: false,
+        submitDialogVisible: false,
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           pcId: '',
@@ -241,10 +242,10 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-        /*  province: '',
-          city: '',
+          proAddressProvince: '',
+          proAddressCity: '',
           keyType: '',
-          existElectMark: ''*/
+          existElectMark: ''
         },
         dataRule: {
           bId: [
@@ -314,7 +315,7 @@
       })
     },
     watch: {
-/*      'dataForm.province': {
+     'dataForm.province': {
         handler: function (val) {
           // 820000 810000 500000 310000 110000 120000 710000
           this.dataForm.city = ''
@@ -330,7 +331,7 @@
             this.getPkey({province: this.dataForm.province, city: val, keyType: this.dataForm.keyType})
           }
         },
-      },*/
+      },
       'dataForm.keyType': {
         handler: function (val) {
           if((this.dataForm.province && this.municipality.indexOf(this.dataForm.province) >= 0) ||  (this.dataForm.province && this.dataForm.city)) {
@@ -349,6 +350,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
+        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompany1 = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
@@ -361,10 +363,6 @@
         this.dataForm.province = pcId.proAddressProvince
         this.dataForm.city = pcId.proAddressCity
         this.dataForm.proSubCompany = pcId.proSubCompany
-
-
-
-
       },
       // 初始化 编辑和新增 2种情况
       init(id) {
@@ -408,12 +406,6 @@
           });
           return false;
         });
-      },
-      getProvince (province) {
-        this.dataForm.province = province
-      },
-      getCity (city) {
-        this.dataForm.city = city
       },
       getPkey(searchData) {
         const param = {
