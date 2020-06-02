@@ -73,9 +73,9 @@
         currentValue: '',
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.base_User.getAllUsers,
+            serviceInstance: tapp.services.base_User.getRoleCategoryUsers,
             serviceInstanceInputParameters: {
-              searchKey: null, 
+              // roleCategoryId: '' // 此处需要放开并更换为经办人的值
             }
           },
           grid: {
@@ -157,6 +157,11 @@
 		created() {
       this.currentValue = this.value;
     },
+    watch: {
+      value(val) {
+        this.currentValue = val
+      }
+    },
 		methods: {
 			clearValidate() {
 				this.$nextTick((_) => {
@@ -179,7 +184,7 @@
         //传送到父组件
         this.currentValue = this.selectedUser.name;
         this.$emit('selectedUser', this.selectedUser);
-        this.$emit('input', this.selectedUser.id);
+        this.$emit('input', this.selectedUser.name);
         this.doReset();
         this.dialogFormVisible = false
       },

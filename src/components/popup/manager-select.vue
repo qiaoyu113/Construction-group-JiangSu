@@ -70,9 +70,9 @@
         currentValue: '',
         gridOptions: {
           dataSource: {
-            serviceInstance: tapp.services.base_User.getAllUsers,
+            serviceInstance: tapp.services.base_User.getRoleCategoryUsers,
             serviceInstanceInputParameters: {
-              searchKey: null, 
+              // roleCategoryId: '' // 此处需要放开并更换为项目经理的值
             }
           },
           grid: {

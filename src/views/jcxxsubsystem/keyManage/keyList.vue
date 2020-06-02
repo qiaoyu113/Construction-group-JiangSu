@@ -55,7 +55,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="signId">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId" @selectedUser="getSelectedUser"></t-handler-select>
+              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="name" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
@@ -86,20 +86,13 @@
   import util from '@/util'
 
   export default {
-    name: 'myTask',
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
+        name: '',
         gridOptions: {
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoKeyApproval.getPagedList,
@@ -237,7 +230,7 @@
     methods: {
       getSelectedUser (user) {
         console.log('current user', user)
-        this.gridOptions.dataSource.serviceInstanceInputParameters.sign=user.name
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signId = user.id
 
       },
       // 获取码表值

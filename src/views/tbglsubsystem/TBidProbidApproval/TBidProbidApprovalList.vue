@@ -56,7 +56,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="经办人" prop="sign">
-              <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" @selectedUser="getSelectedUser"></t-handler-select>
+              <t-handler-select v-model="name" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
@@ -88,21 +88,14 @@
   import util from '@/util'
 
   export default {
-    name: 'myTask',
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data() {
       return {
         checkededRows: [],
         bidCount:[{ id: '1', name: ' 一次' }, { id: '2', name: '二次' }],
         processDefinationlist: [],
         startDateRange: null,
+        name: '',
         gridOptions: {
           dataSource: {
             serviceInstance: tapp.services.tBidProbidApproval.getPagedList,
@@ -223,6 +216,7 @@
     methods: {
       getSelectedUser(user) {
         console.log('current user', user)
+        this.gridOptions.dataSource.serviceInstanceInputParameters.signId = user.id
         // user为从弹窗框列表带出来的那一行的数据
         // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
         // 实际上需要传到接口的的user的其他值，从这里的user获取
