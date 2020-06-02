@@ -67,8 +67,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTotalInvestment" label="投资金额:">
-              <el-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></el-input>
+            <el-form-item label="投资金额：" prop="proTotalInvestment">
+              <t-currency-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -160,11 +162,11 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        submitDialogVisible: false,
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           proCode: '',
@@ -231,7 +233,7 @@
             {required: true, message: '建设单位不能为空', trigger: 'blur'}
           ],
           proTotalInvestment: [
-            {required: true, message: '项目总投资-元不能为空', trigger: 'blur'}
+            {required: true, message: '投资金额不能为空', trigger: 'blur'}
           ],
           proType: [
             {required: true, message: '工程类别不能为空', trigger: 'blur'}
