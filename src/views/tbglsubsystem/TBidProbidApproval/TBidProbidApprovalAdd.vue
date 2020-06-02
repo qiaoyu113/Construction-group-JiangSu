@@ -257,7 +257,7 @@
             {required: true, message: '项目备案名称不能为空', trigger: 'blur'}
           ],
           proNameA: [
-            {required: true, message: '项目名称不能为空', trigger: 'blur'}
+            {required: false, message: '项目名称不能为空', trigger: 'blur'}
           ],
           proName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
