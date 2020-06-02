@@ -107,8 +107,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTracker" label="项目跟踪人:">
-              <t-manager-select v-model="dataForm.proTracker"
+            <el-form-item prop="name" label="项目跟踪人:">
+              <t-manager-select v-model="dataForm.name"
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
 
             </el-form-item>
@@ -200,7 +200,8 @@
           updatetime: '',
           createuser: '',
           updateuser: '',
-          datastatus: ''
+          datastatus: '',
+          name: ''
         },
         dataRule: {
           bId: [
@@ -251,7 +252,7 @@
           planBidDate: [
             {required: false, message: '计划投标日期不能为空', trigger: 'blur'}
           ],
-          proTracker: [
+          name: [
             {required: false, message: '项目跟踪人不能为空', trigger: 'blur'}
           ],
           contactNum: [
@@ -290,7 +291,13 @@
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                tapp.services.base_User.getRoleCategoryUsers().then(manager => {
+                  if(manager && manager.items && manager.items.length > 0) {
+                    let item = find(manager.items, {id: result.proTracker})
+                    if(item) self.dataForm.name = item.name
+                  }
+                })
               })
             }
           })
@@ -303,12 +310,9 @@
           })
         }
       },
-      getSelectedManager(charge) {
-        console.log('current charge', charge)
-        // charge为从弹窗框列表带出来的那一行的数据
-        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
-        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
-        // 例如 this.dataForm.id = charge.id
+      getSelectedManager(manager) {
+        console.log('current manager', manager)
+        this.dataForm.proTracker = manager.id
       },
       getUserWithDepartments() {
         if (this.currentUser && this.currentUser.userId) {

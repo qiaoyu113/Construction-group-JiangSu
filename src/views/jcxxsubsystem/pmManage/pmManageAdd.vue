@@ -229,6 +229,7 @@
       doSave() {
         let self = this;
         let validPromises = [self.$refs['ruleForm'].validate()];
+        console.log('this.dataForm', this.dataForm)
         Promise.all(validPromises).then(resultList => {
           let model = {...self.dataForm};
           tapp.services.tBaseinfoPmQualification.save(model).then(function (result) {

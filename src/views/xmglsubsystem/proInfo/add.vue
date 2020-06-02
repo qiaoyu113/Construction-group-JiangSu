@@ -118,8 +118,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proManager" label="项目经理：">
-              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.proManager" @selectedManager="getSelectedManager"></t-manager-select>
+            <el-form-item prop="name" label="项目经理：">
+              <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.name" @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -388,12 +388,10 @@
           createuser: '',
           updateuser: '',
           datastatus: '',
-          bidProcessList: null
+          bidProcessList: null,
+          name: '',
         },
         dataRule: {
-          pcId: [
-            {required: true, message: '项目名称不能为空', trigger: 'blur'}
-          ],
           pcId: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
@@ -520,7 +518,13 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.proInfo.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                tapp.services.base_User.getRoleCategoryUsers().then(manager => {
+                  if(manager && manager.items && manager.items.length > 0) {
+                    let item = find(manager.items, {id: result.proManager})
+                    if(item) self.dataForm.name = item.name
+                  }
+                })
               })
             }
           })
@@ -567,6 +571,12 @@
         this.dataForm.proFitoutRate = record.proFitoutRate;
         this.dataForm.proUnionCompany = record.proUnionCompany;
         this.dataForm.proIsBim = record.proIsBim;
+        tapp.services.base_User.getRoleCategoryUsers().then(manager => {
+          if(manager && manager.items && manager.items.length > 0) {
+            let item = find(manager.items, {id: record.proManager})
+            if(item) this.dataForm.name = item.name
+          }
+        })
       },
       getSelectedManager(manager) {
         console.log('current manager', manager)
