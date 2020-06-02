@@ -59,9 +59,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="经办人" prop="signId">
-                <t-handler-select label="经办人" placeholder="选择一个经办人"
-                                  v-model="name"
-                                  @selectedUser="getSelectedUser"></t-handler-select>
+                <t-handler-select ref="handlerSelect" label="经办人" placeholder="选择一个经办人" v-model="name" @selectedUser="getSelectedUser"></t-handler-select>
               </el-form-item>
             </el-col>
             <el-col :span="8" class="search-date-picker">
@@ -251,6 +249,8 @@
       doReset() {
         this.$refs.search.resetFields();
         this.doRefresh()
+        // 清空经办人
+        this.$refs.handlerSelect.currentValue = ''
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,//工程名称
           proContractAttr: null,//合同模式
@@ -260,11 +260,12 @@
           approvalStatus: null,//审批状态
           proSubCompany: null,//分公司
           sign: null, //经办人
+          signId: null,
           signTime:null //经办日期
         }
       },
       doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+        this.$refs.searchReulstList.exportCSV('投标准备文件审批表');
       },
       doRefresh() {
         this.$refs.searchReulstList.refresh();
