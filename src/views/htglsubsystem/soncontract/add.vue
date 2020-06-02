@@ -212,7 +212,7 @@
          <el-col :span="8">
            <el-form-item prop="conModality" label="子合同形式：">
              <t-dic-dropdown-select dicType="con_modality" v-model="dataForm.conModality"
-                                    disabled></t-dic-dropdown-select>
+                                    ></t-dic-dropdown-select>
            </el-form-item>
          </el-col>
          <el-col :span="8">
@@ -366,10 +366,9 @@
           proCode: [{required: true, message: '项目编号不能为空', trigger: 'change'}],
           proConstructCompany: [{required: true, message: '建设单位不能为空', trigger: 'change'}],
           proConstructCompanyAttr: [{required: true, message: '单位性质不能为空', trigger: 'change'}],
-          proAddress: [{required: true, message: '项目地址不能为空', trigger: 'change'}],
+          //proAddress: [{required: true, message: '项目地址不能为空', trigger: 'change'}],
           proTotalInvestment: [{required: true, message: '项目总投资不能为空', trigger: 'change'}],
           proSubCompany: [{required: true, message: '所属分公司不能为空', trigger: 'change'}],
-          //proBusDept: [{required: true, message: '子合同类型不能为空', trigger: 'change'}],
           proDriveSubject: [{required: true, message: '实施主体不能为空', trigger: 'change'}],
           proPlanStartDate: [{required: true, message: '计划开工日期不能为空', trigger: 'change'}],
           proPlanEndDate: [{required: true, message: '计划完工日期不能为空', trigger: 'change'}],
@@ -410,9 +409,9 @@
           isExceedTotal: [
             {required: true, message: '总价是否超预算（字典表）不能为空', trigger: 'blur'}
           ],
-          isExceed: [
+          /*isExceed: [
             {required: true, message: '单价是否超预算（字典表）不能为空', trigger: 'blur'}
-          ],
+          ],*/
           isRunProcedure: [
             {required: true, message: '是否经招标程序（字典表）不能为空', trigger: 'blur'}
           ],
