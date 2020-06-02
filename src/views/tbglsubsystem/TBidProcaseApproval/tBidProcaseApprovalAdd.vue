@@ -13,7 +13,6 @@
         审批流程图
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
-        <!-- businessKey值请修改当前流程的key值 -->
         <t-workflow-map businessKey="t_bid_procase_approval_process"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
@@ -106,10 +105,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTrackerName" label="项目跟踪人:">
-              <t-manager-select v-model="dataForm.proTrackerName"
+            <el-form-item prop="proTracker" label="项目跟踪人:">
+              <t-manager-select v-model="dataForm.proTracker" placeholder=" "
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -185,7 +183,6 @@
           proBuildArea: '',
           planBidDate: '',
           proTracker: '',
-          proTrackerName: '',
           contactNum: '',
           bidResult: '',
           bidCount: '',
@@ -252,8 +249,8 @@
           planBidDate: [
             {required: false, message: '计划投标日期不能为空', trigger: 'blur'}
           ],
-          proTrackerName: [
-            {required: false, message: '项目跟踪人不能为空', trigger: 'blur'}
+          proTracker: [
+            {required: true, message: '项目跟踪人不能为空', trigger: 'blur'}
           ],
           contactNum: [
             {required: false, message: '联系方式不能为空', trigger: 'blur'}
@@ -304,13 +301,8 @@
           })
         }
       },
-      getSelectedManager(charge) {
-        console.log('current charge', charge)
-        this.dataForm.proTracker = charge.id
-        // charge为从弹窗框列表带出来的那一行的数据
-        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
-        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
-        // 例如 this.dataForm.id = charge.id
+      getSelectedManager(manager) {
+        console.log('current manager', manager)
       },
       getUserWithDepartments() {
         if (this.currentUser && this.currentUser.userId) {

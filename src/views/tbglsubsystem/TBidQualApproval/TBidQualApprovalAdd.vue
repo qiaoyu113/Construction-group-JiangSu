@@ -48,8 +48,9 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称:" prop="pcId" >
-              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"  :readOnly="readOnly"></t-record-select >
+            <el-form-item label="项目名称:" prop="pcId">
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"
+                               :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -69,7 +70,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式:">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -79,12 +81,14 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proType" label="工程类别:">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proRunMode" label="经营方式:">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -94,17 +98,18 @@
           </el-col>
         </el-row>
       </el-card>
-        <el-card shadow="never">
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="amount" label="金额:">
-              <t-input v-model="dataForm.amount" placeholder="填写大致金额（数字）:"  :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.amount" placeholder="填写大致金额（数字）:" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item prop="existElectMark" label="是否使用电子章:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"  :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
+                                  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -209,13 +214,13 @@
         }
       }
     },
-    created () {
+    created() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    activated () {
+    activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -229,7 +234,8 @@
     methods: {
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
-        this.dataForm.proName = pcId.proName
+        this.dataForm.pcId = pcId.id
+        this.dataForm.proname = pcId.proName
         this.dataForm.proSubCompany = pcId.proSubCompany
         this.dataForm.proBusDept = pcId.proBusDept
         this.dataForm.proConstructCompany = pcId.proConstructCompany
