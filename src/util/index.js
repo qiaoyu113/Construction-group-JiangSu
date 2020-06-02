@@ -9,6 +9,10 @@ let util = {
 
   }
 }
+
+// 校验网址是否正确
+util.isRightWebsite = value => /^(((ht|f)tps?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/g.test(value);
+
 // 判断对象是否undefined
 util.isUndefined = function (val) {
   return typeof (val) === 'undefined'
@@ -100,6 +104,7 @@ util.getProvinceCityName = function (province, city) {
   } else {
     currentCityName = currentCity.name
   }
+
   return currentProvinceName + ' / ' + currentCityName  // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
 }
 // 前端权限校验
