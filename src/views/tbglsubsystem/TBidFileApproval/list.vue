@@ -258,7 +258,8 @@
       doReset() {
         this.$refs.search.resetFields();
         this.doRefresh()
-        this.$refs.handlerSelect.doReset()
+        // 清空经办人
+        this.$refs.handlerSelect.currentValue = ''
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,//工程名称
           proContractAttr: null,//合同模式
