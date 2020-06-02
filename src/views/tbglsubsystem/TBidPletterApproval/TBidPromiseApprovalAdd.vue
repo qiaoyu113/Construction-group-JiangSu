@@ -83,19 +83,21 @@
           <el-col :span="8">
             <el-form-item prop="promiseWay" label="保证方式：">
               <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay"
-                                  :readOnly="true"></t-dic-radio-select>
+                                  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额：">
-              <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
+              <t-input v-model="dataForm.amount" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="true"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
+        </el-row>
+          <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="generateBank" label="开立银行：">
               <t-input v-model="dataForm.generateBank" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
@@ -111,6 +113,8 @@
               <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
+          </el-row>
+            <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="plCode" label="保函编号：">
               <t-input v-model="dataForm.plCode" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
