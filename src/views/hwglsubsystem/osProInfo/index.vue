@@ -132,7 +132,7 @@
                 minWidth: 120
               },
               {
-                prop: 'subCompany',
+                prop: 'proSubCompany',
                 label: '所属分公司',
                 minWidth: 120
               },
@@ -142,17 +142,17 @@
                 minWidth: 120
               },
               {
-                prop: 'respCompany',
+                prop: '	respCompany',
                 label: '总包单位',
                 minWidth: 120
               },
               {
-                prop: 'proType',
+                prop: '	proType',
                 label: '项目类别',
                 minWidth: 120
               },
               {
-                prop: 'enginType',
+                prop: 'enginType	',
                 label: '工程类别',
                 minWidth: 120
               },
@@ -162,12 +162,12 @@
                 minWidth: 120
               },
               {
-                prop: 'totalInvestment',
+                prop: 'manager',
                 label: '项目经理',
                 minWidth: 120
               },
               {
-                prop: 'contractAttr',
+                prop: 'totalAmount',
                 label: '合同额',
                 minWidth: 120
               },
