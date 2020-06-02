@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="pl_geapproval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -21,7 +21,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <t-bank-project-select v-model="dataForm.pcId" @selectedData="getSelectedRecord"></t-bank-project-select>
+              <t-bh-project-select v-model="dataForm.proName" @selectedData="getSelectedRecord"></t-bh-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -41,7 +41,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proContractAttr" label="合同模式">
-              <t-dic-dropdown-select disabled dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -86,31 +86,34 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="plType" label="保函类型">
-              <t-dic-dropdown-select dicType="1260863704975675394" v-model="dataForm.plType" :readOnly="readOnly"></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="pl_type" disabled v-model="dataForm.plType" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="保函申请">
               <span>√ 已通过</span>
             </el-form-item>
+<!--            <el-form-item label="保函申请">-->
+<!--              <span>√ 已通过</span>-->
+<!--            </el-form-item>-->
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="金额">
-              <el-input readonly v-model="dataForm.proCode"></el-input>
+              <el-input readonly v-model="dataForm.plAmount"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="其中:占用合同保证金" label-width="200px">
-              <el-input readonly v-model="dataForm.account">
+              <el-input readonly v-model="dataForm.conAmount">
                 <span slot="append">元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="现金">
-              <el-input readonly v-model="dataForm.account">
+              <el-input readonly v-model="dataForm.caseAmount">
                 <span slot="append">元</span>
               </el-input>
             </el-form-item>
@@ -124,19 +127,19 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="开立时间">
-              <el-input readonly v-model="dataForm.generateTime"></el-input>
+              <t-datetime-picker type="date" disabled v-model="dataForm.generateTime"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="到期时间">
-              <el-input readonly v-model="dataForm.expireTime"></el-input>
+              <t-datetime-picker type="date" disabled v-model="dataForm.expireTime"></t-datetime-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="保函时间">
-              <el-input readonly v-model="dataForm.expireTime"></el-input>
+              <t-datetime-picker type="date" disabled v-model="dataForm.plSignTime"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -153,7 +156,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="remark" label="备注">
-              <el-input type="textarea" v-model="dataForm.remark"></el-input>
+              <el-input type="textarea" :readOnly="readOnly" v-model="dataForm.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -177,6 +180,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        isBackFill: false,
         dataForm: {
           id: 0,
           pId: '',
@@ -185,7 +189,16 @@
           sign: '',
           signTime: '',
           startDateBegin: '',
-          startDateEnd: ''
+          startDateEnd: '',
+          plType :'',
+          plAmount :'',
+          bankName :'',
+          generateTime :'',
+          expireTime :'',
+          caseAmount : '',
+          conAmount : '',
+          plSignTime : '',
+
         },
         dataRule: {
           sign: [
@@ -201,12 +214,14 @@
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -215,7 +230,6 @@
     },
     methods: {
       getSelectedRecord(data) {
-        console.log('current data', data)
         this.dataForm.proName = data.proName
         this.dataForm.proSubCompany = data.proSubCompany
         this.dataForm.proBusDept = data.proBusDept
@@ -228,29 +242,46 @@
         this.dataForm.pId = data.id
         this.dataForm.conName = data.conName
         this.dataForm.conTotal = data.conTotal
-        this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00'];
+        this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00']
+        // self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+        this.findPlGenerateApprovalAcount(data.id)
+      },
+      // 获取保函申请信息
+      findPlGenerateApprovalAcount(id){
+        let self = this;
+        if (id) {
+          tapp.services.plGenerateApproval.findPlGenerateApprovalAcount(id).then(function(result) {
+            if (result) {
+              self.dataForm.plId = result.id
+              self.dataForm.plType = result.plType
+              self.dataForm.plAmount = result.plAmount
+              self.dataForm.bankName = result.bankName
+              self.dataForm.generateTime = result.generateTime
+              self.dataForm.expireTime = result.expireTime
+              self.dataForm.plSignTime = result.signTime
+              self.dataForm.caseAmount = result.caseAmount
+              self.dataForm.conAmount = result.conAmount
+            } else {
+              self.$notify.error({
+                title: "错误",
+                message: "保函信息不存在！",
+              });
+            }
+          });
+        }
       },
       // 初始化 编辑和新增 2种情况
       init (id) {
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.plGeapproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.plGeapproval.pId
-                self.dataForm.plId = result.plGeapproval.plId
-                self.dataForm.remark = result.plGeapproval.remark
-                self.dataForm.sign = result.plGeapproval.sign
-                self.dataForm.signTime = result.plGeapproval.signTime
-                self.dataForm.propose = result.plGeapproval.propose
-                self.dataForm.result = result.plGeapproval.result
-                self.dataForm.approvalStatus = result.plGeapproval.approvalStatus
-                self.dataForm.createtime = result.plGeapproval.createtime
-                self.dataForm.updatetime = result.plGeapproval.updatetime
-                self.dataForm.createuser = result.plGeapproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+                self.findPlGenerateApprovalAcount(self.dataForm.plId)
               })
             }
           })
@@ -262,7 +293,6 @@
           })
         }
       },
-
       onStartDateRangeChanged(val) {
         this.dataFrom.startDateBegin = val[0];
         this.dataFrom.startDateEnd = val[1];

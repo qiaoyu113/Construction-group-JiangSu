@@ -9,7 +9,7 @@
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
         <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <t-workflow-map businessKey="pl_generate_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -24,7 +24,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <t-bank-project-select v-model="dataForm.pcId" @selectedData="getSelectedRecord"></t-bank-project-select>
+              <t-bank-project-select v-model="dataForm.proName" @selectedData="getSelectedRecord"></t-bank-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -291,15 +291,15 @@
         this.dataForm.conName = data.conName
         this.dataForm.conTotal = data.conTotal
         this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00']
-        this.getConDto(this.dataForm.cId, this.dataForm.pId)
+        this.getConDto(data.pId)
       },
       getConDto(cId){
         if (cId) {
           let self = this
-          tapp.services.plGenerateApproval.findFinaConById(cId).then(function(result) {
-            console.log('获取合同信息' + result)
-            self.dataInfo = result
-          })
+          // tapp.services.plGenerateApproval.findFinaConById(cId).then(function(result) {
+          //   console.log('获取合同信息' + result)
+          //   self.dataInfo = result
+          // })
         }
       },
       // 初始化 编辑和新增 2种情况
@@ -307,33 +307,19 @@
         if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
               let self = this;
               tapp.services.plGenerateApproval.get(id).then(function(result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.plGenerateApproval.pId
-                self.dataForm.plType = result.plGenerateApproval.plType
-                self.dataForm.plAmount = result.plGenerateApproval.plAmount
-                self.dataForm.bankName = result.plGenerateApproval.bankName
-                self.dataForm.generateTime = result.plGenerateApproval.generateTime
-                self.dataForm.expireTime = result.plGenerateApproval.expireTime
-                self.dataForm.plCode = result.plGenerateApproval.plCode
-                self.dataForm.remark = result.plGenerateApproval.remark
-                self.dataForm.sign = result.plGenerateApproval.sign
-                self.dataForm.signTime = result.plGenerateApproval.signTime
-                self.dataForm.propose = result.plGenerateApproval.propose
-                self.dataForm.result = result.plGenerateApproval.result
-                self.dataForm.approvalStatus = result.plGenerateApproval.approvalStatus
-                self.dataForm.createtime = result.plGenerateApproval.createtime
-                self.dataForm.updatetime = result.plGenerateApproval.updatetime
-                self.dataForm.createuser = result.plGenerateApproval.createuser
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+                self.findPlGenerateApprovalAcount(self.dataForm.plId)
               })
             }
           })
         } else {
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
           })

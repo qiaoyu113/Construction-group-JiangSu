@@ -8,8 +8,10 @@
         审批流程图
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
-        <!-- businessKey值请修改当前流程的key值 -->
-        <t-workflow-map businessKey="t_baseinfo_key_approval_process"></t-workflow-map>
+        <!-- businessKey值请修改当前流程的key值 分公司-->
+        <t-workflow-map :hidden="dataForm.processBranch === '1260909636299657218'" businessKey="t_fina_key_payment_approval"></t-workflow-map>
+<!--  集团公司      t_fina_key_head_payment_approval-->
+        <t-workflow-map :hidden="dataForm.processBranch === '1260909602040582146'" businessKey="t_fina_key_head_payment_approval"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
@@ -60,7 +62,7 @@
         <el-row :gutter="20">
           <el-col :span="8" :hidden="scConNameFlag">
             <el-form-item prop="scConName" label="子合同名称">
-              <t-cont-subcontract-spproval :pId="dataForm.pId" v-model="dataForm.scConName" @selectedCon="getSelected">
+              <t-cont-subcontract-spproval :pId="dataForm.scConName" v-model="dataForm.scConName" @selectedCon="getSelected">
               </t-cont-subcontract-spproval>
             </el-form-item>
           </el-col>
@@ -259,6 +261,7 @@
         dialogVisible: false,
         fundPurposeDisabled: false,
         conNameFlag: true,
+        isBackFill: false,
         dataForm: {
           bId: '',
           actTaskKey: '',
@@ -344,33 +347,33 @@
           rId: [
             {required: true, message: '到账标识不能为空', trigger: 'blur'}
           ],
-          totalReceived: [
-            {required: true, message: '本项目累计已收款不能为空', trigger: 'blur'}
-          ],
-          totalReceivedRatio: [
-            {required: true, message: '已收款比例不能为空', trigger: 'blur'}
-          ],
-          totalPayment: [
-            {required: true, message: '本项目累计已付款不能为空', trigger: 'blur'}
-          ],
-          scTotalReceived: [
-            {required: true, message: '当前子合同累计已付款不能为空', trigger: 'blur'}
-          ],
-          scTotalReceivedRatio: [
-            {required: true, message: '当前子合同累计已付款比例不能为空', trigger: 'blur'}
-          ],
-          paymentAmount: [
-            {required: true, message: '本次付款金额不能为空', trigger: 'blur'}
-          ],
-          afterThisRatio: [
-            {required: true, message: '累计付款比例不能为空', trigger: 'blur'}
-          ],
-          leftoverAmount: [
-            {required: true, message: '本项目余款不能为空', trigger: 'blur'}
-          ],
-          leftoverAmountRatio: [
-            {required: true, message: '项目余款比例不能为空', trigger: 'blur'}
-          ],
+          // totalReceived: [
+          //   {required: true, message: '本项目累计已收款不能为空', trigger: 'blur'}
+          // ],
+          // totalReceivedRatio: [
+          //   {required: true, message: '已收款比例不能为空', trigger: 'blur'}
+          // ],
+          // totalPayment: [
+          //   {required: true, message: '本项目累计已付款不能为空', trigger: 'blur'}
+          // ],
+          // scTotalReceived: [
+          //   {required: true, message: '当前子合同累计已付款不能为空', trigger: 'blur'}
+          // ],
+          // scTotalReceivedRatio: [
+          //   {required: true, message: '当前子合同累计已付款比例不能为空', trigger: 'blur'}
+          // ],
+          // paymentAmount: [
+          //   {required: true, message: '本次付款金额不能为空', trigger: 'blur'}
+          // ],
+          // afterThisRatio: [
+          //   {required: true, message: '累计付款比例不能为空', trigger: 'blur'}
+          // ],
+          // leftoverAmount: [
+          //   {required: true, message: '本项目余款不能为空', trigger: 'blur'}
+          // ],
+          // leftoverAmountRatio: [
+          //   {required: true, message: '项目余款比例不能为空', trigger: 'blur'}
+          // ],
           receiveCompany: [
             {required: true, message: '收款单位不能为空', trigger: 'blur'}
           ],
@@ -405,16 +408,18 @@
         projectLoanSearchData: {}
       }
     },
-    created () {
+    created() {
       const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly === 'true') || this.readOnly
-      this.showButton = !(currentQuery.readonly === 'true')
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
-    activated () {
+    activated() {
       const currentQuery = this.$route.query
-      this.readOnly = (currentQuery.readonly === 'true') || this.readOnly
-      this.showButton = !(currentQuery.readonly === 'true')
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
     computed: {
@@ -489,48 +494,17 @@
         this.scTotalReceivedRatioFlag = false
         this.scTotalReceivedFlag = false
       },
-      // 初始化 编辑和新增 2种情况
       init (id) {
-        if (id) {
+        if(id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
+            this.$refs["ruleForm"].resetFields()
             if (this.dataForm.id) {
-              let self = this
-              tapp.services.finaPaymenapproval.get(id).then(function (result) {
-                self.$util.deepObjectAssign({}, self.dataForm, result)
-                self.dataForm.pId = result.finaPaymenapproval.pId
-                self.dataForm.proRunMode = result.finaPaymenapproval.proRunMode
-                self.dataForm.unionCompany = result.finaPaymenapproval.unionCompany
-                self.dataForm.scId = result.finaPaymenapproval.scId
-                self.dataForm.paymentType = result.finaPaymenapproval.paymentType
-                self.dataForm.fundPurpose = result.finaPaymenapproval.fundPurpose
-                self.dataForm.processBranch = result.finaPaymenapproval.processBranch
-                self.dataForm.paymentWay = result.finaPaymenapproval.paymentWay
-                self.dataForm.rId = result.finaPaymenapproval.rId
-                self.dataForm.totalReceived = result.finaPaymenapproval.totalReceived
-                self.dataForm.totalReceivedRatio = result.finaPaymenapproval.totalReceivedRatio
-                self.dataForm.totalPayment = result.finaPaymenapproval.totalPayment
-                self.dataForm.scTotalReceived = result.finaPaymenapproval.scTotalReceived
-                self.dataForm.scTotalReceivedRatio = result.finaPaymenapproval.scTotalReceivedRatio
-                self.dataForm.paymentAmount = result.finaPaymenapproval.paymentAmount
-                self.dataForm.afterThisRatio = result.finaPaymenapproval.afterThisRatio
-                self.dataForm.leftoverAmount = result.finaPaymenapproval.leftoverAmount
-                self.dataForm.leftoverAmountRatio = result.finaPaymenapproval.leftoverAmountRatio
-                self.dataForm.receiveCompany = result.finaPaymenapproval.receiveCompany
-                self.dataForm.bankName = result.finaPaymenapproval.bankName
-                self.dataForm.bankAccountName = result.finaPaymenapproval.bankAccountName
-                self.dataForm.bankAccount = result.finaPaymenapproval.bankAccount
-                self.dataForm.contacter = result.finaPaymenapproval.contacter
-                self.dataForm.contacterTel = result.finaPaymenapproval.contacterTel
-                self.dataForm.approvalStatus = result.finaPaymenapproval.approvalStatus
-                self.dataForm.sign = result.finaPaymenapproval.sign
-                self.dataForm.signTime = result.finaPaymenapproval.signTime
-                self.dataForm.propose = result.finaPaymenapproval.propose
-                self.dataForm.result = result.finaPaymenapproval.result
-                self.dataForm.createtime = result.finaPaymenapproval.createtime
-                self.dataForm.updatetime = result.finaPaymenapproval.updatetime
-                self.dataForm.createuser = result.finaPaymenapproval.createuser
+              let self = this;
+              tapp.services.finaPaymenapproval.get(id).then(function(result) {
+                self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                // self.dataForm.conPeriod = [self.dataForm.conStartDate + ' 00:00:00', self.dataForm.conEndDate + ' 00:00:00']
+                // self.findPlGenerateApprovalAcount(self.dataForm.plId)
               })
             }
           })
