@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20" class="page-title">
       <el-col>
-        <div class="title">密钥办理申请</div>
+        <div class="title">资格审查</div>
       </el-col>
     </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
@@ -45,7 +45,7 @@
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px"
              label-position="right">
       <el-card shadow="never">
-        <t-sub-title :title="'备案信息1111'"></t-sub-title>
+        <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="pcId" >

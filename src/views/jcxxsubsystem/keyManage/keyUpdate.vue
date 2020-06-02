@@ -73,7 +73,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效期至" prop="expirationDate" >
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"></t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"  :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -248,12 +248,14 @@
     created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      console.log('this.readOnly', this.readOnly)
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
     activated () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      console.log('this.readOnly', this.readOnly)
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
