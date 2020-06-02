@@ -30,7 +30,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="proName">
-              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"  :readOnly="readOnly"></t-record-select>
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"
+                               :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -80,13 +81,13 @@
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="promiseWay" label="保证方式:">
+            <el-form-item prop="promiseWay" label="保证方式：">
               <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay"
                                   :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="amount" label="金额:">
+            <el-form-item prop="amount" label="金额：">
               <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
@@ -96,38 +97,38 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="generateBank" label="开立银行:">
+            <el-form-item prop="generateBank" label="开立银行：">
               <t-input v-model="dataForm.generateBank" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="generateTime" label="开立时间:">
+            <el-form-item prop="generateTime" label="开立时间：">
               <t-input v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="invalidTime" label="到期时间:">
+            <el-form-item prop="invalidTime" label="到期时间：">
               <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="plCode" label="保函编号:">
+            <el-form-item prop="plCode" label="保函编号：">
               <t-input v-model="dataForm.plCode" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item prop="sign" label="经办人:">
+            <el-form-item prop="sign" label="经办人：">
               <span>{{dataForm.sign}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="signTime" label="经办时间:">
+            <el-form-item prop="signTime" label="经办时间：">
               <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注:">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -303,22 +304,22 @@
               tapp.services.tBidPromiseApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params1 = {}
-                if(/^[0-9]*$/.test(result.pcId)) {
+                if (/^[0-9]*$/.test(result.pcId)) {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  } 
+                  }
                 } else {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  } 
+                  }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) {
+                  if (_result && _result.items && _result.items.length > 0) {
                     let item;
                     item = find(_result.items, {id: result.pcId})
-                    if(!item) item = find(_result.items, {proName: result.pcId})
+                    if (!item) item = find(_result.items, {proName: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                   }
                 })
