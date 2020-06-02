@@ -1,7 +1,24 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-upload2">保存</el-button>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">备案合同登记</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
+        提交审批
+      </el-button>
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
+        审批流程图
+      </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_cont_key_branch_info"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="120px" label-position="right">
@@ -20,7 +37,7 @@
         </el-col>
 
           <el-col :span="8">
-            <el-form-item label="是否与主合同一致：" prop="pId" verify class="is-required">
+            <el-form-item label="是否与主合同一致：" prop="pId"  class="is-required">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.bId"
                                   :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
@@ -174,12 +191,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同开始日期:" prop="updatetime" verify gtdatenow class="is-required">
+          <el-form-item label="合同开始日期:" prop="updatetime"  gtdatenow class="is-required">
             <t-datetime-picker v-model="dataForm.updatetime" type="date"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="合同结束日期：" prop="createuser" verify gtdatenow class="is-required">
+          <el-form-item label="合同结束日期：" prop="createuser"  gtdatenow class="is-required">
             <t-datetime-picker v-model="dataForm.updatetime" type="date"></t-datetime-picker>
           </el-form-item>
         </el-col>
@@ -192,8 +209,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item label="签订日期：" prop="datastatus" verify gtdatenow class="is-required">
-            <t-datetime-picker v-model="dataForm.datastatus" type="date"></t-datetime-picker>
+          <el-form-item label="签订日期：" prop="conStartDate"  gtdatenow class="is-required">
+            <t-datetime-picker v-model="dataForm.conStartDate" type="date"></t-datetime-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -228,13 +245,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="datastatus" label="联营占比：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="conStartDate" label="联营占比：">
+            <el-input v-model="dataForm.conStartDate"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item prop="datastatus" label="合同额：">
-            <el-input v-model="dataForm.datastatus"></el-input>
+          <el-form-item prop="conStartDate" label="合同额：">
+            <el-input v-model="dataForm.conStartDate"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -245,7 +262,7 @@
       <t-sub-title :title="'合同保收款条件'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="datastatus" verify can-be-empty :maxLength="200">
+          <el-form-item prop="conStartDate"  can-be-empty :maxLength="200">
             <el-input type="textarea"></el-input>
           </el-form-item>
         </el-col>
@@ -267,6 +284,8 @@
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         readOnly: false,
+        showButton: true,
+        dialogVisible: false,
         dataForm: {
           pId: '',
           cId: '',
@@ -291,7 +310,7 @@
           city: '',
         },
         dataRule: {
-          pId: [
+          /*pId: [
             {required: true, message: '项目id不能为空', trigger: 'blur'}
           ],
           cId: [
@@ -347,12 +366,21 @@
           ],
           datastatus: [
             {required: true, message: '数据有效性 1有效 0无效不能为空', trigger: 'blur'}
-          ]
+          ]*/
         }
       }
     },
     created() {
-      // this.init()
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
+    },
+    activated() {
+      const currentQuery = this.$route.query
+      this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
+      this.showButton = !(currentQuery.readonly == 'true')
+      this.init(currentQuery.businessId)
     },
     methods: {
       // 初始化 编辑和新增 2种情况
