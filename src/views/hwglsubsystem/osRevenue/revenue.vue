@@ -21,29 +21,29 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="承包形式：" prop="expendStype">
+            <el-form-item label="承包形式：" prop="contractAttr">
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.expendStype" placeholder="承包形式"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.contractAttr" placeholder="承包形式"
                         clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="项目类别：" prop="expendStype">
+            <el-form-item label="项目类别：" prop="proType">
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.expendStype" placeholder="项目类别"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType" placeholder="项目类别"
                         clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="类型：" prop="expendStype">
+            <el-form-item label="类型：" prop="enginType">
               <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.expendStype" placeholder="类型"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.enginType" placeholder="类型"
                         clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="收支统计日" prop="dateRange">
-              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
+            <el-form-item label="收支统计日" prop="expenDate">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expenDate"
                                        @change="onStartDateRangeChanged">
               </t-datetime-range-picker>
             </el-form-item>
@@ -110,32 +110,32 @@
                 minWidth: 120
               },
               {
-                prop: 'cId',
+                prop: 'totalInvestment',
                 label: '项目总投资',
                 minWidth: 120
               },
               {
-                prop: 'expendType',
+                prop: 'subCompany',
                 label: '所属公司',
                 minWidth: 120
               },
               {
-                prop: 'expendStype',
+                prop: 'contractAttr',
                 label: '承包形式',
                 minWidth: 120
               },
               {
-                prop: 'expendStype',
+                prop: 'respCompany',
                 label: '总包单位',
                 minWidth: 120
               },
               {
-                prop: 'expendStype',
+                prop: '	currencyCode',
                 label: '使用货币',
                 minWidth: 120
               },
               {
-                prop: 'expendStype',
+                prop: 'proType',
                 label: '项目类型',
                 minWidth: 120
               },

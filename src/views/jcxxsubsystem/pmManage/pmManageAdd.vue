@@ -14,95 +14,100 @@
         <t-sub-title :title="'资质信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="pmName" label="项目经理">
+            <el-form-item prop="pmName" label="项目经理：">
               <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.pmName"
                                 @selectedManager="getSelectedManager"></t-manager-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属单位">
+            <el-form-item prop="proSubCompany" label="所属单位：">
               <el-input v-model="dataForm.proSubCompany" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContactway" label="联系方式">
+            <el-form-item prop="proContactway" label="联系方式：">
               <el-input v-model="dataForm.proContactway" readonly></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="constructorLevel" label="建造师等级">
+            <el-form-item prop="constructorLevel" label="建造师等级：">
               <t-dic-dropdown-select dicType="constructor_level" v-model="dataForm.constructorLevel"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="constructorCode" label="建造师证书编号">
+            <el-form-item prop="constructorCode" label="建造师证书编号：" label-width="126px">
               <el-input v-model="dataForm.constructorCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="安全B证">
+            <el-form-item prop="safeB" label="安全B证：">
               <el-input v-model="dataForm.safeB"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proStatue" label="是否在建">
+            <el-form-item prop="proStatue" label="是否在建：">
               <el-input v-model="dataForm.proStatue" readonly></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
-            <el-form-item prop="safeB" label="累计项目合同额">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+          <el-col :span="8">
+            <el-form-item prop="CountProWinAmount" label="累计项目合同额：" label-width="126px">
+              <el-input v-model="dataForm.CountProWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -111,12 +116,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="createuser" label="登记人">
+          <el-form-item prop="createuser" label="登记人：">
             <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="登记时间">
+          <el-form-item prop="createtime" label="登记时间：">
             <span>{{dataForm.createtime}}</span>
           </el-form-item>
         </el-col>
@@ -135,17 +140,11 @@
   import {mapState} from 'vuex'
 
   export default {
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-    },
     data() {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         dataForm: {
           pmId: '',
           constructorLevel: '',
@@ -260,7 +259,7 @@
         this.dataForm.proRealStartDate = manager.proRealStartDate//项目开工日期
         this.dataForm.proWinAmount = manager.proWinAmount//项目合同额
         tapp.services.proInfo.getPagedList().then(result => {
-          
+
         })
 
       },

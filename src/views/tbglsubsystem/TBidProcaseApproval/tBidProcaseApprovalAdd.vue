@@ -13,7 +13,6 @@
         审批流程图
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
-        <!-- businessKey值请修改当前流程的key值 -->
         <t-workflow-map businessKey="t_bid_procase_approval_process"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
@@ -26,90 +25,89 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proCode" label="项目备案编号:">
+            <el-form-item prop="proCode" label="项目备案编号：">
               <t-input v-model="dataForm.proCode" placeholder="系统自动生成" disabled></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="备案单位:">
+            <el-form-item prop="proSubCompany" label="备案单位：">
               <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBusDept" label="事业部:">
+            <el-form-item prop="proBusDept" label="事业部：">
               <t-input v-model="dataForm.proBusDept" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="proName" label="拟建项目名称:">
+            <el-form-item prop="proName" label="拟建项目名称：">
               <t-input v-model="dataForm.proName" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="proIntroduce" label="项目简介:">
+            <el-form-item prop="proIntroduce" label="项目简介：">
               <t-input type="textarea" :rows="3" v-model="dataForm.proIntroduce" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地点:">
+            <el-form-item prop="proAddressProvince" label="项目地点：">
               <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity"
                                  :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressDetail" label="详细地址:" display="t">
+            <el-form-item prop="proAddressDetail" label="详细地址：" display="t">
               <t-input v-model="dataForm.proAddressDetail" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位:">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <t-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTotalInvestment" label="投资金额:">
+            <el-form-item prop="proTotalInvestment" label="投资金额：">
               <t-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proType" label="工程类别:">
+            <el-form-item prop="proType" label="工程类别：">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
                                      :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="计划合同模式:">
+            <el-form-item prop="proContractAttr" label="计划合同模式：">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
                                      :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proRunMode" label="计划经营方式:">
+            <el-form-item prop="proRunMode" label="计划经营方式：">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
                                      :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proUnionCompany" label="合作单位:">
+            <el-form-item prop="proUnionCompany" label="合作单位：">
               <t-input v-model="dataForm.proUnionCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBuildArea" label="计划项目规模:">
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
               <t-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="planBidDate" label="计划投标日期:">
+            <el-form-item prop="planBidDate" label="计划投标日期：">
               <t-datetime-picker v-model="dataForm.planBidDate" type="date" :disabled="readOnly">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTrackerName" label="项目跟踪人:">
-              <t-manager-select v-model="dataForm.proTrackerName"
+            <el-form-item prop="proTracker" label="项目跟踪人：">
+              <t-manager-select v-model="dataForm.proTracker" placeholder=" "
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -160,11 +158,11 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        submitDialogVisible: false,
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           proCode: '',
@@ -185,7 +183,6 @@
           proBuildArea: '',
           planBidDate: '',
           proTracker: '',
-          proTrackerName: '',
           contactNum: '',
           bidResult: '',
           bidCount: '',
@@ -252,8 +249,8 @@
           planBidDate: [
             {required: false, message: '计划投标日期不能为空', trigger: 'blur'}
           ],
-          proTrackerName: [
-            {required: false, message: '项目跟踪人不能为空', trigger: 'blur'}
+          proTracker: [
+            {required: true, message: '项目跟踪人不能为空', trigger: 'blur'}
           ],
           contactNum: [
             {required: false, message: '联系方式不能为空', trigger: 'blur'}
@@ -304,13 +301,8 @@
           })
         }
       },
-      getSelectedManager(charge) {
-        console.log('current charge', charge)
-        this.dataForm.proTracker = charge.id
-        // charge为从弹窗框列表带出来的那一行的数据
-        // 主要负责人id 已从从组件里已经带出来，这里定义为 dataForm.mainPid，可以自行修改为当前传到接口的变量名
-        // 实际上需要传到接口的的charge的其他值，从这里的charge获取
-        // 例如 this.dataForm.id = charge.id
+      getSelectedManager(manager) {
+        console.log('current manager', manager)
       },
       getUserWithDepartments() {
         if (this.currentUser && this.currentUser.userId) {

@@ -10,19 +10,19 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="pmId" label="姓名">
+            <el-form-item prop="pmId" label="姓名：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="constructorLevel" label="建造师等级">
+            <el-form-item prop="constructorLevel" label="建造师等级：">
               <t-dic-dropdown-select dicType="constructor_level"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="分公司">
+            <el-form-item prop="proSubCompany" label="分公司：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
@@ -36,7 +36,10 @@
           </el-col>
         </el-row>
       </t-form>
-      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
+    </el-card>
+    <el-card shadow="never">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange"
+              @cell-clik="handleCellClick">
       </t-grid>
     </el-card>
   </div>
@@ -152,8 +155,8 @@
       handleSelectionChange(val) {
         this.checkededRows = val;
       },
-      handleCellClick(row,column,cell,event){
-        console .log('click-info',row,column,cell,event)
+      handleCellClick(row, column, cell, event) {
+        console.log('click-info', row, column, cell, event)
       },
       doReset() {
         this.$refs.search.resetFields();

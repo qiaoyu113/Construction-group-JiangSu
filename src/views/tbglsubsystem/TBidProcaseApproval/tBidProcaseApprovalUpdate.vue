@@ -5,22 +5,23 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proName" label="项目名称" placeholder="匹配项目名称、简介、备注查询">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"  placeholder="匹配项目名称、简介、备注查询"></el-input>
+            <el-form-item prop="proName" label="项目名称：" placeholder="匹配项目名称、简介、备注查询">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                        placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地址">
+            <el-form-item prop="proAddressProvince" label="项目地址：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="工程类别">
+            <el-form-item label="工程类别：">
               <t-dic-dropdown-select dicType="engineering_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -28,7 +29,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="经营方式">
+            <el-form-item label="经营方式：">
               <t-dic-dropdown-select dicType="business_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -44,6 +45,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -133,7 +136,7 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
                   // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },

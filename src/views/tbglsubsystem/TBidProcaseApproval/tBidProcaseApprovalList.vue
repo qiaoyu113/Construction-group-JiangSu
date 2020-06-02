@@ -9,50 +9,50 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proName" label="项目名称">
+            <el-form-item prop="proName" label="项目名称：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
                         placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressDetail" label="项目地址">
+            <el-form-item prop="proAddressDetail" label="项目地址：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="工程类别">
+            <el-form-item label="工程类别：">
               <t-dic-dropdown-select dicType="engineering_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="经营方式">
+            <el-form-item label="经营方式：">
               <t-dic-dropdown-select dicType="business_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="审批状态">
+            <el-form-item label="审批状态：">
               <t-dic-checkbox-select dicType="approval_status"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
                                      :readOnly="readOnly"></t-dic-checkbox-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="备案人" prop="signId">
+            <el-form-item label="备案人：" prop="signId">
               <t-handler-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId"
                                 @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="备案单位">
+            <el-form-item prop="proSubCompany" label="备案单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany"></el-input>
             </el-form-item>
           </el-col>
@@ -66,6 +66,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -105,6 +107,7 @@
             }
           },
           grid: {
+            reduceMethod: this.getSummaries,
             offsetHeight: 125, //125:查询部分高度
             mutiSelect: false,
             fit: false, // 列的宽度是否自撑开
@@ -138,6 +141,9 @@
                 label: '投资金额',
                 sortable: false,
                 minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return util.moneyFormat(row.proTotalInvestment)
+                }
               },
 
               {
@@ -158,7 +164,7 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
                   // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
@@ -230,14 +236,27 @@
       this.loadCodeTableList();
     },
     methods: {
+      getSummaries(param) {
+        const {
+          columns,
+          data,
+          reduces
+        } = param
+
+        this.reduces = reduces || []
+
+        if (reduces == null) {
+          return []
+        }
+        const sums = []
+        sums[1] = '合计'
+        sums[5] = util.moneyFormat(reduces.sumProTotalInvestment) || '--'
+        return sums
+      },
+
       getSelectedUser(user) {
         console.log('current user', user)
         this.gridOptions.dataSource.serviceInstanceInputParameters.sign = user.name
-
-        // user为从弹窗框列表带出来的那一行的数据
-        // 用户id 已从从组件里已经带出来，这里定义为 dataForm.userId，可以自行修改为当前传到接口的变量名
-        // 实际上需要传到接口的的user的其他值，从这里的user获取
-        // 例如 this.dataForm.id = user.id
       },
       // 获取码表值
       loadCodeTableList() {

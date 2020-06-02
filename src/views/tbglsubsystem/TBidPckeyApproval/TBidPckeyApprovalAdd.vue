@@ -86,7 +86,7 @@
 
           <el-col :span="8">
             <el-form-item prop="keyType" label="密钥类别:">
-              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :readOnly="readOnly" :disabled="isEdit" ></t-dic-dropdown-select>
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -213,14 +213,14 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        submitDialogVisible: false,
         isEdit: false,
         hint: '',
         municipality: ['820000', '810000', '500000', '310000', '110000', '120000', '710000'],
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           pcId: '',

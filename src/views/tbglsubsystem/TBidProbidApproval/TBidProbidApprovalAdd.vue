@@ -390,6 +390,7 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proNameA = pcId.proName
+        this.dataForm.pId = pcId.id
         this.dataForm.proSubCompanyA = pcId.proSubCompany
         this.dataForm.proBusDeptA = pcId.proBusDept
         this.dataForm.proConstructCompanyA = pcId.proConstructCompany

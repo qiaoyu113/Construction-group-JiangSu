@@ -76,8 +76,8 @@
       <t-sub-title :title="'办理信息'"></t-sub-title>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item prop="proManager" label="项目经理：">
-            <t-input :readOnly="true" v-model="dataForm.proManager"></t-input>
+          <el-form-item prop="proManagerName" label="项目经理：">
+            <t-input :readOnly="true" v-model="dataForm.proManagerName"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -153,6 +153,7 @@
           proRunMode: '',
           proBuildArea: '',
           proManager: '',
+          proManagerName: '',
           approvalStatus: '',
           grantUser: '',
           grantContent: '',
@@ -208,6 +209,7 @@
                     tapp.services.tBaseinfoPmQualification.get(self.dataForm.proManager).then(manager => {
                       if(manager) {
                         self.dataForm.constructorLevel = manager.constructorLevel
+                        self.dataForm.proManagerName = manager.name
                       }
                     })
                   }
@@ -245,6 +247,7 @@
           tapp.services.tBaseinfoPmQualification.get(this.dataForm.proManager).then(manager => {
             if(manager) {
               this.dataForm.constructorLevel = manager.constructorLevel
+              this.dataForm.proManagerName = manager.name
             }
           })
         }

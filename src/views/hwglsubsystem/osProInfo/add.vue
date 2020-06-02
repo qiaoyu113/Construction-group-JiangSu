@@ -98,7 +98,7 @@
             <el-row :gutter="20">
                 <el-col :span="16">
                   <el-form-item prop="name" label="项目名称：">
-                    <el-input v-model="dataForm.name"  :readOnly="readOnly"></el-input>
+                    <el-input v-model="dataForm.name" :readOnly="readOnly"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -108,7 +108,7 @@
                 </el-col>
                 <el-col :span="8">
                    <el-form-item prop="totalAmount" label="合同总额：">
-                      <el-input v-model="dataForm.totalAmount"   :readOnly="readOnly"></el-input>
+                      <el-input v-model="dataForm.totalAmount" :readOnly="readOnly"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">

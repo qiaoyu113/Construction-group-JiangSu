@@ -47,32 +47,32 @@
       <el-card shadow="never">
         <t-sub-title :title="'合作方基本信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="companyName" label="合作方名称">
+          <el-form-item prop="companyName" label="合作方名称：">
             <t-input v-model="dataForm.companyName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="creditCode" label="统一社会信用代码" label-width="180px">
+          <el-form-item prop="creditCode" label="统一社会信用代码：" label-width="180px">
             <t-input v-model="dataForm.creditCode" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="companyAddress" label="合作方地址">
+          <el-form-item prop="companyAddress" label="合作方地址：">
             <t-input v-model="dataForm.companyAddress" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="legalPerson" label="法人">
+          <el-form-item prop="legalPerson" label="法人：">
             <t-input v-model="dataForm.legalPerson" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="principal" label="负责人">
+          <el-form-item prop="principal" label="负责人：">
             <t-input v-model="dataForm.principal" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="contactNum" label="联系电话">
+          <el-form-item prop="contactNum" label="联系电话：">
             <t-int-input v-model="dataForm.contactNum" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
@@ -81,11 +81,11 @@
         <t-sub-title :title="'合作方主要工程业绩'" extra="增加行" :readOnly="readOnly"
                      @extraClick="achievementDialogVisible = true"></t-sub-title>
         <el-table :data="dataForm.getPartnerAchievements" border style="width: 100%" max-height="220">
-          <el-table-column prop="projectName" label="工程名称" min-width="180"></el-table-column>
-          <el-table-column prop="projectScale" label="工程规模" width="180"></el-table-column>
-          <el-table-column prop="buildStartDate" label="开工日期" width="180"></el-table-column>
-          <el-table-column prop="buildEndDate" label="竣工日期" width="180"></el-table-column>
-          <el-table-column prop="buildCompany" label="建设单位" min-width="180"></el-table-column>
+          <el-table-column prop="projectName" label="工程名称：" min-width="180"></el-table-column>
+          <el-table-column prop="projectScale" label="工程规模：" width="180"></el-table-column>
+          <el-table-column prop="buildStartDate" label="开工日期：" width="180"></el-table-column>
+          <el-table-column prop="buildEndDate" label="竣工日期：" width="180"></el-table-column>
+          <el-table-column prop="buildCompany" label="建设单位：" min-width="180"></el-table-column>
           <el-table-column align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row, 'achievement')">删除
@@ -97,22 +97,22 @@
       <el-card shadow="never">
         <t-sub-title :title="'合作方资产情况'"></t-sub-title>
         <el-col :span="12">
-          <el-form-item prop="fixedAssets" label="固定资产">
+          <el-form-item prop="fixedAssets" label="固定资产：">
             <t-int-input v-model="dataForm.fixedAssets" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="fluidCapital" label="流动资金">
+          <el-form-item prop="fluidCapital" label="流动资金：">
             <t-int-input v-model="dataForm.fluidCapital" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="chargeAccount" label="应收账款">
+          <el-form-item prop="chargeAccount" label="应收账款：">
             <t-int-input v-model="dataForm.chargeAccount" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="liabilities" label="负债">
+          <el-form-item prop="liabilities" label="负债：">
             <t-int-input v-model="dataForm.liabilities" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
@@ -120,12 +120,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'合作方市场与拟合作项目情况'"></t-sub-title>
         <el-col :span="24">
-          <el-form-item prop="marketSituation" label="市场情况">
+          <el-form-item prop="marketSituation" label="市场情况：">
             <t-input type="textarea" :rows="3" v-model="dataForm.marketSituation" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="projectSituation" label="合作项目情况">
+          <el-form-item prop="projectSituation" label="合作项目情况：">
             <t-input type="textarea" :rows="3" v-model="dataForm.projectSituation" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
@@ -134,10 +134,10 @@
         <t-sub-title :title="'合作方主要管理人员情况'" extra="增加行" :readOnly="readOnly"
                      @extraClick="managerDialogVisible = true"></t-sub-title>
         <el-table :data="dataForm.getPartnerStaffs" border style="width: 100%" max-height="220">
-          <el-table-column prop="staffName" label="姓名" width="180"></el-table-column>
-          <el-table-column prop="age" label="年龄" width="180"></el-table-column>
-          <el-table-column prop="technicalTitle" label="职称及职业资格" min-width="180"></el-table-column>
-          <el-table-column prop="achievement" label="主要管理业绩" min-width="180"></el-table-column>
+          <el-table-column prop="staffName" label="姓名：" width="180"></el-table-column>
+          <el-table-column prop="age" label="年龄：" width="180"></el-table-column>
+          <el-table-column prop="technicalTitle" label="职称及职业资格：" min-width="180"></el-table-column>
+          <el-table-column prop="achievement" label="主要管理业绩：" min-width="180"></el-table-column>
           <el-table-column align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row, 'manager')">删除
@@ -149,17 +149,17 @@
       <el-card shadow="never">
         <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="bankName" label="开户行名称">
+          <el-form-item prop="bankName" label="开户行名称：">
             <t-input v-model="dataForm.bankName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="bankAccountName" label="银行帐户名称">
+          <el-form-item prop="bankAccountName" label="银行帐户名称：">
             <t-input v-model="dataForm.bankAccountName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="bankAccount" label="银行帐号">
+          <el-form-item prop="bankAccount" label="银行帐号：">
             <t-int-input v-model="dataForm.bankAccount" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
@@ -167,12 +167,12 @@
       <el-card shadow="never">
         <t-sub-title :title="' 登记信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
+          <el-form-item prop="sign" label="登记人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="登记时间">
+          <el-form-item prop="signTime" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -399,13 +399,13 @@
         }
       }
     },
-    created () {
+    created() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    activated () {
+    activated() {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -427,8 +427,13 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tBaseinfoPartnerApproval.get(id).then(function (result) {
-                console.log('result44444444441', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
+                tapp.services.tBaseinfoPartnerStaff.getList({id: result.id}).then(staffs => {
+                  self.dataForm.getPartnerStaffs = staffs
+                })
+                tapp.services.tBaseinfoPartnerAchievement.getList({id: result.id}).then(achievements => {
+                  self.dataForm.getPartnerAchievements = achievements
+                })
               })
             }
           })
@@ -476,6 +481,8 @@
           });
           return false;
         });
+      },
+      submit() {
       }
     }
   }
