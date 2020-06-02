@@ -98,7 +98,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="申请时间" prop="applyforDate" >
-              <t-datetime-picker v-model="dataForm.applyforDate" type="date" :readOnly="readOnly"></t-datetime-picker>
+              <t-datetime-picker v-model="dataForm.applyforDate" type="date" :disabled="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
