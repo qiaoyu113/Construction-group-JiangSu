@@ -9,19 +9,21 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="姓名">
-              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pmId"
+            <el-form-item label="姓名：">
+              <t-manager-select placeholder="选择一个项目经理："
+                                v-model="gridOptions.dataSource.serviceInstanceInputParameters.pmId"
                                 @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="建造师等级">
-              <t-dic-dropdown-select dicType="constructor_level" v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
+            <el-form-item label="建造师等级：">
+              <t-dic-dropdown-select dicType="constructor_level"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="分公司">
+            <el-form-item prop="proSubCompany" label="分公司：">
               <t-partner-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyId"
                                 @selectedPartner="getSelectedPartner"></t-partner-select>
 
@@ -37,7 +39,10 @@
           </el-col>
         </el-row>
       </t-form>
-      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
+    </el-card>
+    <el-card shadow="never">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange"
+              @cell-clik="handleCellClick">
       </t-grid>
     </el-card>
   </div>
@@ -56,7 +61,7 @@
         required: false
       },
     },
-    data () {
+    data() {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -138,12 +143,12 @@
       }
     },
     components: {},
-    created () {
+    created() {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       // 获取码表值
-      loadCodeTableList () {
+      loadCodeTableList() {
         // 以下为示例
       },
       getSelectedPartner(company) {
@@ -153,28 +158,28 @@
         // 实际上需要传到接口的的company的其他值，从这里的company获取
         // 例如 this.dataForm.creditCode = company.creditCode
       },
-      onStartDateRangeChanged (val) {
+      onStartDateRangeChanged(val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange (val) {
+      handleSelectionChange(val) {
         this.checkededRows = val
       },
-      handleCellClick(row,column,cell,event){
-        console .log('click-info',row,column,cell,event)
+      handleCellClick(row, column, cell, event) {
+        console.log('click-info', row, column, cell, event)
       },
-      doReset () {
+      doReset() {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
-      doExportExcel () {
+      doExportExcel() {
         this.$refs.searchReulstList.exportCSV('项目经理状态表')
       },
-      doRefresh () {
+      doRefresh() {
         this.$refs.searchReulstList.refresh()
       },
-      getSelectedManager (manager) {
+      getSelectedManager(manager) {
         console.log('current charge', manager)
       }
     }

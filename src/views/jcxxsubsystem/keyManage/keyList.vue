@@ -14,32 +14,34 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="所属地区" prop="region">
+            <el-form-item label="所属地区：" prop="region">
               <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province" :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city" :required="false"></t-region-s-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="密钥类别">
+            <el-form-item label="密钥类别：">
               <t-dic-dropdown-select dicType="key_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="dateRange">
+            <el-form-item label="申请时间：" prop="dateRange">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                        @change="onStartApplyforDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="办理单位">
+            <el-form-item label="办理单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.authCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="密钥状态">
+            <el-form-item label="密钥状态：">
               <t-dic-dropdown-select dicType="key_status"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyStatus"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -47,25 +49,26 @@
           </el-col>
 
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日" prop="dateRange1">
+            <el-form-item label="有效截止日：" prop="dateRange1">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
                                        @change="onStartExpirationDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+          <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="经办人" prop="signId">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId" @selectedUser="getSelectedUser"></t-handler-select>
+            <el-form-item label="经办人：" prop="signId">
+              <t-handler-select placeholder="选择一个经办人" v-model="gridOptions.dataSource.serviceInstanceInputParameters.signId" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="经办日期" prop="dateRange2">
+            <el-form-item label="经办日期：" prop="dateRange2">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
                                        @change="onStartSignTimeChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-
         </el-row>
         <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
           <el-col :span="12">
@@ -76,6 +79,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+      <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -189,7 +194,11 @@
               {
                 prop: 'keyStatus',
                 label: '密钥状态',
-                sortable: false
+                sortable: false,
+                width: '100px',
+                formatter: (row, column, cellValue) => {
+                  return util.dataDicFormat('key_status', row.keyStatus) // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
+                }
               },
               {
                 prop: '',

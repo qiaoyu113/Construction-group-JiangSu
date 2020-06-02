@@ -26,7 +26,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有无诉讼" prop="litigation" >
+            <el-form-item label="有无诉讼" prop="litigation">
               <!--诉讼-->
               <t-dic-dropdown-select dicType="have_or_not"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.litigation"/>
@@ -42,7 +42,10 @@
           </el-col>
         </el-row>
       </t-form>
-      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
+    </el-card>
+    <el-card shadow="never">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange"
+              @cell-clik="handleCellClick">
       </t-grid>
     </el-card>
     <el-dialog title="合作项目列表" :visible.sync="dialogTableVisible">
@@ -74,7 +77,7 @@
         required: false
       }
     },
-    data () {
+    data() {
       return {
         dialogTableVisible: false,
         checkededRows: [],
@@ -101,7 +104,7 @@
                 show: true,
                 label: '合作方项目查看',
                 method: this.openPartnerProjects
-              } ]
+              }]
             }, // 列操作按钮
             columns: [
 
@@ -159,33 +162,33 @@
       }
     },
     components: {},
-    created () {
+    created() {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       // 获取码表值
-      loadCodeTableList () {
+      loadCodeTableList() {
         // 以下为示例
       },
-      onStartDateRangeChanged (val) {
+      onStartDateRangeChanged(val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange (val) {
+      handleSelectionChange(val) {
         this.checkededRows = val
       },
-      handleCellClick(row,column,cell,event){
-        console .log('click-info',row,column,cell,event)
+      handleCellClick(row, column, cell, event) {
+        console.log('click-info', row, column, cell, event)
       },
-      doReset () {
+      doReset() {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh();
       },
-      doExportExcel () {
+      doExportExcel() {
         this.$refs.searchReulstList.exportCSV('合作方表')
       },
-      doRefresh () {
+      doRefresh() {
         this.$refs.searchReulstList.refresh()
       },
       openPartnerProjects(row) {

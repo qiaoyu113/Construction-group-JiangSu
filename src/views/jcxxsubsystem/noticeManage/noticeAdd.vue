@@ -16,37 +16,35 @@
         <t-sub-title :title="'公告信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="noticeType" label="公告类型">
+            <el-form-item prop="noticeType" label="公告类型：">
               <t-dic-dropdown-select dicType="notice_type" v-model="dataForm.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item prop="fromDept" label="发布部门">
-              <el-input v-model="dataForm.fromDept"></el-input>
+            <el-form-item prop="fromDept" label="发布部门：">
+              <el-input v-model="dataForm.fromDept" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item prop="noticeTitle" label="公告标题">
-              <el-input v-model="dataForm.noticeTitle"></el-input>
+              <el-input v-model="dataForm.noticeTitle" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="noticeContent" label="公告内容">
-              <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent" :readOnly="readOnly"></t-input>
+            <el-form-item prop="noticeContent" label="公告内容：">
+              <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="remark" label="是否置顶">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.remark"
-                                  :readOnly="readOnly"></t-dic-radio-select>
+            <el-form-item prop="remark" label="是否置顶：">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.remark"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="timeLimit" label="有效期">
+            <el-form-item prop="timeLimit" label="有效期：">
               <t-dic-dropdown-select dicType="time_limit" v-model="dataForm.timeLimit"
-                                     :readOnly="readOnly"></t-dic-dropdown-select>
+                                     placeholder="长期有效"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -54,12 +52,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="createuser" label="发布人">
+          <el-form-item prop="createuser" label="发布人：">
             <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="发布时间">
+          <el-form-item prop="createtime" label="发布时间：">
             <span>{{dataForm.createtime}}</span>
           </el-form-item>
         </el-col>
@@ -80,13 +78,6 @@
 
   export default {
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     watch: {
       isEdit: function (val) {
         if (val) {
@@ -97,11 +88,12 @@
         this.$util.ui.title(this.title)
       }
     },
-    data () {
+    data() {
       return {
         title: '',
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        readOnly: false,
         isEdit: false, // 是否是编辑状态
         dataForm: {
           noticeType: '',
@@ -135,19 +127,19 @@
           remark: [
             {required: false, message: '是否置顶不能为空', trigger: 'blur'}
           ],
-      createuser: [
+          createuser: [
             {required: false, message: '发布人不能为空', trigger: 'blur'}
           ],
-      createtime: [
+          createtime: [
             {required: false, message: '发布时间不能为空', trigger: 'blur'}
           ],
         }
       }
     },
-    created () {
+    created() {
       this.init()
     },
-    activated () {
+    activated() {
       this.$nextTick((_) => {
         if (this.routeChanged) {
           this.docId = this.$route.query.id
@@ -162,11 +154,12 @@
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init (id) {
+      init(id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
             this.$refs['ruleForm'].resetFields()
+            this.readOnly = true
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBaseinfoNotice.get(id).then(result => {
@@ -196,7 +189,7 @@
           })
         }
       },
-      doDelete () {
+      doDelete() {
         let self = this
         self.$confirm('此操作将永久删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -213,7 +206,7 @@
         })
       },
       // 表单提交
-      doSave () {
+      doSave() {
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
@@ -234,7 +227,7 @@
         })
       },
       // 关闭当前页面并跳转到新的页面
-      closeCurrentTabNav () {
+      closeCurrentTabNav() {
         this.$util.closeCurrentTabNav('noticeUpdate')
       }
     }

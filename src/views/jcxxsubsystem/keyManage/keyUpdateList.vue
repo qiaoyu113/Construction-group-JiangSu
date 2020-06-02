@@ -14,7 +14,7 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10">
           <el-col :span="8">
-            <el-form-item label="所属地区" prop="region">
+            <el-form-item label="所属地区：" prop="region">
               <!--<t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
                                @province="getProvince" @city="getCity" :required="false"></t-region-picker>-->
               <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province"
@@ -24,22 +24,23 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="密钥类别" prop="keyType">
+            <el-form-item label="密钥类别：" prop="keyType">
               <t-dic-dropdown-select dicType="key_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="dateRange2">
+            <el-form-item label="申请时间：" prop="dateRange2">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
                                        @change="onStartApplyforDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日" prop="dateRange1">
+            <el-form-item label="有效截止日：" prop="dateRange1">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
                                        @change="onStartExpirationDateChanged">
               </t-datetime-range-picker>
@@ -57,6 +58,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>

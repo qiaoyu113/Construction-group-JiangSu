@@ -11,20 +11,19 @@
         <t-sub-title :title="'公告列表'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="noticeType" label="公告类型" aria-placeholder="请选择">
+            <el-form-item prop="noticeType" label="公告类型：" aria-placeholder="请选择">
               <t-dic-dropdown-select dicType="notice_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeTitle" label="公告标题">
+            <el-form-item prop="noticeTitle" label="公告标题：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeTitle"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeContent" label="公告内容">
+            <el-form-item prop="noticeContent" label="公告内容：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeContent"></el-input>
             </el-form-item>
           </el-col>
@@ -40,6 +39,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -52,15 +53,9 @@
   export default {
     name: 'myTask',
     extends: baseView,
-    props: {
-      readOnly: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
     data() {
       return {
+        readOnly: false,
         checkededRows: [],
         processDefinationlist: [],
         startDateRange: null,
