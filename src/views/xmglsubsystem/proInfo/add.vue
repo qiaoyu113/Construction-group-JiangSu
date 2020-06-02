@@ -19,8 +19,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="haveOrNot === 'have'">
-            <el-form-item label="项目名称：" prop="pcId">
-              <t-record-select placeholder="选择一个备案项目" v-model="dataForm.pcId" @selectedRecord="getSelectedRecord">
+            <el-form-item label="项目名称：" prop="proName">
+              <t-record-select placeholder="选择一个备案项目" v-model="dataForm.proName" @selectedRecord="getSelectedRecord">
                 <el-button v-if="haveOrNot === 'have'" slot="append" icon="el-icon-search" @click="queryDialogVisible=true"></el-button>
               </t-record-select>
             </el-form-item>
@@ -391,7 +391,7 @@
           bidProcessList: null
         },
         dataRule: {
-          pcId: [
+          proName: [
             {required: true, message: '项目名称不能为空', trigger: 'blur'}
           ],
           proConstructCompany: [
@@ -581,6 +581,7 @@
       getSelectedRecord(record) {
         console.log(record);
         this.dataForm.proName = record.proName;
+        this.dataForm.pcId = record.id;
         this.dataForm.proConstructCompanyAttr = record.proConstructCompanyAttr;
         this.dataForm.proSubCompany = record.proSubCompany;
         this.dataForm.proCode = record.proCode;
