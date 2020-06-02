@@ -15,7 +15,6 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item prop="pType" label="用印类型：" class="is-required">
-                <!-- <t-dic-dropdown-select dict_type="" v-model=""></t-dic-dropdown-select> -->
                 <t-input v-model="pType" :readOnly="readOnly"></t-input>
               </el-form-item>
             </el-col>
@@ -107,6 +106,8 @@
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
+        </el-row>
+          <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="sign" label="经办人:">
               <span>{{dataForm.sign}}</span>

@@ -74,7 +74,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -90,9 +89,11 @@
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash"
-                                  :readOnly="true"></t-dic-radio-select>
+                                  :readOnly="disabled"></t-dic-radio-select>
             </el-form-item>
           </el-col>
+        </el-row>
+          <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="generateBank" label="开立银行:">
               <t-input v-model="dataForm.generateBank" :readOnly="true"></t-input>
@@ -108,6 +109,8 @@
               <t-input v-model="dataForm.invalidTime" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
+          </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="plCode" label="保函编号:">
               <t-input v-model="dataForm.plCode" :readOnly="true"></t-input>

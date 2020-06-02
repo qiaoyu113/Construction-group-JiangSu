@@ -27,7 +27,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称:" prop="proName">
-              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord" :readOnly="readOnly"></t-record-select>
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"
+                               :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -80,20 +81,22 @@
           <el-col :span="8">
             <el-form-item prop="pId" label="保证金(保函)退回:" label-width="180px">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.pId"
-                                  :readOnly="true"></t-dic-radio-select>
+                                  :readOnly="disabled"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额:">
-              <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
+              <t-input v-model="dataForm.amount" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash"
-                                  :readOnly="true"></t-dic-radio-select>
+                                  :readOnly="disabled"></t-dic-radio-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="generateBank" label="开立银行:">
               <t-input v-model="dataForm.generateBank" :readOnly="true"></t-input>
@@ -109,12 +112,13 @@
               <t-input v-model="dataForm.invalidTime" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="plCode" label="保函编号:">
               <t-input v-model="dataForm.plCode" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
-
           <el-col :span="8">
             <el-form-item prop="sign" label="经办人:">
               <span>{{dataForm.sign}}</span>
@@ -275,22 +279,22 @@
               tapp.services.tBidTakebackApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params1 = {}
-                if(/^[0-9]*$/.test(result.pcId)) {
+                if (/^[0-9]*$/.test(result.pcId)) {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  } 
+                  }
                 } else {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  } 
+                  }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) {
+                  if (_result && _result.items && _result.items.length > 0) {
                     let item;
                     item = find(_result.items, {id: result.pcId})
-                    if(!item) item = find(_result.items, {proName: result.pcId})
+                    if (!item) item = find(_result.items, {proName: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                   }
                 })
@@ -298,9 +302,9 @@
                   filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                   pcId: result.pcId,
                   plCode: result.pId
-                } 
+                }
                 tapp.services.tBidPromiseApproval.getPagedList(params2).then(resp => {
-                  if(resp && resp.items && resp.items.length > 0) {
+                  if (resp && resp.items && resp.items.length > 0) {
                     let item = find(resp.items, {pcId: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                   }
