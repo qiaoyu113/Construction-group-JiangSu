@@ -168,12 +168,12 @@
           </el-col>
           <el-col :span="9">
             <el-form-item prop="getTime" label="领用时间:">
-              <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" :readOnly="readOnly"></el-input>
+              <el-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" :readOnly="readOnly" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="9">
             <el-form-item prop="returnTime" label="归还时间:">
-              <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" :readOnly="readOnly"></el-input>
+              <el-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" :readOnly="readOnly" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -209,18 +209,19 @@
   import find from 'lodash/find'
   export default {
     extends: baseView,
-    data() {
+    data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
         isEdit: false,
+        disabled: true,
         hint: '',
         municipality: ['820000', '810000', '500000', '310000', '110000', '120000', '710000'],
+        showButton: true,
+        readOnly: false,
+        dialogVisible: false,
+        submitDialogVisible: false,
         dataForm: {
-          showButton: true,
-          readOnly: false,
-          dialogVisible: false,
-          submitDialogVisible: false,
           bId: '',
           actTaskKey: '',
           pcId: '',
@@ -295,7 +296,7 @@
         }
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -318,35 +319,35 @@
         handler: function (val) {
           // 820000 810000 500000 310000 110000 120000 710000
           this.dataForm.city = ''
-          if((this.municipality.indexOf(val) >= 0 && this.dataForm.keyType)) {
+          if ((this.municipality.indexOf(val) >= 0 && this.dataForm.keyType)) {
             this.getPkey({province: val, city: this.dataForm.city, keyType: this.dataForm.keyType})
           }
-        },
+        }
       },
       'dataForm.city': {
         handler: function (val) {
           console.log('city', val)
-          if(this.dataForm.province && this.dataForm.keyType) {
+          if (this.dataForm.province && this.dataForm.keyType) {
             this.getPkey({province: this.dataForm.province, city: val, keyType: this.dataForm.keyType})
           }
-        },
+        }
       },
       'dataForm.keyType': {
         handler: function (val) {
-          if((this.dataForm.province && this.municipality.indexOf(this.dataForm.province) >= 0) ||  (this.dataForm.province && this.dataForm.city)) {
+          if ((this.dataForm.province && this.municipality.indexOf(this.dataForm.province) >= 0) || (this.dataForm.province && this.dataForm.city)) {
             this.getPkey({province: this.dataForm.province, city: this.dataForm.city, keyType: val})
           }
-        },
-      },
+        }
+      }
     },
     computed: {
       ...mapState({
-        currentUser: state => state.app.user,
+        currentUser: state => state.app.user
       })
     },
 
     methods: {
-      getSelectedRecord(pcId) {
+      getSelectedRecord (pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
         this.dataForm.proSubCompany = pcId.proSubCompany
@@ -360,16 +361,15 @@
         this.dataForm.authCompany = pcId.authCompany
       },
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
-              let self = this;
+              let self = this
               tapp.services.tBidPckeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-                
               })
             }
           })
@@ -377,30 +377,30 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBidPckeyApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！'
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       },
       getProvince (province) {
         this.dataForm.province = province
@@ -408,17 +408,17 @@
       getCity (city) {
         this.dataForm.city = city
       },
-      getPkey(searchData) {
+      getPkey (searchData) {
         const param = {
           skipCount: 1,
           maxResultCount: 20,
-          sorting: "id descending"
+          sorting: 'id descending'
         }
         let a = this.$util.deepObjectAssign({}, param, searchData)
-        let self = this;
+        let self = this
         tapp.services.tBaseinfoKeyApproval.getPagedList(a).then(result => {
           let b = find(result.items, {province: a.province, city: a.city, keyType: a.keyType})
-          if(b) {
+          if (b) {
             self.dataForm.authCompany = b.authCompany
             self.dataForm.loginUsername = b.loginUsername
             self.dataForm.loginUrl = b.loginUrl
@@ -433,8 +433,8 @@
             // tapp.services.roleService.getRoleCategoryUsers(self.dataForm.principalId, self.dataForm.proSubCompany).then(_result => {
             //   console.log(_result)
             // })
-            if(b.keyStatus !== 'can_recipients') {
-              self.hint = '此密钥被'+ self.dataForm.proSubCompany +'单位领用！'
+            if (b.keyStatus !== 'can_recipients') {
+              self.hint = '此密钥被' + self.dataForm.proSubCompany + '单位领用！'
               self.dialogVisible = true
             }
           } else {
