@@ -13,7 +13,6 @@
         审批流程图
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
-        <!-- businessKey值请修改当前流程的key值 -->
         <t-workflow-map businessKey="t_bid_preturn_approval_process"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
@@ -182,7 +181,7 @@
             {required: false, message: 'activiti执行任务key不能为空', trigger: 'blur'}
           ],
           proName: [
-            {required: true, message: '项目名称不能为空', trigger: 'blur'}
+            {required: false, message: '项目名称不能为空', trigger: 'blur'}
           ],
           pId: [
             {required: false, message: '投标保证金（保函）不能为空', trigger: 'blur'}
@@ -247,6 +246,7 @@
     methods: {
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
+        this.dataForm.pcId = pcId.id
         this.dataForm.proName = pcId.proName
         this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompany = pcId.proSubCompany
