@@ -427,13 +427,8 @@
             if (this.dataForm.id) {
               let self = this;
               tapp.services.tBaseinfoPartnerApproval.get(id).then(function (result) {
+                console.log('result44444444441', result)
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                tapp.services.tBaseinfoPartnerStaff.getList({id: result.id}).then(staffs => {
-                  self.dataForm.getPartnerStaffs = staffs
-                })
-                tapp.services.tBaseinfoPartnerAchievement.getList({id: result.id}).then(achievements => {
-                  self.dataForm.getPartnerAchievements = achievements
-                })
               })
             }
           })
@@ -481,8 +476,7 @@
           });
           return false;
         });
-      },
-      submit() {}
+      }
     }
   }
 </script>

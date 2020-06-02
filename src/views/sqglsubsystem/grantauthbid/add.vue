@@ -237,8 +237,8 @@
         this.dataForm.proRunMode = project.proRunMode;
         this.dataForm.proBuildArea = project.proBuildArea;
         this.dataForm.proName = project.proName;
-        this.dataForm.pcId = project.pcId;
-        this.dataForm.pId = project.id;
+        //this.dataForm.pcId = project.pcId;
+        this.dataForm.pcId = project.id;
       },
       // 表单提交
       doSave() {

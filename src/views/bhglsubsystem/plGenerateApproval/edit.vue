@@ -24,7 +24,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="proName" label="项目名称">
-              <t-bank-project-select v-model="dataForm.proName" @selectedData="getSelectedRecord"></t-bank-project-select>
+              <t-bank-project-select v-model="dataForm.pcId" @selectedData="getSelectedRecord"></t-bank-project-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -110,17 +110,20 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="8" hidden="true">
-            <el-form-item>
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.pId" disabled>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <t-grid
-            ref="searchResultList"
-            :options="gridOptions"
-          >
-          </t-grid>
+          <el-table :data="dataInfo" border size="mini">
+            <el-table-column align="center" label="合同编号" prop="conCode">
+            </el-table-column>
+            <el-table-column align="center" label="合同名称" prop="conName">
+            </el-table-column>
+            <el-table-column align="center" label="合同保证金（元）" prop="technicalTitle">
+            </el-table-column>
+            <el-table-column align="center" label="可用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+            <el-table-column align="center" label="本次占用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+            <el-table-column align="center" label="剩余可用合同保证金（元）" prop="asAmount">
+            </el-table-column>
+          </el-table>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -137,7 +140,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="bankName" label="开立银行" :class="{'is-required': isBackFill}">
+            <el-form-item prop="bankName" label="现金缴纳" :class="{'is-required': isBackFill}">
               <t-input :disabled="!isBackFill" v-model="dataForm.bankName" placeholder="保函开立员回填"></t-input>
             </el-form-item>
           </el-col>
@@ -251,83 +254,6 @@
           signTime: [
             { required: true, message: '经办时间不能为空', trigger: 'blur' }
           ],
-        },
-        gridOptions: {
-          mutiSelect: true,
-          dataSource: {
-            serviceInstance: tapp.services.plGenerateApproval.findFinaConById,
-            serviceInstanceInputParameters: {
-              pId: ''
-            }
-          },
-          grid: {
-            offsetHeight: 125, // 125:查询部分高度
-            mutiSelect: true,
-            maxHeight: 350,
-            columns: [
-              {
-                prop: 'conCode',
-                label: '合同编号',
-              },
-
-              {
-                prop: 'conName',
-                label: '合同名称',
-                // formatter: (row, column, cellValue) => {
-                //   return this.$util.moneyFormat(row.bRealAmount)
-                // }
-              },
-              {
-                prop: 'totalAmount',
-                label: '合同保证金（元）',
-                formatter: (row, column, cellValue) => {
-                  return this.$util.moneyFormat(row.totalAmount)
-                }
-              },
-              {
-                prop: 'asAmount',
-                label: '可用合同保证金（元）',
-                formatter: (row, column, cellValue) => {
-                  return this.$util.moneyFormat(this.$util.bigDSubtract(row.totalAmount, row.returnMoney, 2))
-                }
-              },
-
-              {
-                prop: 'amount',
-                label: '本次付款金额（万元）',
-                render: (h, params) => {
-                  return h('t-currency-input', {
-                    props: {
-                      value: params.row.amount,
-                      unitValue: 10000
-                    },
-                    on: {
-                      input: function (event) {
-                        params.row.amount = event
-                        params.row.liveAmount = params.row.asAmount - event
-                      }
-                    }
-                  })
-                }
-              },
-              // 到账金额 rAmount- 累计借款款 totalBorrowAmount - realAmount
-              {
-                prop: 'liveAmount',
-                label: '剩余可用合同保证金（元））',
-                formatter: (row, column, cellValue) => {
-                  if (row.liveAmount) {
-                    return this.$util.moneyFormat(row.liveAmount)
-                  } else {
-                    return this.$util.moneyFormat(0)
-                  }
-                }
-              }
-            ], // 需要展示的列
-            defaultSort: {
-              prop: 'id',
-              order: 'descending'
-            }
-          }
         }
       }
     },
@@ -365,11 +291,16 @@
         this.dataForm.conName = data.conName
         this.dataForm.conTotal = data.conTotal
         this.dataForm.conPeriod = [data.proPlanStartDate + ' 00:00:00', data.proPlanEndDate + ' 00:00:00']
-        this.getConDto(data.pId)
+        this.getConDto(this.dataForm.cId, this.dataForm.pId)
       },
-      getConDto(pId){
-        this.gridOptions.dataSource.serviceInstanceInputParameters.pId = pId
-        this.$refs.searchResultList.refresh()
+      getConDto(cId){
+        if (cId) {
+          let self = this
+          tapp.services.plGenerateApproval.findFinaConById(cId).then(function(result) {
+            console.log('获取合同信息' + result)
+            self.dataInfo = result
+          })
+        }
       },
       // 初始化 编辑和新增 2种情况
       init (id) {

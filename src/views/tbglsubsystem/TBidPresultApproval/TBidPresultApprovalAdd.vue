@@ -1,8 +1,16 @@
 <template>
   <div>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目备案信息登记</div>
+      </el-col>
+    </el-row>
     <el-row :gutter="10" class="search-top-operate">
       <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
-        保存
+        提交审批
+      </el-button>
+      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+        审批流程图
       </el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
@@ -11,8 +19,8 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="proNameA">
-              <t-record-select v-model="dataForm.proNameA" @selectedRecord="getSelectedRecord"></t-record-select>
+            <el-form-item label="项目名称" prop="pcId">
+              <t-record-select v-model="dataForm.pcId" @selectedRecord="getSelectedRecord"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -59,13 +67,12 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-card>
-        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
-        <el-row :gutter="20" >
+        <el-row :gutter="20" class="page-title">
           <el-col :span="8">
             <el-form-item prop="bidResult" label="  投标结果">
-              <t-dic-radio-select dicType="bid_result" v-model="dataForm.bidResult"></t-dic-radio-select>
+              <t-dic-radio-select dicType="bid_result" v-model="dataForm.bidResult"
+                                  readonly></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -115,9 +122,6 @@
         },
         dataRule: {
 
-          proNameA: [
-            {required: false, message: '项目名称不能为空', trigger: 'blur'}
-          ],
           bidResult: [
             {required: false, message: '投标结果不能为空', trigger: 'blur'}
           ],
@@ -145,7 +149,6 @@
       getSelectedRecord(pcId) {
         console.log('current proName', pcId)
         this.dataForm.proNameA = pcId.proName
-        this.dataForm.pcId = pcId.id
         this.dataForm.proSubCompanyA = pcId.proSubCompany
         this.dataForm.proBusDeptA = pcId.proBusDept
         this.dataForm.proConstructCompanyA = pcId.proConstructCompany
@@ -161,11 +164,14 @@
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs["dataForm"].resetFields()
             if (this.dataForm.id) {
-              let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
+                this.dataForm.bidResult = result.tBidProcaseApproval.bidResult
+                this.dataForm.brUser = result.tBidProcaseApproval.brUser
+                this.dataForm.brTime = result.tBidProcaseApproval.brTime
+                this.dataForm.brRemark = result.tBidProcaseApproval.brRemark
               })
             }
           })

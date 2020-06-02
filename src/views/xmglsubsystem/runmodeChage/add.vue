@@ -399,22 +399,9 @@
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
-                    let item;
-                    item = find(_result.items, {id: result.pId})
-                    if(!item) item = find(_result.items, {proName: result.pId})
-                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                     self.dataForm.pName = self.dataForm.proName
-                    self.dataForm.pId = item.id
                     self.dataForm.proRunMode = result.proRunMode
-                    self.dataForm.proUnionCompanyMerateO = self.dataForm.proUnionCompanyMerate
-                    self.dataForm.proProfitRateO = self.dataForm.proProfitRate
-                    self.dataForm.proContacterO = self.dataForm.proContacter
-                    self.dataForm.proContactwayO = self.dataForm.proContactway
-                    self.dataForm.proUnionCompanyO = self.dataForm.proUnionCompany
-                    self.dataForm.proUnionCompanyContacterO = self.dataForm.proCompanyHeader
-                    self.dataForm.conSelfRateO = self.dataForm.conSelfProportion
-                    self.dataForm.conUnionCompanyRateO = self.dataForm.conOtherProportion
-                    self.dataForm.conDepositO = self.dataForm.conDeposit
                   }
                 })
               })
@@ -443,26 +430,26 @@
         this.dataForm.proTotalInvestment = project.proTotalInvestment;
         this.dataForm.proType = project.proType;
         this.dataForm.proRunModeO = project.proRunMode;
+        this.dataForm.proBuildArea = project.proBuildArea;
+        this.dataForm.proRealStartDate = project.proRealStartDate;
+        this.dataForm.proPlanEndDate = project.proPlanEndDate;
         this.dataForm.proUnionCompanyMerateO = project.proUnionCompanyMerate;
         this.dataForm.proProfitRateO = project.proProfitRate;
         this.dataForm.proContacterO = project.proContacter;
         this.dataForm.proContactwayO = project.proContactway;
-        this.dataForm.proUnionCompanyO = project.proUnionCompany;
-        this.dataForm.proUnionCompanyContacterO = project.proCompanyHeader;
-        this.dataForm.conSelfRateO = project.conSelfProportion;
-        this.dataForm.conUnionCompanyRateO = project.conOtherProportion;
-        this.dataForm.conDepositO = project.conDeposit;
-        this.dataForm.proBuildArea = project.proBuildArea;
-        this.dataForm.proRealStartDate = project.proRealStartDate;
-        this.dataForm.proPlanEndDate = project.proPlanEndDate;
         this.dataForm.proSpan = project.proSpan;
         this.dataForm.proLayer = project.proLayer;
         this.dataForm.proBlock = project.proBlock;
         this.dataForm.proBasementArea = project.proBasementArea;
         this.dataForm.proIsFitout = project.proIsFitout;
         this.dataForm.proFitoutRate = project.proFitoutRate;
+        this.dataForm.proUnionCompanyO = project.proUnionCompany;
         this.dataForm.proIsBim = project.proIsBim;
         this.dataForm.isBorrow = project.isBorrow;
+        this.dataForm.proUnionCompanyContacterO = project.proCompanyHeader;
+        this.dataForm.conSelfRateO = project.conSelfProportion;
+        this.dataForm.conUnionCompanyRateO = project.conOtherProportion;
+        this.dataForm.conDepositO = project.conDeposit;
         this.dataForm.conDepositInfoList = project.conDepositInfoList;
         this.dataForm.cashDepositTotal = project.cashDepositTotal;
         this.dataForm.otherConTotal = project.otherConTotal;

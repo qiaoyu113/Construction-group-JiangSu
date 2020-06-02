@@ -2,6 +2,9 @@
   <div class="mod-role">
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px">
+        <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="项目名称" prop="proName">

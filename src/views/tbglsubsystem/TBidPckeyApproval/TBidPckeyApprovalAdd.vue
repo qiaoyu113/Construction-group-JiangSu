@@ -32,7 +32,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="proSubCompany" label="所属分公司:">
-              <t-input v-model="dataForm.proSubCompany1" readOnly></t-input>
+              <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -166,12 +166,12 @@
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="9">
             <el-form-item prop="getTime" label="领用时间:">
               <t-input v-model="dataForm.getTime" placeholder="经营部主管审核后自动更新" readOnly></t-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="9">
             <el-form-item prop="returnTime" label="归还时间:">
               <t-input v-model="dataForm.returnTime" placeholder="经营部主管确认归还后自动更新" readOnly></t-input>
             </el-form-item>
@@ -285,7 +285,7 @@
             {required: false, message: '执行时间不能为空', trigger: 'blur'}
           ],
           approvalStatus: [
-            {required: false, message: '审批状态不能为空', trigger: 'blur'}
+            {required: false, message: '审批状态（字典表）不能为空', trigger: 'blur'}
           ],
           propose: [
             {required: false, message: '审核意见不能为空', trigger: 'blur'}
@@ -374,7 +374,7 @@
               let self = this;
               tapp.services.tBidPckeyApproval.get(id).then(function (result) {
                 self.$util.deepObjectAssign({}, self.dataForm, result)
-
+                
               })
             }
           })

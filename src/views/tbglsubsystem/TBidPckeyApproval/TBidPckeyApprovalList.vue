@@ -43,16 +43,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="领用到期日" prop="dateRange" >
+          <el-form-item label="领用到期日" prop="dateRange">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="密钥状态" >
+          <el-form-item label="密钥状态">
             <t-dic-dropdown-select dicType="approval_status"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"
+                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyStatus"
             ></t-dic-dropdown-select>
           </el-form-item>
         </el-col>
@@ -64,7 +64,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办日期" prop="dateRange1">
+          <el-form-item label="领用到期日" prop="dateRange1">
             <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
                                      @change="onStartDateRangeChanged">
             </t-datetime-range-picker>
@@ -120,6 +120,24 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
+              /*{
+                prop: 'bId',
+                label: '流程业务id',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'actTaskKey',
+                label: 'activiti执行任务key',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'pcId',
+                label: '项目备案id',
+                sortable: false,
+                minWidth: 120,
+              },*/
               {
                 prop: 'proName',
                 label: '项目名称',
@@ -188,15 +206,24 @@
                 sortable: false,
                 minWidth: 120,
               },
-              {
-                prop: 'approvalStatus',
-                label: '密钥状态',
-                sortable: false,
-                minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return util.dataDicFormat('approval_status', row.approvalStatus)
-                }
-              },
+              /* {
+                 prop: 'limitStarttime',
+                 label: '领用期限-开始时间',
+                 sortable: false,
+                 minWidth: 120,
+                 formatter: (row, column, cellValue) => {
+                   return this.$util.dateFormat(row.limitStarttime, 'YYYY-MM-DD');
+                 }
+               },
+               {
+                 prop: 'limitEnditme',
+                 label: '领用期限-结束时间',
+                 sortable: false,
+                 minWidth: 120,
+                 formatter: (row, column, cellValue) => {
+                   return this.$util.dateFormat(row.limitEnditme, 'YYYY-MM-DD');
+                 }
+               },*/
               {
                 prop: 'getTime',
                 label: '领用日期',
@@ -230,6 +257,60 @@
                   return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
                 }
               },
+              /*{
+                prop: 'approvalStatus',
+                label: '审批状态（字典表）',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'propose',
+                label: '审核意见',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'result',
+                label: '审核结果',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'createtime',
+                label: '创建时间',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
+                }
+              },
+              {
+                prop: 'updatetime',
+                label: '更新时间',
+                sortable: false,
+                minWidth: 120,
+                formatter: (row, column, cellValue) => {
+                  return this.$util.dateFormat(row.updatetime, 'YYYY-MM-DD');
+                }
+              },
+              {
+                prop: 'createuser',
+                label: '创建人',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'updateuser',
+                label: '更新人',
+                sortable: false,
+                minWidth: 120,
+              },
+              {
+                prop: 'datastatus',
+                label: '数据有效性 1有效 0无效',
+                sortable: false,
+                minWidth: 120,
+              },*/
             ], // 需要展示的列
             defaultSort: {
               prop: 'id',
@@ -273,7 +354,7 @@
           keyId: null,
           proSubCompany: null,
           dateRange: '',
-          approvalStatus: null,
+          /*keyStatus: null,*/
           sign: null,
           dateRange1: ''
         }

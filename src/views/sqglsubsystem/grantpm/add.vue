@@ -207,6 +207,7 @@
                   if(_result && _result.items && _result.items.length > 0) {
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
                     tapp.services.tBaseinfoPmQualification.get(self.dataForm.proManager).then(manager => {
+                      console.log('==manager==', manager.constructorLevel);
                       if(manager) {
                         self.dataForm.constructorLevel = manager.constructorLevel
                         self.dataForm.proManagerName = manager.name

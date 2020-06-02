@@ -288,8 +288,7 @@
           datastatus: '',
           flag: '1',
           pName: '',
-          conBcxyTotal: '',
-          proCode: ''
+          conBcxyTotal: ''
         },
         dataRule: {
           pId: [
@@ -334,12 +333,12 @@
                   params = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pId
-                  }
+                  } 
                 } else {
                   params = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pId
-                  }
+                  } 
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
                   console.log('_result', _result)

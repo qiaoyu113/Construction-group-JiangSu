@@ -124,6 +124,24 @@
             mutiSelect: false,
             fit: true, // 列的宽度是否自撑开
             columns: [
+              /*{
+                prop: 'bId',
+                label: '流程业务id',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'actTaskKey',
+                label: 'activiti执行任务key',
+                sortable: true,
+                minWidth: 120,
+              },
+              {
+                prop: 'pcId',
+                label: '项目备案id',
+                sortable: true,
+                minWidth: 120,
+              },*/
               {
                 prop: 'proName',
                 label: '项目名称',
@@ -165,7 +183,7 @@
               },
 
               {
-                prop: 'proSubCompany',
+                prop: 'proAddressProvince',
                 label: '分公司',
                 sortable: false,
                 minWidth: 120,
@@ -181,7 +199,7 @@
                 }
               },
               {
-                prop: 'proTotalInvestment',
+                prop: 'bidAmount',
                 label: '投标金额',
                 sortable: false,
                 minWidth: 120,
@@ -191,9 +209,6 @@
                 label: '保证方式',
                 sortable: false,
                 minWidth: 120,
-                formatter: (row, column, cellValue) => {
-                  return util.dataDicsFormat('promise_way', row.promiseWay)
-                }
               },
               {
                 prop: 'amount',

@@ -77,23 +77,22 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-card>
-        <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="promiseWay" label="保证方式:">
-              <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay" :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="promise_way" v-model="dataForm.promiseWay"
+                                  :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额:">
-              <t-input v-model="dataForm.amount" :readOnly="readOnly"></t-input>
+              <t-input v-model="dataForm.amount" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="isCash" label="是否现金缴纳:">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="readOnly"></t-dic-radio-select>
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="true"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -103,12 +102,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="generateTime" label="开立时间:">
-              <t-datetime-picker v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-datetime-picker>
+              <t-input v-model="dataForm.generateTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item prop="invalidTime" label="到期时间:">
-              <t-datetime-picker v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-datetime-picker>
+              <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -308,12 +307,12 @@
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     id: result.pcId
-                  }
+                  } 
                 } else {
                   params1 = {
                     filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
                     proName: result.pcId
-                  }
+                  } 
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {

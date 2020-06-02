@@ -1,16 +1,21 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-      </el-button>
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目经理状态列表</div>
+      </el-col>
     </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
+      <el-row :gutter="10" class="search-top-operate">
+          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+          </el-button>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="姓名">
-              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pmId"
+              <t-manager-select placeholder="选择一个项目经理" v-model="gridOptions.dataSource.serviceInstanceInputParameters.pcId"
                                 @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
@@ -65,7 +70,7 @@
           dataSource: {
             serviceInstance: tapp.services.tBaseinfoPmQualification.getPagedList,
             serviceInstanceInputParameters: {
-              pmId: null,
+              pcId: null,
               constructorLevel: null,
               proSubCompany: null
             }
