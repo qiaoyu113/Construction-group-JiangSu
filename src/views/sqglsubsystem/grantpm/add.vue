@@ -87,7 +87,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item prop="constructorLevel" label="称职：">
-            <t-dic-dropdown-select dicType="licensor" v-model="dataForm.constructorLevel"></t-dic-dropdown-select>
+            <t-input :readOnly="true" v-model="dataForm.constructorLevel"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -157,7 +157,8 @@
           grantUser: '',
           grantContent: '',
           sign: '',
-          signTime: ''
+          signTime: '',
+          pId: ''
         },
         dataRule: {
           proName: [
@@ -202,9 +203,16 @@
                   id: result.pId
                 }
                 tapp.services.proInfo.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                  if(_result && _result.items && _result.items.length > 0) {
+                    self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, _result.items[0])
+                    tapp.services.tBaseinfoPmQualification.get(self.dataForm.proManager).then(manager => {
+                      console.log('==manager==', manager.constructorLevel);
+                      if(manager) {
+                        self.dataForm.constructorLevel = manager.constructorLevel
+                      }
+                    })
+                  }
                 })
-
               })
             }
           })
@@ -234,6 +242,13 @@
         this.dataForm.pId = project.id;
         this.dataForm.proManager = project.proManager;
         this.dataForm.constructorLevel = project.constructorLevel;
+        if(this.dataForm.proManager) {
+          tapp.services.tBaseinfoPmQualification.get(this.dataForm.proManager).then(manager => {
+            if(manager) {
+              this.dataForm.constructorLevel = manager.constructorLevel
+            }
+          })
+        }
       },
       // 表单提交
       doSave() {
