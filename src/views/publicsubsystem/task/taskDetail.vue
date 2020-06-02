@@ -2,7 +2,7 @@
   <div class="task-detail">
     <el-tabs v-model="activeName">
       <el-tab-pane label="详细信息" name="first">
-        <router-view></router-view>
+        <router-view ref="taskDetailPage"></router-view>
         <el-card shadow="never" v-if="type === 'approval'">
           <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="150px">
             <t-sub-title :title="'办理意见'"></t-sub-title>
@@ -39,7 +39,7 @@
       <div class="t-form-footer">
         <el-button type="primary" @click="doApprove()">同意</el-button>
         <el-button type="danger" @click="doGoOriginator()">退回</el-button>
-        <el-button type="danger" @click="doDecline()">拒绝</el-button>
+        <!-- <el-button type="danger" @click="doDecline()">拒绝</el-button> -->
         <el-button type="info" @click="dialogFormVisible = true">转交</el-button>
       </div>
     </el-row>
@@ -282,6 +282,7 @@
       const currentQuery = this.$route.query
       this.type = currentQuery.type ? currentQuery.type : this.type;
       this.init('', currentQuery.processDefinationKey, currentQuery.taskActId, currentQuery.taskId);
+      console.log('this.$router', this.$router)
     },
     activated() {
       // console.log('this.$route222', this.$route)
