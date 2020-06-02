@@ -39,7 +39,7 @@
       <div class="t-form-footer">
         <el-button type="primary" @click="doApprove()">同意</el-button>
         <el-button type="danger" @click="doGoOriginator()">退回</el-button>
-        <el-button type="danger" @click="doDecline()">拒绝</el-button>
+        <!-- <el-button type="danger" @click="doDecline()">拒绝</el-button> -->
         <el-button type="info" @click="dialogFormVisible = true">转交</el-button>
       </div>
     </el-row>
