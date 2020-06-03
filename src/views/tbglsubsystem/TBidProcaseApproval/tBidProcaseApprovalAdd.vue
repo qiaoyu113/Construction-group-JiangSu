@@ -115,7 +115,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="name" label="项目跟踪人：">
-              <t-manager-select v-model="dataForm.name"
+              <t-manager-select v-model="dataForm.name" placeholder=" "
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
 
             </el-form-item>
@@ -301,12 +301,12 @@
               let self = this
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
-                tapp.services.base_User.getRoleCategoryUsers().then(manager => {
+                /*tapp.services.base_User.getRoleCategoryUsers().then(manager => {
                   if (manager && manager.items && manager.items.length > 0) {
                     let item = find(manager.items, {id: result.proTracker})
                     if (item) self.dataForm.name = item.name
                   }
-                })
+                })*/
               })
             }
           })
