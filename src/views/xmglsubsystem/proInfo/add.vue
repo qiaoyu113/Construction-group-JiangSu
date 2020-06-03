@@ -67,13 +67,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属分公司：">
-              <el-input v-model="dataForm.proSubCompany"></el-input>
+            <el-form-item prop="proSubCompanyName" label="所属分公司：">
+              <el-input v-model="dataForm.proSubCompanyName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBusDept" label="所属事业部：">
-              <el-input v-model="dataForm.proBusDept"></el-input>
+            <el-form-item prop="proBusDeptName" label="所属事业部：">
+              <el-input v-model="dataForm.proBusDeptName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -349,7 +349,9 @@
           proAddressDetail: '',
           proTotalInvestment: '',
           proSubCompany: '',
+          proSubCompanyName: '',
           proBusDept: '',
+          proBusDeptName: '',
           proDriveSubject: '',
           proContractAttr: '',
           proType: '',
@@ -407,7 +409,7 @@
           proTotalInvestment: [
             {required: true, message: '项目总投资不能为空', trigger: 'blur'}
           ],
-          proSubCompany: [
+          proSubCompanyName: [
             {required: true, message: '所属分公司不能为空', trigger: 'blur'}
           ],
           proDriveSubject: [
@@ -533,8 +535,10 @@
             this.$refs.ruleForm.clearValidate();
             this.dataForm.proRegister = this.currentUser.userDisplayName;
             this.dataForm.proRegisterTime = this.$util.datetimeFormat(moment());
-            console.log(this.currentUser.userDepartmentlist);
-            console.log(this.currentUser.userGrouplist);
+            this.dataForm.proBusDeptName = this.currentUser.userDepartmentlist[0].value;
+            this.dataForm.proBusDept = this.currentUser.userDepartmentlist[0].key;
+            this.dataForm.proSubCompanyName = this.currentUser.userGrouplist[0].value;
+            this.dataForm.proSubCompany = this.currentUser.userGrouplist[0].key;
           })
         }
       },
