@@ -14,39 +14,35 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="10">
           <el-col :span="8">
-            <el-form-item label="所属地区" prop="region">
-              <!--<t-region-picker ref="region" v-model="gridOptions.dataSource.serviceInstanceInputParameters.province"
-                               @province="getProvince" @city="getCity" :required="false"></t-region-picker>-->
+            <el-form-item label="所属地区：" prop="region">
               <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province"
                                  :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city"
                                  :required="false"></t-region-s-picker>
             </el-form-item>
           </el-col>
-
           <el-col :span="8">
-            <el-form-item label="密钥类别" prop="keyType">
+            <el-form-item label="密钥类别：" prop="keyType">
               <t-dic-dropdown-select dicType="key_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="dateRange2">
+            <el-form-item label="申请时间:" prop="dateRange2">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
                                        @change="onStartApplyforDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-
+        </el-row>
+        <el-row :gutter="10">
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日" prop="dateRange1">
+            <el-form-item label="有效截止日:" prop="dateRange1">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
                                        @change="onStartExpirationDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
-
-
         </el-row>
         <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
           <el-col :span="12">
@@ -57,6 +53,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -76,7 +74,7 @@
         required: false
       }
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -182,49 +180,49 @@
       }
     },
     components: {},
-    created() {
+    created () {
       this.loadCodeTableList()
     },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
+      onStartDateRangeChanged (val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
+      handleSelectionChange (val) {
         this.checkededRows = val
       },
 
-      doReset() {
+      doReset () {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
         this.doRefresh()
       },
-      onStartExpirationDateChanged(val) {
+      onStartExpirationDateChanged (val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateStart = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.expirationDateEnd = val[1]
       },
-      onStartApplyforDateChanged(val) {
+      onStartApplyforDateChanged (val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateStart = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.applyforDateEnd = val[1]
       },
-      doExportExcel() {
+      doExportExcel () {
         // eslint-disable-next-line no-template-curly-in-string
         this.$refs.searchReulstList.exportCSV('密钥信息更新列表')
       },
-      doRefresh() {
+      doRefresh () {
         this.$refs.searchReulstList.refresh()
       },
-      getProvince(province) {
+      getProvince (province) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.province = province
       },
-      getCity(city) {
+      getCity (city) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.city = city
       },
-      doEdit(key, row) {
+      doEdit (key, row) {
         let tpath = '/jcxxsubsystem/keyManage/keyAdd?id=' + row.id
 
         this.$router.push({

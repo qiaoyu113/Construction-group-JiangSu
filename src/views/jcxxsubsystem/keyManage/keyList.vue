@@ -14,32 +14,36 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="所属地区" prop="region">
-              <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province" :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city" :required="false"></t-region-s-picker>
+            <el-form-item label="所属地区：" prop="region">
+              <t-region-s-picker :province.sync="gridOptions.dataSource.serviceInstanceInputParameters.province"
+                                 :city.sync="gridOptions.dataSource.serviceInstanceInputParameters.city"
+                                 :required="false"></t-region-s-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="密钥类别">
+            <el-form-item label="密钥类别：">
               <t-dic-dropdown-select dicType="key_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="申请时间" prop="dateRange">
+            <el-form-item label="申请时间：" prop="dateRange">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange"
                                        @change="onStartApplyforDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="办理单位">
+            <el-form-item label="办理单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.authCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="密钥状态">
+            <el-form-item label="密钥状态：">
               <t-dic-dropdown-select dicType="key_status"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.keyStatus"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -47,19 +51,21 @@
           </el-col>
 
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="有效截止日" prop="dateRange1">
+            <el-form-item label="有效截止日：" prop="dateRange1">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange1"
                                        @change="onStartExpirationDateChanged">
               </t-datetime-range-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="经办人" prop="signId">
-              <t-handler-select label="经办人" placeholder="选择一个经办人" v-model="name" @selectedUser="getSelectedUser"></t-handler-select>
+            <el-form-item label="经办人：" prop="signId">
+              <t-handler-select placeholder="选择一个经办人" v-model="name" @selectedUser="getSelectedUser"></t-handler-select>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="经办日期" prop="dateRange2">
+            <el-form-item label="经办日期：" prop="dateRange2">
               <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.dateRange2"
                                        @change="onStartSignTimeChanged">
               </t-datetime-range-picker>
@@ -76,6 +82,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -118,7 +126,7 @@
                 show: true,
                 label: '查看',
                 method: this.doEdit
-              } ]
+              }]
             }, // 列操作按钮
             columns: [
               {
@@ -226,7 +234,7 @@
     },
     created () {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       getSelectedUser (user) {
         console.log('current user', user)
@@ -275,7 +283,7 @@
       },
       doEdit (key, row) {
         let tpath = ''
-      // 根据秘钥领用状态，跳转到不同页面
+        // 根据秘钥领用状态，跳转到不同页面
         if (row.keyStatus === 'can_recipients') { // 可领用
           tpath = '/tbglsubsystem/TBidPckeyApproval/TBidPckeyApprovalAdd?id=' + row.id
         } else if (row.keyStatus === 'pending_approval') { // 领用审批中

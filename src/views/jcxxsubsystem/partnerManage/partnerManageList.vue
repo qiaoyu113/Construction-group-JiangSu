@@ -14,24 +14,24 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="合作方名称" prop="companyName">
+            <el-form-item label="合作方名称：" prop="companyName">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="法人" prop="legalPerson">
+            <el-form-item label="法人：" prop="legalPerson">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.legalPerson"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" class="search-date-picker">
-            <el-form-item label="入库时间" prop="createtime">
+            <el-form-item label="入库时间：" prop="createtime">
               <t-datetime-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.createtime" type="date"
                                  :readOnly="readOnly">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有无诉讼" prop="litigation" >
+            <el-form-item label="有无诉讼：" prop="litigation" >
               <!--诉讼-->
               <t-dic-dropdown-select dicType="have_or_not"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.litigation"/>
@@ -47,6 +47,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+      <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
       </t-grid>
     </el-card>

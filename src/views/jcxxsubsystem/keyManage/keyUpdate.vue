@@ -42,77 +42,83 @@
         </div>
       </el-dialog>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px" label-position="right">
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px"
+             label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'密钥信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="province" label="所属地区">
-              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city" :readOnly="readOnly"></t-region-s-picker>
+            <el-form-item prop="province" label="所属地区：">
+              <t-region-s-picker :province.sync="dataForm.province" :city.sync="dataForm.city"
+                                 :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="keyType" label="类别名称">
-              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType" :disabled="readOnly"></t-dic-dropdown-select>
+            <el-form-item prop="keyType" label="类别名称：">
+              <t-dic-dropdown-select dicType="key_type" v-model="dataForm.keyType"
+                                     :disabled="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="authCompany" label="批准单位">
+            <el-form-item prop="authCompany" label="批准单位：">
               <t-input v-model="dataForm.authCompany" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="loginUsername" label="登陆网名">
+            <el-form-item prop="loginUsername" label="登陆网名：">
               <t-input v-model="dataForm.loginUsername" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="loginUrl" label="登陆网址">
+            <el-form-item prop="loginUrl" label="登陆网址：">
               <t-input v-model="dataForm.loginUrl" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效期至" prop="expirationDate" >
-              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"  :readOnly="readOnly"></t-datetime-picker>
+            <el-form-item label="有效期至：" prop="expirationDate">
+              <t-datetime-picker v-model="dataForm.expirationDate" type="date" :disabled="readOnly"
+                                 :readOnly="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="account" label="用户名">
+            <el-form-item prop="account" label="用户名：">
               <t-input v-model="dataForm.account" placeholder="如无用户名，请填无" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="password" label="密码">
+            <el-form-item prop="password" label="密码：">
               <t-input v-model="dataForm.password" placeholder="如无密码，请填无" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="mainChargeName" label="主要负责人">
-              <t-maincharge-select v-model="mainChargeName" :readOnly="readOnly" @selectedMainCharge="getSelectedName"></t-maincharge-select>
+            <el-form-item prop="principalId" label="主要负责人：">
+              <t-maincharge-select v-model="dataForm.principalId" :readOnly="readOnly"
+                                   @selectedMainCharge="getSelectedMainCharge"></t-maincharge-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="useScenes" label="用途">
+            <el-form-item prop="useScenes" label="用途：">
               <t-input type="textarea" :rows="3" v-model="dataForm.useScenes" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="申请时间" prop="applyforDate" >
+            <el-form-item label="申请时间" prop="applyforDate">
               <t-datetime-picker v-model="dataForm.applyforDate" type="date" :disabled="readOnly"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="keyColor" label="密匙颜色">
+            <el-form-item prop="keyColor" label="密匙颜色：">
               <t-input v-model="dataForm.keyColor" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="existElectMark" label="是否有电子签章功能" label-width="180px">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark" :readOnly="readOnly"></t-dic-radio-select>
+            <el-form-item prop="existElectMark" label="是否有电子签章功能：" label-width="180px">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
+                                  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -121,24 +127,25 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
+          <el-form-item prop="sign" label="登记人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="" label="办理单位">
+          <el-form-item prop="" label="办理单位：">
             <span>{{subCompany}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记时间">
+          <el-form-item prop="sign" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'附件上传'"></t-sub-title>
-        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications" :businessDocId="docId"></sj-upload>
+        <sj-upload ref="demo" :assetCategoryClassifications="assetCategoryClassifications"
+                   :businessDocId="docId"></sj-upload>
       </el-card>
     </el-form>
   </div>
@@ -279,17 +286,17 @@
                   filters: {},
                   maxResultCount: 20000,
                   skipCount: 1,
-                  sorting: "id descending",
-                  id: result.principalId
+                  sorting: 'id descending',
+                   id: result.principalId
                 }
-                tapp.services.base_User.getAllUsers(params).then(_result => {
+                /*tapp.services.base_User.getAllUsers(params).then(_result => {
                   if(_result && _result.items && _result.items.length > 0) {
                     let item = find(_result.items, {id: result.principalId})
                     if(item && item.name) {
                       self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, {mainChargeName: item.name, principalId: item.id})
                     }
                   }
-                })
+                })*/
               })
             }
           })
@@ -302,16 +309,16 @@
         }
         this.getUserWithDepartments()
       },
-      getSelectedName(main) {
-        console.log('main', main)
-        this.dataForm = this.$util.deepObjectAssign({}, this.dataForm, {principalId: main.id})
+      getSelectedMainCharge (charge) {
+        console.log('current charge', charge)
+        this.dataForm.principalId=charge.userId
       },
-      getUserWithDepartments() {
-        if(this.currentUser && this.currentUser.userId) {
-          let self = this;
+      getUserWithDepartments () {
+        if (this.currentUser && this.currentUser.userId) {
+          let self = this
           tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
-            if(result) {
-              self.subCompany = result.grouplist[0] && result.grouplist[0].value ? result.grouplist[0].value : '' 
+            if (result) {
+              self.subCompany = result.grouplist[0] && result.grouplist[0].value ? result.grouplist[0].value : ''
             }
           })
         }
@@ -320,7 +327,7 @@
       doSave () {
         let validPromises = [this.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          this.submitDialogVisible = true;
+          this.submitDialogVisible = true
           // let model = {...self.dataForm};
           // tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
           //   self.$notify.success({
@@ -336,9 +343,9 @@
           return false
         })
       },
-      submit()  {
+      submit () {
         let self = this
-        if(self.pType && self.sealCount) {
+        if (self.pType && self.sealCount) {
           let model = {...self.dataForm}
           tapp.services.tBaseinfoKeyApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
@@ -348,7 +355,7 @@
             })
           })
           // 用印接口
-          this.submitDialogVisible = false;
+          this.submitDialogVisible = false
         } else {
           self.$notify.error({
             title: '错误',

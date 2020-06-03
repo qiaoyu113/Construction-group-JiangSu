@@ -35,44 +35,43 @@
         审批流程图
       </el-button>
       <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
-        <!-- businessKey值请修改当前流程的key值 -->
         <t-workflow-map businessKey="t_baseinfo_partner_approval_process"></t-workflow-map>
         <div slot="footer">
           <el-button type="primary" @click="dialogVisible = false">确定</el-button>
         </div>
       </el-dialog>
     </el-row>
-    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="120px"
+    <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent label-width="151px"
              label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'合作方基本信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="companyName" label="合作方名称">
+          <el-form-item prop="companyName" label="合作方名称：">
             <t-input v-model="dataForm.companyName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="creditCode" label="统一社会信用代码" label-width="180px">
+          <el-form-item prop="creditCode" label="统一社会信用代码：" label-width="151px">
             <t-input v-model="dataForm.creditCode" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="companyAddress" label="合作方地址">
+          <el-form-item prop="companyAddress" label="合作方地址：">
             <t-input v-model="dataForm.companyAddress" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="legalPerson" label="法人">
+          <el-form-item prop="legalPerson" label="法人：">
             <t-input v-model="dataForm.legalPerson" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="principal" label="负责人">
+          <el-form-item prop="principal" label="负责人：">
             <t-input v-model="dataForm.principal" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="contactNum" label="联系电话">
+          <el-form-item prop="contactNum" label="联系电话：">
             <t-int-input v-model="dataForm.contactNum" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
@@ -96,24 +95,32 @@
       </el-card>
       <el-card shadow="never">
         <t-sub-title :title="'合作方资产情况'"></t-sub-title>
-        <el-col :span="12">
-          <el-form-item prop="fixedAssets" label="固定资产">
-            <t-int-input v-model="dataForm.fixedAssets" :readOnly="readOnly"></t-int-input>
+        <el-col :span="10">
+          <el-form-item prop="fixedAssets" label="固定资产：">
+            <t-currency-input v-model="dataForm.fixedAssets" :readOnly="readOnly">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="fluidCapital" label="流动资金">
-            <t-int-input v-model="dataForm.fluidCapital" :readOnly="readOnly"></t-int-input>
+        <el-col :span="10">
+          <el-form-item prop="fluidCapital" label="流动资金：">
+            <t-currency-input v-model="dataForm.fluidCapital" :readOnly="readOnly">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="chargeAccount" label="应收账款">
-            <t-int-input v-model="dataForm.chargeAccount" :readOnly="readOnly"></t-int-input>
+        <el-col :span="10">
+          <el-form-item prop="chargeAccount" label="应收账款：">
+            <t-currency-input v-model="dataForm.chargeAccount" :readOnly="readOnly">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="liabilities" label="负债">
-            <t-int-input v-model="dataForm.liabilities" :readOnly="readOnly"></t-int-input>
+        <el-col :span="10">
+          <el-form-item prop="liabilities" label="负债：">
+            <t-currency-input v-model="dataForm.liabilities" :readOnly="readOnly">
+              <span slot="append">元</span>
+            </t-currency-input>
           </el-form-item>
         </el-col>
       </el-card>
@@ -149,17 +156,17 @@
       <el-card shadow="never">
         <t-sub-title :title="' 合作方银行信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="bankName" label="开户行名称">
+          <el-form-item prop="bankName" label="开户行名称：">
             <t-input v-model="dataForm.bankName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="bankAccountName" label="银行帐户名称">
+          <el-form-item prop="bankAccountName" label="银行帐户名称：">
             <t-input v-model="dataForm.bankAccountName" :readOnly="readOnly"></t-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="bankAccount" label="银行帐号">
+          <el-form-item prop="bankAccount" label="银行帐号：">
             <t-int-input v-model="dataForm.bankAccount" :readOnly="readOnly"></t-int-input>
           </el-form-item>
         </el-col>
@@ -167,12 +174,12 @@
       <el-card shadow="never">
         <t-sub-title :title="' 登记信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="sign" label="登记人">
+          <el-form-item prop="sign" label="登记人：">
             <span>{{dataForm.sign}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="signTime" label="登记时间">
+          <el-form-item prop="signTime" label="登记时间：">
             <span>{{dataForm.signTime}}</span>
           </el-form-item>
         </el-col>
@@ -187,27 +194,27 @@
       <el-form ref="achievementForm" :model="achievementForm" label-width="80px">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="工程名称" prop="projectName">
+            <el-form-item label="工程名称：" prop="projectName">
               <t-input v-model="achievementForm.projectName"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="工程规模" prop="projectScale">
+            <el-form-item label="工程规模：" prop="projectScale">
               <t-input v-model="achievementForm.projectScale"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开工日期" prop="buildStartDate">
+            <el-form-item label="开工日期：" prop="buildStartDate">
               <t-datetime-picker v-model="achievementForm.buildStartDate" type="date"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="竣工日期" prop="buildEndDate">
+            <el-form-item label="竣工日期：" prop="buildEndDate">
               <t-datetime-picker v-model="achievementForm.buildEndDate" type="date"></t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="建设单位" prop="buildCompany">
+            <el-form-item label="建设单位：" prop="buildCompany">
               <t-input v-model="achievementForm.buildCompany"></t-input>
             </el-form-item>
           </el-col>
@@ -222,22 +229,22 @@
       <el-form ref="managerForm" :model="managerForm" label-width="120px" label-position="right">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="姓名" prop="staffName">
+            <el-form-item label="姓名：" prop="staffName">
               <t-input v-model="managerForm.staffName"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="年龄" prop="age">
+            <el-form-item label="年龄：" prop="age">
               <t-int-input v-model="managerForm.age"></t-int-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="职称及职业资格" prop="technicalTitle">
+            <el-form-item label="职称及职业资格：" prop="technicalTitle">
               <t-input v-model="managerForm.technicalTitle"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="主要管理业绩" prop="achievement">
+            <el-form-item label="主要管理业绩：" prop="achievement">
               <t-input v-model="managerForm.achievement"></t-input>
             </el-form-item>
           </el-col>
@@ -263,6 +270,7 @@
         showButton: true,
         readOnly: false,
         dialogVisible: false,
+        submitDialogVisible: false,
         achievements: [],
         managers: [],
         achievementDialogVisible: false,
