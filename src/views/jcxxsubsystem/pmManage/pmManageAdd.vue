@@ -4,7 +4,7 @@
       <el-button class="demo-button" type="primary" icon="el-icon-upload2" @click="doSave()">保存</el-button>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="126px" label-position="right">
       <el-row :gutter="20" class="page-title">
         <el-col>
           <div class="title">项目经理资质登记</div>
@@ -14,95 +14,100 @@
         <t-sub-title :title="'资质信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="name" label="项目经理">
+            <el-form-item prop="name" label="项目经理：">
               <t-manager-select placeholder="选择一个项目经理" v-model="dataForm.name"
                                 @selectedManager="getSelectedManager"></t-manager-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属单位">
+            <el-form-item prop="proSubCompany" label="所属单位：">
               <el-input v-model="dataForm.proSubCompany" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContactway" label="联系方式">
+            <el-form-item prop="proContactway" label="联系方式：">
               <el-input v-model="dataForm.proContactway" readonly></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="constructorLevel" label="建造师等级">
+            <el-form-item prop="constructorLevel" label="建造师等级：">
               <t-dic-dropdown-select dicType="constructor_level" v-model="dataForm.constructorLevel"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="constructorCode" label="建造师证书编号">
+            <el-form-item prop="constructorCode" label="建造师证书编号：">
               <el-input v-model="dataForm.constructorCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="安全B证">
+            <el-form-item prop="safeB" label="安全B证：">
               <el-input v-model="dataForm.safeB"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proStatue" label="是否在建">
+            <el-form-item prop="proStatue" label="是否在建：">
               <el-input v-model="dataForm.proStatue" readonly></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
-            <el-form-item prop="safeB" label="累计项目合同额">
-              <el-input v-model="dataForm.safeB" readonly></el-input>
+          <el-col :span="8">
+            <el-form-item prop="CountProWinAmount" label="累计项目合同额：">
+              <el-input v-model="dataForm.CountProWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="在建项目名称">
+            <el-form-item prop="safeB" label="在建项目名称：">
               <el-input v-model="dataForm.proName" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目开工日期">
+            <el-form-item prop="safeB" label="项目开工日期：">
               <el-input v-model="dataForm.proRealStartDate" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="safeB" label="项目合同额">
+            <el-form-item prop="safeB" label="项目合同额：">
               <el-input v-model="dataForm.proWinAmount" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -111,12 +116,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="createuser" label="登记人">
+          <el-form-item prop="createuser" label="登记人：">
             <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="登记时间">
+          <el-form-item prop="createtime" label="登记时间：">
             <span>{{dataForm.createtime}}</span>
           </el-form-item>
         </el-col>
@@ -135,7 +140,7 @@
   import {mapState} from 'vuex'
 
   export default {
-    data() {
+    data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
@@ -195,7 +200,7 @@
         }
       }
     },
-    created() {
+    created () {
       this.init()
     },
     computed: {
@@ -205,11 +210,11 @@
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["rule"].resetFields()
+            this.$refs['rule'].resetFields()
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBaseinfoPmQualification.get(id).then(function (result) {
@@ -221,33 +226,33 @@
           this.$nextTick(() => {
             this.dataForm.createuser = this.currentUser.userDisplayName
             this.dataForm.createtime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         console.log('this.dataForm', this.dataForm)
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBaseinfoPmQualification.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
             title: '错误',
             message: '保存失败！'
-          });
-          return false;
-        });
+          })
+          return false
+        })
       },
-      getSelectedManager(manager) {
+      getSelectedManager (manager) {
         console.log('current charge', manager)
         this.dataForm.pmId = manager.id
         this.getUserWithDepartments(manager.id)
@@ -261,11 +266,11 @@
         //   console.log('result', result)
         // })
       },
-      getUserWithDepartments(id) {
+      getUserWithDepartments (id) {
         tapp.services.base_User.getUserWithDepartments(id).then(result => {
-          if(result) {
+          if (result) {
             console.log('result', result)
-            this.dataForm.proSubCompany = result.departmentlist[0] && result.departmentlist[0].value ? result.departmentlist[0].value : '' 
+            this.dataForm.proSubCompany = result.departmentlist[0] && result.departmentlist[0].value ? result.departmentlist[0].value : ''
           }
         })
       },

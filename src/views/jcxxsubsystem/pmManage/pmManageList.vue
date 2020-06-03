@@ -1,32 +1,29 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">项目经理状态列表</div>
-      </el-col>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
     </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-      <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-          </el-button>
-        </el-row>
+
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="姓名">
+            <el-form-item label="姓名：">
               <t-manager-select placeholder="选择一个项目经理" v-model="name"
                                 @selectedManager="getSelectedManager"></t-manager-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="建造师等级">
-              <t-dic-dropdown-select dicType="constructor_level" v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
+            <el-form-item label="建造师等级：">
+              <t-dic-dropdown-select dicType="constructor_level"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.constructorLevel"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="分公司">
+            <el-form-item prop="proSubCompany" label="分公司：">
               <t-partner-select v-model="gridOptions.dataSource.serviceInstanceInputParameters.companyId"
                                 @selectedPartner="getSelectedPartner"></t-partner-select>
 
@@ -42,7 +39,10 @@
           </el-col>
         </el-row>
       </t-form>
-      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange" @cell-clik="handleCellClick">
+    </el-card>
+    <el-card shadow="never">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange"
+              @cell-clik="handleCellClick">
       </t-grid>
     </el-card>
   </div>
@@ -138,13 +138,13 @@
     components: {},
     created () {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       // 获取码表值
       loadCodeTableList () {
         // 以下为示例
       },
-      getSelectedPartner(company) {
+      getSelectedPartner (company) {
         console.log('current company', company)
         // company为从弹窗框列表带出来的那一行的数据
         // 公司id 已从从组件里已经带出来，这里定义为 dataForm.companyId，可以自行修改为当前传到接口的变量名
@@ -158,13 +158,13 @@
       handleSelectionChange (val) {
         this.checkededRows = val
       },
-      handleCellClick(row,column,cell,event){
-        console .log('click-info',row,column,cell,event)
+      handleCellClick (row, column, cell, event) {
+        console.log('click-info', row, column, cell, event)
       },
       doReset () {
         this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {}
-        this.doRefresh();
+        this.doRefresh()
       },
       doExportExcel () {
         this.$refs.searchReulstList.exportCSV('项目经理状态表')

@@ -16,35 +16,35 @@
         <t-sub-title :title="'公告信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="noticeType" label="公告类型">
+            <el-form-item prop="noticeType" label="公告类型：">
               <t-dic-dropdown-select dicType="notice_type" v-model="dataForm.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
 
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item prop="fromDept" label="发布部门">
+            <el-form-item prop="fromDept" label="发布部门：">
               <el-input v-model="dataForm.fromDept"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="noticeTitle" label="公告标题">
+            <el-form-item prop="noticeTitle" label="公告标题：">
               <el-input v-model="dataForm.noticeTitle"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="noticeContent" label="公告内容">
+            <el-form-item prop="noticeContent" label="公告内容：">
               <t-input type="textarea" :rows="3" v-model="dataForm.noticeContent" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="remark" label="是否置顶">
+            <el-form-item prop="remark" label="是否置顶：">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.remark"
                                   :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="timeLimit" label="有效期">
+            <el-form-item prop="timeLimit" label="有效期：">
               <t-dic-dropdown-select dicType="time_limit" v-model="dataForm.timeLimit"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
@@ -54,12 +54,12 @@
       <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-col :span="8">
-          <el-form-item prop="createuser" label="发布人">
+          <el-form-item prop="createuser" label="发布人：">
             <span>{{dataForm.createuser}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item prop="createtime" label="发布时间">
+          <el-form-item prop="createtime" label="发布时间：">
             <span>{{dataForm.createtime}}</span>
           </el-form-item>
         </el-col>
@@ -135,10 +135,10 @@
           remark: [
             {required: false, message: '是否置顶不能为空', trigger: 'blur'}
           ],
-      createuser: [
+          createuser: [
             {required: false, message: '发布人不能为空', trigger: 'blur'}
           ],
-      createtime: [
+          createtime: [
             {required: false, message: '发布时间不能为空', trigger: 'blur'}
           ],
         }

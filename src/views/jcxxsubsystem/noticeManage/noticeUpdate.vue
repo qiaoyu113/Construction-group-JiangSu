@@ -1,34 +1,24 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">公告更新列表</div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-      </el-button>
-    </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <t-sub-title :title="'公告列表'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="noticeType" label="公告类型" aria-placeholder="请选择">
+            <el-form-item prop="noticeType" label="公告类型：" aria-placeholder="请选择">
               <t-dic-dropdown-select dicType="notice_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
-
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeTitle" label="公告标题">
+            <el-form-item prop="noticeTitle" label="公告标题：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeTitle"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeContent" label="公告内容">
+            <el-form-item prop="noticeContent" label="公告内容：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeContent"></el-input>
             </el-form-item>
           </el-col>
@@ -44,6 +34,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -63,7 +55,7 @@
         required: false
       }
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -154,31 +146,31 @@
       }
     },
     components: {},
-    created() {
+    created () {
       this.loadCodeTableList()
     },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
+      onStartDateRangeChanged (val) {
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
         this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
+      handleSelectionChange (val) {
         this.checkededRows = val
       },
-      doReset() {
+      doReset () {
         this.$refs.search.resetFields()
       },
-      doExportExcel() {
+      doExportExcel () {
         this.$refs.searchReulstList.exportCSV('${comments}表')
       },
-      doRefresh() {
+      doRefresh () {
         this.$refs.searchReulstList.refresh()
       },
-      doEdit(key, row) {
+      doEdit (key, row) {
         let tpath = '/jcxxsubsystem/noticeManage/noticeAdd?id=' + row.id
 
         this.$router.push({

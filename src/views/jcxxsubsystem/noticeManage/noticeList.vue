@@ -1,44 +1,40 @@
 <template>
   <div class="mod-role">
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">公告列表</div>
-      </el-col>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
+      </el-button>
     </el-row>
     <el-card shadow="never">
       <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
-
-      <el-row :gutter="10" class="search-top-operate">
-          <el-button class="demo-button" type="primary" plain icon="el-icon-download" @click="doExportExcel()">导出
-          </el-button>
-        </el-row>
         <t-sub-title :title="'公告列表'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="noticeType" label="公告类型" aria-placeholder="请选择">
+            <el-form-item prop="noticeType" label="公告类型：" aria-placeholder="请选择">
               <t-dic-dropdown-select dicType="notice_type"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeTitle" label="公告标题">
+            <el-form-item prop="noticeTitle" label="公告标题：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeTitle"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="noticeContent" label="公告内容">
+            <el-form-item prop="noticeContent" label="公告内容：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.noticeContent"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="createuser" label="发布人">
+            <el-form-item prop="createuser" label="发布人：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.createuser"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="timeLimit" label="有效期">
+            <el-form-item prop="timeLimit" label="有效期：">
               <t-dic-dropdown-select dicType="time_limit"
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.timeLimit"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
@@ -54,6 +50,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -62,6 +60,7 @@
 <script>
   import baseView from '@/base/baseView'
   import util from '@/util'
+
   export default {
     name: 'myTask',
     extends: baseView,
@@ -157,7 +156,7 @@
     components: {},
     created () {
       this.loadCodeTableList()
-  },
+    },
     methods: {
       // 获取码表值
       loadCodeTableList () {
