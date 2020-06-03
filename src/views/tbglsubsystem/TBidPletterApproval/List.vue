@@ -1,93 +1,99 @@
 <template>
   <div class="mod-role">
-    <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
-            :model="gridOptions.dataSource.serviceInstanceInputParameters">
-      <el-row :gutter="10" class="search-top-operate">
-        <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
-          <i class="fa fa-lg fa-level-down"></i>导出
-        </el-button>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="项目名称" prop="proName">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="工程类别">
-            <t-dic-dropdown-select dicType="engineering_type"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="建设单位">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
-                      clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所属分公司">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="经营方式">
-            <t-dic-dropdown-select dicType="promise_way"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="保证方式">
-            <t-dic-dropdown-select dicType="promise_way"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="所处阶段">
-            <t-dic-dropdown-select dicType="guarantee_stage"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.bondStage"
-                                   :readOnly="readOnly"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="状态">
-            <t-dic-dropdown-select dicType="approval_status"
-                                   v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="经办人">
-            <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
-                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" class="search-date-picker">
-          <el-form-item label="经办时间" prop="expirationDate">
-            <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
-                                     @change="onStartDateRangeChanged">
-            </t-datetime-range-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
-        <el-col :span="12">
-          <el-form-item>
-            <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
-            <el-button icon="el-icon-download" @click="doReset()">
-              <i class="el-icon-delete"></i>清空
-            </el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </t-form>
-    <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>
+    <el-row :gutter="10" class="search-top-operate">
+      <el-button icon="el-icon-download" type="success" @click="doExportExcel()">
+        <i class="fa fa-lg fa-level-down"></i>导出
+      </el-button>
+    </el-row>
+    <el-card shadow="never">
+      <t-form ref="search" @submit.native.prevent @keyup.enter.native="doRefresh()" label-width="100px"
+              :model="gridOptions.dataSource.serviceInstanceInputParameters">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="项目名称：" prop="proName">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="工程类别：">
+              <t-dic-dropdown-select dicType="engineering_type"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="建设单位：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"
+                        clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属分公司：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.proSubCompany">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="经营方式：">
+              <t-dic-dropdown-select dicType="promise_way"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="保证方式：">
+              <t-dic-dropdown-select dicType="promise_way"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.promiseWay"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所处阶段：">
+              <t-dic-dropdown-select dicType="guarantee_stage"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.bondStage"
+                                     :readOnly="readOnly"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="状态：">
+              <t-dic-dropdown-select dicType="approval_status"
+                                     v-model="gridOptions.dataSource.serviceInstanceInputParameters.approvalStatus"></t-dic-dropdown-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="经办人：">
+              <el-input @submit.native.prevent @keyup.enter.native="doRefresh()"
+                        v-model="gridOptions.dataSource.serviceInstanceInputParameters.sign" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-date-picker">
+            <el-form-item label="经办时间：" prop="expirationDate">
+              <t-datetime-range-picker v-model="gridOptions.dataSource.serviceInstanceInputParameters.expirationDate"
+                                       @change="onStartDateRangeChanged">
+              </t-datetime-range-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" :span="8" justify="end" class="search-bottom-operate">
+          <el-col :span="12">
+            <el-form-item>
+              <el-button @click="doRefresh()" type="primary" icon="el-icon-search">查询</el-button>
+              <el-button icon="el-icon-download" @click="doReset()">
+                <i class="el-icon-delete"></i>清空
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </t-form>
+    </el-card>
+    <el-card shadow="never">
+      <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
+      </t-grid>
+    </el-card>
   </div>
 </template>
 <script>
@@ -104,7 +110,7 @@
         required: false
       }
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -170,7 +176,6 @@
                 sortable: false,
                 minWidth: 120,
               },
-
 
               {
                 prop: 'proContractAttr',
@@ -240,7 +245,7 @@
                 sortable: true,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
               },
             ], // 需要展示的列
@@ -253,29 +258,29 @@
       }
     },
     components: {},
-    created() {
-      this.loadCodeTableList();
+    created () {
+      this.loadCodeTableList()
     },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      onStartDateRangeChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
-        this.checkededRows = val;
+      handleSelectionChange (val) {
+        this.checkededRows = val
       },
-      doReset() {
-        this.$refs.search.resetFields();
+      doReset () {
+        this.$refs.search.resetFields()
       },
-      doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+      doExportExcel () {
+        this.$refs.searchReulstList.exportCSV('${comments}表')
       },
-      doRefresh() {
-        this.$refs.searchReulstList.refresh();
+      doRefresh () {
+        this.$refs.searchReulstList.refresh()
       }
     }
   }

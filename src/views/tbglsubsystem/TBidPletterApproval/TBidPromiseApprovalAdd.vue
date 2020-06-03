@@ -29,55 +29,65 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称" prop="proName">
+            <el-form-item label="项目名称：" prop="proName">
               <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"
                                :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属分公司:">
+            <el-form-item prop="proSubCompany" label="所属分公司：">
               <t-input v-model="dataForm.proSubCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBusDept" label="所属事业部:">
+            <el-form-item prop="proBusDept" label="所属事业部：">
               <t-input v-model="dataForm.proBusDept" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位:">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <t-input v-model="dataForm.proConstructCompany" :readOnly="true"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="合同模式:">
+            <el-form-item prop="proContractAttr" label="合同模式：">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
                                      :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTotalInvestment" label="投资金额:">
-              <t-input v-model="dataForm.proTotalInvestment" :readOnly="true"></t-input>
+            <el-form-item label="投资金额：" prop="proTotalInvestment">
+              <t-currency-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proType" label="工程类别:">
+            <el-form-item prop="proType" label="工程类别：">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
                                      :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proRunMode" label="经营方式:">
+            <el-form-item prop="proRunMode" label="经营方式：">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
                                      :disabled="true"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBuildArea" label="计划规模项目:">
-              <t-input v-model="dataForm.proBuildArea" :readOnly="true"></t-input>
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
+              <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+                <span slot="append">平方米</span>
+              </t-int-input>
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
@@ -88,16 +98,18 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="amount" label="金额：">
-              <t-input v-model="dataForm.amount" :readOnly="readOnly"></t-input>
+              <t-currency-input v-model="dataForm.amount" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="isCash" label="是否现金缴纳:">
+            <el-form-item prop="isCash" label="是否现金缴纳：">
               <t-dic-radio-select dicType="y_or_n" v-model="dataForm.isCash" :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
         </el-row>
-          <el-row :gutter="20">
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="generateBank" label="开立银行：">
               <t-input v-model="dataForm.generateBank" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
@@ -113,8 +125,8 @@
               <t-input v-model="dataForm.invalidTime" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
             </el-form-item>
           </el-col>
-          </el-row>
-            <el-row :gutter="20">
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item prop="plCode" label="保函编号：">
               <t-input v-model="dataForm.plCode" placeholder="选择保函时，保函开立员回填" :readOnly="!isBackFill"></t-input>
@@ -153,23 +165,35 @@
   import find from 'lodash/find'
 
   export default {
-    data() {
+    data () {
       var checkBankName = (rule, value, callback) => {
-        if (this.isBackFill && (this.dataForm.generateBank == '' || this.dataForm.generateBank == undefined)) callback(new Error('开立银行不能为空'));
-        else callback();
-      };
+        if (this.isBackFill && (this.dataForm.generateBank == '' || this.dataForm.generateBank == undefined)) {
+          callback(new Error('开立银行不能为空'))
+        } else {
+          callback()
+        }
+      }
       var checkGenerateTime = (rule, value, callback) => {
-        if (this.isBackFill && (this.dataForm.generateTime == '' || this.dataForm.generateTime == undefined)) callback(new Error('开立时间不能为空'));
-        else callback();
-      };
+        if (this.isBackFill && (this.dataForm.generateTime == '' || this.dataForm.generateTime == undefined)) {
+          callback(new Error('开立时间不能为空'))
+        } else {
+          callback()
+        }
+      }
       var checkExpireTime = (rule, value, callback) => {
-        if (this.isBackFill && (this.dataForm.invalidTime == '' || this.dataForm.invalidTime == undefined)) callback(new Error('到期时间不能为空'));
-        else callback();
-      };
+        if (this.isBackFill && (this.dataForm.invalidTime == '' || this.dataForm.invalidTime == undefined)) {
+          callback(new Error('到期时间不能为空'))
+        } else {
+          callback()
+        }
+      }
       var checkPlCode = (rule, value, callback) => {
-        if (this.isBackFill && (this.dataForm.plCode == '' || this.dataForm.plCode == undefined)) callback(new Error('保函编号不能为空'));
-        else callback();
-      };
+        if (this.isBackFill && (this.dataForm.plCode == '' || this.dataForm.plCode == undefined)) {
+          callback(new Error('保函编号不能为空'))
+        } else {
+          callback()
+        }
+      }
       return {
         readOnlydisabled: false,
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
@@ -262,14 +286,14 @@
         }
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.isBackFill = currentQuery.status && (currentQuery.status == 1 || currentQuery.status == 2) ? true : false
       this.init(currentQuery.businessId)
     },
-    activated() {
+    activated () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -283,7 +307,7 @@
     },
 
     methods: {
-      getSelectedRecord(pcId) {
+      getSelectedRecord (pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
         this.dataForm.pcId = pcId.id
@@ -298,11 +322,11 @@
 
       },
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidPromiseApproval.get(id).then(function (result) {
@@ -310,18 +334,18 @@
                 let params1 = {}
                 if (/^[0-9]*$/.test(result.pcId)) {
                   params1 = {
-                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: 'id descending',
                     id: result.pcId
                   }
                 } else {
                   params1 = {
-                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: "id descending",
+                    filters: {}, maxResultCount: 200, skipCount: 1, sorting: 'id descending',
                     proName: result.pcId
                   }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params1).then(_result => {
                   if (_result && _result.items && _result.items.length > 0) {
-                    let item;
+                    let item
                     item = find(_result.items, {id: result.pcId})
                     if (!item) item = find(_result.items, {proName: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
@@ -334,49 +358,49 @@
           this.dataForm.sign = this.currentUser.userDisplayName
           this.dataForm.signTime = this.$util.datetimeFormat(moment())
           this.$nextTick(() => {
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       },
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBidPromiseApproval.save(model).then(function (result) {
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       },
       // 回填保存
-      doBackFillSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doBackFillSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBidPromiseApproval.save(model).then(function (result) {
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       }
     }
   }

@@ -1,16 +1,10 @@
 <template>
   <div>
-    <el-row :gutter="20" class="page-title">
-      <el-col>
-        <div class="title">资格审查</div>
-      </el-col>
-    </el-row>
     <el-row v-if="showButton" :gutter="10" class="search-top-operate">
       <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
       <el-dialog title="确定提交本次审批" :visible.sync="submitDialogVisible">
-        <!-- businessKey值请修改当前流程的key值 -->
         <el-form ref="dialogForm" label-width="100px">
           <el-row :gutter="20">
             <el-col :span="12">
@@ -47,79 +41,94 @@
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="项目名称:" prop="proName" >
-              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"  :readOnly="readOnly"></t-record-select >
+            <el-form-item label="项目名称：" prop="proName">
+              <t-record-select v-model="dataForm.proName" @selectedRecord="getSelectedRecord"
+                               :readOnly="readOnly"></t-record-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="所属分公司:">
+            <el-form-item prop="proSubCompany" label="所属分公司：">
               <t-input v-model="dataForm.proSubCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBusDept" label="所属事业部:">
+            <el-form-item prop="proBusDept" label="所属事业部：">
               <t-input v-model="dataForm.proBusDept" readOnly></t-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位:">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <t-input v-model="dataForm.proConstructCompany" readOnly></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="合同模式:">
-              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr" disabled></t-dic-dropdown-select>
+            <el-form-item prop="proContractAttr" label="合同模式：">
+              <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proTotalInvestment" label="投资金额:">
-              <t-input v-model="dataForm.proTotalInvestment" readOnly></t-input>
+            <el-form-item label="投资金额：" prop="proTotalInvestment">
+              <t-currency-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="proType" label="工程类别：">
+              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proType" label="工程类别:">
-              <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType" disabled></t-dic-dropdown-select>
+            <el-form-item prop="proRunMode" label="经营方式：">
+              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
+                                     disabled></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proRunMode" label="经营方式:">
-              <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode" disabled></t-dic-dropdown-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="proBuildArea" label="计划项目规模:">
-              <t-input v-model="dataForm.proBuildArea" readOnly></t-input>
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
+              <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+                <span slot="append">平方米</span>
+              </t-int-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-card>
-        <el-card shadow="never">
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="amount" label="金额:">
-              <t-input v-model="dataForm.amount" placeholder="填写大致金额（数字）:"  :readOnly="readOnly"></t-input>
+            <el-form-item prop="amount" label="金额：">
+              <t-currency-input v-model="dataForm.amount" placeholder="填写大致金额（数字）" :readOnly="readOnly">
+                <span slot="append">元</span>
+              </t-currency-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item prop="existElectMark" label="是否使用电子章:" label-width="130px">
-              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"  :readOnly="readOnly"></t-dic-radio-select>
+            <el-form-item prop="existElectMark" label="是否使用电子签章：" label-width="180px">
+              <t-dic-radio-select dicType="y_or_n" v-model="dataForm.existElectMark"
+                                  :readOnly="readOnly"></t-dic-radio-select>
             </el-form-item>
           </el-col>
         </el-row>
-          <el-row :gutter="20">
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="sign" label="经办人:">
+            <el-form-item prop="sign" label="经办人：">
               <span>{{dataForm.sign}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="signTime" label="经办时间:">
+            <el-form-item prop="signTime" label="经办时间：">
               <span>{{dataForm.signTime}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="remark" label="备注:">
+            <el-form-item prop="remark" label="备注：">
               <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
@@ -142,7 +151,7 @@
 
   export default {
     extends: baseView,
-    data() {
+    data () {
       return {
         showButton: true,
         readOnly: false,
@@ -230,7 +239,7 @@
       })
     },
     methods: {
-      getSelectedRecord(pcId) {
+      getSelectedRecord (pcId) {
         console.log('current proName', pcId)
         this.dataForm.proName = pcId.proName
         this.dataForm.pcId = pcId.id
@@ -244,32 +253,32 @@
         this.dataForm.proBuildArea = pcId.proBuildArea
       },
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
-            this.$refs["ruleForm"].resetFields()
+            this.$refs['ruleForm'].resetFields()
             if (this.dataForm.id) {
               let self = this
               tapp.services.tBidQualApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 let params = {}
-                if(/^[0-9]*$/.test(result.pId)) {
+                if (/^[0-9]*$/.test(result.pId)) {
                   params = {
-                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: "id descending",
+                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: 'id descending',
                     id: result.pcId
                   }
                 } else {
                   params = {
-                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: "id descending",
+                    filters: {}, maxResultCount: 2000, skipCount: 1, sorting: 'id descending',
                     proName: result.pcId
                   }
                 }
                 tapp.services.tBidProcaseApproval.getPagedList(params).then(_result => {
-                  if(_result && _result.items && _result.items.length > 0) {
-                    let item = {};
+                  if (_result && _result.items && _result.items.length > 0) {
+                    let item = {}
                     item = find(_result.items, {id: result.pcId})
-                    if(!item) item = find(_result.items, {proName: result.pcId})
+                    if (!item) item = find(_result.items, {proName: result.pcId})
                     self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, item)
                     self.dataForm.proName = item.proName
                     self.dataForm.pId = item.id
@@ -282,34 +291,34 @@
           this.$nextTick(() => {
             this.dataForm.sign = this.currentUser.userDisplayName
             this.dataForm.signTime = this.$util.datetimeFormat(moment())
-            this.$refs.ruleForm.clearValidate();
+            this.$refs.ruleForm.clearValidate()
           })
         }
       }
       ,
       // 表单提交
-      doSave() {
-        let self = this;
-        let validPromises = [self.$refs['ruleForm'].validate()];
+      doSave () {
+        let self = this
+        let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
-          let model = {...self.dataForm};
+          let model = {...self.dataForm}
           tapp.services.tBidQualApproval.save(model).then(function (result) {
             self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
             self.$notify.success({
-              title: "操作成功！",
-              message: "保存成功！",
-            });
-          });
+              title: '操作成功！',
+              message: '保存成功！',
+            })
+          })
         }).catch(function (e) {
           self.$notify.error({
-            title: "错误",
-            message: "保存失败！"
-          });
-          return false;
-        });
+            title: '错误',
+            message: '保存失败！'
+          })
+          return false
+        })
       },
-      submit() {
-        
+      submit () {
+
       }
     }
   }

@@ -96,13 +96,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="投资金额：" prop="proTotalInvestment">
-              <t-currency-input v-model="dataForm.proTotalInvestment" :readOnly="readOnly">
-                <span slot="append">元</span>
-              </t-currency-input>
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
+              <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+                <span slot="append">平方米</span>
+              </t-int-input>
             </el-form-item>
           </el-col>
         </el-row>
+      </el-card>
+      <el-card shadow="never">
         <t-sub-title :title="'办理信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="16">
