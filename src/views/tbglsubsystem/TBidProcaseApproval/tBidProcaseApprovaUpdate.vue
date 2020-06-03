@@ -5,31 +5,32 @@
               :model="gridOptions.dataSource.serviceInstanceInputParameters">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proName" label="项目名称" placeholder="匹配项目名称、简介、备注查询">
-              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"  placeholder="匹配项目名称、简介、备注查询"></el-input>
+            <el-form-item prop="proName" label="项目名称：" placeholder="匹配项目名称、简介、备注查询">
+              <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proName"
+                        placeholder="匹配项目名称、简介、备注查询"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地址">
+            <el-form-item prop="proAddressProvince" label="项目地址：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proAddressProvince"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.proConstructCompany"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="工程类别">
-              <t-dic-dropdown-select dicType="engineering_type"
+            <el-form-item label="工程类别：">
+              <t-dic-dropdown-select dicType="engineering_type："
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="经营方式">
-              <t-dic-dropdown-select dicType="business_type"
+            <el-form-item label="经营方式：">
+              <t-dic-dropdown-select dicType="business_type："
                                      v-model="gridOptions.dataSource.serviceInstanceInputParameters.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
@@ -44,6 +45,8 @@
           </el-col>
         </el-row>
       </t-form>
+    </el-card>
+    <el-card shadow="never">
       <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
       </t-grid>
     </el-card>
@@ -63,7 +66,7 @@
         required: false
       },
     },
-    data() {
+    data () {
       return {
         checkededRows: [],
         processDefinationlist: [],
@@ -133,11 +136,10 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity)+'/'+row.proAddressDetail
+                  return this.$util.getProvinceCityName(row.proAddressProvince, row.proAddressCity) + '/' + row.proAddressDetail
                   // 第一个参数为字典类型值，复用替换字典类型值，第二个为当前cell值
                 }
               },
-
 
               {
                 prop: 'proRunMode',
@@ -169,7 +171,7 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.signTime, 'YYYY-MM-DD')
                 }
               },
               {
@@ -185,7 +187,7 @@
                 sortable: false,
                 minWidth: 120,
                 formatter: (row, column, cellValue) => {
-                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD');
+                  return this.$util.dateFormat(row.createtime, 'YYYY-MM-DD')
                 }
               },
             ], // 需要展示的列
@@ -198,23 +200,23 @@
       }
     },
     components: {},
-    created() {
-      this.loadCodeTableList();
+    created () {
+      this.loadCodeTableList()
     },
     methods: {
       // 获取码表值
-      loadCodeTableList() {
+      loadCodeTableList () {
         // 以下为示例
       },
-      onStartDateRangeChanged(val) {
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0];
-        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1];
+      onStartDateRangeChanged (val) {
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateBegin = val[0]
+        this.gridOptions.dataSource.serviceInstanceInputParameters.startDateEnd = val[1]
       },
-      handleSelectionChange(val) {
-        this.checkededRows = val;
+      handleSelectionChange (val) {
+        this.checkededRows = val
       },
-      doReset() {
-        this.$refs.search.resetFields();
+      doReset () {
+        this.$refs.search.resetFields()
         this.gridOptions.dataSource.serviceInstanceInputParameters = {
           proName: null,/*项目名称*/
           proAddressProvince: null,/*项目地址*/
@@ -225,11 +227,11 @@
         }
         this.doRefresh()
       },
-      doExportExcel() {
-        this.$refs.searchReulstList.exportCSV('${comments}表');
+      doExportExcel () {
+        this.$refs.searchReulstList.exportCSV('${comments}表')
       },
-      doRefresh() {
-        this.$refs.searchReulstList.refresh();
+      doRefresh () {
+        this.$refs.searchReulstList.refresh()
       }
     }
   }

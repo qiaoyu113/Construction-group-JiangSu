@@ -21,48 +21,48 @@
       </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
-             label-width="120px" label-position="right">
+             label-width="126px" label-position="right">
       <el-card shadow="never">
         <t-sub-title :title="'备案信息'"></t-sub-title>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proCode" label="项目备案编号:">
-              <el-input v-model="dataForm.proCode" placeholder="系统自动生成"  readonly></el-input>
+            <el-form-item prop="proCode" label="项目备案编号：">
+              <el-input v-model="dataForm.proCode" placeholder="系统自动生成" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proSubCompany" label="备案单位:">
+            <el-form-item prop="proSubCompany" label="备案单位：">
               <el-input v-model="dataForm.proSubCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBusDept" label="事业部:">
+            <el-form-item prop="proBusDept" label="事业部：">
               <el-input v-model="dataForm.proBusDept" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="proName" label="拟建项目名称:">
+            <el-form-item prop="proName" label="拟建项目名称：">
               <el-input v-model="dataForm.proName" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="proIntroduce" label="项目简介:">
-              <t-input type="textarea" :rows="3" v-model="dataForm.proIntroduce" :readOnly="readOnly"></t-input>
+            <el-form-item prop="proIntroduce" label="项目简介：">
+              <t-input type="textarea" :rows="4" v-model="dataForm.proIntroduce" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressProvince" label="项目地点:">
+            <el-form-item prop="proAddressProvince" label="项目地点：">
               <t-region-s-picker :province.sync="dataForm.proAddressProvince" :city.sync="dataForm.proAddressCity"
                                  :readOnly="readOnly"></t-region-s-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proAddressDetail" label="详细地址:" display="t">
+            <el-form-item prop="proAddressDetail" label="详细地址：" display="t">
               <el-input v-model="dataForm.proAddressDetail" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proConstructCompany" label="建设单位:">
+            <el-form-item prop="proConstructCompany" label="建设单位：">
               <el-input v-model="dataForm.proConstructCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
@@ -74,42 +74,47 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proType" label="工程类别:">
+            <el-form-item prop="proType" label="工程类别：">
               <t-dic-dropdown-select dicType="engineering_type" v-model="dataForm.proType"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proContractAttr" label="计划合同模式:">
+            <el-form-item prop="proContractAttr" label="计划合同模式：">
               <t-dic-dropdown-select dicType="contract_model" v-model="dataForm.proContractAttr"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="proRunMode" label="计划经营方式:">
+            <el-form-item prop="proRunMode" label="计划经营方式：">
               <t-dic-dropdown-select dicType="business_type" v-model="dataForm.proRunMode"
                                      :readOnly="readOnly"></t-dic-dropdown-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proUnionCompany" label="合作单位:">
+            <el-form-item prop="proUnionCompany" label="合作单位：">
               <el-input v-model="dataForm.proUnionCompany" :readOnly="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="proBuildArea" label="计划项目规模:">
-              <el-input v-model="dataForm.proBuildArea" :readOnly="readOnly"></el-input>
+            <el-form-item prop="proBuildArea" label="计划项目规模：">
+              <t-int-input v-model="dataForm.proBuildArea" :readOnly="readOnly">
+                <span slot="append">平方米</span>
+              </t-int-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item prop="planBidDate" label="计划投标日期:">
-              <!-- <el-input v-model="dataForm.planBidDate"></el-input>-->
+            <el-form-item prop="planBidDate" label="计划投标日期：">
               <t-datetime-picker v-model="dataForm.planBidDate" type="date" :readOnly="readOnly">
               </t-datetime-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="name" label="项目跟踪人:">
+            <el-form-item prop="name" label="项目跟踪人：">
               <t-manager-select v-model="dataForm.name"
                                 :readOnly="readOnly" @selectedManager="getSelectedManager"></t-manager-select>
 
@@ -121,8 +126,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="brRemark" label="备注：">
-              <t-input type="textarea" :rows="3" v-model="dataForm.brRemark" :readOnly="readOnly"></t-input>
+            <el-form-item prop="remark" label="备注：">
+              <t-input type="textarea" :rows="3" v-model="dataForm.remark" :readOnly="readOnly"></t-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -157,8 +162,9 @@
 <script>
   import moment from 'moment'
   import {mapState} from 'vuex'
+
   export default {
-    data() {
+    data () {
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
@@ -192,6 +198,7 @@
           bidCount: '',
           brUser: '',
           brTime: '',
+          remark: '',
           brRemark: '',
           sign: '',
           signTime: '',
@@ -266,13 +273,13 @@
         }
       }
     },
-    created() {
+    created () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
       this.init(currentQuery.businessId)
     },
-    activated() {
+    activated () {
       const currentQuery = this.$route.query
       this.readOnly = (currentQuery.readonly == 'true') || this.readOnly
       this.showButton = !(currentQuery.readonly == 'true')
@@ -285,7 +292,7 @@
     },
     methods: {
       // 初始化 编辑和新增 2种情况
-      init(id) {
+      init (id) {
         if (id) {
           this.dataForm.id = id || 0
           this.$nextTick(() => {
@@ -295,9 +302,9 @@
               tapp.services.tBidProcaseApproval.get(id).then(function (result) {
                 self.dataForm = self.$util.deepObjectAssign({}, self.dataForm, result)
                 tapp.services.base_User.getRoleCategoryUsers().then(manager => {
-                  if(manager && manager.items && manager.items.length > 0) {
+                  if (manager && manager.items && manager.items.length > 0) {
                     let item = find(manager.items, {id: result.proTracker})
-                    if(item) self.dataForm.name = item.name
+                    if (item) self.dataForm.name = item.name
                   }
                 })
               })
@@ -312,11 +319,11 @@
           })
         }
       },
-      getSelectedManager(manager) {
+      getSelectedManager (manager) {
         console.log('current manager', manager)
         this.dataForm.proTracker = manager.id
       },
-      getUserWithDepartments() {
+      getUserWithDepartments () {
         if (this.currentUser && this.currentUser.userId) {
           let self = this
           tapp.services.base_User.getUserWithDepartments(this.currentUser.userId).then(result => {
@@ -329,7 +336,7 @@
         }
       },
       // 表单提交
-      doSave() {
+      doSave () {
         let self = this
         let validPromises = [self.$refs['ruleForm'].validate()]
         Promise.all(validPromises).then(resultList => {
