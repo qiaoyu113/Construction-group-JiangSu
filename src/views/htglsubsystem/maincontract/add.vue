@@ -1,12 +1,24 @@
 <template>
   <div>
-    <el-row :gutter="10" class="search-top-operate">
-      <el-button class="demo-button" type="primary" icon="el-icon-s-check" @click="doSave()">
+    <el-row :gutter="20" class="page-title">
+      <el-col>
+        <div class="title">项目基本信息</div>
+      </el-col>
+    </el-row>
+    <el-row v-if="showButton" :gutter="10" class="search-top-operate">
+      <el-button type="primary" icon="el-icon-s-check" @click="doSave()">
         提交审批
       </el-button>
-      <el-button class="demo-button" type="primary" plain icon="el-icon-s-data" @click="">
+      <el-button type="primary" plain icon="el-icon-s-data" @click="dialogVisible = true">
         审批流程图
       </el-button>
+      <el-dialog title="审批流程图" :visible.sync="dialogVisible" width="70%">
+        <!-- businessKey值请修改当前流程的key值 -->
+        <t-workflow-map businessKey="t_cont_key_info_approval"></t-workflow-map>
+        <div slot="footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </div>
+      </el-dialog>
     </el-row>
     <el-form :model="dataForm" :rules="dataRule" ref="ruleForm" @submit.native.prevent
              label-width="100px" label-position="right">
@@ -387,6 +399,8 @@
       return {
         assetCategoryClassifications: ['proma_demoform'], // 附件的分类标识 此处为示例
         docId: '',
+        disabled: false,
+        showButton: true,
         readOnly: false,
         showOtherWay: false,
         showProprietaryPool: false,
@@ -405,6 +419,7 @@
         payWayList2: [],
         payWayList3: [],
         payWayList4: [],
+        dialogVisible: false,
         dialogVisible2: false,
         dialogVisible3: false,
         dialogVisible4: false,
@@ -647,7 +662,7 @@
       },
       onPayWay1() {
         console.log('1', this.checked1)
-        
+
       },
       onPayWay2() {
         console.log('2', this.checked2)
