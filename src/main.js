@@ -99,6 +99,8 @@ Vue.prototype.$http = http
 Vue.prototype.$util = util
 
 import TGrid from './components/TGrid.vue'
+import TTableNoPagenation from './components/TTableNoPagenation.vue'
+import TGridNoPagenation from './components/TGridNoPagenation.vue'
 import TEditGrid from './components/TEditGrid.vue'
 import TEditGridColumn from './components/TEditGridColumn.vue'
 import TDicCategoryCascader from './components/TDicCategoryCascader.vue'
@@ -163,6 +165,8 @@ import TRecordSelect from './components/popup/record-select.vue'
 import TFirstParty from './components/two-party/first-party.vue'
 import TSecondParty from './components/two-party/second-party.vue'
 Vue.component('t-grid', TGrid)
+Vue.component('t-table-no-pagenation', TTableNoPagenation)
+Vue.component('t-grid-no-pagenation', TGridNoPagenation)
 Vue.component('t-edit-grid', TEditGrid)
 Vue.component('t-edit-grid-column', TEditGridColumn)
 Vue.component('t-excel-import', TExcelImport)

@@ -54,9 +54,6 @@
 
   </el-table>
 
-  <!--region 分页-->
-  <el-pagination layout="total,sizes, prev, pager, next,jumper" v-if="pageable" v-bind="paginationPropsOptions" :total="total" :current-page="currentPageIndex" @size-change="handleSizeChange" @current-change="handleIndexChange"></el-pagination>
-  <!--endregion-->
 </div>
 </template>
 <!--endregion-->
@@ -64,12 +61,12 @@
 const defaultTableOptins = {
   stripe: false,
   border: false,
-  highlightCurrentRow: true,
+  highlightCurrentRow: true
 }
 const defaultOperatorsPropsOptions = {
   width: 200,
   fixed: 'right',
-  list: null,
+  list: null
 }
 
 export default {
@@ -81,7 +78,7 @@ export default {
     },
     options: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           table: {},
           operates: {
@@ -95,37 +92,37 @@ export default {
             default: {
 
             } // 分页参数 === pageSize:每页展示的条数，pageIndex:当前页，pageArray: 每页展示条数的控制集合，默认 _page_array
-          },
-        };
+          }
+        }
       } // table 表格的控制参数
     },
     emptyText: {
       type: String,
-      default: function() {
+      default: function () {
         return '...数据待加载'
       }
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     total: {
       type: Number,
-      default: function() {
+      default: function () {
         return 0
       }
     },
     maxHeight: {
       type: Number,
-      default: function() {
+      default: function () {
         return null
       }
     },
     currentPageIndex: {
       type: Number,
-      default: function() {
+      default: function () {
         return 1
       }
     }
@@ -152,7 +149,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       tableOptions: {},
       operates: {},
@@ -160,41 +157,41 @@ export default {
       mutiSelect: false,
       pageable: false,
       paginationPropsOptions: {},
-      editable: false,
+      editable: false
     }
   },
-  created() {
-    this.init(this.options);
+  created () {
+    this.init(this.options)
   },
   computed: {
     availColumns: {
       // 动态计算currentValue的值
-      get: function() {
+      get: function () {
         if (this.tableOptions.columns == null) {
-          return null;
+          return null
         }
         let aColumns = this.tableOptions.columns.filter((item) => {
-          return item.visible == null || item.visible === true;
-        });
-        return aColumns;
-      },
+          return item.visible == null || item.visible === true
+        })
+        return aColumns
+      }
     }
   },
   watch: {
     options: {
-      handler(newValue, oldValue) {
-        this.init(newValue);
+      handler (newValue, oldValue) {
+        this.init(newValue)
       },
-      deep: true　　
-    },
+      deep: true
+    }
   },
-  mounted() {
+  mounted () {
 
   },
   methods: {
-    init(options) {
+    init (options) {
       if (!options) {
-        return;
+        return
       }
       let {
         pagination,
@@ -204,53 +201,53 @@ export default {
         operates,
         selectable,
         ...tableOptions
-      } = options;
+      } = options
 
       this.operates = { ...defaultOperatorsPropsOptions,
         ...operates
-      };
+      }
       this.paginationPropsOptions = {
         ...pagination
-      };
+      }
 
-      this.pageable = pageable;
-      this.mutiSelect = mutiSelect && !!!this.disabled;
-      this.mutiSelectSelectable = selectable;
-      this.editable = editable;
+      this.pageable = pageable
+      this.mutiSelect = mutiSelect && !this.disabled
+      this.mutiSelectSelectable = selectable
+      this.editable = editable
       this.tableOptions = {
         ...defaultTableOptins,
         ...tableOptions
-      };　　　　
-    },
-    handleFilterChange(filters) {
-      this.$emit('filter-change', filters);
-    },
-    handleSelectionChange(val) {
-      this.$emit('selection-change', val);
-    },
-    handleSortChange(sort) {
-      this.$emit('sort-change', sort);
-    },
-    handleCellClick(row, column, cell, event) {
-      this.$emit('cell-click', row, column, cell, event);
-    },
-    // 切换每页显示的数量
-    handleSizeChange(size) {
-      if (this.pageable) {
-        this.$emit('size-change', size);
       }
     },
-    //对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法
-    doLayout() {
-       this.$refs.mutipleTable.doLayout();
+    handleFilterChange (filters) {
+      this.$emit('filter-change', filters)
+    },
+    handleSelectionChange (val) {
+      this.$emit('selection-change', val)
+    },
+    handleSortChange (sort) {
+      this.$emit('sort-change', sort)
+    },
+    handleCellClick (row, column, cell, event) {
+      this.$emit('cell-click', row, column, cell, event)
+    },
+    // 切换每页显示的数量
+    handleSizeChange (size) {
+      if (this.pageable) {
+        this.$emit('size-change', size)
+      }
+    },
+    // 对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法
+    doLayout () {
+      this.$refs.mutipleTable.doLayout()
     },
 
     // 切换页码
-    handleIndexChange(currnet) {
+    handleIndexChange (currnet) {
       if (this.pageable) {
-        this.$emit('current-change', currnet);
+        this.$emit('current-change', currnet)
       }
-    },
+    }
   }
 
 }

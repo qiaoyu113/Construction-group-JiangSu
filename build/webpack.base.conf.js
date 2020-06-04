@@ -39,6 +39,10 @@ module.exports = {
     }
   },
   module: {
+    loaders: [{
+      test: /\.js$/,
+      loader: "babel-loader"
+    }],
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
